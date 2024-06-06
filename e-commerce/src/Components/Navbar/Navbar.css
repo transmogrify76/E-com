@@ -1,0 +1,45 @@
+/* styles.css */
+
+.ecommerce-navbar {
+    background-color: #fff; /* Navbar background color */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Navbar shadow */
+    margin-left: 3.9%;
+    max-height: 8vh;
+}
+
+.navbar-brand {
+    font-size: 1.5rem; /* Brand name font size */
+    font-weight: bold; /* Brand name font weight */
+    color: #1d1b1b; /* Brand name color */
+    margin-left: -20%;
+}
+
+.navbar-nav .nav-link {
+    font-size: 1rem; /* Nav links font size */
+    color: #555; /* Nav links color */
+    margin-right: 10px; /* Right margin between nav links */
+}
+
+.navbar-nav .nav-link:hover {
+    color: #007bff; /* Hover color for nav links */
+}
+
+.navbar-toggler-icon {
+    color: #333; /* Toggler icon color */
+}
+
+/* Optional: Adjust styles for smaller screens */
+@media (max-width: 768px) {
+    .navbar {
+        background-color: #f8f9fa; /* Navbar background color for smaller screens */
+    }
+    
+    .navbar-brand {
+        font-size: 1.25rem; /* Brand name font size for smaller screens */
+    }
+    
+    .navbar-nav .nav-link {
+        font-size: 0.9rem; /* Nav links font size for smaller screens */
+    }
+}
+
