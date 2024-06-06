@@ -1,5 +1,5 @@
 .side-navbar {
-    width: 80px; /* Initial width when collapsed */
+    width: 70px; /* Initial width when collapsed */
     position: fixed;
     left: 0;
     top: 0;
@@ -12,7 +12,7 @@
   }
   
   .side-navbar.expanded {
-    width: 250px; /* Expanded width */
+    width: 200px; /* Expanded width */
   }
   
   .navbar-nav {
@@ -27,7 +27,7 @@
   .nav-link {
     text-decoration: none;
     color: #495057;
-    padding: 30px;
+    padding: 20px;
     display: block;
     margin-top: 10%;
   }

@@ -11,7 +11,7 @@ const SideNav = () => {
         return (
             <div className={`side-navbar ${isExpanded ? 'expanded' : 'collapsed'}`}>
               <button className="toggle-btn" onClick={toggleExpand}>
-                {isExpanded ? 'Collapse' : 'Expand'}
+                {isExpanded ? '<<<<<<<<<' : '>>>>>>>>'}
               </button>
               <ul className="navbar-nav">
                 <li className="nav-item">

@@ -1,36 +1,28 @@
-import React from 'react'
-import { Navbar, Nav, Container, Form, FormControl, Button } from 'react-bootstrap';
+import React from 'react';
 import './Navbar.css';
+import logo from '../Assests/Ecommerce_Frontend_Assets/Assets/logo.png';
+import cart_icon from '../Assests/Ecommerce_Frontend_Assets/Assets/cart_icon.png';
+import { Link } from 'react-router-dom';
 
 function ENavbar() {
   return (
-    <Navbar bg="light" className="ecommerce-navbar">
-      <Container className='nav'>
-        <Navbar.Brand href="#">E-Shop</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="ms-auto">
-            <Nav.Link href="#">Home</Nav.Link>
-            <Nav.Link href="#">Shop</Nav.Link>
-            <Nav.Link href="#">About</Nav.Link>
-            <Nav.Link href="#">Contact</Nav.Link>
-          </Nav>
-          <Form className="d-flex">
-            <FormControl
-              type="search"
-              placeholder="Search"
-              className="me-2"
-              aria-label="Search"
-            />
-            <Button variant="outline-success">Search</Button>
-          </Form>
-          <Nav.Link href="#" className="cart-icon">
-            <i className="bi bi-cart"></i>
-          </Nav.Link>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
-  )
+    <div className="navbar">
+      <div className="nav-logo">
+        <img src={logo} alt='logo' />
+        <p>E-Com</p>
+      </div>
+      <ul className="nav-menu">
+        <li>Shop</li>
+        <li>Men</li>
+        <li>Women</li>
+        <li>Kid</li>
+      </ul>
+      <div className="nav-login-cart">
+        <button>Login</button>
+        <img src={cart_icon} alt='cart icon' />
+      </div>
+    </div>
+  );
 }
 
-export default ENavbar
+export default ENavbar;

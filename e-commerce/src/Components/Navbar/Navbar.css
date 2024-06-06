@@ -1,45 +1,86 @@
-/* styles.css */
+.navbar {
+    display: flex;
+    justify-content: space-around;
+    padding: 16px;
+    box-shadow: 0 1px 3px -2px black;
+  }
+  
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .nav-logo p {
+    color: #171717;
+    font-size: 38px;
+    font-weight: 600;
+  }
+  
+  .nav-menu {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    gap: 50px;
+    color: #626262;
+    font-size: 20px;
+    font-weight: 500;
+  }
+  
+  .nav-menu li {
+    position: relative;
+    cursor: pointer;
+  }
+  
+  .nav-menu li::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -3px;
+    height: 3px;
+    background-color: red;
+    border-radius: 10px;
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+  }
+  
+  .nav-menu li:hover::after {
+    transform: scaleX(1);
+  }
+  
+  .nav-login-cart {
+    display: flex;
+    align-items: center;
+    gap: 45px;
+  }
+  
+  .nav-login-cart button {
+    background-color: #f2faf2; /* Green */
+    border-color: #d6cbcb;
+    color: rgb(29, 27, 27);
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    transition-duration: 0.4s;
+    border-radius: 20px;
 
-.ecommerce-navbar {
-    background-color: #fff; /* Navbar background color */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Navbar shadow */
-    margin-left: 3.9%;
-    max-height: 8vh;
-}
-
-.navbar-brand {
-    font-size: 1.5rem; /* Brand name font size */
-    font-weight: bold; /* Brand name font weight */
-    color: #1d1b1b; /* Brand name color */
-    margin-left: -20%;
-}
-
-.navbar-nav .nav-link {
-    font-size: 1rem; /* Nav links font size */
-    color: #555; /* Nav links color */
-    margin-right: 10px; /* Right margin between nav links */
-}
-
-.navbar-nav .nav-link:hover {
-    color: #007bff; /* Hover color for nav links */
-}
-
-.navbar-toggler-icon {
-    color: #333; /* Toggler icon color */
-}
-
-/* Optional: Adjust styles for smaller screens */
-@media (max-width: 768px) {
-    .navbar {
-        background-color: #f8f9fa; /* Navbar background color for smaller screens */
-    }
-    
-    .navbar-brand {
-        font-size: 1.25rem; /* Brand name font size for smaller screens */
-    }
-    
-    .navbar-nav .nav-link {
-        font-size: 0.9rem; /* Nav links font size for smaller screens */
-    }
-}
-
+  }
+  
+  .nav-login-cart button:hover {
+    background-color: #d1334d; /* Blue */
+    color: white;
+  }
+  
+  /* .nav-login-cart button:hover::after {
+    background-color: red; /* Changed to solid red */
+  
+  
+  .nav-login-cart img {
+    height: 30px;
+  }
+  
