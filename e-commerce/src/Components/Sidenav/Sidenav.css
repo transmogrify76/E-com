@@ -1,0 +1,54 @@
+.side-navbar {
+    width: 80px; /* Initial width when collapsed */
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    background-color: #f8f9fa;
+    padding-top: 20px;
+    transition: width 0.3s ease;
+    overflow-x: hidden;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .side-navbar.expanded {
+    width: 250px; /* Expanded width */
+  }
+  
+  .navbar-nav {
+    list-style-type: none;
+    padding-left: 0;
+  }
+  
+  .nav-item {
+    margin-bottom: 10px;
+  }
+  
+  .nav-link {
+    text-decoration: none;
+    color: #495057;
+    padding: 30px;
+    display: block;
+    margin-top: 10%;
+  }
+  
+  .nav-link:hover {
+    background-color: #e9ecef;
+  }
+  
+  .toggle-btn {
+    position: absolute;
+    top: 10px;
+    right: -40px; /* Adjust the position as needed */
+    background-color: #f8f9fa;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    z-index: 100;
+    border-radius: 0 5px 5px 0;
+  }
+  
+  .collapsed .toggle-btn {
+    right: 10px; /* Adjust the position as needed */
+  }
+  
