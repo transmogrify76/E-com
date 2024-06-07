@@ -1,11 +1,10 @@
 import React from 'react'
 
-const Cart = () => {
+const Kids = () => {
   return (
     <div>
-      
     </div>
   )
 }
 
-export default Cart
+export default Kids

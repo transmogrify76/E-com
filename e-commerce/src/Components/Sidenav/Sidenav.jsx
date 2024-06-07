@@ -15,18 +15,13 @@ const SideNav = () => {
               </button>
               <ul className="navbar-nav">
                 <li className="nav-item">
-                  <Link to="/" className="nav-link">
+                  <Link to="/dashboard" className="nav-link">
                     Home
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link to="/" className="nav-link">
+                  <Link to="/wishlist" className="nav-link">
                     Wishlist
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link to="/products" className="nav-link">
-                    Products
                   </Link>
                 </li>
                 <li className="nav-item">
