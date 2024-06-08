@@ -10,13 +10,13 @@ function ENavbar() {
     <div className="navbar">
       <div className="nav-logo">
         <img src={logo} alt='logo' />
-        <p>E-Com</p>
+        <p style={{color : 'white'}}>E-Com</p>
       </div>
       <ul className="nav-menu">
-        <li onClick={()=>{setMenu("shop")}}><Link  style = {{textDecoration : 'none'}} to = '/dashboard'>Shop</Link></li>
-        <li onClick={()=>{setMenu("mens")}}><Link to = '/mens' style = {{textDecoration : 'none'}}>Men </Link></li>
-        <li onClick={()=>{setMenu("women")}}><Link to = '/women' style = {{textDecoration : 'none'}}>Women</Link></li>
-        <li onClick={()=>{setMenu("kids")}}><Link to = '/kids' style = {{textDecoration : 'none'}}>Kid </Link></li>
+        <li onClick={()=>{setMenu("shop")}}><Link  style = {{textDecoration : 'none',color : 'white'}} to = '/dashboard'>Shop{menu==="shop"?<hr/>:<></>}</Link></li>
+        <li onClick={()=>{setMenu("mens")}}><Link to = '/mens' style = {{textDecoration : 'none',color : 'white'}}>Men {menu==="mens"?<hr/>:<></>}</Link></li>
+        <li onClick={()=>{setMenu("women")}}><Link to = '/women' style = {{textDecoration : 'none',color : 'white'}}>Women {menu==="women"?<hr/>:<></>}</Link></li>
+        <li onClick={()=>{setMenu("kids")}}><Link to = '/kids' style = {{textDecoration : 'none',color : 'white'}}>Kid {menu==="kids"?<hr/>:<></>}</Link></li>
       </ul>
       <div className="nav-login-cart">
         <button onClick={()=>{setMenu("shop")}}><Link  style = {{textDecoration : 'none'}} to = '/login'>Login</Link></button>
@@ -26,7 +26,9 @@ function ENavbar() {
           </Link>
         
       </div>
+      
     </div>
+    
   );
 }
 
