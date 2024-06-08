@@ -1,0 +1,56 @@
+/* Item.css */
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .title {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .categories {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .categoryItem {
+    margin-bottom: 10px;
+  }
+  
+  .categoryItem a {
+    text-decoration: none;
+    color: #333;
+    display: flex;
+    align-items: center;
+  }
+  
+  .emoji {
+    font-size: 20px;
+    margin-right: 10px;
+  }
+  
+  .categoryName {
+    font-size: 18px;
+  }
+  
+  .helpContainer {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .helpIcon {
+    margin-right: 10px;
+  }
+  
+  .helpIcon svg {
+    fill: #333;
+  }
+  
+  .helpCenterText {
+    font-size: 16px;
+  }
+  

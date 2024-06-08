@@ -1,10 +1,11 @@
 .side-navbar {
     width: 70px; /* Initial width when collapsed */
     position: fixed;
+    background-color: #2c3e50;
     left: 0;
     top: 0;
     bottom: 0;
-    background-color: #f8f9fa;
+    
     padding-top: 20px;
     transition: width 0.3s ease;
     overflow-x: hidden;
@@ -12,43 +13,53 @@
   }
   
   .side-navbar.expanded {
-    width: 200px; /* Expanded width */
-  }
-  
-  .navbar-nav {
-    list-style-type: none;
-    padding-left: 0;
-  }
-  
-  .nav-item {
-    margin-bottom: 10px;
-  }
-  
-  .nav-link {
-    text-decoration: none;
-    color: #495057;
-    padding: 20px;
-    display: block;
-    margin-top: 10%;
-  }
-  
-  .nav-link:hover {
-    background-color: #e9ecef;
+    width: 200px;
   }
   
   .toggle-btn {
-    position: absolute;
-    top: 10px;
-    right: -40px; /* Adjust the position as needed */
-    background-color: #f8f9fa;
+    background-color: #34495e;
     border: none;
+    color: #ecf0f1;
+    padding: 10px;
     cursor: pointer;
-    padding: 8px;
-    z-index: 100;
-    border-radius: 0 5px 5px 0;
+    margin-bottom: 20px;
+    transition: background-color 0.3s ease;
   }
   
-  .collapsed .toggle-btn {
-    right: 10px; /* Adjust the position as needed */
+  .toggle-btn:hover {
+    background-color: #1abc9c;
+  }
+  
+  .navbar-nav {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+  }
+  
+  .nav-item {
+    width: 200%;
+  }
+  
+  .nav-link {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    color: #ecf0f1;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+  }
+  
+  .nav-link:hover {
+    background-color: #1abc9c;
+  }
+  
+  .nav-icon {
+    font-size: 20px;
+    margin-right: 20px;
+  }
+  
+  .nav-link span {
+    font-size: 16px;
+    display: inline-block;
   }
   

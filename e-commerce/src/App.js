@@ -13,6 +13,7 @@ import Women from './Components/Women/Women';
 import Orders from './Components/Orders/Orders';
 import Account from './Components/Account/Accounts';
 import Kids from './Components/Kids/Kids';
+import Item from './Components/Item/Item'
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
           <Route path="/orders" element={<Orders />} />
           <Route path="/account" element={<Account />} />
           <Route path="/kids" element={<Kids />} />
+          <Route path="/item" element={<Item />} />
         </Routes>
     </div>
     </Router>
