@@ -1,46 +1,44 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import './Login.css';
+import './Login.css'; // Import your CSS file for styling
+import emailIcon from '../Assests/email.png';
+import passwordIcon from '../Assests/password.png';
 
 const Login = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-
-    const handleLogin = () => {
-       
-        console.log('Logging in with email:', email, 'and password:', password);
-    };
-
-    return (
-        <div className='container'>
-            <div className="header">
-                <div className="text">Login</div>
-                <div className="underline"></div>
-                <div className="inputs">
-                    <div className="input">
-                        <input
-                            type="email"
-                            placeholder="Email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                        />
-                    </div>
-                    <div className="input">
-                        <input
-                            type="password"
-                            placeholder="Password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                        />
-                    </div>
-                </div>
-                <div className="submit-container">
-                    <button className="submit" onClick={handleLogin}>Login</button>
-                    <Link to="/signup" className="submit gray">Signup</Link>
-                </div>
-            </div>
+  return (
+    <div className='container' >
+   
+  
+   
+  
+      <div className='card'>
+        <div className="header">
+          <h2>Login</h2>
         </div>
-    );
+        <div className="body">
+        <div className="input">
+            <img src={emailIcon} alt="Email Icon" />
+            <input type="email" placeholder="Email" />
+          </div>
+          <div className="input">
+            <img src={passwordIcon} alt="Password Icon" />
+            <input type="password" placeholder="Password" />
+          </div>
+          <div className="submit-container">
+            <button className="submit">Login</button>
+           
+          </div>
+          <div className="forgot-password">
+            <Link to="/forgetpassword">Forgot password? Click here</Link>
+          </div>
+          <div className="signup-link">
+            <span>Don't have an account? </span>
+            <Link to="/signup" className="signup">Signup</Link>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default Login;
