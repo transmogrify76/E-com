@@ -7,8 +7,9 @@ import personIcon from '../Assests/person.png';
 
 const Signup = () => {
   return (
-    <div className='container'>
-      <div className='card'>
+    <div className='background-image'>
+   
+      <div className='card' style={{padding : 0 }}>
         <div className="header">
           <h2>Signup</h2>
         </div>
@@ -38,6 +39,7 @@ const Signup = () => {
         </div>
       </div>
     </div>
+    
   );
 };
 
