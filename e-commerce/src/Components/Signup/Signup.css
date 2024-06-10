@@ -4,22 +4,33 @@
   justify-content: center; 
   align-items: center;
   height: 100vh;
-  background-image: url('../back.jpg');
+  background-image: url('../backgr.jpg');
   background-size: contain; /* 90% of the container width */
   background-position: 90% center; /* Positioned 90% from the left and centered vertically */
   background-repeat: no-repeat; /* Prevent background image from repeating */
   background-size: auto 100%; /* Adjust the size of the background image */
 }
 
-
+.background-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+  background-size: cover;
+  background-position: center;
+  background-image: url('../backgr.jpg');
+}
 
   
   
   .card {
-    background-color: #ffffff;
+    background-color: #f8f9fa;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 300px;
+    margin-left: 700px;
+    margin-bottom: 150px;
+    margin-right: 700px;/*center for card*/
   }
   
   .header {
@@ -50,6 +61,7 @@
     left: 10px;
     top: 50%;
     transform: translateY(-50%);
+    
   }
   
   .input input {
@@ -58,6 +70,7 @@
     padding-left: 40px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    
   }
   
   .submit-container {

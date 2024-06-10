@@ -5,17 +5,18 @@ import emailIcon from '../Assests/email.png';
 import passwordIcon from '../Assests/password.png';
 
 const Login = () => {
+ 
+  
   return (
-    <div className='container' >
-   
+    <div className='background-image'>
   
    
   
-      <div className='card'>
-        <div className="header">
+      <div className='card'style={{padding : 0 }}>
+        <div className="card-header" >
           <h2>Login</h2>
         </div>
-        <div className="body">
+        <div className="card-body">
         <div className="input">
             <img src={emailIcon} alt="Email Icon" />
             <input type="email" placeholder="Email" />
@@ -37,6 +38,7 @@ const Login = () => {
           </div>
         </div>
       </div>
+     
     </div>
   );
 };

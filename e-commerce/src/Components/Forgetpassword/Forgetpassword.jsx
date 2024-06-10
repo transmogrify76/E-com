@@ -13,7 +13,10 @@ const ForgetPassword = () => {
 
     return (
         <div className='background-image'>
-            <div className='card'>
+          <div className='card' style={{ padding: 0, fontSize: '16px' }}>
+ 
+
+
                 <div className="card-header">
                     Forget Password
                     </div>
