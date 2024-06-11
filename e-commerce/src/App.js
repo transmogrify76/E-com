@@ -19,6 +19,9 @@ import men_banner from './Components/Assests/Ecommerce_Frontend_Assets/Assets/ba
 import women_banner from './Components/Assests/Ecommerce_Frontend_Assets/Assets/banner_women.png';
 import kid_banner from './Components/Assests/Ecommerce_Frontend_Assets/Assets/banner_kids.png';
 import Footer from './Components/Footer/Footer';
+import Popular from './Components/Popular/Popular';
+import Shop from './Components/Shop/Shop';
+import NewCollections from './Components/NewCollections/NewCollections';
 
 
 
@@ -43,6 +46,9 @@ function App() {
           <Route path="/forgetpassword" element={<ForgetPassword />} />
           <Route path="/ShopCat" element={< ShopCat  />} />
           <Route path="/item" element={<Item />} />
+          <Route path="/popular" element={<Popular />} />
+          <Route path="/shop" element={<Shop />} />
+          <Route path="/newcollections" element={<NewCollections />} />
         </Routes>
        <Footer/>
     </div>
