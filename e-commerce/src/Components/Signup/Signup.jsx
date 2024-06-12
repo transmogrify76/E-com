@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './Signup.css';
-import emailIcon from '../Assests/email.png';
-import passwordIcon from '../Assests/password.png';
-import personIcon from '../Assests/person.png';
+// import emailIcon from '../Assests/email.png';
+// import passwordIcon from '../Assests/password.png';
+// import personIcon from '../Assests/person.png';
 
 const Signup = () => {
   return (
@@ -15,17 +15,17 @@ const Signup = () => {
         </div>
         <div className="body">
           <div className="input">
-          <img src={personIcon} alt="Person Icon" />
+          {/* <img src={personIcon} alt="Person Icon" /> */}
          
             <input type="text" placeholder="Name" />
           </div>
           <div className="input">
-  <img src={emailIcon} alt="Email Icon" />
+  {/* <img src={emailIcon} alt="Email Icon" /> */}
   <input type="email" placeholder="Email" />
 </div>
 
           <div className="input">
-          <img src={passwordIcon} alt="Password Icon" />
+          {/* <img src={passwordIcon} alt="Password Icon" /> */}
             <input type="password" placeholder="Password" />
           </div>
           <div className="submit-container">
