@@ -6,7 +6,7 @@ import  './Item.css'; // Import CSS module
 const Item = (props) => {
   return (
    <div className="item">
-    <img src={props.image} alt="" />
+    <Link to={`/product/${props.id}`}><img src={props.image} alt="" /></Link>
     <p>{props.name}</p>
     <div className="item-prices">
       <div className="item-price-new">
