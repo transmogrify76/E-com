@@ -22,6 +22,8 @@ import Footer from './Components/Footer/Footer';
 import Popular from './Components/Popular/Popular';
 import Shop from './Components/Shop/Shop';
 import NewCollections from './Components/NewCollections/NewCollections';
+import ProductDisplay from './Components/ProductDisplay/ProductDisplay';
+import Product from './Components/Product/Product';
 
 
 
@@ -42,13 +44,16 @@ function App() {
           <Route path="/women" element={< ShopCat banner={women_banner}  category ="Women" />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="/account" element={<Account />} />
-          <Route path="/kids" element={< ShopCat banner={kid_banner} category  ="Kids" />} />
+          <Route path="/kids" element={< ShopCat banner={kid_banner} category  ="Kid" />} />
           <Route path="/forgetpassword" element={<ForgetPassword />} />
           <Route path="/ShopCat" element={< ShopCat  />} />
           <Route path="/item" element={<Item />} />
           <Route path="/popular" element={<Popular />} />
           <Route path="/shop" element={<Shop />} />
           <Route path="/newcollections" element={<NewCollections />} />
+          <Route path="/productdisplay" element={<ProductDisplay />} />
+          <Route path="/product" element={<Product />} />
+          <Route path="/product/:productId" element={<Product/>} />
         </Routes>
        <Footer/>
     </div>
