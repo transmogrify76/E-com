@@ -22,6 +22,8 @@ import Footer from './Components/Footer/Footer';
 import Popular from './Components/Popular/Popular';
 import Shop from './Components/Shop/Shop';
 import NewCollections from './Components/NewCollections/NewCollections';
+import ProductDisplay from './Components/ProductDisplay/ProductDisplay';
+import Product from './Components/Product/Product';
 
 
 
@@ -49,6 +51,9 @@ function App() {
           <Route path="/popular" element={<Popular />} />
           <Route path="/shop" element={<Shop />} />
           <Route path="/newcollections" element={<NewCollections />} />
+          <Route path="/productdisplay" element={<ProductDisplay />} />
+          <Route path="/product" element={<Product />} />
+          <Route path="/product/:productId" element={<Product/>} />
         </Routes>
        <Footer/>
     </div>
