@@ -3,9 +3,12 @@ import './Navbar.css';
 import logo from '../Assests/Ecommerce_Frontend_Assets/Assets/logo.png';
 import cart_icon from '../Assests/Ecommerce_Frontend_Assets/Assets/cart_icon.png';
 import { Link } from 'react-router-dom';
+import { useContext } from 'react';
+import { ShopContext } from '../Context/ShopContext';
 
 function ENavbar() {
   const [menu,setMenu] = useState("shop")
+  const {getTotalCartAmounts} = useContext(ShopContext);
   return (
     <div className="navbar">
       <div className="nav-logo">
@@ -24,6 +27,7 @@ function ENavbar() {
           <Link to="/cart">
             <img src={cart_icon} alt="Cart Icon" />
           </Link>
+          <div className="nav-cart-count">{getTotalCartAmounts()}</div>
         
       </div>
       
