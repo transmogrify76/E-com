@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './Login.css'; // Import your CSS file for styling
-import emailIcon from '../Assests/email.png';
-import passwordIcon from '../Assests/password.png';
+// import emailIcon from '../Assests/email.png';
+// import passwordIcon from '../Assests/password.png';
 
 const Login = () => {
  
@@ -18,11 +18,11 @@ const Login = () => {
         </div>
         <div className="card-body">
         <div className="input">
-            <img src={emailIcon} alt="Email Icon" />
+            {/* <img src={emailIcon} alt="Email Icon" /> */}
             <input type="email" placeholder="Email" />
           </div>
           <div className="input">
-            <img src={passwordIcon} alt="Password Icon" />
+            {/* <img src={passwordIcon} alt="Password Icon" /> */}
             <input type="password" placeholder="Password" />
           </div>
           <div className="submit-container">

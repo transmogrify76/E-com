@@ -1,110 +1,87 @@
-
-.container {
-  display: flex;
-  justify-content: center; 
-  align-items: center;
-  height: 100vh;
-  background-image: url('../backgr.jpg');
-  background-size: contain; /* 90% of the container width */
-  background-position: 90% center; /* Positioned 90% from the left and centered vertically */
-  background-repeat: no-repeat; /* Prevent background image from repeating */
-  background-size: auto 100%; /* Adjust the size of the background image */
-}
+/* Default styles */
 
 .background-image {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 90vh;
-  background-size: cover;
-  background-position: center;
-  background-image: url('../backgr.jpg');
+  min-height: 100vh;
+  background-color: #fce3fc;
 }
 
-  
-  
+.card {
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 400px;
+  padding: 20px;
+  margin: 20px;
+}
+
+.header {
+  background: linear-gradient(100deg, #00a2ff, #ff00aa);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  padding: 10px;
+  text-align: center;
+  color: #fff;
+}
+
+.body {
+  padding: 20px;
+}
+
+.input {
+  position: relative;
+  margin-bottom: 15px;
+}
+
+.input input {
+  width: calc(100% - 40px);
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.submit-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.submit {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.login-link {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.login-link span {
+  color: #333;
+}
+
+.login-link .login {
+  color: #007bff;
+  text-decoration: none;
+}
+
+/* Media queries for responsiveness */
+
+@media (max-width: 768px) {
   .card {
-    background-color: #f8f9fa;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 300px;
-    margin-left: 700px;
-    margin-bottom: 150px;
-    margin-right: 700px;/*center for card*/
+    width: 80%;
   }
-  
-  .header {
-    background-color: #f0f0f0;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    padding: 10px;
-    text-align: center;
-    background: linear-gradient(100deg,#00a2ff,#ff00aa);
+}
+
+@media (max-width: 576px) {
+  .card {
+    width: 90%;
   }
-  
-  .header h2 {
-    margin: 0;
-    
-  }
-  
-  .body {
-    padding: 20px;
-  }
-  
-  .input {
-    position: relative;
-    margin-bottom: 15px;
-  }
-  
-  .input img {
-    position: absolute;
-    left: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    
-  }
-  
-  .input input {
-    width: calc(120% - 40px);
-    padding: 10px;
-    padding-left: 40px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    
-  }
-  
-  .submit-container {
-    text-align: center;
-    margin-top: 20px;
-  }
-  
-  .submit {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    background-color: #007bff;
-    color: #fff;
-    cursor: pointer;
-    text-decoration: none;
-  }
-  
-  .submit.gray {
-    background-color: #ccc;
-    color: #333;
-    margin-left: 10px;
-  }
-  
-  .login-link {
-    text-align: center;
-    margin-top: 10px;
-  }
-  
-  .login-link span {
-    color: #333;
-  }
-  
-  .login-link .login {
-    color: #007bff;
-    text-decoration: none;
-  }
-  
+}

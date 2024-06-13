@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Forgetpassword.css';
-import emailIcon from '../Assests/email.png';
+// import emailIcon from '../Assests/email.png';
 
 const ForgetPassword = () => {
     const [email, setEmail] = useState('');
@@ -24,7 +24,7 @@ const ForgetPassword = () => {
                     <div className="inputs">
                         <div className="input">
                       
-          <img src={emailIcon} alt="Email Icon" />
+          {/* <img src={emailIcon} alt="Email Icon" /> */}
  
 
                             <input

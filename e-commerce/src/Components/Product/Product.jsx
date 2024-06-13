@@ -1,18 +1,12 @@
 
-import React from 'react'
-const Product = () => {
-    return(
-        <div>
-
-        </div>
-    )
-}
-export default Product
 
 import React, { useContext } from 'react';
 import { ShopContext } from '../Context/ShopContext';
 import { useParams } from 'react-router-dom';
 import ProductDisplay from '../../Components/ProductDisplay/ProductDisplay';
+import DescriptionBox from '../DescriptionBox/DescriptionBox';
+import RelatedProducts from '../RelatedProducts/RelatedProducts';
+
 
 const Product = () => {
     const { all_product } = useContext(ShopContext);
@@ -27,6 +21,9 @@ const Product = () => {
     return (
         <div>
             <ProductDisplay product={product} />
+            <DescriptionBox/>
+            <RelatedProducts/>
+           
         </div>
     );
 };
