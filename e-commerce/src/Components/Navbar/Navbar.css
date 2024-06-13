@@ -169,7 +169,9 @@
   list-style-type: none;
   padding: 0;
 }
-
+.nav-cart-count{
+  margin-right: 10%;
+}
 .nav-menu li {
   display: inline-block;
   margin: 0 10px;
