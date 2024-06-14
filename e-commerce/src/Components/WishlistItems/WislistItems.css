@@ -1,20 +1,19 @@
-.wishlist {
+.wishlist-items {
     margin: 20px;
   }
   
-  .wishlist h2 {
+  .wishlist-items h2 {
     font-size: 24px;
     color: #333;
     margin-bottom: 10px;
   }
   
-  .wishlist hr {
+  .wishlist-items hr {
     border: 1px solid #ccc;
     margin-bottom: 20px;
-    margin-left: 200px;
   }
   
-  .wishlist p {
+  .wishlist-items p {
     font-size: 16px;
     color: #666;
   }
@@ -25,13 +24,16 @@
     margin-bottom: 20px;
   }
   
+  .wishlist-item-info {
+    display: flex;
+    align-items: center;
+  }
+  
   .wishlist-item-image {
     width: 100px;
     height: 100px;
     object-fit: cover;
-    margin-right: 10px;
-    position: absolute;
-    left: 400px;
+    margin-right: 20px;
   }
   
   .wishlist-item-details {
@@ -61,13 +63,10 @@
     outline: none;
     cursor: pointer;
     transition: background-color 0.3s;
-    margin-left: 10px;
   }
   
   .wishlist-item-add-to-cart {
     background-color: #28a745;
-    
-    
   }
   
   .wishlist-item-remove {
@@ -78,5 +77,4 @@
   .wishlist-item-remove:hover {
     background-color: #0056b3;
   }
-  
   
