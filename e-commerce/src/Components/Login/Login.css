@@ -5,7 +5,11 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+
   background-color: #2b002b;
+  /* background-color: #fce3fc; */
+  background-image:url('../bpic.jpg');
+  background-position: cover;
 }
 
 .card {

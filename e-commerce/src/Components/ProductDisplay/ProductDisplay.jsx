@@ -50,25 +50,21 @@ const isInWishlist = wishlistItems.includes(product.id);
                 
                  <br></br>
                  <button className="addToCartButton" onClick={() => addToCart(product.id)}>ADD TO CART</button>
-<button className={isInWishlist ? "removeFromWishlistButton" : "addToWishlistButton"} onClick={() => {
-    if (isInWishlist) {
-        removeFromWishlist(product.id);
-    } else {
-        addToWishlist(product.id);
-    }
-}}>
-  {isInWishlist ? 'REMOVE FROM WISHLIST' : 'ADD TO WISHLIST'}
-</button>
-</div>
-
-
-
-               
-               
+                <button className={isInWishlist ? "removeFromWishlistButton" : "addToWishlistButton"} onClick={() => {
+                      if (isInWishlist) {
+                                 removeFromWishlist(product.id);
+                            } else {
+                         addToWishlist(product.id);
+                         }
+                        }}>
+                {isInWishlist ? 'REMOVE FROM WISHLIST' : 'ADD TO WISHLIST'}
+                </button>
+                </div>
+         
                   <p className="productdisplay-right-category">
-<br />
-<span>Category:</span> {Array.isArray(product.category) ? product.category.join(', ') : product.category}
-</p>
+                <br />
+                <span>Category:</span> {Array.isArray(product.category) ? product.category.join(', ') : product.category}
+                </p>
 <p className="productdisplay-right-category">
 <span>Tags: </span> {Array.isArray(product.tags) ? product.tags.join(', ') : product.tags}
 </p>
