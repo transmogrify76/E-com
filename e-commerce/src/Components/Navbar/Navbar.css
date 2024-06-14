@@ -194,6 +194,7 @@
   animation: bounce 0.6s;
 }
 
+<<<<<<< Updated upstream
 .free .truck-icon {
   color: #f3b123;
   width: 30px;
@@ -201,6 +202,35 @@
   gap:10px
 }
 
+=======
+@media(max-width:1280px){
+  .navbar{
+    padding: 12px 80px;
+  }
+  .nav-logo img{
+    width: 40px;
+  }
+  .nav-logo p{
+     font-size: 25px;
+  }
+  .nav-menu{
+    gap:30px;
+    font-size: 16px;
+  }
+  .nav-login-cart{
+    gap:30px;
+  }
+  .nav-login-cart button{
+    width:120px;
+    height:45px;
+    font-size:16px;
+  }
+  .nav-cart-count{
+    margin-left: -40px;
+    font-size: 12px;
+  }
+}
+>>>>>>> Stashed changes
 @keyframes bounce {
   0%, 100% {
     transform: translateY(0);

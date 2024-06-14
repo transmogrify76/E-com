@@ -38,7 +38,7 @@ const CartItems = () => {
             })}
             <div className="cartitems-down">
                 <div className="cartitems-total">
-                    <h1>cart Totals</h1>
+                    <h3><strong>CART TOTALS</strong></h3>
                     <div>
                         <div className="cartitems-total-item">
                             <p>SubTotal</p>

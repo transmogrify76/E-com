@@ -21,6 +21,7 @@ import Shop from './Components/Shop/Shop';
 import NewCollections from './Components/NewCollections/NewCollections';
 import ProductDisplay from './Components/ProductDisplay/ProductDisplay';
 import Product from './Components/Product/Product';
+import AdminDashboard from './Components/Admin/AdminDashboard/AdminDashboard';
 
 
 
@@ -79,7 +80,9 @@ function AppContent() {
         <Route path="/shop" element={<Shop />} />
         <Route path="/newcollections" element={<NewCollections />} />
         <Route path="/productdisplay" element={<ProductDisplay />} />
+        <Route path="/account" element={<Account />} />
         <Route path="/product" element={<Product />} />
+        <Route path="/admin-dashboard" element={<AdminDashboard />} />
         <Route path="/product/:productId" element={<Product />} />
       </Routes>
       {shouldShowFooter() && <Footer />}
