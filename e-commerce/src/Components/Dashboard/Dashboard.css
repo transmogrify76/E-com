@@ -88,3 +88,49 @@ body {
   height: auto;
   border-radius: 8px;
 }
+
+@media (max-width: 768px) {
+  .hero {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .hero-left,
+  .hero-right {
+    width: 100%;
+    padding: 20px;
+    margin: 0;
+  }
+
+  .hand-hand-icon {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-left h2 {
+    font-size: 28px;
+  }
+
+  .hero-left p {
+    font-size: 28px;
+  }
+
+  .latestcollection {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 320px) {
+  .hero-left h2 {
+    font-size: 24px;
+  }
+
+  .hero-left p {
+    font-size: 24px;
+  }
+
+  .latestcollection {
+    font-size: 16px;
+  }
+}
