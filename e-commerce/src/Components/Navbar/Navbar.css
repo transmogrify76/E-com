@@ -170,7 +170,17 @@
   padding: 0;
 }
 .nav-cart-count{
-  margin-right: 10%;
+ width: 22px;
+ height: 22px;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ margin-top: -35px;
+ margin-left: -55px;
+ border-radius: 11px;
+ font-size: 14px;
+ background: red;
+ color: white;
 }
 .nav-menu li {
   display: inline-block;
@@ -182,6 +192,13 @@
 
 .nav-menu li:hover {
   animation: bounce 0.6s;
+}
+
+.free .truck-icon {
+  color: #f3b123;
+  width: 30px;
+  height: 30px;
+  gap:10px
 }
 
 @keyframes bounce {

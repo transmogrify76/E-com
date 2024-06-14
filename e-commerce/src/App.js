@@ -22,6 +22,8 @@ import NewCollections from './Components/NewCollections/NewCollections';
 import ProductDisplay from './Components/ProductDisplay/ProductDisplay';
 import Product from './Components/Product/Product';
 
+
+
 function App() {
   return (
     <Router>

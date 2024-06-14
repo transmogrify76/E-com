@@ -27,6 +27,7 @@
     width: 15px;
     margin: 0px 40px;
     cursor: pointer;
+    height:10px
 }
 .cartitems-quantity{
     width: 64px;
@@ -126,5 +127,6 @@
     cursor: pointer;
     position: absolute;
     top: calc(50% - 20px); /* Center vertically */
-    right: 40px; /* Adjusted margin */
+    right: 20px ;
+   
 }
