@@ -1,7 +1,7 @@
  import React, { useState } from 'react';
  import './Navbar.css';
   import logo from '../Assests/Ecommerce_Frontend_Assets/Assets/logo.png';
-  import cart_icon from '../Assests/Ecommerce_Frontend_Assets/Assets/cart_icon.png';
+  import cart_icon from '../../Components/Assests/shopping-cart.png';
   import { Link } from 'react-router-dom';
   import { useContext } from 'react';
   import { ShopContext } from '../Context/ShopContext';
