@@ -12,7 +12,7 @@ const Login = () => {
   
    
   
-      <div className='card'style={{padding : 0 }}>
+      <div className='card'style={{padding : 0,marginRight: '40%'}}>
         <div className="card-header" >
           <h2>Login</h2>
         </div>

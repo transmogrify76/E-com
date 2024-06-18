@@ -22,6 +22,8 @@ import NewCollections from './Components/NewCollections/NewCollections';
 import ProductDisplay from './Components/ProductDisplay/ProductDisplay';
 import Product from './Components/Product/Product';
 import AdminDashboard from './Components/Admin/AdminDashboard/AdminDashboard';
+import Checkout from './Components/Checkout/Checkout';
+import Payment from './Components/Payment/Payment';
 
 
 
@@ -82,6 +84,8 @@ function AppContent() {
         <Route path="/productdisplay" element={<ProductDisplay />} />
         <Route path="/account" element={<Account />} />
         <Route path="/product" element={<Product />} />
+        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/payment" element={<Payment />} />
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
         <Route path="/product/:productId" element={<Product />} />
       </Routes>

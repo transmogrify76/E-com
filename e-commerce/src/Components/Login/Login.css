@@ -8,18 +8,18 @@
 
   background-color: #2b002b;
   /* background-color: #fce3fc; */
-  background-image:url('../bpic.jpg');
-  background-position: cover;
+  background-image:url('../../Components/Assests/ecommerce-service.png');
+  background-size: cover;
 }
 
 .card {
   background-color: #2d8ff0;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: 90%;
+  width: 100%;
   max-width: 400px;
   padding: 20px;
-  margin: 20px;
+  margin-left: 30%;
 }
 
 
@@ -56,7 +56,7 @@
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
-  background-color: #007bff;
+  background-color: #8400ff;
   color: #fff;
   cursor: pointer;
   text-decoration: none;

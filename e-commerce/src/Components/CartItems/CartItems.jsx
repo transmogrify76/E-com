@@ -6,39 +6,54 @@ import remove_Icon from '../Assests/Ecommerce_Frontend_Assets/Assets/cart_cross_
 
 const CartItems = () => {
     const { getTotalCartAmount,all_product, cartItems, removeFromCart } = useContext(ShopContext);
-
+    const handleOnClick = ()=> {
+        window.location.href ='./checkout'
+    }
     return (
-        <div className='cartitems'>
-            <div className="cartitems-format-main">
-                <p>Products</p>
-                <p>Title</p>
-                <p>Size</p>
-                <p>Price</p>
-                <p>Quantity</p>
-                <p>Total</p>
-                <p>Remove</p>
-            </div>
-            <hr />
-            {all_product.map((e) => {
-                if (cartItems[e.id] > 0) {
-                    return (
-                        <div key={e.id}>
-                            <div className="cartitems-format cartitems-format-main">
-                                <img src={e.image} alt="" className='carticon-product-icon' />
-                                <p>{e.name}</p>
-                                <p>{e.size}</p>
-                                <p>₹{e.new_price}</p>
-                                <button className='cartitems-quantity'>{cartItems[e.id]}</button>
-                                <p>{e.new_price * cartItems[e.id]}</p>
-                                <img className='cartitems-remove-icon' src={remove_Icon} onClick={() => removeFromCart(e.id)} alt="" />
-                            </div>
-                            <hr />
-                        </div>
-                    );
-                }
-                return null;
-            })}
-            <div className="cartitems-down">
+        <><div className="cartitems-format-main">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Products</th>
+                        <th>Title</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                        <th>Remove</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {all_product.map((e) => {
+                        if (cartItems[e.id] > 0) {
+                            return (
+                                <tr key={e.id}>
+                                    <td>
+                                        <img src={e.image} alt="" className='carticon-product-icon' />
+                                    </td>
+                                    <td>{e.name}</td>
+                                    <td>₹{e.new_price}</td>
+                                    <td>
+                                        <button className='cartitems-quantity'>{cartItems[e.id]}</button>
+                                    </td>
+                                    <td>₹{e.new_price * cartItems[e.id]}</td>
+                                    <td>
+                                        <img
+                                            className='cartitems-remove-icon'
+                                            src={remove_Icon}
+                                            onClick={() => removeFromCart(e.id)}
+                                            alt="" />
+                                    </td>
+                                </tr>
+                            );
+                        }
+                        return null;
+                    })}
+                </tbody>
+            </table>
+            <br></br>
+            <br></br>
+            <br></br>
+        </div><div className="cartitems-down">
                 <div className="cartitems-total">
                     <h3><strong>CART TOTALS</strong></h3>
                     <div>
@@ -57,7 +72,8 @@ const CartItems = () => {
                             <h3> ₹{getTotalCartAmount()}</h3>
                         </div>
                     </div>
-                    <button>PROCEED TO CHECKOUT</button>
+                    <button  onClick={handleOnClick}>
+                   PROCEED TO CHECKOUT</button>
                 </div>
                 <div className="cartitems-promocode">
                     <p>If you have a promocode, Enter it here</p>
@@ -66,8 +82,7 @@ const CartItems = () => {
                         <button>Submit</button>
                     </div>
                 </div>
-            </div>
-        </div>
+            </div></>
     );
 };
 
