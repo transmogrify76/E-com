@@ -75,7 +75,7 @@ const SellerDashboard = () => {
                     <ul>
                         <li></li>
                         <li className={activeMenuItem === 'ProductUpload' ? 'active' : ''}>
-  <Link to="/ProductUpload" onClick={() => handleMenuItemClick('ProductUpload')}>
+  <Link to="/seller-dashboard" onClick={() => handleMenuItemClick('ProductUpload')}>
     <FontAwesomeIcon icon={faUpload} />
     <span style={{ marginLeft: '8px' }}> {/* Adjust the space as needed */}
       Product Upload
