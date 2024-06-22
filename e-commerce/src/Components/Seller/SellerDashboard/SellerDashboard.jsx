@@ -78,7 +78,7 @@ const SellerDashboard = () => {
   <Link to="/seller-dashboard" onClick={() => handleMenuItemClick('ProductUpload')}>
     <FontAwesomeIcon icon={faUpload} />
     <span style={{ marginLeft: '8px' }}> {/* Adjust the space as needed */}
-      Product Upload
+      Product Uploaddddddd
     </span>
   </Link>
 </li>
