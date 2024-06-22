@@ -5,6 +5,7 @@
   import { Link } from 'react-router-dom';
   import { useContext } from 'react';
   import { ShopContext } from '../Context/ShopContext';
+  import {IoSearch} from "react-icons/io5";
 
   function ENavbar() {
     const [menu,setMenu] = useState("shop")
@@ -22,6 +23,10 @@
           <li onClick={()=>{setMenu("women")}}><Link to = '/women' style = {{textDecoration : 'none',color : 'white'}}>Women {menu==="women"?<hr/>:<></>}</Link></li>
           <li onClick={()=>{setMenu("kids")}}><Link to = '/kids' style = {{textDecoration : 'none',color : 'white'}}>Kid {menu==="kids"?<hr/>:<></>}</Link></li>
         </ul>
+        <div className='headerSearch'>
+          <input type='text'/>
+         <button className='btn-search'><IoSearch/></button> 
+        </div>
         <div className="nav-login-cart">
           <button onClick={()=>{setMenu("shop")}}><Link  style = {{textDecoration : 'none'}} to = '/login'>Login</Link></button>
         

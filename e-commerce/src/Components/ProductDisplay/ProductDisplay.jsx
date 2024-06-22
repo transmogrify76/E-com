@@ -9,6 +9,27 @@ const ProductDisplay = ({ product, selectedSize, onSizeSelect }) => {
     const [localSelectedSize, setLocalSelectedSize] = useState('');
 
     const isInWishlist = wishlistItems.includes(product.id);
+    const [quantity, setQuantity] = useState(1);
+
+    // Function to handle increment of quantity
+    const incrementQuantity = () => {
+        setQuantity(prevQuantity => prevQuantity + 1);
+    };
+
+    // Function to handle decrement of quantity
+    const decrementQuantity = () => {
+        if (quantity > 1) {
+            setQuantity(prevQuantity => prevQuantity - 1);
+        }
+    };
+
+    // Function to handle change in dropdown quantity
+    const handleQuantityChange = (event) => {
+        const value = parseInt(event.target.value, 10);
+        if (!isNaN(value) && value >= 1) {
+            setQuantity(value);
+        }
+    };
 
     const handleAddToCart = () => {
         if (!localSelectedSize) {
@@ -69,6 +90,14 @@ const ProductDisplay = ({ product, selectedSize, onSizeSelect }) => {
                     </div>
                 )}
                 <br />
+                <div className="productdisplay-quantity">
+                        <h1>Quantity:</h1>
+                        <div className="quantity-control" >
+                            {/* <button className="quantity-button small" onClick={decrementQuantity}>-</button> */}
+                            <input type="number" className="quantity-dropdown" value={quantity} onChange={handleQuantityChange} min="1" />
+                            {/* <button className="quantity-button small" onClick={incrementQuantity}>+</button> */}
+                        </div>
+                    </div>
                 <button className="addToCartButton" onClick={handleAddToCart}>
                     ADD TO CART
                 </button>

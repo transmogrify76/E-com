@@ -1,4 +1,5 @@
-import './App.css';
+//
+import React from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import ENavbar from './Components/Navbar/Navbar';
 import Sidenav from './Components/Sidenav/Sidenav';
@@ -7,11 +8,11 @@ import Login from './Components/Login/Login';
 import Signup from './Components/Signup/Signup';
 import Cart from './Components/Cart/Cart';
 import Wishlist from './Components/Wishlist/Wishlist';
-import Orders from './Components/Orders/Orders';
+import Orders from './Components/Orders/Orders'; // Correct import
 import Account from './Components/Account/Accounts';
 import ForgetPassword from './Components/Forgetpassword/Forgetpassword';
 import Item from './Components/Item/Item';
-import { ShopCat } from './Components/ShopCat/ShopCat';
+import ShopCat from './Components/ShopCat/ShopCat'; // Correct import
 import men_banner from './Components/Assests/Ecommerce_Frontend_Assets/Assets/banner_mens.png';
 import women_banner from './Components/Assests/Ecommerce_Frontend_Assets/Assets/banner_women.png';
 import kid_banner from './Components/Assests/Ecommerce_Frontend_Assets/Assets/banner_kids.png';
@@ -24,7 +25,13 @@ import Product from './Components/Product/Product';
 import AdminDashboard from './Components/Admin/AdminDashboard/AdminDashboard';
 import Checkout from './Components/Checkout/Checkout';
 import Payment from './Components/Payment/Payment';
-
+import SellerDashboard from './Components/Seller/SellerDashboard/SellerDashboard'; // Correct import
+import ProductUpload from './Components/Seller/ProductUpload/ProductUpload'; // Correct import
+import ExistingProduct from './Components/Seller/ExistingProduct/ExcistingProduct'; // Correct import
+import Dispatch from './Components/Seller/Dispatch/Dispatch'; // Correct import
+import RevenueGenerate from './Components/Seller/RevenueGenerate/RevenueGenerate'; // Correct import
+import Orderr from './Components/Seller/Orderr/Orderr'; // Correct import
+import Settings from './Components/Seller/Settings/Settings';
 
 
 function App() {
@@ -41,21 +48,21 @@ function AppContent() {
   // Function to determine if the sidebar should be shown
   const shouldShowSidebar = () => {
     // Array of paths where sidebar should not be shown
-    const pathsWithoutSidebar = ['/login', '/signup', '/forgetpassword'];
+    const pathsWithoutSidebar = ['/login', '/signup', '/forgetpassword','/seller-dashboard','/ProductUpload','/ExistingProduct','/Dispatch','/RevenueGenerate','/Orderr','/Settings'];
     return !pathsWithoutSidebar.includes(location.pathname);
   };
 
   // Function to determine if the navbar should be shown
   const shouldShowNavbar = () => {
     // Array of paths where navbar should not be shown
-    const pathsWithoutNavbar = ['/login', '/signup', '/forgetpassword'];
+    const pathsWithoutNavbar = ['/login', '/signup', '/forgetpassword','/seller-dashboard','/ProductUpload','/ExistingProduct','/Dispatch','/RevenueGenerate','/Orderr','/Settings'];
     return !pathsWithoutNavbar.includes(location.pathname);
   };
 
   // Function to determine if the footer should be shown
   const shouldShowFooter = () => {
     // Array of paths where footer should not be shown
-    const pathsWithoutFooter = ['/login', '/signup', '/forgetpassword'];
+    const pathsWithoutFooter = ['/login', '/signup', '/forgetpassword','/seller-dashboard','/ProductUpload','/ExistingProduct','/Dispatch','/RevenueGenerate','/Orderr','/Settings'];
     return !pathsWithoutFooter.includes(location.pathname);
   };
 
@@ -71,23 +78,26 @@ function AppContent() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/mens" element={<ShopCat banner={men_banner} category="men" />} />
-        <Route path="/women" element={<ShopCat banner={women_banner} category="Women" />} />
+        <Route path="/women" element={<ShopCat banner={women_banner} category="women" />} />
         <Route path="/orders" element={<Orders />} />
         <Route path="/account" element={<Account />} />
-        <Route path="/kids" element={<ShopCat banner={kid_banner} category="Kid" />} />
+        <Route path="/kids" element={<ShopCat banner={kid_banner} category="kid" />} />
         <Route path="/forgetpassword" element={<ForgetPassword />} />
-        <Route path="/ShopCat" element={<ShopCat />} />
-        <Route path="/item" element={<Item />} />
         <Route path="/popular" element={<Popular />} />
         <Route path="/shop" element={<Shop />} />
         <Route path="/newcollections" element={<NewCollections />} />
         <Route path="/productdisplay" element={<ProductDisplay />} />
-        <Route path="/account" element={<Account />} />
-        <Route path="/product" element={<Product />} />
+        <Route path="/product/:productId" element={<Product />} />
+        <Route path="/admin-dashboard" element={<AdminDashboard />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/payment" element={<Payment />} />
-        <Route path="/admin-dashboard" element={<AdminDashboard />} />
-        <Route path="/product/:productId" element={<Product />} />
+        <Route path="/seller-dashboard" element={<SellerDashboard />} />
+        <Route path="/ProductUpload" element={<ProductUpload />} />
+        <Route path="/ExistingProduct" element={<ExistingProduct />} />
+        <Route path="/Orderr" element={<Orderr />} />
+        <Route path="/Dispatch" element={<Dispatch />} />
+        <Route path="/RevenueGenerate" element={<RevenueGenerate />} />
+        <Route path="/Settings" element={<Settings />} />
       </Routes>
       {shouldShowFooter() && <Footer />}
     </div>

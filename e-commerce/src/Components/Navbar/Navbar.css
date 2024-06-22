@@ -196,6 +196,16 @@
   height: 30px;
   gap:10px
 }
+.headerSearch{
+  /* width: 0%; */
+  height: 60px;
+
+}
+.btn-search{
+  width: 20%;
+margin-top: 10px;
+margin-bottom: 10px;
+}
 
 @keyframes bounce {
   0%, 100% {
