@@ -14,6 +14,7 @@
 
 .cartitems-format-main {
     overflow-x: auto;
+    /* grid-template-columns: 0.5fr 2fr 1fr 1fr 1fr 1fr 1fr; */
 }
 
 table {

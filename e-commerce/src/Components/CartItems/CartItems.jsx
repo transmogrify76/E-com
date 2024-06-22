@@ -16,6 +16,7 @@ const CartItems = () => {
                     <tr>
                         <th>Products</th>
                         <th>Title</th>
+                      
                         <th>Price</th>
                         <th>Quantity</th>
                         <th>Total</th>
@@ -31,6 +32,7 @@ const CartItems = () => {
                                         <img src={e.image} alt="" className='carticon-product-icon' />
                                     </td>
                                     <td>{e.name}</td>
+                                   
                                     <td>₹{e.new_price}</td>
                                     <td>
                                         <button className='cartitems-quantity'>{cartItems[e.id]}</button>

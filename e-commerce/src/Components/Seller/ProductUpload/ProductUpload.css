@@ -1,0 +1,87 @@
+/* ProductUpload.css */
+
+.productUploadContainer {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    
+   
+}
+
+.productUploadContainer h2 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: #343a40;
+    text-align: center;
+}
+
+.productUploadContainer form {
+    display: flex;
+    flex-direction: column;
+    margin-left: 0px;
+}
+
+.productUploadContainer .formGroup {
+    margin-bottom: 20px;
+}
+
+.productUploadContainer label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #495057;
+}
+
+.productUploadContainer input[type="text"],
+.productUploadContainer input[type="number"],
+.productUploadContainer textarea,
+.productUploadContainer input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ced4da;
+    border-radius: 3px;
+}
+
+.productUploadContainer textarea {
+    resize: vertical;
+}
+
+.productUploadContainer button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.productUploadContainer button:hover {
+    background-color: #0056b3;
+}
+
+.productUploadContainer button[type="submit"] {
+    align-self: flex-end;
+}
+
+.productUploadContainer input[type="file"] {
+    padding: 8px;
+}
+
+.productUploadContainer input[type="file"]::-webkit-file-upload-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    padding: 8px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.productUploadContainer input[type="file"]::-webkit-file-upload-button:hover {
+    background-color: #0056b3;
+}

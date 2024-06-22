@@ -1,0 +1,135 @@
+/* RevenueGenerate.css */
+
+/* Global styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+}
+
+.app-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+header {
+    background-color: #343a40;
+    color: #fff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.8rem;
+    color: #fff;
+}
+
+header a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1rem;
+    margin-left: 20px;
+}
+
+header a:hover {
+    text-decoration: underline;
+}
+
+.sidenav {
+    background-color: #20139b5b;
+    color: #fff;
+    width: 200px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidenav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+.sidenav li {
+    margin-bottom: 10px;
+    color: #fff;
+}
+
+.sidenav a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1rem;
+    padding: 10px 20px;
+    display: block;
+}
+
+.sidenav a:hover {
+    background-color: #0056b3;
+    text-decoration: underline;
+}
+
+.revenue-generate-container {
+    margin-left: 220px; /* Adjust for sidenav width + padding */
+    padding: 20px;
+}
+
+.revenue-generate-container h2 {
+    font-size: 1.5rem;
+    color: #343a40;
+    margin-bottom: 10px;
+}
+
+.revenue-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.revenue-table th,
+.revenue-table td {
+    border: 1px solid #dee2e6;
+    padding: 10px;
+    text-align: left;
+}
+
+.revenue-table th {
+    background-color: #f8f9fa;
+    color: #343a40;
+}
+
+.revenue-chart {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.bar {
+    background-color: #48ff00; /* Adjust color as needed */
+    flex-grow: 1;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    margin: 5px; /* Add margin for spacing between bars */
+    border-radius: 5px; /* Add border radius for rounded corners */
+}
+
+.bar-label {
+    position: absolute;
+    bottom: 5px;
+    left: 0;
+    right: 0;
+    color: #fff;
+    font-size: 0.8rem;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5); /* Add text shadow for better readability */
+}
