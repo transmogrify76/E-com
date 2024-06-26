@@ -1,0 +1,29 @@
+.navbar {
+    z-index: 1000; /* Ensure navbar is on top of other content */
+  }
+  
+  .navbar-brand {
+    font-size: 1.5rem; /* Larger font size for brand */
+  }
+  
+  .navbar-toggler {
+    border: none; /* Remove border from toggler button */
+  }
+  
+  .navbar-nav .nav-item {
+    margin-right: 10px; /* Add spacing between navbar items */
+  }
+  
+  .form-control-dark {
+    background-color: #343a40; /* Dark background for search input */
+    color: #ffffff; /* White text color */
+  }
+  
+  .navbar-nav .nav-item .nav-link {
+    color: #ffffff; /* White text color for navbar links */
+  }
+  
+  .navbar-nav .nav-item .nav-link:hover {
+    opacity: 0.8; /* Reduce opacity on hover */
+  }
+  

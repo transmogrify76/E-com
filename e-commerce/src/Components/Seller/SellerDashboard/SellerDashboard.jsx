@@ -73,12 +73,12 @@ const SellerDashboard = () => {
             <div className="dashboard-container">
                 <nav className="sidenav">
                     <ul>
-                        <li></li>
+                        
                         <li className={activeMenuItem === 'ProductUpload' ? 'active' : ''}>
   <Link to="/seller-dashboard" onClick={() => handleMenuItemClick('ProductUpload')}>
     <FontAwesomeIcon icon={faUpload} />
     <span style={{ marginLeft: '8px' }}> {/* Adjust the space as needed */}
-      Product Uploaddddddd
+      Product Upload
     </span>
   </Link>
 </li>
