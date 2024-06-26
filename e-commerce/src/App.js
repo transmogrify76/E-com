@@ -32,6 +32,15 @@ import Dispatch from './Components/Seller/Dispatch/Dispatch'; // Correct import
 import RevenueGenerate from './Components/Seller/RevenueGenerate/RevenueGenerate'; // Correct import
 import Orderr from './Components/Seller/Orderr/Orderr'; // Correct import
 import Settings from './Components/Seller/Settings/Settings';
+import Users from './Components/Admin/Users/Users';
+import Products from './Components/Admin/Products/Products';
+import Order from './Components/Admin/Order/Order';
+import Reports from './Components/Admin/Reports/Reports';
+import Setting from './Components/Admin/Setting/Setting';
+import Logout from './Components/Admin/Logout/Logout';
+
+
+
 
 
 function App() {
@@ -48,21 +57,21 @@ function AppContent() {
   // Function to determine if the sidebar should be shown
   const shouldShowSidebar = () => {
     // Array of paths where sidebar should not be shown
-    const pathsWithoutSidebar = ['/login', '/signup', '/forgetpassword','/seller-dashboard','/ProductUpload','/ExistingProduct','/Dispatch','/RevenueGenerate','/Orderr','/Settings'];
+    const pathsWithoutSidebar = ['/login', '/signup', '/forgetpassword','/seller-dashboard','/ProductUpload','/ExistingProduct','/Dispatch','/RevenueGenerate','/Orderr','/Settings','/admin-dashboard','/Users','/Products','/Order','/Reports','/Setting','/Logout'];
     return !pathsWithoutSidebar.includes(location.pathname);
   };
 
   // Function to determine if the navbar should be shown
   const shouldShowNavbar = () => {
     // Array of paths where navbar should not be shown
-    const pathsWithoutNavbar = ['/login', '/signup', '/forgetpassword','/seller-dashboard','/ProductUpload','/ExistingProduct','/Dispatch','/RevenueGenerate','/Orderr','/Settings'];
+    const pathsWithoutNavbar = ['/login', '/signup', '/forgetpassword','/seller-dashboard','/ProductUpload','/ExistingProduct','/Dispatch','/RevenueGenerate','/Orderr','/Settings','/admin-dashboard','/Users','/Products','/Order','/Reports','/Setting','/Logout'];
     return !pathsWithoutNavbar.includes(location.pathname);
   };
 
   // Function to determine if the footer should be shown
   const shouldShowFooter = () => {
     // Array of paths where footer should not be shown
-    const pathsWithoutFooter = ['/login', '/signup', '/forgetpassword','/seller-dashboard','/ProductUpload','/ExistingProduct','/Dispatch','/RevenueGenerate','/Orderr','/Settings'];
+    const pathsWithoutFooter = ['/login', '/signup', '/forgetpassword','/seller-dashboard','/ProductUpload','/ExistingProduct','/Dispatch','/RevenueGenerate','/Orderr','/Settings','/admin-dashboard','/Users','/Products','/Order','/Reports','/Setting','/Logout'];
     return !pathsWithoutFooter.includes(location.pathname);
   };
 
@@ -98,6 +107,12 @@ function AppContent() {
         <Route path="/Dispatch" element={<Dispatch />} />
         <Route path="/RevenueGenerate" element={<RevenueGenerate />} />
         <Route path="/Settings" element={<Settings />} />
+        <Route path="/Users" element={<Users/>} />
+        <Route path="/Products" element={<Products/>} />
+        <Route path="/Order" element={<Order/>} />
+        <Route path="/Reports" element={<Reports/>} />
+        <Route path="/Setting" element={<Setting/>} />
+        <Route path="/Logout" element={<Logout/>} />
       </Routes>
       {shouldShowFooter() && <Footer />}
     </div>

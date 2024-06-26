@@ -10,7 +10,7 @@ const Signup = () => {
     <div className='background-image'>
    
       <div className='card' style={{padding : 0,marginRight:'40%' }}>
-        <div className="header">
+        <div className="header_Signup">
           <h2>Signup</h2>
         </div>
         <div className="body">

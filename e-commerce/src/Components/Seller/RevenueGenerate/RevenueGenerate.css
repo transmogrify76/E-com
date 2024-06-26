@@ -1,113 +1,180 @@
-/* RevenueGenerate.css */
-
-/* Global styles */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f8f9fa;
-}
-
 .app-container {
     display: flex;
     flex-direction: column;
-    max-width: 1200px;
-    margin: 0 auto;
-    background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    height: 100vh; /* Adjust height as needed */
 }
 
-header {
-    background-color: #343a40;
-    color: #fff;
-    padding: 10px 20px;
+/* Header styles */
+.header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-
-header h1 {
-    margin: 0;
-    font-size: 1.8rem;
+    padding: 10px 20px;
+    background-color: #333;
     color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 100; /* Ensure header is above other content */
+    width: 100%; /* Make header span full width */
+    position: fixed; /* Fix header position at the top */
+    top: 0; /* Align header to the top */
+    left: 0; /* Align header to the left */
 }
 
-header a {
-    color: #fff;
-    text-decoration: none;
-    font-size: 1rem;
-    margin-left: 20px;
-}
-
-header a:hover {
-    text-decoration: underline;
-}
-
-.sidenav {
-    background-color: #20139b5b;
-    color: #fff;
-    width: 200px;
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
+.header-left {
     display: flex;
-    flex-direction: column;
+    align-items: center;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    margin-right: 16px;
+}
+
+.avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.username {
+    font-weight: bold;
+}
+
+.notifications {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    margin-left: auto; /* Push notifications to the right */
+}
+
+.notifications .badge {
+    background-color: #FF5722;
+    color: #fff;
+    font-size: 12px;
+    border-radius: 50%;
+    padding: 4px 8px;
+    margin-left: 6px;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    margin-left: 16px;
+}
+
+.search-bar input[type="text"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-right: 8px;
+    width: 200px; /* Adjust width as needed */
+}
+
+.search-bar button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.search-bar button:hover {
+    background-color: #0056b3;
+}
+
+/* Side Navigation (sidenav) styles */
+.sidenav {
+    width: 250px; /* Adjust width as needed */
+    background-color: #1824ca;
+    height: 100%;
+    overflow-y: auto;
+    padding: 20px 10px;
+    border-right: 1px solid #ccc;
+    margin-right: 20px; /* Adjust margin as needed */
+    margin-top: 60px; /* Adjust top margin to clear the header */
 }
 
 .sidenav ul {
     list-style-type: none;
     padding: 0;
-    margin: 20px 0;
 }
 
-.sidenav li {
-    margin-bottom: 10px;
-    color: #fff;
+.sidenav ul li {
+    padding: 12px;
+    border-bottom: 1px solid #ccc;
 }
 
-.sidenav a {
-    color: #fff;
+.sidenav ul li:last-child {
+    border-bottom: none;
+}
+
+.sidenav ul li a {
+    display: flex;
+    align-items: center;
+    /* color: #333; */
     text-decoration: none;
-    font-size: 1rem;
-    padding: 10px 20px;
-    display: block;
+    color: #fff;
 }
 
-.sidenav a:hover {
-    background-color: #0056b3;
-    text-decoration: underline;
+.sidenav ul li a:hover {
+     /* background-color: #ddd;   */
+     color: #22fff4;
+} 
+
+.sidenav ul li.active {
+    background-color: #007bff;
+    color: white;
 }
 
+.sidenav ul li.active a {
+    color: white;
+}
+
+/* Main content (revenue-generate-container) styles */
 .revenue-generate-container {
-    margin-left: 220px; /* Adjust for sidenav width + padding */
+    flex: 1;
+    margin-top: 100px; /* Adjust top margin to clear the header */
     padding: 20px;
+    margin-left: 300px;
+    
 }
 
 .revenue-generate-container h2 {
-    font-size: 1.5rem;
-    color: #343a40;
-    margin-bottom: 10px;
+    margin-top: 0;
+    font-size: 24px;
+    color: #333;
 }
 
 .revenue-table {
     width: 100%;
+    margin-top: 16px;
     border-collapse: collapse;
-    margin-bottom: 20px;
 }
 
 .revenue-table th,
 .revenue-table td {
-    border: 1px solid #dee2e6;
-    padding: 10px;
+    border: 1px solid #ccc;
+    padding: 8px;
     text-align: left;
 }
 
 .revenue-table th {
-    background-color: #f8f9fa;
-    color: #343a40;
+    background-color: #f0f0f0;
 }
 
+.revenue-table td {
+    background-color: #fff;
+}
+
+/* Revenue chart */
 .revenue-chart {
     display: flex;
     justify-content: space-between;
@@ -115,21 +182,19 @@ header a:hover {
 }
 
 .bar {
-    background-color: #48ff00; /* Adjust color as needed */
-    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100px;
+    background-color: #007bff;
+    color: #fff;
     text-align: center;
-    position: relative;
-    overflow: hidden;
-    margin: 5px; /* Add margin for spacing between bars */
-    border-radius: 5px; /* Add border radius for rounded corners */
+    padding: 8px;
+    border-radius: 4px;
 }
 
 .bar-label {
-    position: absolute;
-    bottom: 5px;
-    left: 0;
-    right: 0;
-    color: #fff;
-    font-size: 0.8rem;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5); /* Add text shadow for better readability */
+    font-size: 14px;
+    margin-top: 4px;
 }
+

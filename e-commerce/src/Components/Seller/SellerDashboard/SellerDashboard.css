@@ -1,19 +1,19 @@
+/* SellerDashboard.css */
+
 .seller-dashboard {
   font-family: Arial, sans-serif;
   display: flex;
   flex-direction: column;
-  height: 100vh; /* Adjust height as needed */
+  height: 100vh;
 }
 
 .header {
-  background-color: #007bff;
-  color: white;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  z-index: 100; /* Ensure header is above other content */
+  padding: 16px 32px;
+  background-color: #4CAF50;
+  color: #fff;
 }
 
 .header-left {
@@ -21,202 +21,82 @@
   align-items: center;
 }
 
-.header-left .seller-heading {
-  margin: 0;
-  font-size: 1.8rem;
-  margin-right: 20px;
-}
-
-.user-profile {
-  display: flex;
-  align-items: center;
-  color: white;
-}
-
-.user-profile .avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  margin-right: 10px;
-}
-
-.user-profile .username {
-  font-weight: bold;
-}
-
 .header-right {
   display: flex;
   align-items: center;
 }
 
-.notifications {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-.notifications .badge {
-  background-color: red;
-  color: white;
-  border-radius: 50%;
-  padding: 4px;
-  font-size: 0.8rem;
-  position: absolute;
-  top: 0;
-  right: 0;
-}
-
-.search-bar {
-  margin-left: 20px;
-  display: flex;
-  align-items: center;
-}
-
-.search-bar input[type="text"] {
-  padding: 8px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-  margin-right: 5px;
-  width: 200px;
-}
-
-.search-bar button {
-  background-color: #0056b3;
-  color: white;
-  border: none;
-  border-radius: 3px;
-  cursor: pointer;
-  padding: 8px;
-  
-}
-
-.search-bar button:hover {
-  background-color: #004499;
-}
-
-.dashboard-container {
-  display: flex;
-  flex: 1;
-  margin-top: 20px; /* Add margin to create space between header and sidenav */
-}
-
-.seller-dashboard {
-  font-family: Arial, sans-serif;
-  display: flex;
-  flex-direction: column;
-  height: 100vh; /* Adjust height as needed */
-}
-
-.header {
-  background-color: #000000;
-  color: white;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  z-index: 100; /* Ensure header is above other content */
-}
-
-.header-left {
-  display: flex;
-  align-items: center;
-}
-
-.header-left .seller-heading {
-  margin: 0;
-  font-size: 1.8rem;
-  margin-right: 20px;
-}
-
 .user-profile {
   display: flex;
   align-items: center;
-  color: white;
-  margin-top: 30px;
-  margin-right: 100px;
+  margin-left: 16px;
 }
 
-.user-profile .avatar {
+.avatar {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  margin-right: 10px;
-  margin-top: 30px;
-  
+  margin-right: 8px;
 }
 
-.user-profile .username {
+.username {
   font-weight: bold;
-  margin-top: 30px;
-}
-
-.header-right {
-  display: flex;
-  align-items: center;
 }
 
 .notifications {
-  position: relative;
   display: flex;
   align-items: center;
   cursor: pointer;
+ 
+  
 }
 
 .notifications .badge {
-  background-color: red;
-  color: white;
+  background-color: #FF5722;
+  color: #fff;
+  font-size: 12px;
   border-radius: 50%;
-  padding: 4px;
-  font-size: 0.8rem;
-  position: absolute;
-  top: 0;
-  right: 0;
-  margin-right:250px;
+  padding: 4px 8px;
+  margin-left: 6px;
+  margin-right: 250px;
+  margin-top: 7px;
+  margin-bottom: 20px;
 }
 
 .search-bar {
-  margin-left: 20px;
   display: flex;
   align-items: center;
+  margin-left: 16px;
 }
 
-.search-bar input[type="text"] {
+.search-bar input {
   padding: 8px;
-  font-size: 16px;
   border: 1px solid #ccc;
-  border-radius: 3px;
-  margin-right: 5px;
-  width: 200px;
+  border-radius: 4px;
+  margin-right: 8px;
 }
 
 .search-bar button {
   background-color: #0056b3;
-  color: white;
+  color: #fff;
   border: none;
-  border-radius: 3px;
-  cursor: pointer;
   padding: 8px;
-  margin-bottom: 10px;
-}
-
-.search-bar button:hover {
-  background-color: #004499;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 .dashboard-container {
   display: flex;
   flex: 1;
-  margin-top: 20px; /* Add margin to create space between header and sidenav */
+  overflow: hidden;
 }
 
 .sidenav {
   width: 250px;
-  background-color: #f0f0f0;
-  padding: 20px 10px;
-  border-right: 1px solid #ccc;
-  margin-right: 20px; /* Add margin to create space between sidenav and main content */
+  background-color: #280f96;
+  color: #fff;
+  height: 100%;
+  overflow-y: auto;
 }
 
 .sidenav ul {
@@ -224,59 +104,43 @@
   padding: 0;
 }
 
-.sidenav ul li {
-  margin-bottom: 10px;
+.sidenav li {
+  padding: 12px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-.sidenav ul li a {
-  color: white;
+.sidenav li:hover {
+  /* background-color: #555; */
+}
+
+.sidenav li.active {
+  background-color: #4CAF50;
+}
+
+.sidenav a {
+  /* color: #fff; */
   text-decoration: none;
   display: flex;
   align-items: center;
 }
 
-.sidenav ul li a.active {
-  font-weight: bold;
-  color: #ffffff;
-}
-
-.sidenav ul li a .icon {
-  margin-right: 10px;
+.sidenav a .icon {
+  margin-right: 8px;
 }
 
 .dashboard-main {
   flex: 1;
   padding: 20px;
-}
-
-
-.sidenav ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.sidenav ul li {
-  margin-bottom: 75px;
-}
-
-.sidenav ul li a {
-  color: #f5f5f5;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-}
-
-.sidenav ul li a.active {
-  font-weight: bold;
-  color: #7700ff;
-}
-
-.sidenav ul li a .icon {
-  margin-right: 10px;
-}
-
-.dashboard-main {
-  flex: 1;
-  padding: 20px;
+  overflow-y: auto;
+  background-color: #f2f2f2;
   margin-left: 500px;
+  margin-top: 100px;
+}
+
+.seller-heading {
+  margin: 0;
+  font-size: 24px;
+  font-weight: bold;
+  color: #fff;
 }
