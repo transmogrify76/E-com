@@ -1,0 +1,57 @@
+.customer-details {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f8f9fa; /* Bootstrap-like background color */
+  }
+  
+  .card {
+    width: 400px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    margin-left: 70%; /* Remove default margin */
+    padding:0%;
+    height:60%;
+    margin-top:40px;
+  }
+  
+  .card-header {
+    background-color: #007bff; /* Bootstrap primary color */
+    color: #fff;
+  }
+  
+  .card-body {
+    padding: 20px;
+  }
+  
+  .card-title {
+    margin-top: 0;
+  }
+  
+  .card-text {
+    margin-bottom: 5px;
+  }
+  .order-summary{
+    margin-left: 7%;
+    margin-right: 2%;
+  }
+.order-summary-header {
+  display: flex;
+  justify-content: space-between; /* Align items in header on the same line */
+  align-items: center; /* Center vertically */
+  margin-bottom: 10px; /* Optional: Adjust margin bottom for spacing */
+}
+.customer-details{
+    margin-left:10%;
+    width:70%;
+    height:9%;
+}
+h3{
+    margin-left:10%;
+}
+.order-summary-title{
+    margin-left:2%;
+}

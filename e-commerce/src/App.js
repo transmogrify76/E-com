@@ -38,6 +38,7 @@ import Order from './Components/Admin/Order/Order';
 import Reports from './Components/Admin/Reports/Reports';
 import Setting from './Components/Admin/Setting/Setting';
 import Logout from './Components/Admin/Logout/Logout';
+import OrderIndividual from './Components/Order-individual/OrderIndividual';
 
 
 
@@ -100,6 +101,7 @@ function AppContent() {
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/payment" element={<Payment />} />
+        <Route path="/OrderIndividual" element={<OrderIndividual/>} />
         <Route path="/seller-dashboard" element={<SellerDashboard />} />
         <Route path="/ProductUpload" element={<ProductUpload />} />
         <Route path="/ExistingProduct" element={<ExistingProduct />} />
