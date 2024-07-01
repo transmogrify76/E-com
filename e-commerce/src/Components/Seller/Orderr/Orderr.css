@@ -12,7 +12,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
-    background-color: #333;
+    background-color: #281042;
     color: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     width: 100%;
@@ -94,7 +94,7 @@
 /* Side Navigation (sidenav) styles */
 .sidenav {
     width: 250px;
-    background-color: #007bff;
+    background-color: #281042;
     color: #fff;
     height: 100%;
     overflow-y: auto;
@@ -115,7 +115,7 @@
 }
 
 .sidenav li:hover {
-    background-color: #007bff;
+    background-color: #b065ce;
 }
 
 .sidenav li.active {
