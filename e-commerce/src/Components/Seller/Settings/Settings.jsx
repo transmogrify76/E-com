@@ -22,8 +22,8 @@ const Settings = () => {
 
     return (
         <div className="app-container">
-            {/* Header */}
-            <header className="header">
+        
+             <header className="header">
                 <div className="header-left">
                     <h1>Settings</h1>
                 </div>
@@ -37,10 +37,7 @@ const Settings = () => {
                         {notificationsCount > 0 && (
                             <span className="badge">{notificationsCount}</span>
                         )}
-                        <div className="search-bar">
-                            <input type="text" placeholder="Search..." />
-                            <button><FontAwesomeIcon icon={faSearch} /></button>
-                        </div>
+                        
                     </div>
                 </div>
             </header>

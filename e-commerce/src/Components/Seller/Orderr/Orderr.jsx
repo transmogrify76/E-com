@@ -41,10 +41,7 @@ const Orders = () => {
                         {notificationsCount > 0 && (
                             <span className="badge">{notificationsCount}</span>
                         )}
-                        <div className="search-bar">
-                            <input type="text" placeholder="Search..." />
-                            <button><FontAwesomeIcon icon={faSearch} /></button>
-                        </div>
+                        
                     </div>
                 </div>
             </header>
