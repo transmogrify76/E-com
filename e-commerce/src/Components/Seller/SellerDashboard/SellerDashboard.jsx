@@ -45,14 +45,24 @@ const SellerDashboard = () => {
                 <div className="header-left">
                     <h1>{activeMenuItem}</h1> 
                 </div>
+
+                <div className="notifications">
+                        <FontAwesomeIcon icon={faBell} />
+                       
+                    
+                <div className="header-right">
+                    <div className="user-profile">
+                        <span className="username">User Name</span>
+                    </div>
                 <div className="header-right">
                     <div className="user-profile">
                         <span className="username">User Name</span>
                     </div>
                     <div className="notifications">
                         <FontAwesomeIcon icon={faBell} />
-                       
+
                     </div>
+                   
                 </div>
             </header>
 
