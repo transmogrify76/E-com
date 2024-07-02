@@ -54,19 +54,10 @@ const SellerDashboard = () => {
                     <div className="user-profile">
                         <span className="username">User Name</span>
                     </div>
-                <div className="header-right">
-                    <div className="user-profile">
-                        <span className="username">User Name</span>
-                    </div>
-                    <div className="notifications">
-                        <FontAwesomeIcon icon={faBell} />
-
-                    </div>
                    
                 </div>
+                </div>
             </header>
-
-            {/* Main content */}
             <div className="dashboard-container">
                 {/* Sidebar navigation */}
                 <nav className="sidenav">
