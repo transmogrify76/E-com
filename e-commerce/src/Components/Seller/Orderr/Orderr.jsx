@@ -73,60 +73,10 @@ const Orderr = () => {
 
     return (
         <div className="app-container">
-            {/* Header */}
-            <header className="header">
-                <h1>My Orders</h1>
-                <div className="header-right">
-                    <div className="notifications">
-                        <FontAwesomeIcon icon={faBell} />
-                        {notificationsCount > 0 && (
-                            <span className="badge">{notificationsCount}</span>
-                        )}
-                    </div>
-                    <div className="user-profile">
-                        <img src={user.avatar} alt="User Avatar" className="avatar" />
-                        <span className="username">{user.username}</span>
-
-                    </div>
-                </div>
-            </header>
+           
 
             {/* Sidebar navigation */}
-            <nav className="sidenav">
-                <ul>
-                    <li className="active">
-                        <Link to="/Orderr">
-                            <FontAwesomeIcon icon={faClipboardList} style={{ marginRight: '8px' }} />
-                            Orders
-                        </Link>
-                    </li>
-                    <li>
-                        <Link to="/ExistingProduct">
-                            <FontAwesomeIcon icon={faBoxOpen} style={{ marginRight: '8px' }} />
-                            Existing Products
-                        </Link>
-                    </li>
-                    <li>
-                        <Link to="/Dispatch">
-                            <FontAwesomeIcon icon={faTruck} style={{ marginRight: '8px' }} />
-                            Dispatch
-                        </Link>
-                    </li>
-                    <li>
-                        <Link to="/RevenueGenerate">
-                            <FontAwesomeIcon icon={faChartLine} style={{ marginRight: '8px' }} />
-                            Revenue Generation
-                        </Link>
-                    </li>
-                    <li>
-                        <Link to="/Settings">
-                            <FontAwesomeIcon icon={faCog} style={{ marginRight: '8px' }} />
-                            Settings
-                        </Link>
-                    </li>
-                </ul>
-            </nav>
-
+          
             {/* Main content */}
             <div className="seller-orders">
                 <div className="seller-orders-header">

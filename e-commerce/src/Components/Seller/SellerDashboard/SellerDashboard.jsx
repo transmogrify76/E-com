@@ -41,66 +41,9 @@ const SellerDashboard = () => {
 
     return (
         <div className="seller-dashboard">
-           <header className="header">
-                <div className="header-left">
-                    <h1>{activeMenuItem}</h1> 
-                </div>
-
-                <div className="notifications">
-                        <FontAwesomeIcon icon={faBell} />
-                       
-                    
-                <div className="header-right">
-                    <div className="user-profile">
-                        <span className="username">User Name</span>
-                    </div>
-                   
-                </div>
-                </div>
-            </header>
+          
             <div className="dashboard-container">
-                {/* Sidebar navigation */}
-                <nav className="sidenav">
-                    <ul>
-                        <li className={activeMenuItem === 'ProductUpload' ? 'active' : ''}>
-                            <Link to="/seller-dashboard" onClick={() => handleMenuItemClick('ProductUpload')}>
-                                <FontAwesomeIcon icon={faUpload} />
-                                <span style={{ marginLeft: '8px' }}>Product Upload</span>
-                            </Link>
-                        </li>
-                        <li className={activeMenuItem === 'ExistingProducts' ? 'active' : ''}>
-                            <Link to="/ExistingProduct" onClick={() => handleMenuItemClick('ExistingProducts')}>
-                                <FontAwesomeIcon icon={faBoxOpen} style={{ marginRight: '8px' }} />
-                                Existing Products
-                            </Link>
-                        </li>
-                        <li className={activeMenuItem === 'Orderr' ? 'active' : ''}>
-                            <Link to="/Orderr" onClick={() => handleMenuItemClick('Orderr')}>
-                                <FontAwesomeIcon icon={faClipboardList} style={{ marginRight: '8px' }} />
-                                Orders
-                            </Link>
-                        </li>
-                        <li className={activeMenuItem === 'Dispatch' ? 'active' : ''}>
-                            <Link to="/Dispatch" onClick={() => handleMenuItemClick('Dispatch')}>
-                                <FontAwesomeIcon icon={faTruck} style={{ marginRight: '8px' }} />
-                                Dispatch
-                            </Link>
-                        </li>
-                        <li className={activeMenuItem === 'RevenueGeneration' ? 'active' : ''}>
-                            <Link to="/RevenueGenerate" onClick={() => handleMenuItemClick('RevenueGeneration')}>
-                                <FontAwesomeIcon icon={faChartLine} style={{ marginRight: '8px' }} />
-                                Revenue Generation
-                            </Link>
-                        </li>
-                        <li className={activeMenuItem === 'Settings' ? 'active' : ''}>
-                            <Link to="/Settings" onClick={() => handleMenuItemClick('Settings')}>
-                                <FontAwesomeIcon icon={faCog} style={{ marginRight: '8px' }} />
-                                Settings
-                            </Link>
-                        </li>
-                    </ul>
-                </nav>
-
+               
                 {/* Main content area */}
                 <main className="dashboard-main">
                     {renderMainContent()}

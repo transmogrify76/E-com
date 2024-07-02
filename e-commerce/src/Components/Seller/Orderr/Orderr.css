@@ -66,50 +66,7 @@
     margin-left: 6px;
 }
 
-.sidenav {
-    width: 250px;
-    background-color: #281042;
-    color: #fff;
-    height: 100%;
-    /* overflow-y: auto; */
-    position: fixed;
-    top: 7px;
-     /* Adjusted to match header height */
-    left: 0;
-    
-}
-
-.sidenav ul {
-    list-style-type: none;
-    padding: 0;
-
-}
-
-.sidenav li {
-    padding: 12px 20px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-   
-}
-
-.sidenav li:hover {
-    background-color: #b065ce;
-}
-
-.sidenav li.active {
-    background-color: #4CAF50;
-}
-
-.sidenav a {
-    color: #fff;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-}
-
-.sidenav a .icon {
-    margin-right: 8px;
-}
+/*  */
 
 .main-content {
     flex: 1; /* Ensures main content takes remaining space */
