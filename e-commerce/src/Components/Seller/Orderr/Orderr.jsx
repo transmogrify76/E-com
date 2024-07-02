@@ -19,9 +19,9 @@ const Orderr = () => {
     const notificationsCount = 5;
     const [searchOrderId, setSearchOrderId] = useState('');
     const [orders, setOrders] = useState([
-        { id: 1, purchaseDate: '2023-01-01 12:30 PM', customerName: 'John Doe', total: 150, status: 'Pending' },
-        { id: 2, purchaseDate: '2023-01-02 10:45 AM', customerName: 'Jane Smith', total: 200, status: 'Shipped' },
-        { id: 3, purchaseDate: '2023-01-03 04:15 PM', customerName: 'Mike Johnson', total: 100, status: 'Cancelled' }
+        { id: 1, purchaseDate: '2023-01-01 12:30 PM', customerName: 'abc', total: 850, status: 'Pending' },
+        { id: 2, purchaseDate: '2023-01-02 10:45 AM', customerName: 'xyz', total: 700, status: 'Shipped' },
+        { id: 3, purchaseDate: '2023-01-03 04:15 PM', customerName: 'pqr', total: 400, status: 'Cancelled' }
     ]);
 
     const [showCreateShippingModal, setShowCreateShippingModal] = useState(false);
@@ -41,13 +41,11 @@ const Orderr = () => {
     };
 
     const handleView = (orderId) => {
-        // Logic to view details of the order with orderId
-        alert(`View order details for order ID: ${orderId}`);
+        window.location.href ='./OrderIndividual'
     };
 
     const handleShip = (orderId) => {
-        // Logic to mark the order as shipped
-        alert(`Mark order as shipped for order ID: ${orderId}`);
+        window.location.href ='./dispatch'
     };
 
     const handleShowCreateShippingModal = () => {
@@ -170,7 +168,7 @@ const Orderr = () => {
                                     <td>
                                         <button onClick={() => handleView(order.id)}><FontAwesomeIcon icon={faEye} /> View</button>
                                         {order.status !== 'Cancelled' && (
-                                            <button onClick={() => handleShip(order.id)}><FontAwesomeIcon icon={faTruck} /> Ship</button>
+                                            <button onClick={() => handleShip(order.id)}><FontAwesomeIcon icon={faTruck} /> Shipping details</button>
                                         )}
                                     </td>
                                 </tr>
