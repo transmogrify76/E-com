@@ -12,11 +12,11 @@ const Login = () => {
   
    
   
-      <div className='card'style={{padding : 0,marginRight: '40%'}}>
-        <div className="card-header" >
+      <div className='card-login'style={{padding : 0,marginRight: '40%'}}>
+        <div className="card-header-login" >
           <h2>Login</h2>
         </div>
-        <div className="card-body">
+        <div className="card-body-login">
         <div className="input">
             {/* { <img src={emailIcon} alt="Email Icon" /> } */}
             <input type="email" placeholder="Email" />

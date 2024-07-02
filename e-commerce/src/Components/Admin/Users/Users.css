@@ -93,7 +93,7 @@ body {
     overflow: hidden;
 }
 
-.sidenav {
+/* .sidenav {
     width: 240px;
     background-color: #281042;
     color: white;
@@ -126,7 +126,7 @@ body {
 .sidenav a:hover {
     color: white;
     text-decoration: none;
-}
+} */
 
 /* Main content area */
 .user-main {

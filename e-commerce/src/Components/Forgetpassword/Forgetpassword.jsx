@@ -13,14 +13,14 @@ const ForgetPassword = () => {
 
     return (
         <div className='background-image'>
-          <div className='card' style={{ padding: 0, fontSize: '16px',marginRight:'40%' }}>
+          <div className='card-login' style={{ padding: 0, fontSize: '16px',marginRight:'40%' }}>
  
 
 
-                <div className="card-header">
+                <div className="card-header-login">
                     Forget Password
                     </div>
-                    <div className="card-body">
+                    <div className="card-body-login">
                     <div className="inputs">
                         <div className="input">
                       

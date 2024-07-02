@@ -145,7 +145,7 @@ const AdminDashboard = () => {
 
             {/* Sidebar (sidenav) */}
             <div className="dashboard-container">
-                <nav className="sidenav">
+                {/* <nav className="sidenav">
                     <ul>
                         <li className={activeMenuItem === 'Dashboard' ? 'active' : ''}>
                             <Link to="/admin/dashboard" onClick={() => handleMenuItemClick('Dashboard')}>
@@ -190,7 +190,7 @@ const AdminDashboard = () => {
                             </a>
                         </li>
                     </ul>
-                </nav>
+                </nav> */}
 
                 {/* Main Content */}
                 <main className="dashboard-main">

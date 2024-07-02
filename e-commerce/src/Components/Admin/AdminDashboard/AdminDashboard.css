@@ -82,7 +82,7 @@
   flex: 1;
 }
 
-.sidenav {
+/* .sidenav {
   width: 240px;
   background-color: #281042;
   color: white;
@@ -116,7 +116,7 @@
   color: white;
   text-decoration: none;
 }
-
+ */
 
 .dashboard-main {
   flex: 1;
