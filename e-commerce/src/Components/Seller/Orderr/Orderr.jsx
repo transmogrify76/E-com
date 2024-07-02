@@ -86,6 +86,7 @@ const Orderr = () => {
                     <div className="user-profile">
                         <img src={user.avatar} alt="User Avatar" className="avatar" />
                         <span className="username">{user.username}</span>
+
                     </div>
                 </div>
             </header>

@@ -79,10 +79,7 @@ const Products = () => {
                     <div className="notifications">
                         <FontAwesomeIcon icon={faBell} />
                         <span className="badge">5</span>
-                        <div className="search-bar">
-                            <input type="text" placeholder="Search..." />
-                            <button><FontAwesomeIcon icon={faSearch} /></button>
-                        </div>
+                        
                     </div>
                 </div>
             </header>

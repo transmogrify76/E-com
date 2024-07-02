@@ -38,7 +38,7 @@ const RevenueGenerate = () => {
            
                 <h1>Revenue Generation</h1>
                 {/* Add any additional header content here */}
-          </div>
+           </div>
           <div className="header-right">
                     <div className="user-profile">
                         <img src={user.avatar} alt="User Avatar" className="avatar" />
@@ -49,10 +49,7 @@ const RevenueGenerate = () => {
                         {notificationsCount > 0 && (
                             <span className="badge">{notificationsCount}</span>
                         )}
-                        <div className="search-bar">
-                            <input type="text" placeholder="Search..." />
-                            <button><FontAwesomeIcon icon={faSearch} /></button>
-                        </div>
+                        
                     </div>
                 </div>
             </header>
