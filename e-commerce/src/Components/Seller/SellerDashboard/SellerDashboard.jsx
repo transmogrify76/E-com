@@ -56,17 +56,16 @@ const SellerDashboard = () => {
                         <span className="username">{user.username}</span>
                     </div>
                 </div>
-                <div className="header-right">
-                    <div className="notifications">
+                <div className="notifications">
                         <FontAwesomeIcon icon={faBell} />
-                        {notificationsCount > 0 && (
-                            <span className="badge">{notificationsCount}</span>
-                        )}
-                        <div className="search-bar">
-                            <input type="text" placeholder="Search..." />
-                            <button><FontAwesomeIcon icon={faSearch} /></button>
-                        </div>
+                       
+                    
+                <div className="header-right">
+                    <div className="user-profile">
+                        <span className="username">User Name</span>
                     </div>
+                    </div>
+                   
                 </div>
             </header>
 

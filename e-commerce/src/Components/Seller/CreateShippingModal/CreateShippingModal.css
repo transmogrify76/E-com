@@ -1,0 +1,16 @@
+/* CreateOrderModal.css */
+
+/* Adjust modal styles as needed */
+.modal-content {
+    border-radius: 0;
+}
+
+.modal-header {
+    background-color: #281042;
+    color: #fff;
+}
+
+.modal-footer {
+    background-color: #f8f9fa;
+    border-top: none;
+}
