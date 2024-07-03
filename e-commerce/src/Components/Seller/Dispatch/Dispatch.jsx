@@ -1,61 +1,69 @@
+import React from 'react';
+import './Dispatch.css'; // Import your CSS file
 
+const DispatchPage = () => {
+  // Example order details (replace with your actual data)
+  const order = {
+    orderNumber: '#1',
+    orderDate: 'June 30, 2024',
+    shippingAddress: 'Kolkata , India',
+    items: ['Item 1', 'Item 2', 'Item 3'],
+    totalAmount: '₹ 100',
+    dispatchDate: 'July 1, 2024',
+    expectedDeliveryDate: 'July 5, 2024',
+    courierService: 'AbcShipping',
+    trackingNumber: '1234567890'
+  };
 
-import React, { useState } from 'react';
-import './Dispatch.css'; // Ensure to adjust path as per your project structure
-import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBell, faSearch, faCog, faChartLine, faClipboardList, faTruck, faBoxOpen } from '@fortawesome/free-solid-svg-icons';
+  return (
+    <div className="dispatch-page">
+      <div className="dispatch-card">
+        <h3>Dispatch Details</h3>
 
+        <div className="dispatch-card-content">
+          <div className="dispatch-card-section">
+            <h3>Order #{order.orderNumber}</h3>
+            <p><strong>Order Date:</strong> {order.orderDate}</p>
+            <p><strong>Shipping Address:</strong> {order.shippingAddress}</p>
+          </div>
 
-const Dispatch = () => {
-    const user = {
-        username: 'John Doe',
-        avatar: 'https://via.placeholder.com/150',
-    };
-
-    const notificationsCount = 5;
-
-    // Default active menu item
-    const [activeMenuItem, setActiveMenuItem] = useState('Dispatch');
-
-    const handleMenuItemClick = (itemName) => {
-        setActiveMenuItem(itemName);
-    };
-
-    // State to manage dispatch options
-    const [dispatchOptions, setDispatchOptions] = useState([
-        { id: 1, status: 'Pending' },
-        { id: 2, status: 'In Progress' },
-        { id: 3, status: 'Shipped' },
-        { id: 4, status: 'Delivered' }
-    ]);
-
-    // Function to handle click on an option
-    const handleOptionClick = (id) => {
-        // Update dispatch status (for demonstration, we console log here)
-        console.log(`Dispatch option with ID ${id} clicked`);
-    };
-
-    return (
-        <div className="app-container">
-       
-
-         
-
-            {/* Main Content */}
-            <div className="dispatch-container">
-                <h2>Dispatch Options</h2>
-                <p>Manage order dispatch:</p>
-                <ul>
-                    {dispatchOptions.map((option) => (
-                        <li key={option.id} onClick={() => handleOptionClick(option.id)}>
-                            {option.status}
-                        </li>
-                    ))}
-                </ul>
-            </div>
+          <div className="dispatch-card-section">
+            <p><strong>Items Ordered:</strong></p>
+            <ul>
+              {order.items.map((item, index) => (
+                <li key={index}>{item}</li>
+              ))}
+            </ul>
+            <p><strong>Total Amount:</strong> {order.totalAmount}</p>
+          </div>
         </div>
-    );
+      </div>
+
+      <div className="dispatch-card">
+        <div className="dispatch-card-section">
+          <h3>Dispatch Information</h3>
+          <p><strong>Dispatch Date:</strong> {order.dispatchDate}</p>
+          <p><strong>Expected Delivery Date:</strong> {order.expectedDeliveryDate}</p>
+          <p><strong>Courier Service:</strong> {order.courierService}</p>
+          <p><strong>Tracking Number:</strong> {order.trackingNumber}</p>
+        </div>
+      </div>
+
+      <div className="dispatch-card">
+        <div className="dispatch-card-section">
+          <h3>Delivery Instructions</h3>
+          <p>Ensure that someone is available at the delivery address to accept the package.</p>
+        </div>
+      </div>
+
+      <div className="dispatch-card">
+        <div className="dispatch-card-section">
+          <h3>Additional Information</h3>
+          <p>For any inquiries or changes, please contact our customer service team at <a href="abcd@gmail.com">abcd@gmail.com</a> or call us at <a href="tel: 1234512345">1234512345</a>.</p>
+        </div>
+      </div>
+    </div>
+  );
 };
 
-export default Dispatch;
+export default DispatchPage;

@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { Link} from 'react-router-dom';
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+
 import './SellerDashboard.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBell, faSearch, faCog, faChartLine, faClipboardList, faTruck, faChartBar, faBoxOpen, faUpload } from '@fortawesome/free-solid-svg-icons';
+import { faBell} from '@fortawesome/free-solid-svg-icons';
 import ProductUpload from '../ProductUpload/ProductUpload';
 import ExistingProducts from '../ExistingProduct/ExcistingProduct';
 import Orderr from '../Orderr/Orderr';

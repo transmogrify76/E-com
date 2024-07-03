@@ -39,11 +39,15 @@ const Payment = () => {
         <div className="payment-methods">
           <label>
             <input type="radio" name="payment" value="credit-card" checked />
-            Credit Card
+            Credit Card/Debit Card
           </label>
           <label>
             <input type="radio" name="payment" value="paypal" />
-            PayPal
+             UPI
+          </label>
+          <label>
+            <input type="radio" name="payment" value="paypal" />
+             Cash on delivery
           </label>
         </div>
         {/* Credit card details form - Dummy data */}
@@ -65,15 +69,15 @@ const Payment = () => {
         <div className="order-summary-review">
           <div className="summary-item">
             <div className="label">Subtotal:</div>
-            <div className="value">$90.00</div>
+            <div className="value">90.00</div>
           </div>
           <div className="summary-item">
             <div className="label">Shipping:</div>
-            <div className="value">$5.00</div>
+            <div className="value">₹500.00</div>
           </div>
           <div className="summary-item">
             <div className="label">Total:</div>
-            <div className="value">$95.00</div>
+            <div className="value">₹695.00</div>
           </div>
         </div>
         {/* Terms and conditions checkbox - Dummy data */}

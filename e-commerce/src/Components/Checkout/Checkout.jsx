@@ -44,23 +44,27 @@ const Checkout = () => {
           {/* Shipping address form - Dummy data */}
           <form>
             <label>Name:</label>
-            <input type="text" placeholder="John Doe" />
+            <input type="text" placeholder="Esha Ghosal" />
             <label>Address:</label>
-            <textarea placeholder="123 Street, City, Country" />
+            <textarea placeholder="123 Street, Kolkata, India" />
+            <label>Landmark:</label>
+            <textarea placeholder="Mani Casadona" />
             <label>Email:</label>
-            <input type="email" placeholder="example@example.com" />
+            <input type="email" placeholder="xyz@gmail.com" />
             <label>Phone:</label>
-            <input type="tel" placeholder="123-456-7890" />
+            <input type="tel" placeholder="1234512345" />
+            <label>Delivery instruction:</label>
+            <textarea placeholder="make sure there is someone in house"/>
           </form>
           {/* Shipping options - Dummy data */}
           <div className="shipping-options">
             <label>
               <input type="radio" name="shipping" value="standard" checked />
-              Standard Shipping (+₹5.00)
+              Standard Shipping (+₹50.00)
             </label>
             <label>
               <input type="radio" name="shipping" value="express" />
-              Express Shipping (+₹15.00)
+              Express Shipping (+₹100.00)
             </label>
           </div>
         </section>

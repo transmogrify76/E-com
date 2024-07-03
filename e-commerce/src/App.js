@@ -185,21 +185,21 @@ import Dispatch from './Components/Seller/Dispatch/Dispatch'; // Correct import
    // Function to determine if the sidebar should be shown
 const shouldShowSidebar = () => {
 //     // Array of paths where sidebar should not be shown
-    const pathsWithoutSidebar = ['/login', '/signup', '/forgetpassword','/seller-dashboard','/ProductUpload','/ExistingProduct','/Dispatch','/RevenueGenerate','/Orderr','/Settings','/admin-dashboard','/Users','/Products','/Order','/Reports','/Setting','/Logout','/OrderIndividual'];
+    const pathsWithoutSidebar = ['/login', '/signup', '/forgetpassword','/seller-dashboard','/ProductUpload','/ExistingProduct','/dispatch','/RevenueGenerate','/Orderr','/Settings','/admin-dashboard','/Users','/Products','/Order','/Reports','/Setting','/Logout','/OrderIndividual'];
      return !pathsWithoutSidebar.includes(location.pathname);
    };
 
    // Function to determine if the navbar should be shown
    const shouldShowNavbar = () => {
      // Array of paths where navbar should not be shown
-     const pathsWithoutNavbar = ['/login', '/signup', '/forgetpassword','/seller-dashboard','/ProductUpload','/ExistingProduct','/Dispatch','/RevenueGenerate','/Orderr','/Settings','/admin-dashboard','/Users','/Products','/Order','/Reports','/Setting','/Logout','/OrderIndividual'];
+     const pathsWithoutNavbar = ['/login', '/signup', '/forgetpassword','/seller-dashboard','/ProductUpload','/ExistingProduct','/dispatch','/RevenueGenerate','/Orderr','/Settings','/admin-dashboard','/Users','/Products','/Order','/Reports','/Setting','/Logout','/OrderIndividual'];
      return !pathsWithoutNavbar.includes(location.pathname);
    };
 
    // Function to determine if the footer should be shown
    const shouldShowFooter = () => {
      // Array of paths where footer should not be shown
-     const pathsWithoutFooter = ['/login', '/signup', '/forgetpassword','/seller-dashboard','/ProductUpload','/ExistingProduct','/Dispatch','/RevenueGenerate','/Orderr','/Settings','/admin-dashboard','/Users','/Products','/Order','/Reports','/Setting','/Logout','/OrderIndividual'];
+     const pathsWithoutFooter = ['/login', '/signup', '/forgetpassword','/seller-dashboard','/ProductUpload','/ExistingProduct','/dispatch','/RevenueGenerate','/Orderr','/Settings','/admin-dashboard','/Users','/Products','/Order','/Reports','/Setting','/Logout','/OrderIndividual'];
      return !pathsWithoutFooter.includes(location.pathname);
    };
    const shouldShowSideNavbar = () => {

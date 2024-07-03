@@ -1,5 +1,6 @@
 /* Dispatch.css */
 
+
 .app-container {
     display: flex;
     flex-direction: column;
@@ -42,4 +43,67 @@
 
 .dispatch-container ul li:hover {
     background-color: #e9ecef;
+
+.dispatch-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+/* Card styles */
+.dispatch-card {
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.dispatch-card h3 {
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+/* Unique headings for DispatchPage */
+.dispatch-page h3 {
+  color: #007bff; /* Blue color for headings */
+  font-size: 1.5rem; /* Larger font size */
+  margin-bottom: 15px; /* Increased bottom margin */
+}
+
+/* Card content */
+.dispatch-card-content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.dispatch-card-section {
+  flex: 1;
+}
+
+.dispatch-card-section p {
+  margin: 5px 0;
+}
+
+.dispatch-card-section ul {
+  margin: 5px 0;
+  padding-left: 20px;
+}
+
+.dispatch-card-section ul li {
+  list-style-type: none;
+}
+
+/* Links */
+.dispatch-card-section a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.dispatch-card-section a:hover {
+  text-decoration: underline;
+
 }
