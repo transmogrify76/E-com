@@ -40,24 +40,14 @@ const SellerDashboard = () => {
 
     return (
         <div className="seller-dashboard">
-           <header className="header">
-                <div className="header-left">
-                    <h1>{activeMenuItem}</h1> 
-                </div>
-
-                <div className="notifications">
-                        <FontAwesomeIcon icon={faBell} />
-                       
-                    
-                <div className="header-right">
-                    <div className="user-profile">
-                        <span className="username">User Name</span>
-                    </div>
-                   
-                </div>
-                </div>
-            </header>
-
+          
+            <div className="dashboard-container">
+               
+                {/* Main content area */}
+                <main className="dashboard-main">
+                    {renderMainContent()}
+                </main>
+            </div>
         </div>
     );
 };

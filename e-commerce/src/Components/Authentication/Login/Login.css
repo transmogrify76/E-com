@@ -5,45 +5,44 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-color: #fce3fc;
+
+  background-color: #2b002b;
+  /* background-color: #fce3fc; */
+  background-image:url('../../../Components/Assests/ecommerce-service.png');
+  background-size: cover;
 }
 
 .card-login {
-  background-color: #f8f9fa;
+  background-color: #2d8ff0;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 400px;
   padding: 20px;
-  margin: 20px;
-  font-size: 16px;
-  
+  margin-left: 30%;
 }
 
-.card-header-login{
-  background: linear-gradient(100deg, #7f4aa8, #2e3bb4);
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  padding: 10px;
-  text-align: center;
-  color: #fff;
-}
 
-.card-body-login {
+.card-body-login{
   padding: 20px;
 }
 
-.inputs {
-  margin-bottom: 20px;
+.input {
+  position: relative;
+  margin-bottom: 15px;
 }
 
-.input {
-  margin-bottom: 15px;
+.input img {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .input input {
   width: calc(100% - 40px);
   padding: 10px;
+  padding-left: 40px;
   border: 1px solid #ccc;
   border-radius: 5px;
 }
@@ -57,23 +56,23 @@
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
-  background-color: #007bff;
+  background-color: #8400ff;
   color: #fff;
   cursor: pointer;
   text-decoration: none;
 }
 
-.message {
-  text-align: center;
-  margin-top: 20px;
-}
-
-.back-to-login {
+.forgot-password,
+.signup-link {
   text-align: center;
   margin-top: 10px;
 }
 
-.back-to-login a {
+.signup-link span {
+  color: #333;
+}
+
+.signup-link .signup {
   color: #007bff;
   text-decoration: none;
 }

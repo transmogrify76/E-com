@@ -1,0 +1,217 @@
+.navbar {
+    display: flex;
+    justify-content: space-around;
+    padding: 16px;
+    box-shadow: 0 1px 3px -2px black;
+  }
+  
+  .nav-logo p {
+    color: #e7d4d4;
+    font-size: 38px;
+    font-weight: 600;
+  }
+
+  
+  .nav-menu {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    gap: 50px;
+    color: #f8ebeb;
+    font-size: 20px;
+    font-weight: 500;
+  }
+  
+  .nav-menu li {
+    position: relative;
+    cursor: pointer;
+    color:white;
+  }
+  
+  /* .nav-menu li::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -3px;
+    height: 3px;
+    background-color: red;
+    border-radius: 10px;
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+  } */
+  
+  /* .nav-menu li:hover::after {
+    transform: scaleX(1);
+  } */
+  
+  .nav-login-cart {
+    display: flex;
+    align-items: center;
+    gap: 45px;
+  }
+  
+  .nav-login-cart button {
+    background-color: #f2faf2; /* Green */
+    border-color: #d6cbcb;
+    color: rgb(138, 122, 122);
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    transition-duration: 0.4s;
+    border-radius: 20px;
+
+  }
+
+  
+  /* .nav-login-cart button:hover::after {
+    background-color: red; /* Changed to solid red */
+  
+  
+  .nav-login-cart img {
+    height: 30px;
+  }
+  /* Navbar.css */
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #281042;
+  padding: 10px 20px;
+  color: #ecf0f1;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+}
+
+.nav-logo img {
+  height: 50px;
+  margin-right: 10px;
+}
+
+.nav-logo p {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.nav-menu {
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-menu li {
+  margin: 0 15px;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #ecf0f1;
+  position: relative;
+
+}
+
+
+
+/* .nav-link hr {
+  border: none;
+  border-top: 2px solid #1abc9c;
+  margin: 5px 0 0;
+  width: 100%;
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  animation: slideUpDown 0.5s ease forwards;
+} */
+
+.nav-login-cart {
+  display: flex;
+  align-items: center;
+}
+
+.nav-login-cart button {
+  background-color: #50046e;
+  border: none;
+  color: #ecf0f1;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-right: 20px;
+}
+
+.nav-login-cart button:hover {
+  background-color: #390a3f;
+}
+
+.nav-login-cart .cart-icon {
+  height: 30px;
+  transition: transform 0.3s ease;
+}
+
+.nav-login-cart .cart-icon:hover {
+  transform: scale(1.1);
+}
+.nav-menu {
+  list-style-type: none;
+  padding: 0;
+}
+.nav-cart-count{
+ width: 22px;
+ height: 22px;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ margin-top: -35px;
+ margin-left: -55px;
+ border-radius: 11px;
+ font-size: 14px;
+ background: red;
+ color: white;
+}
+.nav-menu li {
+  display: inline-block;
+  margin: 0 10px;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.3s ease-in-out;
+}
+
+.nav-menu li:hover {
+  animation: bounce 0.6s;
+}
+
+.free .truck-icon {
+  color: #f3b123;
+  width: 30px;
+  height: 30px;
+  gap:10px
+}
+.headerSearch{
+  /* width: 0%; */
+  height: 60px;
+
+}
+.btn-search{
+  width: 20%;
+margin-top: 10px;
+margin-bottom: 10px;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}

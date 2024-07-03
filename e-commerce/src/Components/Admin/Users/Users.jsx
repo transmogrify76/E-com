@@ -76,7 +76,7 @@ const Users = () => {
 
             {/* Sidebar (sidenav) */}
             <div className="user-container">
-                <nav className="sidenav">
+                {/* <nav className="sidenav">
                     <ul>
                         <li className={activeMenuItem === 'Users' ? 'active' : ''}>
                             <Link to="/Users" onClick={() => handleMenuItemClick('Users')}>
@@ -115,7 +115,7 @@ const Users = () => {
                             </a>
                         </li>
                     </ul>
-                </nav>
+                </nav> */}
 
                 {/* Main Content */}
                 <main className="user-main">

@@ -1,99 +1,65 @@
 /* Dispatch.css */
 
-/* Reset default margin and padding */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  /* Body styles */
-  body {
-    font-family: 'Roboto', Arial, sans-serif;
-    background-color: #f4f4f4;
-  }
-  
-  /* Main container */
-  .dispatch-page {
-    max-width: 800px;
-    margin: 20px auto;
-    display: grid;
-    gap: 20px;
-    grid-template-columns: 1fr;
-  }
-  
-  /* Card-like section styles */
-  .dispatch-card {
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-  }
-  
-  /* Heading styles */
-  .dispatch-card h2 {
-    font-size: 2.5rem;
-    color: #333;
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .dispatch-card h3 {
-    font-size: 1.8rem;
-    color: #555;
-    margin-bottom: 15px;
-  }
-  
-  /* Paragraph styles */
-  .dispatch-card p {
-    font-size: 1.2rem;
-    color: #666;
-    line-height: 1.6;
-    margin-bottom: 10px;
-  }
-  
-  /* List styles */
-  .dispatch-card ul {
-    list-style-type: disc;
-    margin-left: 20px;
-    margin-bottom: 15px;
-  }
-  
-  .dispatch-card ul li {
-    font-size: 1.2rem;
-    color: #666;
-    line-height: 1.6;
-  }
-  
-  /* Link styles */
-  .dispatch-card a {
-    color: #007bff;
-    text-decoration: none;
-  }
-  h3{
-    margin-right: 30%;
-  }
-  
-  .dispatch-card a:hover {
-    text-decoration: underline;
-  }
-  
-  /* Responsive design */
-  @media (max-width: 768px) {
-    .dispatch-card {
-      padding: 15px;
-    }
-    
-    .dispatch-card h2 {
-      font-size: 2rem;
-    }
-    
-    .dispatch-card h3 {
-      font-size: 1.5rem;
-    }
-    
-    .dispatch-card p, .dispatch-card ul li {
-      font-size: 1rem;
-    }
-  }
-  
+/* Container styles */
+.dispatch-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+/* Card styles */
+.dispatch-card {
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.dispatch-card h3 {
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+/* Unique headings for DispatchPage */
+.dispatch-page h3 {
+  color: #007bff; /* Blue color for headings */
+  font-size: 1.5rem; /* Larger font size */
+  margin-bottom: 15px; /* Increased bottom margin */
+}
+
+/* Card content */
+.dispatch-card-content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.dispatch-card-section {
+  flex: 1;
+}
+
+.dispatch-card-section p {
+  margin: 5px 0;
+}
+
+.dispatch-card-section ul {
+  margin: 5px 0;
+  padding-left: 20px;
+}
+
+.dispatch-card-section ul li {
+  list-style-type: none;
+}
+
+/* Links */
+.dispatch-card-section a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.dispatch-card-section a:hover {
+  text-decoration: underline;
+}

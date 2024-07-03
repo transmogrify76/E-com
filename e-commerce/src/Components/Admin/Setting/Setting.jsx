@@ -56,7 +56,7 @@ const Setting = () => {
 
             {/* Sidebar (sidenav) */}
             <div className="admin-container">
-                <nav className="sidenav">
+                {/* <nav className="sidenav">
                     <ul>
                         <li className={activeMenuItem === 'Users' ? 'active' : ''}>
                             <Link to="/Users" onClick={() => handleMenuItemClick('Users')}>
@@ -95,7 +95,7 @@ const Setting = () => {
                             </a>
                         </li>
                     </ul>
-                </nav>
+                </nav> */}
 
                 {/* Main Content */}
                 <main className="dashboard-main">
