@@ -41,8 +41,8 @@ const ExistingProduct = () => {
                 <table>
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Name</th>
+                            <th> Product ID</th>
+                            <th> Product Name</th>
                             <th>Price</th>
                             <th>Stock</th>
                         </tr>

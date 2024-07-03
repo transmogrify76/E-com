@@ -1,5 +1,5 @@
 
-// 
+
 // Orderr.jsx
 
 import React, { useState } from 'react';
@@ -45,7 +45,7 @@ const Orderr = () => {
     };
 
     const handleShip = (orderId) => {
-        window.location.href ='./dispatch'
+        window.location.href ='./Dispatch'
     };
 
     const handleShowCreateShippingModal = () => {
