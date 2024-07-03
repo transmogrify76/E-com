@@ -3,96 +3,10 @@
 .app-container {
     display: flex;
     flex-direction: column;
-    height: 100vh; /* Adjust height as needed */
+    height: 90vh; /* Adjust height as needed */
 }
 
 /* Header styles */
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    background-color: #281042;
-    color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    z-index: 100; /* Ensure header is above other content */
-    width: 100%; /* Make header span full width */
-    position: fixed; /* Fix header position at the top */
-    top: 0; /* Align header to the top */
-    left: 0; /* Align header to the left */
-}
-
-.header-left {
-    display: flex;
-    align-items: center;
-}
-
-.header-right {
-    display: flex;
-    align-items: center;
-}
-
-.user-profile {
-    display: flex;
-    align-items: center;
-    margin-right: 16px;
-}
-
-.avatar {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    margin-right: 8px;
-}
-
-.username {
-    font-weight: bold;
-}
-
-.notifications {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    margin-left: auto; /* Push notifications to the right */
-}
-
-.notifications .badge {
-    background-color: #FF5722;
-    color: #fff;
-    font-size: 12px;
-    border-radius: 50%;
-    padding: 4px 8px;
-    margin-left: 6px;
-}
-
-.search-bar {
-    display: flex;
-    align-items: center;
-    margin-left: 16px;
-}
-
-.search-bar input[type="text"] {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin-right: 8px;
-    width: 200px; /* Adjust width as needed */
-}
-
-.search-bar button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 8px;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.search-bar button:hover {
-    background-color: #0056b3;
-}
-
-/* Side Navigation (sidenav) styles */
 
 /* Main content (dispatch-container) styles */
 .dispatch-container {

@@ -1,72 +1,4 @@
-// Sidenavbar.jsx
 
-// import React, { useState } from 'react';
-// import { Link, useLocation } from 'react-router-dom';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faChartLine, faBoxOpen, faClipboardList, faTruck, faCog, faAngleDoubleLeft, faAngleDoubleRight,faUpload  } from '@fortawesome/free-solid-svg-icons';
-// import './SideNavbar.css';
-
-// const Sidenavbar = () => {
-//     const [isExpanded, setIsExpanded] = useState(true); // Initially expanded
-//     const location = useLocation(); // Get current location from react-router-dom
-
-//     const handleMenuItemClick = (menuItem) => {
-//         // Handle any additional logic when a menu item is clicked
-//         console.log(`Clicked on ${menuItem}`);
-//     };
-
-//     const toggleExpand = () => {
-//         setIsExpanded(!isExpanded);
-//     };
-
-//     return (
-//         <div className={`side-navbar ${isExpanded ? 'expanded' : 'collapsed'}`}>
-//             <button className="toggle-btn" onClick={toggleExpand}>
-//                 {isExpanded ? <FontAwesomeIcon icon={faAngleDoubleLeft} /> : <FontAwesomeIcon icon={faAngleDoubleRight} />}
-//             </button>
-//             <ul>
-//                 <li className={location.pathname === '/seller-dashboard' ? 'active' : ''}>
-//                     <Link to="/seller-dashboard" onClick={() => handleMenuItemClick('ProductUpload')}>
-//                         <FontAwesomeIcon icon={faUpload } />
-//                         {isExpanded && <span>Product Upload</span>}
-//                     </Link>
-//                 </li>
-//                 <li className={location.pathname === '/ExistingProduct' ? 'active' : ''}>
-//                     <Link to="/ExistingProduct" onClick={() => handleMenuItemClick('ExistingProducts')}>
-//                         <FontAwesomeIcon icon={faBoxOpen} />
-//                         {isExpanded && <span>Existing Product</span>}
-//                     </Link>
-//                 </li>
-//                 <li className={location.pathname === '/Orderr' ? 'active' : ''}>
-//                     <Link to="/Orderr" onClick={() => handleMenuItemClick('Orders')}>
-//                         <FontAwesomeIcon icon={faClipboardList} />
-//                         {isExpanded && <span>Order</span>}
-//                     </Link>
-//                 </li>
-//                 <li className={location.pathname === '/Dispatch' ? 'active' : ''}>
-//                     <Link to="/Dispatch" onClick={() => handleMenuItemClick('Dispatch')}>
-//                         <FontAwesomeIcon icon={faTruck} />
-//                         {isExpanded && <span>Dispatch</span>}
-//                     </Link>
-//                 </li>
-//                 <li className={location.pathname === '/RevenueGenerate' ? 'active' : ''}>
-//                     <Link to="/RevenueGenerate" onClick={() => handleMenuItemClick('RevenueGeneration')}>
-//                         <FontAwesomeIcon icon={faChartLine} />
-//                         {isExpanded && <span>Revenue Generation</span>}
-//                     </Link>
-//                 </li>
-//                 <li className={location.pathname === '/Settings' ? 'active' : ''}>
-//                     <Link to="/Settings" onClick={() => handleMenuItemClick('Settings')}>
-//                         <FontAwesomeIcon icon={faCog} />
-//                         {isExpanded && <span>Setting</span>}
-//                     </Link>
-//                 </li>
-//             </ul>
-//         </div>
-//     );
-// };
-
-// export default Sidenavbar;
 
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
@@ -133,3 +65,5 @@ const SideNavbar = () => {
 };
 
 export default SideNavbar;
+
+

@@ -1,87 +1,6 @@
-/* styles/Sidenavbar.css */
 
-/* styles/Sidenavbar.css */
-
-/* Base styles for the side navbar */
-  /* .side-navbar {
-    width: 70px; 
-    position: fixed;
-    background-color: #281042;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    
-    padding-top: 20px;
-    transition: width 0.3s ease;
-    overflow-x: hidden;
-    box-shadow: 2px 0 5px rgba(214, 212, 212, 0.1);
-  }
-  
-  
-  .side-navbar.collapsed {
-    width: 80px; 
-  }
-  
- 
-  .toggle-btn {
-    background-color: #7643b1;
-    border: none;
-    color: #ecf0f1;
-    padding: 10px;
-    cursor: pointer;
-    margin-bottom: 20px;
-    transition: background-color 0.3s ease;
-  }
-  
-  .toggle-btn:hover {
-    background-color: #8d43a3;
-  }
-  
-  
-  ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 60px 0 0 0; 
-  }
-  
- 
-  ul li {
-    padding: 12px;
-    transition: background-color 0.3s ease;
-  }
-  
-  ul li:hover {
-    background-color: #b065ce;;
-  }
-  
- 
-  ul li.active {
-    background-color: #b065ce;;
-  }
-  
-  
-  ul li a {
-    color: #fff;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-  }
-  
- 
-  ul li a span {
-    margin-left: 10px;
-  }
-  
-  
-  ul li a svg {
-    width: 20px;
-    height: 20px;
-    margin-right: 10px;
-  }
-    */ 
-
-    .side-navbar {
-        width: 70px; /* Initial width when collapsed */
+     .side-navbar {
+        width: 70px;
         position: fixed;
         background-color: #281042;
         left: 0;
@@ -106,13 +25,14 @@
         cursor: pointer;
         margin-bottom: 20px;
         transition: background-color 0.3s ease;
+       
       }
       
       .toggle-btn:hover {
         background-color: #8d43a3;
       }
       
-      .navbar-nav {
+      .navbar-nav{
         list-style: none;
         padding: 0;
         width: 100%;
@@ -120,6 +40,7 @@
       
       .nav-item {
         width: 200%;
+        color: #b065ce;
       }
       
       .nav-link {
@@ -133,9 +54,9 @@
       
       .nav-link:hover,
       .nav-link.active {
-        background-color: #b065ce; /* Color when hovered or active */
+        background-color: #b065ce; 
         color: 
-        #afa8a8; /* Text color when hovered or active */
+        white;
       }
       
       .nav-icon {
@@ -143,8 +64,9 @@
         margin-right: 20px;
       }
       
-      .nav-link-sell span {
+      .nav-link span {
         font-size: 16px;
         display: inline-block;
       }
-      
+       
+
