@@ -1,131 +1,65 @@
 /* Dispatch.css */
 
-.app-container {
-    display: flex;
-    flex-direction: column;
-    height: 100vh; /* Adjust height as needed */
+/* Container styles */
+.dispatch-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
 }
 
-/* Header styles */
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    background-color: #281042;
-    color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    z-index: 100; /* Ensure header is above other content */
-    width: 100%; /* Make header span full width */
-    position: fixed; /* Fix header position at the top */
-    top: 0; /* Align header to the top */
-    left: 0; /* Align header to the left */
+/* Card styles */
+.dispatch-card {
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.header-left {
-    display: flex;
-    align-items: center;
+.dispatch-card h3 {
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 10px;
 }
 
-.header-right {
-    display: flex;
-    align-items: center;
+/* Unique headings for DispatchPage */
+.dispatch-page h3 {
+  color: #007bff; /* Blue color for headings */
+  font-size: 1.5rem; /* Larger font size */
+  margin-bottom: 15px; /* Increased bottom margin */
 }
 
-.user-profile {
-    display: flex;
-    align-items: center;
-    margin-right: 16px;
+/* Card content */
+.dispatch-card-content {
+  display: flex;
+  justify-content: space-between;
 }
 
-.avatar {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    margin-right: 8px;
+.dispatch-card-section {
+  flex: 1;
 }
 
-.username {
-    font-weight: bold;
+.dispatch-card-section p {
+  margin: 5px 0;
 }
 
-.notifications {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    margin-left: auto; /* Push notifications to the right */
+.dispatch-card-section ul {
+  margin: 5px 0;
+  padding-left: 20px;
 }
 
-.notifications .badge {
-    background-color: #FF5722;
-    color: #fff;
-    font-size: 12px;
-    border-radius: 50%;
-    padding: 4px 8px;
-    margin-left: 6px;
+.dispatch-card-section ul li {
+  list-style-type: none;
 }
 
-.search-bar {
-    display: flex;
-    align-items: center;
-    margin-left: 16px;
+/* Links */
+.dispatch-card-section a {
+  color: #007bff;
+  text-decoration: none;
 }
 
-.search-bar input[type="text"] {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin-right: 8px;
-    width: 200px; /* Adjust width as needed */
-}
-
-.search-bar button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 8px;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.search-bar button:hover {
-    background-color: #0056b3;
-}
-
-/* Side Navigation (sidenav) styles */
-
-/* Main content (dispatch-container) styles */
-.dispatch-container {
-    flex: 1;
-    margin-top: 100px; /* Adjust top margin to clear the header */
-    padding: 20px;
-    margin-left: 500px;
-}
-
-.dispatch-container h2 {
-    margin-top: 0;
-    font-size: 24px;
-    color: #333;
-}
-
-.dispatch-container p {
-    color: #666;
-    margin-bottom: 16px;
-}
-
-.dispatch-container ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-.dispatch-container ul li {
-    padding: 12px;
-    border: 1px solid #ccc;
-    margin-bottom: 8px;
-    cursor: pointer;
-    background-color: #f9f9f9;
-}
-
-.dispatch-container ul li:hover {
-    background-color: #e9ecef;
+.dispatch-card-section a:hover {
+  text-decoration: underline;
 }
