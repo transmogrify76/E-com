@@ -16,7 +16,7 @@
     padding: 6px;
     flex: 1;
     overflow-y: auto;
-    margin-top: 170px;
+    margin-top: 20px;
     margin-left: 300px;
 }
 
@@ -27,7 +27,7 @@
 }
 
 .existing-product-container table {
-    width: 100%;
+    width: 90%;
     border-collapse: collapse;
     margin-top: 16px;
 }

@@ -1,72 +1,70 @@
 
-     .side-navbar {
-        width: 70px;
-        position: fixed;
-        background-color: #281042;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        
-        padding-top: 20px;
-        transition: width 0.3s ease;
-        overflow-x: hidden;
-        box-shadow: 2px 0 5px rgba(214, 212, 212, 0.1);
-      }
-      
-      .side-navbar.expanded {
-        width: 200px;
-      }
-      
-      .toggle-btn {
-        background-color: #7643b1;
-        border: none;
-        color: #ecf0f1;
-        padding: 10px;
-        cursor: pointer;
-        margin-bottom: 20px;
-        transition: background-color 0.3s ease;
-       
-      }
-      
-      .toggle-btn:hover {
-        background-color: #8d43a3;
-      }
-      
-      .navbar-nav{
-        list-style: none;
-        padding: 0;
-        width: 100%;
-      }
-      
-      .nav-item {
-        width: 200%;
-        color: #b065ce;
-      }
-      
-      .nav-link {
-        display: flex;
-        align-items: center;
-        padding: 15px 20px;
-        color: #ecf0f1;
-        text-decoration: none;
-        transition: background-color 0.3s ease;
-      }
-      
-      .nav-link:hover,
-      .nav-link.active {
-        background-color: #b065ce; 
-        color: 
-        white;
-      }
-      
-      .nav-icon {
-        font-size: 20px;
-        margin-right: 20px;
-      }
-      
-      .nav-link span {
-        font-size: 16px;
-        display: inline-block;
-      }
-       
+ .side-navbar {
+  width: 70px; 
+  position: fixed;
+  background-color: #281042;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  
+  padding-top: 20px;
+  transition: width 0.3s ease;
+  overflow-x: hidden;
+  box-shadow: 2px 0 5px rgba(214, 212, 212, 0.1);
+}
 
+.side-navbar.expanded {
+  width: 200px;
+}
+
+.toggle-btn {
+  background-color: #7643b1;
+  border: none;
+  color: #ecf0f1;
+  padding: 10px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.toggle-btn:hover {
+  background-color: #8d43a3;
+}
+
+.navbar-nav {
+  list-style: none;
+  padding: 0;
+  width: 100%;
+}
+
+.nav-item {
+  width: 200%;
+  color: white;
+}
+
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  padding: 15px 20px;
+  color: #ecf0f1;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  background-color: #b065ce; 
+  color: #fff; 
+}
+
+.nav-icon {
+  font-size: 20px;
+  margin-right: 20px;
+}
+
+.nav-link span {
+  font-size: 16px;
+  display: inline-block;
+} 
+ 
