@@ -1,71 +1,94 @@
 .side-navbar {
-    width: 70px; 
-    position: fixed;
-    background-color: #281042;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    
-    padding-top: 20px;
-    transition: width 0.3s ease;
-    overflow-x: hidden;
-    box-shadow: 2px 0 5px rgba(214, 212, 212, 0.1);
-  }
-  
-  .side-navbar.expanded {
-    width: 200px;
-  }
-  
-  .toggle-btn {
-    background-color: #7643b1;
-    border: none;
-    color: #ecf0f1;
-    padding: 10px;
-    cursor: pointer;
-    margin-bottom: 20px;
-    transition: background-color 0.3s ease;
-    margin-top: 85%;
-  }
-  
-  .toggle-btn:hover {
-    background-color: #8d43a3;
-  }
-  
-  .navbar-nav {
-    list-style: none;
-    padding: 0;
-    width: 100%;
-  }
-  
-  .nav-item {
-    width: 200%;
-    color: white;
-  }
-  
-  .nav-link {
-    display: flex;
-    align-items: center;
-    padding: 15px 20px;
-    color: #ecf0f1;
-    text-decoration: none;
-    transition: background-color 0.3s ease;
-  }
-  
-  .nav-link:hover,
-  .nav-link.active {
-    background-color: #b065ce;
-    color: #fff; 
-  }
-  
-  .nav-icon {
-    font-size: 20px;
-    margin-right: 20px;
-  }
-  
-  .nav-link span {
-    font-size: 16px;
-    display: inline-block;
-  }
-   
+  width: 70px; /* Initial width when collapsed */
+  position: fixed;
+  background-color: #281042;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  padding-top: 20px;
+  transition: width 0.3s ease;
+  overflow-x: hidden;
+  box-shadow: 2px 0 5px rgba(214, 212, 212, 0.1);
+  z-index: 10px; /* Ensure sidebar is above other content */
+  margin-top: 5.8%;
+}
 
-   
+.side-navbar.expanded {
+  width: 200px;
+}
+
+.toggle-btn {
+  background-color: #7643b1;
+  border: none;
+  color: #ecf0f1;
+  padding: 10px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.toggle-btn:hover {
+  background-color: #8d43a3;
+}
+
+.navbar-nav {
+  list-style: none;
+  padding: 0;
+  width: 100%;
+}
+
+.nav-item {
+  width: 200%;
+  color: white;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  padding: 15px 20px;
+  color: #ecf0f1;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  background-color: #b065ce; /* Color when hovered or active */
+  color: #fff; /* Text color when hovered or active */
+}
+
+.nav-icon {
+  font-size: 20px;
+  margin-right: 20px;
+}
+
+.nav-link span {
+  font-size: 16px;
+  display: inline-block;
+}
+
+/* Media Query for Responsive Design */
+@media screen and (max-width: 768px) {
+  .side-navbar {
+      width: 70px; /* Adjust as needed for smaller screens */
+  }
+
+  .side-navbar.expanded {
+      width: 200px;
+  }
+
+  /* Shift upper navbar and component body when sidebar is expanded */
+  .side-navbar.expanded ~ .upper-navbar,
+  .side-navbar.expanded ~ .component-body {
+      margin-left: 200px; /* Same width as expanded sidebar */
+  }
+}
+
+/* Example styles for upper navbar and component body */
+.upper-navbar {
+  /* Styles for your upper navbar */
+  background-color: #333;
+  color: white;
+  padding: 10px;
+}
+

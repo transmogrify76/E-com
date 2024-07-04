@@ -28,7 +28,7 @@ const Settings = () => {
           
             {/* 
             {/* Main Content */}
-            <div className="card settings-card"> {/* Added a class for styling the card */}
+            <div className="card settings-card"> 
                 <h2 className="settings-heading">Settings</h2>
                 <div className="settings-content">
                     <form className="settings-form">

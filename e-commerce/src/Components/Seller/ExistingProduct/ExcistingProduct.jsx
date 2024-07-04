@@ -1,9 +1,6 @@
 
 import React, { useState } from 'react';
 import './ExcistingProduct.css'; // Corrected CSS import
-import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBell, faSearch, faCog, faChartLine, faClipboardList, faTruck, faBoxOpen } from '@fortawesome/free-solid-svg-icons';
 
 const ExistingProduct = () => {
     const user = {
@@ -22,10 +19,10 @@ const ExistingProduct = () => {
 
     // Mock data for existing products (replace with actual data handling)
     const [products, setProducts] = useState([
-        { id: 1, name: 'Product A', price: 50, stock: 10 },
-        { id: 2, name: 'Product B', price: 75, stock: 5 },
-        { id: 3, name: 'Product C', price: 60, stock: 8 },
-        { id: 4, name: 'Product D', price: 90, stock: 3 }
+        { id: 1, name: 'Product A', mrp: 100,sellingPrice:800,discount:100, stock: 10 },
+        { id: 2, name: 'Product B', mrp: 100,sellingPrice:800,discount:100, stock: 7 },
+        { id: 3, name: 'Product C', mrp: 100,sellingPrice:800,discount:100, stock: 50  },
+        { id: 4, name: 'Product D', mrp: 100,sellingPrice:800,discount:100, stock: 0  }
     ]);
 
     return (
@@ -41,7 +38,9 @@ const ExistingProduct = () => {
                         <tr>
                             <th> Product ID</th>
                             <th> Product Name</th>
-                            <th>Price</th>
+                            <th>MRP</th>
+                            <th>Selling price</th>
+                            <th>Discount</th>
                             <th>Stock</th>
                         </tr>
                     </thead>
@@ -50,7 +49,9 @@ const ExistingProduct = () => {
                             <tr key={product.id}>
                                 <td>{product.id}</td>
                                 <td>{product.name}</td>
-                                <td>₹{product.price}</td>
+                                <td>₹{product.mrp}</td>
+                                <td>₹{product.sellingPrice}</td>
+                                <td>₹{product.discount}</td>
                                 <td>{product.stock}</td>
                             </tr>
                         ))}

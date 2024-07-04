@@ -41,7 +41,7 @@ return (
             <li className="nav-item">
                 <Link to="/Orderr" className={`nav-link ${location.pathname === '/Orderr' ? 'active' : ''}`} onClick={() => handleMenuItemClick('Orders')}>
                     <FontAwesomeIcon icon={faClipboardList} className="nav-icon" />
-                    {isExpanded && <span>Order</span>}
+                    {isExpanded && <span>Manage Orders</span>}
                 </Link>
             </li>
             <li className="nav-item">
