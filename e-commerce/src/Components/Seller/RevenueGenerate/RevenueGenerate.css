@@ -1,15 +1,16 @@
 .app-container {
     display: flex;
     flex-direction: column;
-    height: 90vh; /* Adjust height as needed */
+    /* height: 90vh;  */
 }
 
 
 .revenue-generate-container {
     flex: 1;
-    margin-top: 100px; /* Adjust top margin to clear the header */
+    /* margin-top: 90px;  */
     padding: 20px;
     margin-left: 300px;
+    
     
 }
 
@@ -17,12 +18,14 @@
     margin-top: 0;
     font-size: 24px;
     color: #333;
+    /* margin-bottom: 500px; */
 }
 
 .revenue-table {
-    width: 100%;
-    margin-top: 16px;
+    width: 90%;
+    padding-top: 50%;
     border-collapse: collapse;
+   
 }
 
 .revenue-table th,
@@ -45,6 +48,7 @@
     display: flex;
     justify-content: space-between;
     margin-top: 20px;
+    width: 80%;
 }
 
 .bar {

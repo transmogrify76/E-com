@@ -1,22 +1,20 @@
-import React from 'react';
+
+import React, { useContext } from 'react';
 import './CartItems.css';
-import { useContext } from 'react';
 import { ShopContext } from '../Context/ShopContext';
 import remove_Icon from '../Assests/Ecommerce_Frontend_Assets/Assets/cart_cross_icon.png';
+import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 
 const CartItems = () => {
-    const { getTotalCartAmount,all_product, cartItems, removeFromCart } = useContext(ShopContext);
-    const handleOnClick = ()=> {
-        window.location.href ='./checkout'
-    }
+    const { getTotalCartAmount, all_product, cartItems, removeFromCart } = useContext(ShopContext);
+
     return (
-        <><div className="cartitems-format-main">
+        <div className="cartitems-format-main">
             <table>
                 <thead>
                     <tr>
                         <th>Products</th>
                         <th>Title</th>
-                      
                         <th>Price</th>
                         <th>Quantity</th>
                         <th>Total</th>
@@ -24,26 +22,25 @@ const CartItems = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {all_product.map((e) => {
-                        if (cartItems[e.id] > 0) {
+                    {all_product.map((product) => {
+                        const quantityInCart = cartItems[product.id];
+                        if (quantityInCart > 0) {
                             return (
-                                <tr key={e.id}>
+                                <tr key={product.id}>
                                     <td>
-                                        <img src={e.image} alt="" className='carticon-product-icon' />
+                                        <img src={product.image} alt="" className='carticon-product-icon' />
                                     </td>
-                                    <td>{e.name}</td>
-                                   
-                                    <td>₹{e.new_price}</td>
-                                    <td>
-                                        <button className='cartitems-quantity'>{cartItems[e.id]}</button>
-                                    </td>
-                                    <td>₹{e.new_price * cartItems[e.id]}</td>
+                                    <td>{product.name}</td>
+                                    <td>₹{product.new_price}</td>
+                                    <td>{quantityInCart}</td> {/* Display quantity */}
+                                    <td>₹{product.new_price * quantityInCart}</td>
                                     <td>
                                         <img
                                             className='cartitems-remove-icon'
                                             src={remove_Icon}
-                                            onClick={() => removeFromCart(e.id)}
-                                            alt="" />
+                                            onClick={() => removeFromCart(product.id)}
+                                            alt=""
+                                        />
                                     </td>
                                 </tr>
                             );
@@ -52,10 +49,10 @@ const CartItems = () => {
                     })}
                 </tbody>
             </table>
-            <br></br>
-            <br></br>
-            <br></br>
-        </div><div className="cartitems-down">
+            <br />
+            <br />
+            <br />
+            <div className="cartitems-down">
                 <div className="cartitems-total">
                     <h3><strong>CART TOTALS</strong></h3>
                     <div>
@@ -74,8 +71,11 @@ const CartItems = () => {
                             <h3> ₹{getTotalCartAmount()}</h3>
                         </div>
                     </div>
-                    <button  onClick={handleOnClick}>
-                   PROCEED TO CHECKOUT</button>
+                    <Link to="/checkout">
+                        <button>
+                            PROCEED TO CHECKOUT
+                        </button>
+                    </Link>
                 </div>
                 <div className="cartitems-promocode">
                     <p>If you have a promocode, Enter it here</p>
@@ -84,8 +84,10 @@ const CartItems = () => {
                         <button>Submit</button>
                     </div>
                 </div>
-            </div></>
+            </div>
+        </div>
     );
 };
 
 export default CartItems;
+

@@ -1,34 +1,19 @@
+
 import React, { useState, useContext } from 'react';
 import './ProductDisplay.css';
+import { ShopContext } from '../Context/ShopContext';
 import star_icon from '../../Components/Assests/Ecommerce_Frontend_Assets/Assets/star_icon.png';
 import star_dull_icon from '../../Components/Assests/Ecommerce_Frontend_Assets/Assets/star_dull_icon.png';
-import { ShopContext } from '../Context/ShopContext';
 
-const ProductDisplay = ({ product, selectedSize, onSizeSelect }) => {
-    const { addToCart, addToWishlist, wishlistItems, removeFromWishlist } = useContext(ShopContext);
+const ProductDisplay = ({ product }) => {
+    const { addToCart, addToWishlist, wishlistItems, removeFromWishlist, getTotalCartAmount } = useContext(ShopContext);
     const [localSelectedSize, setLocalSelectedSize] = useState('');
-
-    const isInWishlist = wishlistItems.includes(product.id);
     const [quantity, setQuantity] = useState(1);
 
-    // Function to handle increment of quantity
-    const incrementQuantity = () => {
-        setQuantity(prevQuantity => prevQuantity + 1);
-    };
+    const isInWishlist = wishlistItems.includes(product.id);
 
-    // Function to handle decrement of quantity
-    const decrementQuantity = () => {
-        if (quantity > 1) {
-            setQuantity(prevQuantity => prevQuantity - 1);
-        }
-    };
-
-    // Function to handle change in dropdown quantity
-    const handleQuantityChange = (event) => {
-        const value = parseInt(event.target.value, 10);
-        if (!isNaN(value) && value >= 1) {
-            setQuantity(value);
-        }
+    const handleSizeSelect = (size) => {
+        setLocalSelectedSize(size);
     };
 
     const handleAddToCart = () => {
@@ -36,14 +21,13 @@ const ProductDisplay = ({ product, selectedSize, onSizeSelect }) => {
             alert('Please select a size before adding to cart.');
             return;
         }
-        addToCart(product.id, localSelectedSize);
+        addToCart(product.id, quantity); // Pass quantity to addToCart
     };
-    
 
-    const handleSizeSelect = (size) => {
-        setLocalSelectedSize(size);  // Update local state
-        if (typeof onSizeSelect === 'function') {
-            onSizeSelect(size);  // Call the prop function if it's defined
+    const handleQuantityChange = (event) => {
+        const value = parseInt(event.target.value, 10);
+        if (!isNaN(value) && value >= 1) {
+            setQuantity(value);
         }
     };
 
@@ -91,13 +75,11 @@ const ProductDisplay = ({ product, selectedSize, onSizeSelect }) => {
                 )}
                 <br />
                 <div className="productdisplay-quantity">
-                        <h1>Quantity:</h1>
-                        <div className="quantity-control" >
-                            {/* <button className="quantity-button small" onClick={decrementQuantity}>-</button> */}
-                            <input type="number" className="quantity-dropdown" value={quantity} onChange={handleQuantityChange} min="1" />
-                            {/* <button className="quantity-button small" onClick={incrementQuantity}>+</button> */}
-                        </div>
+                    <h1>Quantity:</h1>
+                    <div className="quantity-control">
+                        <input type="number" className="quantity-dropdown" value={quantity} onChange={handleQuantityChange} min="1" />
                     </div>
+                </div>
                 <button className="addToCartButton" onClick={handleAddToCart}>
                     ADD TO CART
                 </button>
@@ -120,9 +102,12 @@ const ProductDisplay = ({ product, selectedSize, onSizeSelect }) => {
                 <p className="productdisplay-right-tags">
                     <span>Tags: </span> {Array.isArray(product.tags) ? product.tags.join(', ') : product.tags}
                 </p>
+               
             </div>
         </div>
     );
 };
 
 export default ProductDisplay;
+
+

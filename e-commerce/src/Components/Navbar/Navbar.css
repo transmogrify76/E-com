@@ -28,22 +28,7 @@
     color:white;
   }
   
-  /* .nav-menu li::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: -3px;
-    height: 3px;
-    background-color: red;
-    border-radius: 10px;
-    transform: scaleX(0);
-    transition: transform 0.3s ease;
-  } */
-  
-  /* .nav-menu li:hover::after {
-    transform: scaleX(1);
-  } */
+ 
   
   .nav-login-cart {
     display: flex;
@@ -123,16 +108,7 @@
 
 
 
-/* .nav-link hr {
-  border: none;
-  border-top: 2px solid #1abc9c;
-  margin: 5px 0 0;
-  width: 100%;
-  position: absolute;
-  bottom: -5px;
-  left: 0;
-  animation: slideUpDown 0.5s ease forwards;
-} */
+
 
 .nav-login-cart {
   display: flex;

@@ -1,5 +1,5 @@
 .side-navbar {
-    width: 70px; /* Initial width when collapsed */
+    width: 70px; 
     position: fixed;
     background-color: #281042;
     left: 0;
@@ -53,8 +53,8 @@
   
   .nav-link:hover,
   .nav-link.active {
-    background-color: #b065ce; /* Color when hovered or active */
-    color: #fff; /* Text color when hovered or active */
+    background-color: #b065ce;
+    color: #fff; 
   }
   
   .nav-icon {
@@ -66,4 +66,6 @@
     font-size: 16px;
     display: inline-block;
   }
-  
+   
+
+   

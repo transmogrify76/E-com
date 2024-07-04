@@ -8,9 +8,6 @@
  }  
 
 
-
-/*  */
-
 .main-content {
     flex: 1; /* Ensures main content takes remaining space */
     padding: 20px;

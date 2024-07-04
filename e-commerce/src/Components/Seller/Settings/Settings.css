@@ -1,116 +1,67 @@
-/* Settings.css */
 
-.app-container {
-    display: flex;
-    flex-direction: column;
-    height: 90vh; /* Adjust height as needed */
-}
-
-
-
-/* Side Navigation (sidenav) styles */
-/* .sidenav {
-    width: 250px; 
-    background-color: #281042;
-    height: 100%;
-    overflow-y: auto;
-    padding: 20px 10px;
-    border-right: 1px solid #ccc;
-    margin-right: 20px; 
-    margin-top: 60px; 
-}
-
-.sidenav ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-.sidenav ul li {
-    padding: 12px;
-    border-bottom: 1px solid #ccc;
-}
-
-.sidenav ul li:last-child {
-    border-bottom: none;
-}
-
-.sidenav ul li a {
-    display: flex;
-    align-items: center;
-    color:#fff;
-    text-decoration: none;
-}
-
-
-.sidenav ul li.active {
-    background-color: #b065ce;
-    color: white;
-}
-
-.sidenav ul li.active a {
-    color: white;
-} */
-
-/* Main content (settings-container) styles */
-.settings-container {
-    flex: 1;
-    margin-top: 100px; /* Adjust top margin to clear the header */
+.settings-card {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    margin-left: 500px;
+    margin: 20px;
+    max-width: 800px; 
+    margin:  20px auto;
+    width: 25%; 
 }
+
 
 .settings-heading {
+    color: #333333;
     font-size: 24px;
-    color: #333;
+    margin-bottom: 20px;
+    margin-left: 145px;
 }
 
 .settings-content {
-    margin-top: 20px;
+    max-width: 400px; /* Adjust as needed */
+    margin: 0 auto; /* Center the form horizontally */
 }
-
 .settings-form {
     display: flex;
     flex-direction: column;
-    width: 300px; /* Adjust form width as needed */
 }
 
 .form-group {
-    margin-bottom: 16px;
+    margin-bottom: 20px;
 }
 
-.form-group label {
-    margin-bottom: 8px;
+label {
     font-weight: bold;
+    margin-bottom: 8px;
+    color: #555555;
 }
-
-.form-group input[type="text"],
-.form-group input[type="email"],
-.form-group input[type="password"] {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 100%; /* Input field takes full width of parent */
-    box-sizing: border-box; /* Ensures padding and border are included in width */
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    padding: 10px;
+    
 }
-
 .btn-save {
-    background-color: #007bff;
+    background-color: #4CAF50;
     color: white;
     border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
+    padding: 12px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-top: 20px;
     cursor: pointer;
-    margin-top: 16px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
 }
 
 .btn-save:hover {
-    background-color: #0056b3;
+    background-color: #45a049;
 }
-.card {
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-    padding: 00px;
-    margin-top:200px;
-    margin-left: 500px; 
+
+.btn-save:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
 }
