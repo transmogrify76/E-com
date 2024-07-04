@@ -1,6 +1,4 @@
 
-// 
-
 import React, { useState } from 'react';
 import './ExcistingProduct.css'; // Corrected CSS import
 import { Link } from 'react-router-dom';

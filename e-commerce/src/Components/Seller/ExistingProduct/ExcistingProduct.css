@@ -3,13 +3,8 @@
 .app-container {
     display: flex;
     flex-direction: column;
-    height: 90vh; /* Adjust height as needed */
+    
 }
-
-
-
-/* Side Navigation (sidenav) styles */
-
 
 /* Main content (existing-product-container) styles */
 .existing-product-container {

@@ -1,5 +1,6 @@
-.wishlist-items {
+ .wishlist-items {
     margin: 20px;
+   
   }
   
   .wishlist-items h2 {
@@ -77,4 +78,6 @@
   .wishlist-item-remove:hover {
     background-color: #0056b3;
   }
-  
+   
+
+    

@@ -124,34 +124,7 @@
     margin-left: 700px;
   }
   
-   /* .card {
-    width: 400px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
-    margin-left: 70%; 
-    padding:0%;
-    height:60%;
-    margin-top:40px;
-  }
-  
-  .card-header {
-    background-color: #007bff; 
-    color: #fff;
-  }
-  
-  .card-body {
-    padding: 20px;
-  }
-  
-  .card-title {
-    margin-top: 0;
-  }
-  
-  .card-text {
-    margin-bottom: 5px;
-  }  */
+   
   .order-summary{
     margin-left: 10%;
     margin-right: 2%;
