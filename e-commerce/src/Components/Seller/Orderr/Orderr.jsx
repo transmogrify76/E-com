@@ -141,13 +141,14 @@
 // export default Orderr;
 
 import React, { useState } from 'react';
-import { Button } from 'react-bootstrap';
+import './Orderr.css'; // Import CSS file for styling
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faFilePdf, faEye, faTruck } from '@fortawesome/free-solid-svg-icons';
-import './Orderr.css'; // Ensure the correct path to your CSS file
-import CreateShippingModal from '../CreateShippingModal/CreateShippingModal'; // Assuming the correct path to your modal component
+import { faSearch, faFilePdf, faEye, faTruck} from '@fortawesome/free-solid-svg-icons';
+import { Button } from 'react-bootstrap'; // Import Bootstrap components
+import CreateShippingModal from '../CreateShippingModal/CreateShippingModal'; // Import the CreateShippingModal component
 
 const Orderr = () => {
+
     const [searchOrderId, setSearchOrderId] = useState('');
     const [orders, setOrders] = useState([
         { id: 1, purchaseDate: '2023-01-01 12:30 PM', customerName: 'abc', total: 850, status: 'Pending' },
@@ -200,6 +201,7 @@ const Orderr = () => {
 
     return (
         <div className="app-container">
+           <h4>Manage Orders</h4>
             <div className="seller-orders">
                 <div className="seller-orders-header">
                     <div className="search-section">

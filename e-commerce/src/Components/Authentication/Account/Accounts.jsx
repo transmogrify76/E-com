@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './Accounts.css'
+import './Accounts.css';
 
 const MyAccountPage = () => {
   const [userData, setUserData] = useState(null);
@@ -29,6 +29,12 @@ const MyAccountPage = () => {
     fetchUserData();
   }, []); // Empty dependency array to run effect only once on mount
 
+  const handleLogout = () => {
+    // Simulate logging out by resetting user data and setting loading state
+    setUserData(null);
+    setLoading(true);
+  };
+
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -43,6 +49,9 @@ const MyAccountPage = () => {
         <p><strong>Address:</strong> {userData.address}</p>
         <p><strong>Phone Number:</strong> {userData.phoneNumber}</p>
       </div>
+      <button className="logout" onClick={handleLogout}>
+        Logout
+      </button>
     </div>
   );
 };
