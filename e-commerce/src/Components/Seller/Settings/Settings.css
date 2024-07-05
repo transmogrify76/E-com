@@ -1,73 +1,92 @@
 /* Settings.css */
 
-.app-container {
+/* Main container for the Settings component */
+/* .app-container {
     display: flex;
-    flex-direction: column;
+    justify-content: center; 
+    align-items: center; 
+    height: 100vh; 
+    background-color: #f0f0f0; 
+} */
+
+/* Card containing the settings form */
+.settings-card {
+    width: 100%;
+    max-width: 400px; /* Adjust maximum width as needed */
+    background-color: #ffffff; /* White background */
+    border: 1px solid #e0e0e0; /* Light gray border */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle box shadow for depth */
+    padding: 20px; /* Padding inside the card */
+    margin: 10px; /* Add margin for spacing */
+    margin-left: 40%;
 }
 
-
-.settings-container {
-    flex: 1;
-    margin-top: 100px; /* Adjust top margin to clear the header */
-    padding: 20px;
-    margin: 20px;
-    max-width: 800px; 
-    margin:  20px auto;
-    width: 25%; 
-}
-
-
+/* Heading for the settings */
 .settings-heading {
-    color: #333333;
-    font-size: 24px;
-    margin-bottom: 20px;
-    margin-left: 145px;
+    color: #333333; /* Dark text color */
+    font-size: 24px; /* Larger font size */
+    text-align: center; /* Center align the heading */
+    margin-bottom: 20px; /* Bottom margin for spacing */
 }
 
+/* Content area inside the settings card */
 .settings-content {
-    max-width: 400px; /* Adjust as needed */
-    margin: 0 auto; /* Center the form horizontally */
+    max-width: 300px; /* Adjust maximum width as needed */
+    margin: 0 auto; /* Center the content horizontally */
 }
+
+/* Form styling */
 .settings-form {
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* Stack form items vertically */
 }
 
+/* Form input fields */
 .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 20px; /* Bottom margin between form groups */
 }
 
 label {
-    font-weight: bold;
-    margin-bottom: 8px;
-    color: #555555;
+    font-weight: bold; /* Bold label text */
+    margin-bottom: 8px; /* Bottom margin for spacing */
+    color: #555555; /* Darker text color */
 }
+
 input[type="text"],
 input[type="email"],
 input[type="password"] {
-    padding: 10px;
-    
+    padding: 10px; /* Padding inside input fields */
+    /* width: 100%;  */
+    border: 1px solid #ccc; /* Light gray border */
+    border-radius: 4px; /* Rounded corners */
 }
+
+/* Save button */
 .btn-save {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 12px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin-top: 20px;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
+    background-color: #4CAF50; /* Green background color */
+    color: white; /* White text color */
+    border: none; /* No border */
+    padding: 12px 20px; /* Padding inside button */
+    text-align: center; /* Center align text */
+    text-decoration: none; /* No underline */
+    display: inline-block; /* Display as inline-block */
+    font-size: 16px; /* Font size */
+    margin-top: 20px; /* Top margin for spacing */
+    cursor: pointer; /* Pointer cursor on hover */
+    border-radius: 4px; /* Rounded corners */
+    transition: background-color 0.3s ease; /* Smooth transition for background color */
+    width: 100%; /* Full width button */
+    box-sizing: border-box; /* Ensure padding and border don't add to width */
 }
 
+/* Hover effect for save button */
 .btn-save:hover {
-    background-color: #45a049;
+    background-color: #45a049; /* Darker green on hover */
 }
 
+/* Disabled state for save button */
 .btn-save:disabled {
-    background-color: #cccccc;
-    cursor: not-allowed;
+    background-color: #cccccc; /* Light gray background for disabled button */
+    cursor: not-allowed; /* Not-allowed cursor on disabled state */
 }

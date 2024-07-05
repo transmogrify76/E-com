@@ -1,14 +1,18 @@
-/* Default styles */
+/* Global styles */
+   body {
+   margin: 0; 
+   padding: 0; 
+  font-family: Arial, sans-serif;
+}  
+
 
 .background-image {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-
   background-color: #2b002b;
-  /* background-color: #fce3fc; */
-  background-image:url('../../Components/Assests/ecommerce-service.png');
+  background-image: url('../../Components/Assests/ecommerce-service.png');
   background-size: cover;
 }
 
@@ -22,8 +26,15 @@
   margin-left: 30%;
 }
 
+.card-header-login {
+  color: #fff;
+}
 
-.card-body-login{
+.card-header-login h2 {
+  color: #fff;
+}
+
+.card-body-login {
   padding: 20px;
 }
 
@@ -62,7 +73,7 @@
   text-decoration: none;
 }
 
-.forgot-password,
+ .forgot-password,
 .signup-link {
   text-align: center;
   margin-top: 10px;
@@ -75,18 +86,4 @@
 .signup-link .signup {
   color: #007bff;
   text-decoration: none;
-}
-
-/* Media queries for responsiveness */
-
-@media (max-width: 768px) {
-  .card {
-    width: 80%;
-  }
-}
-
-@media (max-width: 576px) {
-  .card {
-    width: 90%;
-  }
-}
+}  

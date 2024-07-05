@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBoxOpen, faClipboardList, faTruck, faChartLine, faCog, faAngleDoubleLeft, faAngleDoubleRight,faUpload,faWallet } from '@fortawesome/free-solid-svg-icons';
+import { faBoxOpen, faClipboardList, faTruck, faChartLine, faCog, faAngleDoubleLeft, faAngleDoubleRight,faUpload,faWallet,faUser } from '@fortawesome/free-solid-svg-icons';
 
 const SideNavbar = () => {
     const [isExpanded, setIsExpanded] = useState(true);
@@ -67,6 +67,14 @@ return (
                     <FontAwesomeIcon icon={faCog} className="nav-icon" />
                     {isExpanded && <span>Setting</span>}
                 </Link>
+            </li>
+            <li className="nav-item">
+                <Link to="/SellerAccount" className={`nav-link ${location.pathname === '/SellerAccount' ? 'active' : ''}`} onClick={() => handleMenuItemClick('SellerAccount')}>
+                <FontAwesomeIcon icon={faUser} className="nav-icon" />
+              {isExpanded && <span>My Account</span>}
+            </Link>
+           
+                   
             </li>
         </ul>
     </div>
