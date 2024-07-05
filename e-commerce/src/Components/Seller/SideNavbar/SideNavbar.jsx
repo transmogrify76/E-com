@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBoxOpen, faClipboardList, faTruck, faChartLine, faCog, faAngleDoubleLeft, faAngleDoubleRight,faUpload } from '@fortawesome/free-solid-svg-icons';
+import { faBoxOpen, faClipboardList, faTruck, faChartLine, faCog, faAngleDoubleLeft, faAngleDoubleRight,faUpload,faWallet } from '@fortawesome/free-solid-svg-icons';
 
 const SideNavbar = () => {
     const [isExpanded, setIsExpanded] = useState(true);
@@ -35,7 +35,7 @@ return (
             <li className="nav-item">
                 <Link to="/ExistingProduct" className={`nav-link ${location.pathname === '/ExistingProduct' ? 'active' : ''}`} onClick={() => handleMenuItemClick('ExistingProducts')}>
                     <FontAwesomeIcon icon={faBoxOpen} className="nav-icon" />
-                    {isExpanded && <span>Existing Product</span>}
+                    {isExpanded && <span>Inventory Overview</span>}
                 </Link>
             </li>
             <li className="nav-item">
@@ -54,6 +54,12 @@ return (
                 <Link to="/RevenueGenerate" className={`nav-link ${location.pathname === '/RevenueGenerate' ? 'active' : ''}`} onClick={() => handleMenuItemClick('RevenueGeneration')}>
                     <FontAwesomeIcon icon={faChartLine} className="nav-icon" />
                     {isExpanded && <span>Revenue Generation</span>}
+                </Link>
+            </li>
+            <li className="nav-item">
+                <Link to="/Wallet" className={`nav-link ${location.pathname === '/Wallet' ? 'active' : ''}`} onClick={() => handleMenuItemClick('Wallet')}>
+                    <FontAwesomeIcon icon={faWallet} className="nav-icon" />
+                    {isExpanded && <span>Wallet</span>}
                 </Link>
             </li>
             <li className="nav-item">

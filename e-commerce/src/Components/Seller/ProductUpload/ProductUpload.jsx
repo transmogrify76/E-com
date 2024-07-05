@@ -47,6 +47,7 @@ const ProductUpload = ({ onProductSubmit }) => {
                         required
                     />
                 </div>
+                <br></br>
                 <div className={styles.formGroup}>
                     <label htmlFor="productPrice">Product Price (₹):</label>
                     <input
@@ -59,6 +60,7 @@ const ProductUpload = ({ onProductSubmit }) => {
                         required
                     />
                 </div>
+                <br></br>
                 <div className={styles.formGroup}>
                     <label htmlFor="productDescription">Product Description:</label>
                     <textarea
@@ -69,6 +71,7 @@ const ProductUpload = ({ onProductSubmit }) => {
                         required
                     ></textarea>
                 </div>
+                <br></br>
                 <div className={styles.formGroup}>
                     <label htmlFor="productImage">Product Image:</label>
                     <input
@@ -79,6 +82,7 @@ const ProductUpload = ({ onProductSubmit }) => {
                         required
                     />
                 </div>
+                <br></br>
                 <button type="submit">Upload Product</button>
             </form>
         </div>
