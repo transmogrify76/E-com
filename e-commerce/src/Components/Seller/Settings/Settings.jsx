@@ -1,24 +1,11 @@
 // Settings.jsx
-import React, { useState } from 'react';
+import React from 'react';
 import './Settings.css'; // Ensure to adjust path as per your project structure
-import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBell, faSearch, faCog, faChartLine, faClipboardList, faTruck, faBoxOpen } from '@fortawesome/free-solid-svg-icons';
+
 
 const Settings = () => {
-    const user = {
-        username: 'John Doe',
-        avatar: 'https://via.placeholder.com/150',
-    };
 
-    const notificationsCount = 5;
 
-    // Default active menu item
-    const [activeMenuItem, setActiveMenuItem] = useState('Settings'); 
-
-    const handleMenuItemClick = (itemName) => {
-        setActiveMenuItem(itemName);
-    };
 
     return (
         <div className="app-container">

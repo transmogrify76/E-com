@@ -1,24 +1,20 @@
 
 import React, { useState } from 'react';
 import './ExcistingProduct.css'; // Corrected CSS import
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFilePdf } from '@fortawesome/free-solid-svg-icons';
 
 const ExistingProduct = () => {
-    const user = {
-        username: 'John Doe',
-        avatar: 'https://via.placeholder.com/150',
+
+    const exportToPDF = () => {
+        // Logic for exporting orders to PDF
+        alert('Exporting to PDF...');
     };
 
-    const notificationsCount = 5;
 
-    // Default active menu item
-    const [activeMenuItem, setActiveMenuItem] = useState('ExistingProducts'); 
-
-    const handleMenuItemClick = (itemName) => {
-        setActiveMenuItem(itemName);
-    };
 
     // Mock data for existing products (replace with actual data handling)
-    const [products, setProducts] = useState([
+    const [products] = useState([
         { id: 1, name: 'Product A', mrp: 100,sellingPrice:800,discount:100, stock: 10 },
         { id: 2, name: 'Product B', mrp: 100,sellingPrice:800,discount:100, stock: 7 },
         { id: 3, name: 'Product C', mrp: 100,sellingPrice:800,discount:100, stock: 50  },
@@ -32,7 +28,12 @@ const ExistingProduct = () => {
   
             {/* Main Content */}
             <div className="existing-product-container">
-                <h2>Existing Products</h2>
+               <div className="header-container">
+                   <h2>Existing Products</h2>
+                   <div className="export-section">
+                        <button onClick={exportToPDF}><FontAwesomeIcon icon={faFilePdf} /> Export to PDF</button>
+                    </div>
+                </div>
                 <table>
                     <thead>
                         <tr>

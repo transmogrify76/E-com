@@ -1,8 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router-dom'; // Import Link from React Router
+
 import './OrderIndividual.css'; // Import your custom CSS for styling
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faFilePdf, faEye, faTruck, faBell, faBoxOpen, faClipboardList, faChartLine, faCog } from '@fortawesome/free-solid-svg-icons';
+
 
 const OrderIndividual = () => {
   // Dummy customer data

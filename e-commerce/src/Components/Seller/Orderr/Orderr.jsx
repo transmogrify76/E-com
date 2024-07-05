@@ -8,7 +8,7 @@ import { Button } from 'react-bootstrap'; // Import Bootstrap components
 import CreateShippingModal from '../CreateShippingModal/CreateShippingModal'; // Import the CreateShippingModal component
 
 const Orderr = () => {
-
+    const [filter, setFilter] = useState('all');
     const [searchOrderId, setSearchOrderId] = useState('');
     const [orders, setOrders] = useState([
         { id: 1, purchaseDate: '2023-01-01 12:30 PM', customerName: 'abc', total: 850, status: 'Pending' },
@@ -29,14 +29,14 @@ const Orderr = () => {
         alert('Exporting to PDF...');
     };
 
-    const handleView = (orderId) => {
+    const handleView = () => {
         // Example of navigation to individual order view
-        window.location.href = `./OrderIndividual/${orderId}`;
+        window.location.href = `./OrderIndividual`;
     };
 
-    const handleShip = (orderId) => {
+    const handleShip = () => {
         // Example of navigation to shipping details page
-        window.location.href = `./Dispatch/${orderId}`;
+        window.location.href = `./Dispatch`;
     };
 
     const handleShowCreateShippingModal = () => {
@@ -59,6 +59,10 @@ const Orderr = () => {
         handleCloseCreateShippingModal(); // Close modal after creation
     };
 
+    const handleFilterChange = (event) => {
+        setFilter(event.target.value);
+      };
+
     return (
         <div className="app-container">
            <h4>Manage Orders</h4>
@@ -73,6 +77,15 @@ const Orderr = () => {
                         />
                         <button onClick={handleSearch}><FontAwesomeIcon icon={faSearch} /></button>
                     </div>
+                    <div>
+                      <label htmlFor="filter">Filter: </label>
+                         <select id="filter" value={filter} onChange={handleFilterChange}>
+                            <option value="all">All</option>
+                            <option value="delivered">Delivered</option>
+                            <option value="shipped">Shipped</option>
+                            <option value="cancelled">Cancelled</option>
+                         </select>
+                     </div>
                     <div className="export-section">
                         <button onClick={exportToPDF}><FontAwesomeIcon icon={faFilePdf} /> Export to PDF</button>
                     </div>
@@ -101,9 +114,9 @@ const Orderr = () => {
                                     <td>₹{order.total}</td>
                                     <td>{order.status}</td>
                                     <td>
-                                        <button onClick={() => handleView(order.id)}><FontAwesomeIcon icon={faEye} /> View</button>
+                                        <button onClick={() => handleView()}><FontAwesomeIcon icon={faEye} /> View</button>
                                         {order.status !== 'Cancelled' && (
-                                            <button onClick={() => handleShip(order.id)}><FontAwesomeIcon icon={faTruck} /> Shipping details</button>
+                                            <button onClick={() => handleShip()}><FontAwesomeIcon icon={faTruck} /> Shipping details</button>
                                         )}
                                     </td>
                                 </tr>

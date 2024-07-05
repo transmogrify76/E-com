@@ -42,6 +42,8 @@ import SellerNavbar from './Components/Seller/SellerNavbar/SellerNavbar';
 import Logout from './Components/Logout/Logout';
 import Wallet from './Components/Seller/Wallet/Wallet';
 import SellerAccount from './Components/Seller/Account/Account';
+import NewSeller from './Components/Seller/NewSeller/NewSeller';
+import NewBank from './Components/Seller/NewBank/NewBank';
 
 function App() {
   return (
@@ -154,6 +156,8 @@ function AppContent() {
         <Route path="/Logout" element={<Logout />} />
         <Route path="/wallet" element={<Wallet />} />
         <Route path="/SellerNavbar" element={<SellerNavbar />} />
+        <Route path="/NewSeller" element={<NewSeller />} />
+        <Route path="/NewBank" element={<NewBank />} />
         <Route path="/SellerAccount" element={<SellerAccount/>} />
       </Routes>
       {shouldShowFooter() && <Footer />}
