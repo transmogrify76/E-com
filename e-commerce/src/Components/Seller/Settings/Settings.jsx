@@ -37,7 +37,7 @@ const Settings = () => {
                             <input type="text" id="username" name="username" />
                         </div>
                         <div className="form-group">
-                            <label htmlFor="email">Email:</label>
+                            <label htmlFor="email">Email ID:</label>
                             <input type="email" id="email" name="email" />
                         </div>
                         <div className="form-group">

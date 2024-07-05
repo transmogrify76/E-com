@@ -39,7 +39,7 @@ function SellerNavbar() {
           </div>
           {isDropdownOpen && (
             <div className="dropdown-content">
-              <a href="/account">My Profile</a>
+              <a href="/SellerAccount">My Profile</a>
               <a href="/login">Log out</a>
               
             </div>

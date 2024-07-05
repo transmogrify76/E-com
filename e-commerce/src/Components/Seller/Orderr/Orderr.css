@@ -2,7 +2,7 @@
 .app-container {
     display: flex;
     flex-direction: column; /* Adjusted to column layout for header and main content */
-     height: 90vh;
+     /* height: 90vh; */
     overflow: hidden; /* Prevents scrollbars on smaller screens */
      padding-top: 60px; /* Added padding for fixed header */
  }  

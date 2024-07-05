@@ -1,5 +1,4 @@
 
-
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import ENavbar from './Components/Navbar/Navbar';
@@ -9,10 +8,10 @@ import Login from './Components/Login/Login';
 import Signup from './Components/Signup/Signup';
 import Cart from './Components/Cart/Cart';
 import Wishlist from './Components/Wishlist/Wishlist';
-import Orders from './Components/Orders/Orders'; // Correct import
+import Orders from './Components/Orders/Orders';
 import Account from './Components/Authentication/Account/Accounts';
 import ForgetPassword from './Components/Forgetpassword/Forgetpassword';
-import ShopCat from './Components/ShopCat/ShopCat'; // Correct import
+import ShopCat from './Components/ShopCat/ShopCat';
 import men_banner from './Components/Assests/Ecommerce_Frontend_Assets/Assets/banner_mens.png';
 import women_banner from './Components/Assests/Ecommerce_Frontend_Assets/Assets/banner_women.png';
 import kid_banner from './Components/Assests/Ecommerce_Frontend_Assets/Assets/banner_kids.png';
@@ -25,12 +24,12 @@ import Product from './Components/Product/Product';
 import AdminDashboard from './Components/Admin/AdminDashboard/AdminDashboard';
 import Checkout from './Components/Checkout/Checkout';
 import Payment from './Components/Payment/Payment';
-import SellerDashboard from './Components/Seller/SellerDashboard/SellerDashboard'; // Correct import
-import ProductUpload from './Components/Seller/ProductUpload/ProductUpload'; // Correct import
-import ExistingProduct from './Components/Seller/ExistingProduct/ExcistingProduct'; // Correct import
-import Dispatch from './Components/Seller/Dispatch/Dispatch'; // Correct import
-import RevenueGenerate from './Components/Seller/RevenueGenerate/RevenueGenerate'; // Correct import
-import Orderr from './Components/Seller/Orderr/Orderr'; // Correct import
+import SellerDashboard from './Components/Seller/SellerDashboard/SellerDashboard';
+import ProductUpload from './Components/Seller/ProductUpload/ProductUpload';
+import ExistingProduct from './Components/Seller/ExistingProduct/ExcistingProduct';
+import Dispatch from './Components/Seller/Dispatch/Dispatch';
+import RevenueGenerate from './Components/Seller/RevenueGenerate/RevenueGenerate';
+import Orderr from './Components/Seller/Orderr/Orderr';
 import Settings from './Components/Seller/Settings/Settings';
 import Users from './Components/Admin/Users/Users';
 import Products from './Components/Admin/Products/Products';
@@ -41,9 +40,8 @@ import OrderIndividual from './Components/Order-individual/OrderIndividual';
 import SideNavbar from './Components/Seller/SideNavbar/SideNavbar';
 import SellerNavbar from './Components/Seller/SellerNavbar/SellerNavbar';
 import Logout from './Components/Logout/Logout';
-import Wallet from './Components/Seller/Wallet/Wallet'
-
-
+import Wallet from './Components/Seller/Wallet/Wallet';
+import SellerAccount from './Components/Seller/Account/Account';
 
 function App() {
   return (
@@ -65,30 +63,7 @@ function AppContent() {
       '/Orderr', '/Settings', '/admin-dashboard', '/Users', '/Products',
       '/Order', '/Reports', '/Setting', '/Logout', '/OrderIndividual'
     ];
-    return !pathsWithoutSidebar.includes(location.pathname) || location.pathname.startsWith('/product/');
-  };
-
-  // Function to determine if the navbar should be shown
-  const shouldShowNavbar = () => {
-    // Paths where navbar should be shown
-    const pathsWithNavbar = [
-      '/', '/dashboard', '/cart', '/wishlist', '/mens', '/women', '/orders',
-      '/account', '/kids', '/popular', '/shop', '/newcollections', '/productdisplay',
-      '/product/:productId', '/checkout', '/payment'
-    ];
-    return pathsWithNavbar.includes(location.pathname)  || location.pathname.startsWith('/product/');
-  };
-
-  // Function to determine if the footer should be shown
-  const shouldShowFooter = () => {
-    // Paths where footer should not be shown
-    const pathsWithoutFooter = [
-      '/login', '/signup', '/forgetpassword', '/seller-dashboard',
-      '/ProductUpload', '/ExistingProduct', '/Dispatch', '/RevenueGenerate',
-      '/Orderr', '/Settings', '/admin-dashboard', '/Users', '/Products',
-      '/Order', '/Reports', '/Setting', '/Logout', '/OrderIndividual'
-    ];
-    return !pathsWithoutFooter.includes(location.pathname);
+    return !pathsWithoutSidebar.includes(location.pathname);
   };
 
   // Function to determine if the side navbar should be shown
@@ -111,6 +86,29 @@ function AppContent() {
       '/newcollections', '/checkout', '/payment'
     ];
     return !pathsWithoutSellerNavbar.includes(location.pathname) && !location.pathname.startsWith('/product/');
+  };
+
+  // Function to determine if the navbar should be shown
+  const shouldShowNavbar = () => {
+    // Paths where navbar should be shown
+    const pathsWithNavbar = [
+      '/', '/dashboard', '/cart', '/wishlist', '/mens', '/women', '/orders',
+      '/account', '/kids', '/popular', '/shop', '/newcollections', '/productdisplay',
+      '/product/:productId', '/checkout', '/payment'
+    ];
+    return pathsWithNavbar.includes(location.pathname) || location.pathname.startsWith('/product/');
+  };
+
+  // Function to determine if the footer should be shown
+  const shouldShowFooter = () => {
+    // Paths where footer should not be shown
+    const pathsWithoutFooter = [
+      '/login', '/signup', '/forgetpassword', '/seller-dashboard',
+      '/ProductUpload', '/ExistingProduct', '/Dispatch', '/RevenueGenerate',
+      '/Orderr', '/Settings', '/admin-dashboard', '/Users', '/Products',
+      '/Order', '/Reports', '/Setting', '/Logout', '/OrderIndividual'
+    ];
+    return !pathsWithoutFooter.includes(location.pathname);
   };
 
   return (
@@ -156,7 +154,7 @@ function AppContent() {
         <Route path="/Logout" element={<Logout />} />
         <Route path="/wallet" element={<Wallet />} />
         <Route path="/SellerNavbar" element={<SellerNavbar />} />
-       
+        <Route path="/SellerAccount" element={<SellerAccount/>} />
       </Routes>
       {shouldShowFooter() && <Footer />}
     </div>
