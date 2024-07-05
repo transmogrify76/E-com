@@ -1,6 +1,6 @@
 
  .side-navbar {
-    width: 70px; /* Initial width when collapsed */
+    width: 80px; /* Initial width when collapsed */
     position: fixed;
     background-color: #281042;
     left: 0;
@@ -14,7 +14,7 @@
 }
 
 .side-navbar.expanded {
-    width: 200px;
+    width: 250px;
 }
 
 .toggle-btn {

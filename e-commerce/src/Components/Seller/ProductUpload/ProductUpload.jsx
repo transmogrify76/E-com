@@ -2,10 +2,8 @@
 // ProductUpload.js
 
 import React, { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUpload } from '@fortawesome/free-solid-svg-icons';
 import styles from './ProductUpload.css'; // Import CSS module for styling
-import { Link } from 'react-router-dom';
+
 
 const ProductUpload = ({ onProductSubmit }) => {
     const [productName, setProductName] = useState('');

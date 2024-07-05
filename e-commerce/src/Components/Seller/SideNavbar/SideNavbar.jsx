@@ -65,7 +65,7 @@ return (
             <li className="nav-item">
                 <Link to="/Settings" className={`nav-link ${location.pathname === '/Settings' ? 'active' : ''}`} onClick={() => handleMenuItemClick('Settings')}>
                     <FontAwesomeIcon icon={faCog} className="nav-icon" />
-                    {isExpanded && <span>Setting</span>}
+                    {isExpanded && <span>Settings</span>}
                 </Link>
             </li>
             <li className="nav-item">
