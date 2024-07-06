@@ -1,37 +1,51 @@
-import React from 'react';
+import React,{useState} from 'react';
+import './Navbar.css';
+import { IoSearch } from "react-icons/io5";
+import user from '../../Assests/user.png';
+import logo from '../../Assests/Ecommerce_Frontend_Assets/Assets/logo.png';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBell } from '@fortawesome/free-solid-svg-icons';
 
-const Navbar = () => {
-  return (
-    <nav className="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-      <a className="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="/">
-        Admin Dashboard
-      </a>
-      <button
-        className="navbar-toggler position-absolute d-md-none collapsed"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#sidebarMenu"
-        aria-controls="sidebarMenu"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span className="navbar-toggler-icon"></span>
-      </button>
-      <input
-        className="form-control form-control-dark w-100"
-        type="text"
-        placeholder="Search"
-        aria-label="Search"
-      />
-      <ul className="navbar-nav px-3">
-        <li className="nav-item text-nowrap">
-          <a className="nav-link" href="/">
-            Sign out
-          </a>
-        </li>
-      </ul>
-    </nav>
-  );
-};
+function AdminNavbar() {
+    // Placeholder values or components
+    const notificationCount = 5; // Example notification count
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false); // State for dropdown visibility
 
-export default Navbar;
+    const toggleDropdown = () => {
+      setIsDropdownOpen(!isDropdownOpen);
+    };
+
+    return (
+        <div className="navbar">
+            <div className="nav-logo">
+            <img src={logo} alt='logo' />
+                <p style={{ color: 'white' }}>E-Com</p>
+            </div>
+
+            <div className='headerSearch'>
+                <input type='text' placeholder="Search..." />
+                <button className='btn-search'><IoSearch /></button>
+            </div>
+
+            <div className="notifications">
+                <FontAwesomeIcon icon={faBell} className="notification-icon" />
+                <span className="badge">{notificationCount}</span>
+            </div>
+
+            <div className="dropdown-container" onClick={toggleDropdown}>
+          <div className="user-icon">
+            <img src={user} alt="user" />
+          </div>
+          {isDropdownOpen && (
+            <div className="dropdown-content">
+              <a href="/SellerAccount">My Profile</a>
+              <a href="/login">Log out</a>
+              
+            </div>
+          )}
+        </div>
+        </div>
+    );
+}
+
+export default AdminNavbar;

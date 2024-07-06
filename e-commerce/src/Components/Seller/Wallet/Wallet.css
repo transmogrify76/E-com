@@ -200,4 +200,30 @@
   gap: 10px;
   margin-top: 10px;
 }
+.btn-add-bank {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-left: 60%;
+}
+
+.btn-add-bank:hover {
+  background-color: #0056b3;
+}
+
+.btn-add-bank:focus {
+  outline: none;
+}
+
+.btn-add-bank:disabled {
+  background-color: #b3c6e7;
+  cursor: not-allowed;
+}
 

@@ -20,7 +20,9 @@ const Wallet = () => {
         <div className="wallet-header">
           <h1>My Wallet</h1>
         </div>
-        <button onClick={handleAddBankAccount}>+ Add Bank Account</button>
+        <button className="btn-add-bank" onClick={handleAddBankAccount}>
+          + Add Bank Account
+        </button>
         <div className="wallet-body">
           <div className="wallet-balance">
             <h3>Current Balance</h3>
