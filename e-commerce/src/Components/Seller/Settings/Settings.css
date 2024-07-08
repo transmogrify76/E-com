@@ -1,26 +1,18 @@
 /* Settings.css */
 
 /* Main container for the Settings component */
-/* .app-container {
+/* /* .app-container {
     display: flex;
-    justify-content: center; 
-    align-items: center; 
-    height: 100vh; 
-    background-color: #f0f0f0; 
-} */
-
-/* Card containing the settings form */
-.settings-card {
-    width: 100%;
-    max-width: 400px; /* Adjust maximum width as needed */
-    background-color: #ffffff; /* White background */
-    border: 1px solid #e0e0e0; /* Light gray border */
-    border-radius: 8px; /* Rounded corners */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle box shadow for depth */
-    padding: 20px; /* Padding inside the card */
-    margin: 10px; /* Add margin for spacing */
-    margin-left: 40%;
+    flex-direction: column;
 }
+
+
+.settings-container {
+    flex: 1;
+    margin-top: 100px; /* Adjust top margin to clear the header */
+    /* padding: 20px;
+    margin-left: 500px;
+} */ 
 
 /* Heading for the settings */
 .settings-heading {

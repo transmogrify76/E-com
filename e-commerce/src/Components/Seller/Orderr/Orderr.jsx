@@ -1,5 +1,3 @@
-
-
 import React, { useState } from 'react';
 import './Orderr.css'; // Import CSS file for styling
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -31,12 +29,12 @@ const Orderr = () => {
 
     const handleView = () => {
         // Example of navigation to individual order view
-        window.location.href = `./OrderIndividual`;
+        window.location.href = './OrderIndividual';
     };
 
     const handleShip = () => {
         // Example of navigation to shipping details page
-        window.location.href = `./Dispatch`;
+        window.location.href = './Dispatch';
     };
 
     const handleShowCreateShippingModal = () => {
