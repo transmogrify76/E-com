@@ -12,9 +12,9 @@ const SellerAccount = () => {
     };
 
     const brandInfo = {
-        brandName: 'Example Brand',
+        brandName: 'Example Store',
         brandLogo: '/path/to/logo.png',
-        establishedYear: '2020',
+        establishedYear: '2024',
         brandAbout: 'This is a brief description of the brand.'
     };
 
@@ -69,11 +69,11 @@ const SellerAccount = () => {
 
             {/* Brand Information Section */}
             <section className="account-section">
-                <h5>Brand Information</h5>
+                <h5>Store Information</h5>
                 <div className="user-info-section">
-                    <p><strong>Brand Name:</strong> {brandInfo.brandName}</p>
-                    <p><strong>Brand Logo:</strong> <img src={brandInfo.brandLogo} alt="Brand Logo" /></p>
-                    <p><strong>Brand About:</strong> {brandInfo.brandAbout}</p>
+                    <p><strong>Store Name:</strong> {brandInfo.brandName}</p>
+                    <p><strong>Store Logo:</strong> <img src={brandInfo.brandLogo} alt="Brand Logo" /></p>
+                    <p><strong>Store About:</strong> {brandInfo.brandAbout}</p>
                     <p><strong>Established Year:</strong> {brandInfo.establishedYear}</p>
                 </div>
             </section>

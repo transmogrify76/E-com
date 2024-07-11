@@ -1,55 +1,74 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import './Sidebar.css'; // Importing CSS for styling
+import React, { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { FaHome, FaFolder, FaShoppingCart, FaUser, FaAngleDoubleLeft, FaAngleDoubleRight, FaBoxOpen, FaClipboardList } from 'react-icons/fa';
+import './Sidebar.css'; // Import your CSS file for styling
 
 const Sidebar = () => {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const location = useLocation(); // Get current location from react-router-dom
+
+  const toggleExpand = () => {
+    setIsExpanded(!isExpanded);
+  };
+
   return (
-    <nav className="col-md-2 d-none d-md-block sidebar">
-      <div className="sidebar-sticky">
-        <ul className="nav flex-column">
+    <div className={`container ${isExpanded ? 'expanded' : 'collapsed'}`}>
+      <div className={`side-bar ${isExpanded ? 'expanded' : 'collapsed'}`}>
+        <button className="toggle-btn" onClick={toggleExpand}>
+          {isExpanded ? <FaAngleDoubleLeft /> : <FaAngleDoubleRight />}
+        </button>
+        <ul className="navbar-nav">
           <li className="nav-item">
-            <Link className="nav-link" to="/" activeClassName="active">
-              Dashboard
+            <Link to="/admin-dashboard" className={`nav-link ${location.pathname === '/admin-dashboard' ? 'active' : ''}`}>
+              <FaHome className="nav-icon" />
+              {isExpanded && <span>Dashboard</span>}
             </Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link" to="/products" activeClassName="active">
-              Products
+            <Link to="/products" className={`nav-link ${location.pathname === '/products' ? 'active' : ''}`}>
+              <FaBoxOpen className="nav-icon" />
+              {isExpanded && <span>Products</span>}
             </Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link" to="/add-product" activeClassName="active">
-              Add Product
+            <Link to="/add-product" className={`nav-link ${location.pathname === '/add-product' ? 'active' : ''}`}>
+              <FaShoppingCart className="nav-icon" />
+              {isExpanded && <span>Add Product</span>}
             </Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link" to="/categories" activeClassName="active">
-              Categories
+            <Link to="/categories" className={`nav-link ${location.pathname === '/categories' ? 'active' : ''}`}>
+              <FaFolder className="nav-icon" />
+              {isExpanded && <span>Categories</span>}
             </Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link" to="/orders" activeClassName="active">
-              Orders
+            <Link to="/order" className={`nav-link ${location.pathname === '/order' ? 'active' : ''}`}>
+              <FaClipboardList className="nav-icon" />
+              {isExpanded && <span> Manage Orders</span>}
             </Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link" to="/users" activeClassName="active">
-              Users
+            <Link to="/users" className={`nav-link ${location.pathname === '/users' ? 'active' : ''}`}>
+              <FaUser className="nav-icon" />
+              {isExpanded && <span> Manage Users</span>}
             </Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link" to="/sellers" activeClassName="active">
-              Sellers
+            <Link to="/sellers" className={`nav-link ${location.pathname === '/sellers' ? 'active' : ''}`}>
+              <faStoreAlt className="nav-icon" />
+              {isExpanded && <span> Manage Sellers</span>}
             </Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link" to="/transactions" activeClassName="active">
-              Transactions
+            <Link to="/transactions" className={`nav-link ${location.pathname === '/transactions' ? 'active' : ''}`}>
+              < faExchangeAlt className="nav-icon" />
+              {isExpanded && <span>Transactions</span>}
             </Link>
           </li>
         </ul>
       </div>
-    </nav>
+    </div>
   );
 };
 

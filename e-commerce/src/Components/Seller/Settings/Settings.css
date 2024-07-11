@@ -1,84 +1,87 @@
 /* Settings.css */
 
 /* Main container for the Settings component */
-/* /* .app-container {
+ /* .app-container {
     display: flex;
-    flex-direction: column;
+    justify-content: center; 
+    align-items: center; 
+    height: 100vh; 
+    background-color: #f0f0f0; 
+}  */
+
+/*Card containing the settings form*/
+  .settings-card {
+  width: 100%;
+  max-width: 800px;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 10px;
+  margin-left: auto; 
+  margin-right: auto;
 }
 
-
-.settings-container {
-    flex: 1;
-    margin-top: 100px; /* Adjust top margin to clear the header */
-    /* padding: 20px;
-    margin-left: 500px;
-} */ 
-
-/* Heading for the settings */
 .settings-heading {
-    color: #333333; /* Dark text color */
-    font-size: 24px; /* Larger font size */
-    text-align: center; /* Center align the heading */
-    margin-bottom: 20px; /* Bottom margin for spacing */
+  color: #333333;
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
-/* Content area inside the settings card */
-.settings-content {
-    max-width: 300px; /* Adjust maximum width as needed */
-    margin: 0 auto; /* Center the content horizontally */
-}
-
-/* Form styling */
 .settings-form {
-    display: flex;
-    flex-direction: column; /* Stack form items vertically */
+  display: flex;
+  flex-direction: column;
 }
 
-/* Form input fields */
 .form-group {
-    margin-bottom: 20px; /* Bottom margin between form groups */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
-label {
-    font-weight: bold; /* Bold label text */
-    margin-bottom: 8px; /* Bottom margin for spacing */
-    color: #555555; /* Darker text color */
+ .form-group label {
+  font-weight: bold;
+  margin-right: 10px;
+  color: #555555;
 }
 
-input[type="text"],
-input[type="email"],
-input[type="password"] {
-    padding: 10px; /* Padding inside input fields */
-    /* width: 100%;  */
-    border: 1px solid #ccc; /* Light gray border */
-    border-radius: 4px; /* Rounded corners */
+.form-group input,
+.form-group textarea,
+.form-group select {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
-/* Save button */
-.btn-save {
-    background-color: #4CAF50; /* Green background color */
-    color: white; /* White text color */
-    border: none; /* No border */
-    padding: 12px 20px; /* Padding inside button */
-    text-align: center; /* Center align text */
-    text-decoration: none; /* No underline */
-    display: inline-block; /* Display as inline-block */
-    font-size: 16px; /* Font size */
-    margin-top: 20px; /* Top margin for spacing */
-    cursor: pointer; /* Pointer cursor on hover */
-    border-radius: 4px; /* Rounded corners */
-    transition: background-color 0.3s ease; /* Smooth transition for background color */
-    width: 100%; /* Full width button */
-    box-sizing: border-box; /* Ensure padding and border don't add to width */
+
+  .btn-savee {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+  
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-top: 20px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+    width: 30%;
+    box-sizing: border-box;
+    margin-left: 40%;
+  } 
+.btn-savee:hover {
+  background-color: #45a049;
 }
 
-/* Hover effect for save button */
-.btn-save:hover {
-    background-color: #45a049; /* Darker green on hover */
-}
+.btn-savee:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}  
 
-/* Disabled state for save button */
-.btn-save:disabled {
-    background-color: #cccccc; /* Light gray background for disabled button */
-    cursor: not-allowed; /* Not-allowed cursor on disabled state */
-}
+

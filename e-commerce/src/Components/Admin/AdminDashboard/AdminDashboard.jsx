@@ -1,4 +1,4 @@
-// 
+ 
 import React, { useState } from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -6,10 +6,7 @@ import {  faUsers, faBoxOpen, faBell } from '@fortawesome/free-solid-svg-icons';
 import './AdminDashboard.css'; // Ensure to adjust path as per your project structure
 
 const AdminDashboard = () => {
-     const user = {
-         username: 'Admin', // Replace with actual admin username
-         avatar: 'https://via.placeholder.com/150', // Replace with actual avatar URL
-     };
+    
 
     // State to manage active menu item
     const [activeMenuItem] = useState('Dashboard');
@@ -22,22 +19,7 @@ const AdminDashboard = () => {
     return (
         <div className="admin-dashboard">
             {/* Header */}
-            <header className="header">
-                <div className="header-left">
-                    <h1>Welcome, {user.username}!</h1>
-                </div>
-                <div className="header-right">
-                    <div className="user-profile">
-                        <img src={user.avatar} alt="User Avatar" className="avatar" />
-                        <span className="username">{user.username}</span>
-                    </div>
-                    <div className="notifications">
-                        <FontAwesomeIcon icon={faBell} />
-                        <span className="badge">5</span>
-                        
-                    </div>
-                </div>
-            </header>
+           
 
             {/* Sidebar (sidenav) */}
             <div className="dashboard-container">

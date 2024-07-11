@@ -6,10 +6,7 @@ import { faUsers, faBoxOpen, faClipboardList, faChartLine, faCog, faSignOutAlt, 
 import './Setting.css'; // Assuming you have a CSS file for settings
 
 const Setting = () => {
-    const user = {
-        username: 'Admin', // Replace with actual admin username
-        avatar: 'https://via.placeholder.com/150', // Replace with actual avatar URL
-    };
+ 
 
     const [activeMenuItem, setActiveMenuItem] = useState('Setting');
 
@@ -37,65 +34,10 @@ const Setting = () => {
     return (
         <div className="admin-dashboard">
             {/* Header */}
-            <header className="header">
-                <div className="header-left">
-                    <h2>Settings</h2>
-                </div>
-                <div className="header-right">
-                    <div className="user-profile">
-                        <img src={user.avatar} alt="User Avatar" className="avatar" />
-                        <span className="username">{user.username}</span>
-                    </div>
-                    <div className="notifications">
-                        <FontAwesomeIcon icon={faBell} />
-                        <span className="badge">5</span>
-                        
-                    </div>
-                </div>
-            </header>
-
+          
             {/* Sidebar (sidenav) */}
             <div className="admin-container">
-                {/* <nav className="sidenav">
-                    <ul>
-                        <li className={activeMenuItem === 'Users' ? 'active' : ''}>
-                            <Link to="/Users" onClick={() => handleMenuItemClick('Users')}>
-                                <FontAwesomeIcon icon={faUsers} style={{ marginRight: '8px' }} />
-                                Users Management
-                            </Link>
-                        </li>
-                        <li className={activeMenuItem === 'Products' ? 'active' : ''}>
-                            <Link to="/Products" onClick={() => handleMenuItemClick('Products')}>
-                                <FontAwesomeIcon icon={faBoxOpen} style={{ marginRight: '8px' }} />
-                                Products Management
-                            </Link>
-                        </li>
-                        <li className={activeMenuItem === 'Orders' ? 'active' : ''}>
-                            <Link to="/Order" onClick={() => handleMenuItemClick('Order')}>
-                                <FontAwesomeIcon icon={faClipboardList} style={{ marginRight: '8px' }} />
-                                Orders Management
-                            </Link>
-                        </li>
-                        <li className={activeMenuItem === 'Reports' ? 'active' : ''}>
-                            <Link to="/Reports" onClick={() => handleMenuItemClick('Reports')}>
-                                <FontAwesomeIcon icon={faChartLine} style={{ marginRight: '8px' }} />
-                                Reports & Analytics
-                            </Link>
-                        </li>
-                        <li className={activeMenuItem === 'Settings' ? 'active' : ''}>
-                            <Link to="/Setting" onClick={() => handleMenuItemClick('Settings')}>
-                                <FontAwesomeIcon icon={faCog} style={{ marginRight: '8px' }} />
-                                Settings
-                            </Link>
-                        </li>
-                        <li>
-                            <a href="/Logout">
-                                <FontAwesomeIcon icon={faSignOutAlt} style={{ marginRight: '8px' }} />
-                                Logout
-                            </a>
-                        </li>
-                    </ul>
-                </nav> */}
+              
 
                 {/* Main Content */}
                 <main className="dashboard-main">

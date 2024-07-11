@@ -1,5 +1,5 @@
 // ProductUpload.jsx
-// ProductUpload.js
+
 
 import React, { useState } from 'react';
 import styles from './ProductUpload.css'; // Import CSS module for styling
@@ -88,3 +88,4 @@ const ProductUpload = ({ onProductSubmit }) => {
 };
 
 export default ProductUpload;
+

@@ -17,6 +17,8 @@
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   padding: 20px;
+  margin-left: 150%;
+ margin-right: 120%;
 }
 
 /* Menu item styles */

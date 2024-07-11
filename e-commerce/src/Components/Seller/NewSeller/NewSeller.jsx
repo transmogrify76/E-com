@@ -4,6 +4,8 @@ import './NewSeller.css';
 const NewSeller = () => {
   const [formData, setFormData] = useState({
     companyName: '',
+    companyDescription:'',
+    password:'',
     contactPerson: '',
     email: '',
     phoneNumber: '',
@@ -36,6 +38,30 @@ const NewSeller = () => {
             id="companyName"
             placeholder="Enter your company name"
             value={formData.companyName}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="companyName">Company Description</label>
+          <input
+            type="text"
+            className="form-control"
+            id="companyDescription"
+            placeholder="Enter your company description"
+            value={formData.companyDescription}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="companyName">Password</label>
+          <input
+            type="text"
+            className="form-control"
+            id="companyName"
+            placeholder="Enter your Password"
+            value={formData.password}
             onChange={handleChange}
             required
           />

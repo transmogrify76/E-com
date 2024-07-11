@@ -74,7 +74,7 @@ function AppContent() {
     const pathsWithoutSideNavbar = [
       '/', '/login', '/signup', '/forgetpassword', '/dashboard', '/cart', '/wishlist',
       '/mens', '/women', '/orders', '/account', '/kids', '/popular', '/shop',
-      '/newcollections', '/checkout', '/payment'
+      '/newcollections', '/checkout', '/payment','/NewSeller'
     ];
     return !pathsWithoutSideNavbar.includes(location.pathname) && !location.pathname.startsWith('/product/');
   };
@@ -85,7 +85,7 @@ function AppContent() {
     const pathsWithoutSellerNavbar = [
       '/', '/login', '/signup', '/forgetpassword', '/dashboard', '/cart', '/wishlist',
       '/mens', '/women', '/orders', '/account', '/kids', '/popular', '/shop',
-      '/newcollections', '/checkout', '/payment'
+      '/newcollections', '/checkout', '/payment','/NewSeller'
     ];
     return !pathsWithoutSellerNavbar.includes(location.pathname) && !location.pathname.startsWith('/product/');
   };
@@ -96,7 +96,7 @@ function AppContent() {
     const pathsWithNavbar = [
       '/', '/dashboard', '/cart', '/wishlist', '/mens', '/women', '/orders',
       '/account', '/kids', '/popular', '/shop', '/newcollections', '/productdisplay',
-      '/product/:productId', '/checkout', '/payment'
+      '/product/:productId', '/checkout', '/payment','/NewSeller'
     ];
     return pathsWithNavbar.includes(location.pathname) || location.pathname.startsWith('/product/');
   };
@@ -166,4 +166,5 @@ function AppContent() {
 }
 
 export default App;
+
 

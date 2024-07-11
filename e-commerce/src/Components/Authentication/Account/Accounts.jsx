@@ -1,6 +1,6 @@
-// import necessary modules and components
 import React, { useState, useEffect } from 'react';
 import './Accounts.css';
+import ConfirmationModal from '../../ConfirmationModal/ConfirmationModal';
 
 const MyAccountPage = () => {
   const [userData, setUserData] = useState(null);
@@ -28,9 +28,20 @@ const MyAccountPage = () => {
   }, []); // Empty dependency array to run effect only once on mount
 
   const handleLogout = () => {
-    // Simulate logging out by resetting user data and setting loading state
-    setUserData(null);
-    setLoading(true);
+    setShowModal(true);
+  };
+
+  const confirmLogout = () => {
+    // Perform logout actions here if needed
+    localStorage.removeItem('authToken'); // Clearing authentication token
+
+    // Redirect to login page or perform any other action after logout
+    // For simplicity, let's just reload the page
+    window.location.reload();
+  };
+
+  const cancelLogout = () => {
+    setShowModal(false);
   };
 
   if (loading) {
@@ -40,16 +51,81 @@ const MyAccountPage = () => {
   return (
     <div className="my-account-container">
       <h4 className="my-account-title">My Account</h4>
-      <div className="user-info-section">
-        <h3>User Information</h3>
-        <p><strong>Name:</strong> {userData.name}</p>
-        <p><strong>Email:</strong> {userData.email}</p>
-        <p><strong>Address:</strong> {userData.address}</p>
-        <p><strong>Phone Number:</strong> {userData.phoneNumber}</p>
-      </div>
-      <button className="logout" onClick={handleLogout}>
-        Logout
-      </button>
+
+      {/* Personal Information Section */}
+      <section className="account-section">
+        <h5>Personal Information</h5>
+        <div className="user-info-section">
+          <p><strong>Name:</strong> {userData.name}</p>
+          <p><strong>Email:</strong> {userData.email}</p>
+          <p><strong>Address:</strong> {userData.address}</p>
+          <p><strong>Phone Number:</strong> {userData.phoneNumber}</p>
+        </div>
+      </section>
+
+      {/* Payment Modes Section */}
+      <section className="account-section">
+        <h5>Payment Modes</h5>
+        <div className="payment-info-section">
+          <div className="payment-mode">
+            <h6><strong>Card</strong></h6>
+            {/* Card details or settings can be added here */}
+            <p>Card ending in XXXX</p>
+            <p>Expiry: MM/YYYY</p>
+          </div>
+          <div className="payment-mode">
+            <h6><strong>UPI</strong></h6>
+            {/* UPI details or settings can be added here */}
+            <p>Linked UPI ID: example@upi</p>
+          </div>
+        </div>
+      </section>
+
+      <section className="account-section">
+        <h5>Refund</h5>
+        <div className="refund-info-section">
+          <div className="refund-mode">
+            <h6><strong>Account number</strong></h6>
+            {/* Card details or settings can be added here */}
+            <p> Account number ending in XXXX</p>
+            <p>IFSC : XXXXXXX</p>
+          </div>
+          <div className="payment-mode">
+            <h6><strong>UPI</strong></h6>
+            {/* UPI details or settings can be added here */}
+            <p>Linked UPI ID: example@upi</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Activity Section */}
+      <section className="account-section">
+        <h5>Activity</h5>
+        <div className="activity-section">
+          <div className="activity-item">
+            <h6><strong>Orders</strong></h6>
+            {/* Orders details or settings can be added here */}
+            <p>View recent orders and track shipments.</p>
+          </div>
+          <div className="activity-item">
+            <h6><strong>Wishlist</strong></h6>
+            {/* Wishlist details or settings can be added here */}
+            <p>Manage your saved items for future purchase.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Logout button */}
+      <button onClick={handleLogout}>Logout</button>
+
+      {/* Confirmation Modal */}
+      {showModal && (
+        <ConfirmationModal
+          message="Are you sure you want to logout?"
+          onConfirm={confirmLogout}
+          onCancel={cancelLogout}
+        />
+      )}
     </div>
   );
 };

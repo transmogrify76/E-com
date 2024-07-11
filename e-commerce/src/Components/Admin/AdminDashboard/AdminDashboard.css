@@ -1,150 +1,44 @@
 
-/* AdminDashboard.css */
-
-/* Overall admin dashboard container */
+/* AdminDashboard container */
 .admin-dashboard {
   display: flex;
-  /* width: 150%; */
   flex-direction: column;
-  height: 100vh;
+  height: 100vh; 
+  margin-left: 40%;/* Adjust height as needed */
 }
 
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px;
-  background-color: #281042;
-  border-bottom: 1px solid #ddd;
-}
-
-.header-left h1 {
-  margin: 0;
-  font-size: 24px;
-  color:#fff
-}
-
-.avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  margin-right: 10px;
-}
-
-.username {
-  font-size: 16px;
-}
-
-.notifications {
-  display: flex;
-  align-items: center;
-}
-
-.notifications .badge {
-  background-color: red;
-  color: white;
-  font-size: 12px;
-  padding: 3px 6px;
-  border-radius: 50%;
-  margin-left: 5px;
-}
-
-.search-bar {
-  display: flex;
-  align-items: center;
-}
-
-.search-bar input[type="text"] {
-  padding: 8px;
-  font-size: 14px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  margin-right: 5px;
-}
-
-.search-bar button {
-  background-color: #0972ce;
-  color: white;
-  border: none;
-  padding: 8px;
-  cursor: pointer;
-  border-radius: 4px;
-}
-
-.search-bar button:hover {
-  background-color: #555;
-}
-
-
+/* Dashboard container */
 .dashboard-container {
   display: flex;
-  flex: 1;
+  flex: 1; /* Take remaining space */
 }
 
-/* .sidenav {
-  width: 240px;
-  background-color: #281042;
-  color: white;
-  padding-top: 20px;
- 
-}
-
-.sidenav ul {
-  list-style-type: none;
-  padding: 0;
-  margin-top: 10px;
-}
-
-.sidenav li {
-  padding: 12px 20px;
-  font-size: 16px;
-}
-
-.sidenav li.active {
-  background-color: #555;
-}
-
-.sidenav a {
-  color: white;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-}
-
-.sidenav a:hover {
-  color: white;
-  text-decoration: none;
-}
- */
-
+/* Main content area */
 .dashboard-main {
-  flex: 1;
+  flex: 1; /* Take remaining space */
   padding: 20px;
 }
 
+/* Admin main content */
 .admin-main-content {
-  background-color: #fff;
+  background-color: #f0f0f0;
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+
+/* Dashboard Overview */
 .dashboard-widgets {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
 }
 
 .dashboard-widget {
-  background-color: #fff;
-  padding: 16px;
+  background-color: #ffffff;
+  padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-}
-
-.dashboard-widget h3 {
-  margin-top: 0;
-  font-size: 1.2rem;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
 .widget-content {
@@ -153,39 +47,23 @@
 }
 
 .widget-icon {
-  margin-right: 8px;
+  margin-right: 10px;
+  font-size: 24px; /* Adjust size as needed */
 }
 
+.widget-data {
+  font-size: 18px; /* Adjust size as needed */
+}
+
+/* Recent Orders */
 .recent-orders-list {
   list-style-type: none;
   padding: 0;
 }
 
 .recent-orders-list li {
-  margin-bottom: 4px;
+  margin-bottom: 5px;
+  font-size: 16px; /* Adjust size as needed */
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .sidenav {
-      width: 200px;
-  }
-
-  .dashboard-main {
-      padding: 16px;
-  }
-}
-
-@media (max-width: 576px) {
-  .sidenav {
-      display: none; /* Hide sidebar on smaller screens */
-  }
-
-  .dashboard-main {
-      padding: 12px;
-  }
-
-  .admin-main-content {
-      max-width: 100%;
-  }
-}
+/* Additional styles for other sections can be added as needed */

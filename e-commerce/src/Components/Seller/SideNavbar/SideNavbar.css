@@ -1,16 +1,16 @@
 
  .side-navbar {
-  width: 90px; 
+  width: 80px; /* Initial width when collapsed */
   position: fixed;
   background-color: #281042;
   left: 0;
-  top: 0;
+  top: 60px;
   bottom: 0;
-  
   padding-top: 20px;
   transition: width 0.3s ease;
   overflow-x: hidden;
   box-shadow: 2px 0 5px rgba(214, 212, 212, 0.1);
+  z-index: 1000; /* Ensure sidebar is above other content */
 }
 
 .side-navbar.expanded {
