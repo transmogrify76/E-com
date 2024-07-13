@@ -38,7 +38,7 @@ function AdminNavbar() {
           </div>
           {isDropdownOpen && (
             <div className="dropdown-content">
-              <a href="/SellerAccount">My Profile</a>
+              <a href="/adaccount">My Profile</a>
               <a href="/login">Log out</a>
               
             </div>

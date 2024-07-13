@@ -1,6 +1,6 @@
 /* Sidebar */
-.side-bar {
-  width: 80px; /* Initial width when collapsed */
+/* .side-bar {
+  width: 80px; 
   position: fixed;
   background-color: #281042;
   left: 0;
@@ -10,7 +10,7 @@
   transition: width 0.3s ease;
   overflow-x: hidden;
   box-shadow: 2px 0 5px rgba(214, 212, 212, 0.1);
-  z-index: 1000; /* Ensure sidebar is above other content */
+  z-index: 1000; 
 }
 
 .side-bar.expanded {
@@ -38,7 +38,106 @@
 }
 
 .nav-item {
-  width: 200%; /* Adjust width for smaller screens */
+  width: 200%; 
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  padding: 15px 20px;
+  color: #ecf0f1;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  background-color: #b065ce; 
+  color: #fff;
+}
+
+.nav-icon {
+  font-size: 20px;
+  margin-right: 20px;
+}
+
+.nav-link span {
+  font-size: 16px;
+  display: inline-block;
+}
+
+
+@media screen and (max-width: 768px) {
+  .side-navbar {
+      width: 70px; 
+  }
+
+  .side-navbar.expanded {
+      width: 200px;
+  }
+
+
+  .side-navbar.expanded ~ .upper-navbar,
+  .side-navbar.expanded ~ .component-body {
+      margin-left: 200px; 
+  }
+
+  .nav-item {
+      width: 100%;
+  }
+}
+
+
+.upper-navbar {
+  
+  background-color: #333;
+  color: white;
+  padding: 10px;
+} */
+
+
+/* Sidebar styling */
+.side-bar {
+  width: 80px; /* Initial width when collapsed */
+  position: fixed;
+  background-color: #281042;
+  left: 0;
+  top: 60px; /* Adjust as needed based on your upper navbar height */
+  bottom: 0;
+  padding-top: 20px; /* Adjust top padding as needed */
+  transition: width 0.3s ease;
+  overflow-x: hidden;
+  box-shadow: 2px 0 5px rgba(214, 212, 212, 0.1);
+  z-index: 1000; /* Ensure sidebar is above other content */
+}
+
+.side-bar.expanded {
+  width: 250px; /* Expanded width */
+}
+
+.toggle-btn {
+  background-color: #7643b1;
+  border: none;
+  color: #ecf0f1;
+  padding: 10px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.toggle-btn:hover {
+  background-color: #8d43a3;
+}
+
+/* Navbar and nav items */
+.navbar-nav {
+  list-style: none;
+  padding: 0;
+  width: 100%;
+}
+
+.nav-item {
+  width: 100%; /* Full width for nav items */
 }
 
 .nav-link {
@@ -66,31 +165,38 @@
   display: inline-block;
 }
 
+/* Dropdown menu */
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  background-color: #281042;
+  left: 100%; /* Position dropdown menu to the right of the parent item */
+  top: 0;
+  min-width: 200px; /* Adjust width as needed */
+  z-index: 1001; /* Ensure dropdown is above sidebar */
+}
+
+.nav-item.dropdown:hover .dropdown-menu {
+  display: block; /* Show dropdown menu on hover */
+}
+
 /* Media Query for Responsive Design */
 @media screen and (max-width: 768px) {
-  .side-navbar {
-      width: 70px; /* Adjust as needed for smaller screens */
+  .side-bar {
+    width: 70px; /* Adjust as needed for smaller screens */
   }
 
-  .side-navbar.expanded {
-      width: 200px;
+  .side-bar.expanded {
+    width: 200px; /* Expanded width for smaller screens */
   }
 
   /* Shift upper navbar and component body when sidebar is expanded */
-  .side-navbar.expanded ~ .upper-navbar,
-  .side-navbar.expanded ~ .component-body {
-      margin-left: 200px; /* Same width as expanded sidebar */
+  .side-bar.expanded ~ .upper-navbar,
+  .side-bar.expanded ~ .component-body {
+    margin-left: 200px; /* Same width as expanded sidebar */
   }
 
   .nav-item {
-      width: 100%; /* Adjust width for smaller screens */
+    width: 100%; /* Full width for nav items on smaller screens */
   }
-}
-
-/* Example styles for upper navbar and component body */
-.upper-navbar {
-  /* Styles for your upper navbar */
-  background-color: #333;
-  color: white;
-  padding: 10px;
 }

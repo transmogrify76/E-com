@@ -1,100 +1,269 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClipboardList, faEdit, faTrash, faBell, faSearch, faChartLine, faCog, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import { Card, CardContent, Typography, Grid, TextField, Button, Table, TableHead, TableBody, TableRow, TableCell, IconButton, Menu, MenuItem } from '@material-ui/core';
+import { Search as SearchIcon, Edit as EditIcon, Delete as DeleteIcon, ShoppingCart as OrderIcon } from '@material-ui/icons';
 import './Order.css'; // Adjust path as per your project structure
 
-const Order = () => {
-   
+const AdminOrder = () => {
+  const initialOrders = [
+    { id: 1, customer: 'John Doe', phone: '123-456-7890', datetime: '2024-07-11 10:30 AM', products: 3, amount: 150.00, status: 'Paid' },
+    { id: 2, customer: 'Jane Smith', phone: '234-567-8901', datetime: '2024-07-10 12:00 PM', products: 2, amount: 100.50, status: 'Pending' },
+    { id: 3, customer: 'Michael Johnson', phone: '345-678-9012', datetime: '2024-07-09 03:45 PM', products: 4, amount: 220.25, status: 'Processing' },
+    { id: 4, customer: 'Emily Davis', phone: '456-789-0123', datetime: '2024-07-08 11:15 AM', products: 1, amount: 75.00, status: 'Cancelled' },
+    { id: 5, customer: 'Sarah Adams', phone: '567-890-1234', datetime: '2024-07-07 09:00 AM', products: 5, amount: 300.75, status: 'Paid' },
+    { id: 6, customer: 'David Wilson', phone: '678-901-2345', datetime: '2024-07-06 02:30 PM', products: 2, amount: 100.50, status: 'Cancelled' },
+    { id: 7, customer: 'Sophia Brown', phone: '789-012-3456', datetime: '2024-07-05 04:30 PM', products: 3, amount: 180.00, status: 'Processing' },
+    { id: 8, customer: 'Liam Miller', phone: '890-123-4567', datetime: '2024-07-04 08:45 AM', products: 2, amount: 95.50, status: 'Pending' },
+  ];
 
-    const [activeMenuItem, setActiveMenuItem] = useState('Orders');
+  const [orders, setOrders] = useState(initialOrders);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filters, setFilters] = useState([]);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [selectedMenu, setSelectedMenu] = useState(null);
 
-    // Mock data for orders
-    const [orders, setOrders] = useState([
-        { id: 1, customer: 'John Doe', total: 150.75, status: 'Pending' },
-        { id: 2, customer: 'Jane Smith', total: 99.99, status: 'Processing' },
-        { id: 3, customer: 'Michael Johnson', total: 249.50, status: 'Delivered' },
-    ]);
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
 
-    const [editingOrder, setEditingOrder] = useState(null);
-
-    const handleEditOrder = (orderId) => {
-        const orderToEdit = orders.find(order => order.id === orderId);
-        setEditingOrder(orderToEdit);
-    };
-
-    const cancelEdit = () => {
-        setEditingOrder(null);
-    };
-
-    const saveOrder = (updatedOrder) => {
-        const updatedOrders = orders.map(order =>
-            order.id === updatedOrder.id ? updatedOrder : order
-        );
-        setOrders(updatedOrders);
-        setEditingOrder(null);
-    };
-
-    const handleDeleteOrder = (orderId) => {
-        const updatedOrders = orders.filter(order => order.id !== orderId);
-        setOrders(updatedOrders);
-    };
-
-    const handleMenuItemClick = (itemName) => {
-        setActiveMenuItem(itemName);
-    };
-
-    return (
-        <div className="admin-dashboard">
-            {/* Header */}
-           
-
-            {/* Sidebar (sidenav) */}
-            <div className="admin-container">
-             
-                {/* Main Content */}
-                <main className="dashboard-main">
-                    <div className="admin-main-content">
-                        {/* Orders Management */}
-                        <div className="orders-management">
-                            <h2>Orders Management</h2>
-                            <div className="orders-list">
-                                {orders.map(order => (
-                                    <div className="order-item" key={order.id}>
-                                        {editingOrder && editingOrder.id === order.id ? (
-                                            <div>
-                                                <p><strong>Customer:</strong> {order.customer}</p>
-                                                <p><strong>Total:</strong> ${order.total.toFixed(2)}</p>
-                                                <p><strong>Status:</strong> {order.status}</p>
-                                                <div className="order-actions">
-                                                    <button onClick={() => saveOrder(editingOrder)}>Save</button>
-                                                    <button onClick={cancelEdit}>Cancel</button>
-                                                </div>
-                                            </div>
-                                        ) : (
-                                            <div>
-                                                <p><strong>Customer:</strong> {order.customer}</p>
-                                                <p><strong>Total:</strong> ${order.total.toFixed(2)}</p>
-                                                <p><strong>Status:</strong> {order.status}</p>
-                                                <div className="order-actions">
-                                                    <button onClick={() => handleEditOrder(order.id)}>
-                                                        <FontAwesomeIcon icon={faEdit} /> Edit
-                                                    </button>
-                                                    <button onClick={() => handleDeleteOrder(order.id)}>
-                                                        <FontAwesomeIcon icon={faTrash} /> Delete
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        )}
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                </main>
-            </div>
-        </div>
+  const handleSearchSubmit = () => {
+    const filteredOrders = initialOrders.filter(order =>
+      order.customer.toLowerCase().includes(searchTerm.toLowerCase())
     );
+    setOrders(filteredOrders);
+  };
+
+  const handleClearFilters = () => {
+    setFilters([]);
+    setOrders(initialOrders);
+    setSearchTerm('');
+  };
+
+  const handleDeleteOrder = (orderId) => {
+    const updatedOrders = orders.filter(order => order.id !== orderId);
+    setOrders(updatedOrders);
+  };
+
+  const handleEditOrder = (orderId) => {
+    console.log(`Edit order with ID: ${orderId}`);
+  };
+
+  const handleMenuItemClick = (menuItem) => {
+    setSelectedMenu(menuItem);
+    console.log(`Selected menu item: ${menuItem}`);
+  };
+
+  const handleFilterByStatus = (status) => {
+    const filteredOrders = initialOrders.filter(order =>
+      status === '' || order.status === status
+    );
+    setOrders(filteredOrders);
+  };
+
+  // Calculate percentages for completed and canceled orders
+  const completedOrders = orders.filter(order => order.status === 'Paid');
+  const canceledOrders = orders.filter(order => order.status === 'Cancelled');
+  const activeOrders = orders.filter(order => order.status !== 'Paid' && order.status !== 'Cancelled');
+  const totalOrders = orders.length;
+  const completedPercentage = (completedOrders.length / totalOrders) * 100;
+  const canceledPercentage = (canceledOrders.length / totalOrders) * 100;
+  const activePercentage = (activeOrders.length / totalOrders) * 100;
+  const totalOrdersPercentage = 80;
+
+  return (
+    <div className="main-container">
+      <Grid container spacing={3}>
+        {/* Total Orders Card */}
+        <Grid item xs={3}>
+          <Card className="card">
+            <CardContent>
+              <div className="card-content">
+                <Typography variant="h6" className="card-title">Total Orders</Typography>
+                <div className="progress-circle">
+                  <Typography className="progress-circle-text">{totalOrdersPercentage}%</Typography>
+                </div>
+              </div>
+              <div className="card-content">
+                <Typography variant="subtitle1">{totalOrders} orders</Typography>
+                <OrderIcon style={{ fontSize: 40, color: '#3f51b5' }} />
+              </div>
+            </CardContent>
+          </Card>
+        </Grid>
+
+        {/* Active Orders Card */}
+        <Grid item xs={3}>
+          <Card className="card">
+            <CardContent>
+              <div className="card-content">
+                <Typography variant="h6" className="card-title">Active Orders</Typography>
+                <div className="progress-circle">
+                  <Typography className="progress-circle-text">{activePercentage.toFixed(0)}%</Typography>
+                </div>
+              </div>
+              <div className="card-content">
+                <Typography variant="subtitle1">
+                  {activeOrders.length} active
+                </Typography>
+              </div>
+            </CardContent>
+          </Card>
+        </Grid>
+
+        {/* Completed Orders Card */}
+        <Grid item xs={3}>
+          <Card className="card">
+            <CardContent>
+              <div className="card-content">
+                <Typography variant="h6" className="card-title">Completed Orders</Typography>
+                <div className="progress-circle">
+                  <Typography className="progress-circle-text">{completedPercentage.toFixed(0)}%</Typography>
+                </div>
+              </div>
+              <div className="card-content">
+                <Typography variant="subtitle1">
+                  {completedOrders.length} completed
+                </Typography>
+              </div>
+            </CardContent>
+          </Card>
+        </Grid>
+
+        {/* Canceled Orders Card */}
+        <Grid item xs={3}>
+          <Card className="card">
+            <CardContent>
+              <div className="card-content">
+                <Typography variant="h6" className="card-title">Cancelled Orders</Typography>
+                <div className="progress-circle">
+                  <Typography className="progress-circle-text">{canceledPercentage.toFixed(0)}%</Typography>
+                </div>
+              </div>
+              <div className="card-content">
+                <Typography variant="subtitle1">
+                  {canceledOrders.length} cancelled
+                </Typography>
+              </div>
+            </CardContent>
+          </Card>
+        </Grid>
+
+        {/* Search and Filters Section */}
+        <Grid item xs={12}>
+          <Card className="search-filters-section">
+            <CardContent>
+              <Grid container spacing={2} alignItems="center">
+                {/* Search Orders */}
+                <Grid item xs={6}>
+                  <Typography variant="h6">Search Orders</Typography>
+                  <TextField
+                    label="Search by customer"
+                    variant="outlined"
+                    className="search-input"
+                    value={searchTerm}
+                    onChange={handleSearchChange}
+                  />
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    className="search-button"
+                    onClick={handleSearchSubmit}
+                  >
+                    <SearchIcon />
+                  </Button>
+                </Grid>
+
+                {/* Filters */}
+                <Grid item xs={6} container justify="flex-end" spacing={1}>
+                  <Typography variant="h6">Filters:</Typography>
+                  {filters.length > 0 && (
+                    <Button
+                      variant="outlined"
+                      className="filter-button"
+                      onClick={handleClearFilters}
+                    >
+                      Clear Filters
+                    </Button>
+                  )}
+                  {/* Dropdown for managing orders */}
+                  <Button
+                    variant="outlined"
+                    className="filter-button"
+                    aria-controls="manage-orders-menu"
+                    aria-haspopup="true"
+                    onClick={(event) => setAnchorEl(event.currentTarget)}
+                  >
+                    Manage Orders
+                  </Button>
+                  <Menu
+                    id="manage-orders-menu"
+                    anchorEl={anchorEl}
+                    keepMounted
+                    open={Boolean(anchorEl)}
+                    onClose={() => setAnchorEl(null)}
+                  >
+                    <MenuItem onClick={() => handleMenuItemClick('Shipments')}>Shipments</MenuItem>
+                    <MenuItem onClick={() => handleMenuItemClick('Invoice')}>Invoice</MenuItem>
+                    <MenuItem onClick={() => handleMenuItemClick('Refunds')}>Refunds</MenuItem>
+                  </Menu>
+                </Grid>
+              </Grid>
+            </CardContent>
+          </Card>
+        </Grid>
+
+        {/* Active Order List */}
+        <Grid item xs={12}>
+          <Card>
+            <CardContent>
+              <Typography variant="h6">Active Orders List</Typography>
+              <Table className="table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell className="table-cell">Bill No.</TableCell>
+                    <TableCell className="table-cell">Customer Name</TableCell>
+                    <TableCell className="table-cell">Phone No.</TableCell>
+                    <TableCell className="table-cell">Date Time</TableCell>
+                    <TableCell className="table-cell">Total Products</TableCell>
+                    <TableCell className="table-cell">Total Amount Paid</TableCell>
+                    <TableCell className="table-cell">Paid Status</TableCell>
+                    <TableCell className="table-cell">Action</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {activeOrders.map(order => (
+                    <TableRow key={order.id}>
+                      <TableCell className="table-cell">{order.id}</TableCell>
+                      <TableCell className="table-cell">{order.customer}</TableCell>
+                      <TableCell className="table-cell">{order.phone}</TableCell>
+                      <TableCell className="table-cell">{order.datetime}</TableCell>
+                      <TableCell className="table-cell">{order.products}</TableCell>
+                      <TableCell className="table-cell">₹{order.amount.toFixed(2)}</TableCell>
+                      <TableCell className="table-cell">{order.status}</TableCell>
+                      <TableCell className="table-cell">
+                        <IconButton color="primary" size="small" onClick={() => handleEditOrder(order.id)}>
+                          <EditIcon />
+                        </IconButton>
+                        <IconButton color="secondary" size="small" onClick={() => handleDeleteOrder(order.id)}>
+                          <DeleteIcon />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                  {activeOrders.length === 0 && (
+                    <TableRow>
+                      <TableCell colSpan={8} className="table-cell">
+                        No active orders found
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
+    </div>
+  );
 };
 
-export default Order;
+export default AdminOrder;
