@@ -19,7 +19,7 @@ import {
   MenuItem,
 } from '@material-ui/core';
 import { Edit as EditIcon, Delete as DeleteIcon, Visibility as VisibilityIcon } from '@material-ui/icons';
-import './Users.css'
+import './Users.css';
 
 const AdminPanelUser = () => {
   const [users, setUsers] = useState([]);
@@ -31,19 +31,12 @@ const AdminPanelUser = () => {
   const [sortBy, setSortBy] = useState('name');
   const [sortOrder, setSortOrder] = useState('asc');
   const [openEditDialog, setOpenEditDialog] = useState(false);
+  const [editUser, setEditUser] = useState(null); // Track the user being edited
 
   useEffect(() => {
     // Simulating fetching users data
     const fetchUsers = async () => {
       try {
-        // Replace with actual API call to fetch users data
-        // const response = await fetch('/api/users');
-        // if (!response.ok) {
-        //   throw new Error('Failed to fetch users.');
-        // }
-        // const data = await response.json();
-        // setUsers(data.users);
-
         // Simulated data for demonstration
         const simulatedUsers = [
           { id: 1, name: 'John Doe', email: 'john@example.com', role: 'Admin', registrationDate: '2023-07-01' },
@@ -78,9 +71,10 @@ const AdminPanelUser = () => {
 
   // Filter users based on search term and role filter
   useEffect(() => {
-    const filteredUsers = users.filter((user) =>
-      user.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      (roleFilter === 'All' || user.role === roleFilter)
+    const filteredUsers = users.filter(
+      (user) =>
+        user.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+        (roleFilter === 'All' || user.role === roleFilter)
     );
     setSortedUsers(filteredUsers);
   }, [users, searchTerm, roleFilter]);
@@ -120,13 +114,27 @@ const AdminPanelUser = () => {
   };
 
   // Edit user dialog handlers
-  const handleEditUser = () => {
+  const handleEditUser = (user) => {
+    setEditUser({ ...user }); // Set the user being edited
     setOpenEditDialog(true);
-    // Implement edit functionality here (e.g., populate form with user data)
   };
 
   const handleCloseEditDialog = () => {
     setOpenEditDialog(false);
+    setEditUser(null); // Clear the editUser state after closing the dialog
+  };
+
+  // Handle editing user details
+  const handleSaveEditUser = () => {
+    // Implement save functionality (e.g., API call to update user)
+    console.log('Edited user:', editUser);
+    // Update the UI or perform actions based on the edited user data
+    // For demonstration, you can update the state directly or call an API to persist the changes
+    const updatedUsers = users.map((user) => (user.id === editUser.id ? editUser : user));
+    setUsers(updatedUsers);
+    setSortedUsers(updatedUsers);
+    setOpenEditDialog(false);
+    setEditUser(null); // Clear editUser state after saving
   };
 
   // Delete user handler
@@ -165,12 +173,12 @@ const AdminPanelUser = () => {
                   <MenuItem key="All" value="All">
                     All Roles
                   </MenuItem>
-                  <MenuItem key="Admin" value="Admin">
-                    Admin
-                  </MenuItem>
                   <MenuItem key="User" value="User">
                     User
                   </MenuItem>
+                  {/* <MenuItem key="Admin" value="Admin">
+                    Admin
+                  </MenuItem> */}
                 </TextField>
               </div>
               <Table>
@@ -186,11 +194,7 @@ const AdminPanelUser = () => {
                         Email {sortBy === 'email' && (sortOrder === 'asc' ? '▲' : '▼')}
                       </Button>
                     </TableCell>
-                    <TableCell>
-                      <Button onClick={() => handleSortChange('role')}>
-                        Role {sortBy === 'role' && (sortOrder === 'asc' ? '▲' : '▼')}
-                      </Button>
-                    </TableCell>
+                    <TableCell>Role</TableCell>
                     <TableCell>Registration Date</TableCell>
                     <TableCell>Actions</TableCell>
                   </TableRow>
@@ -206,7 +210,7 @@ const AdminPanelUser = () => {
                         <IconButton color="primary" onClick={() => handleViewUserDetails(user)}>
                           <VisibilityIcon />
                         </IconButton>
-                        <IconButton color="primary" onClick={handleEditUser}>
+                        <IconButton color="primary" onClick={() => handleEditUser(user)}>
                           <EditIcon />
                         </IconButton>
                         <IconButton color="secondary" onClick={() => handleDeleteUser(user.id)}>
@@ -243,26 +247,26 @@ const AdminPanelUser = () => {
         </DialogActions>
       </Dialog>
 
-      {/* Edit User Dialog (example) */}
+      {/* Edit User Dialog */}
       <Dialog open={openEditDialog} onClose={handleCloseEditDialog} fullWidth maxWidth="sm">
         <DialogTitle>Edit User</DialogTitle>
         <DialogContent>
           {/* Form for editing user details */}
-          {selectedUser && (
+          {editUser && (
             <form>
               <TextField
                 label="Name"
                 variant="outlined"
                 fullWidth
-                defaultValue={selectedUser.name}
-                // onChange={(e) => setSelectedUser({ ...selectedUser, name: e.target.value })}
+                value={editUser.name}
+                onChange={(e) => setEditUser({ ...editUser, name: e.target.value })}
               />
               <TextField
                 label="Email"
                 variant="outlined"
                 fullWidth
-                defaultValue={selectedUser.email}
-                // onChange={(e) => setSelectedUser({ ...selectedUser, email: e.target.value })}
+                value={editUser.email}
+                onChange={(e) => setEditUser({ ...editUser, email: e.target.value })}
               />
               {/* Add more fields as needed */}
             </form>
@@ -272,7 +276,7 @@ const AdminPanelUser = () => {
           <Button onClick={handleCloseEditDialog} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleCloseEditDialog} color="primary">
+          <Button onClick={handleSaveEditUser} color="primary">
             Save
           </Button>
         </DialogActions>

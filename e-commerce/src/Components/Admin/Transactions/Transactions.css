@@ -1,0 +1,121 @@
+/* Transactions.css */
+
+/* Transactions.css */
+
+.transaction-list-container {
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .search-filter-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  
+  .search-input {
+    padding: 8px;
+    width: 200px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .status-filter {
+    padding: 8px;
+    width: 150px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+  
+  table th, table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  table th {
+    background-color: #f0f0f0;
+  }
+  
+  .table-actions {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .edit-button, .delete-button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    text-align: center;
+    
+  }
+  
+  .edit-button:hover, .delete-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .status-select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .pagination li {
+    display: inline-block;
+    margin: 0 5px;
+    cursor: pointer;
+  }
+  
+  .pagination li.active {
+    font-weight: bold;
+  }
+  
+  .pagination li a {
+    display: block;
+    padding: 8px;
+    text-decoration: none;
+    color: #333;
+  }
+  
+  .pagination li:hover {
+    background-color: #f0f0f0;
+  }
+  /* Transactions.css */
+
+.table-actions {
+    display: flex;
+    align-items: center; /* Center align items vertically */
+  }
+  
+  .action-buttons {
+    margin-left: 10px; /* Adjust margin as needed for spacing */
+  }
+  
+  .action-buttons button {
+    margin-right: 5px; /* Adjust margin between buttons */
+  }
+  
+  

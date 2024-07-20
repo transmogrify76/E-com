@@ -1,83 +1,77 @@
-/* ProductUpload.module.css */
-.productUploadContainer {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-   
-  }
-  
-  .productUploadContainer h2 {
-    font-size: 24px;
-    margin-bottom: 20px;
-    color: #333333;
-  }
-  
-  .productUploadContainer form {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .productUploadContainer .formGroup {
-    margin-bottom: 15px;
-  }
-  
-  .productUploadContainer label {
-    font-weight: bold;
-    color: #666666;
-  }
-  
-  .productUploadContainer input[type='text'],
-  .productUploadContainer input[type='number'],
-  .productUploadContainer textarea,
-  .productUploadContainer input[type='file'] {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #cccccc;
-    border-radius: 4px;
-    font-size: 16px;
-  }
-  
-  .productUploadContainer textarea {
-    resize: vertical; 
-  }
-  
-  .productUploadContainer button {
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    padding: 12px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .productUploadContainer button:hover {
-    background-color: #45a049;
-  }
-  
- 
-  @media (max-width: 768px) {
-    .productUploadContainer {
-      padding: 15px;
-    }
-    
-    .productUploadContainer h2 {
-      font-size: 20px;
-    }
-    
-    .productUploadContainer button {
-      padding: 10px 16px;
-      font-size: 14px;
-    }
-  }
-   
 
-   
-    
+.productUploadContainer {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.productUploadContainer h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333333;
+}
+
+.productUploadContainer form {
+  display: flex;
+  flex-direction: column;
+}
+
+.productUploadContainer .formGroup {
+  margin-bottom: 15px;
+}
+
+.productUploadContainer label {
+  font-weight: bold;
+  color: #666666;
+}
+
+.productUploadContainer input[type='text'],
+.productUploadContainer input[type='number'],
+.productUploadContainer textarea,
+.productUploadContainer input[type='file'] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.productUploadContainer textarea {
+  resize: vertical;
+}
+
+.productUploadContainer button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.productUploadContainer button:hover {
+  background-color: #45a049;
+}
+
+@media (max-width: 768px) {
+  .productUploadContainer {
+    padding: 15px;
+  }
+
+  .productUploadContainer h2 {
+    font-size: 20px;
+  }
+
+  .productUploadContainer button {
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+}

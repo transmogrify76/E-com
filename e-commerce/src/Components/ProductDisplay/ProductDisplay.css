@@ -158,4 +158,44 @@
   .removeFromWishlistButton {
       background-color: #dc3545; /* Button color for 'REMOVE FROM WISHLIST' */
   }
-  
+  .pincode-validation {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.pincode-validation h1 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #656565;
+}
+
+.pincode-validation input {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 150px; /* Adjust width to be more compact */
+}
+
+.pincode-validation button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.pincode-validation button:hover {
+    background-color: #0056b3;
+}
+
+.pincode-validation p {
+    margin-top: 10px;
+    font-size: 16px;
+    color: #333;
+}

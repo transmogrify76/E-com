@@ -1,4 +1,7 @@
- 
+body.no-scroll {
+  overflow: hidden;
+}
+
 .background-image {
   display: flex;
   justify-content: center;

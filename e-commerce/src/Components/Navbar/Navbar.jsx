@@ -1,16 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import './Navbar.css';
 import logo from '../Assests/Ecommerce_Frontend_Assets/Assets/logo.png';
 import cart_icon from '../../Components/Assests/shopping-cart.png';
 import user from '../Assests/user.png';
 import { Link } from 'react-router-dom';
-import { useContext } from 'react';
 import { ShopContext } from '../Context/ShopContext';
 import { IoSearch } from "react-icons/io5";
 
 function ENavbar() {
   const [menu, setMenu] = useState("shop");
-  const { getTotalCartAmounts } = useContext(ShopContext);
+  const { getTotalCartItems } = useContext(ShopContext); // Use getTotalCartItems instead of getTotalCartAmounts
   const [isDropdownOpen, setIsDropdownOpen] = useState(false); // State for dropdown visibility
 
   const toggleDropdown = () => {
@@ -60,7 +59,7 @@ function ENavbar() {
         <Link to="/cart">
           <img src={cart_icon} alt="Cart Icon" />
         </Link>
-        <div className="nav-cart-count">{getTotalCartAmounts()}</div>
+        <div className="nav-cart-count">{getTotalCartItems()}</div> {/* Display total cart items count */}
 
         {/* Dropdown container */}
         <div className="dropdown-container" onClick={toggleDropdown}>
@@ -72,12 +71,10 @@ function ENavbar() {
               <a href="/account">My Profile</a>
               <a href="/NewSeller">Become Seller</a>
               <a href="/login">Log out</a>
-              
             </div>
           )}
         </div>
       </div>
-
     </div>
   );
 }
