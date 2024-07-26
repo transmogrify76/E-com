@@ -1,37 +1,44 @@
 
+/* AdminDashboard container */
 .admin-dashboard {
-  padding: 20px;
-  background-color: #f0f0f0;
-  font-family: Arial, sans-serif;
-  margin-left: 200px;
-  margin-bottom: 100px;
-}
-
-.admin-dashboard h2 {
-  font-size: 24px;
-  margin-bottom: 20px;
-  color: #333;
-}
-
-.dashboard-widgets {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  height: 100vh; 
+  margin-left: 40%;/* Adjust height as needed */
+}
+
+/* Dashboard container */
+.dashboard-container {
+  display: flex;
+  flex: 1; /* Take remaining space */
+}
+
+/* Main content area */
+.dashboard-main {
+  flex: 1; /* Take remaining space */
+  padding: 20px;
+}
+
+/* Admin main content */
+.admin-main-content {
+  background-color: #f0f0f0;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Dashboard Overview */
+.dashboard-widgets {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
 }
 
 .dashboard-widget {
-  background-color: #fff;
+  background-color: #ffffff;
   padding: 20px;
-  margin-right: 20px;
-  margin-bottom: 20px;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  flex-basis: calc(50% - 20px); /* Two widgets per row, adjust as needed */
-}
-
-.dashboard-widget h3 {
-  font-size: 18px;
-  margin-bottom: 10px;
-  color: #555;
+  border-radius: 8px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
 .widget-content {
@@ -40,30 +47,23 @@
 }
 
 .widget-icon {
-  font-size: 24px;
   margin-right: 10px;
-  color: #007bff; /* Icon color */
+  font-size: 24px; /* Adjust size as needed */
 }
 
 .widget-data {
-  font-size: 24px;
-  font-weight: bold;
-  color: #333;
+  font-size: 18px; /* Adjust size as needed */
 }
 
+/* Recent Orders */
 .recent-orders-list {
   list-style-type: none;
   padding: 0;
 }
 
 .recent-orders-list li {
-  margin-bottom: 10px;
-  font-size: 14px;
-  color: #666;
+  margin-bottom: 5px;
+  font-size: 16px; /* Adjust size as needed */
 }
 
-@media (max-width: 768px) {
-  .dashboard-widget {
-    flex-basis: 100%; /* Stack widgets vertically on smaller screens */
-  }
-}
+/* Additional styles for other sections can be added as needed */
