@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { FaHome, FaHeart, FaShoppingCart, FaBox, FaUser, FaAngleDoubleLeft, FaAngleDoubleRight } from 'react-icons/fa';
 import './Sidenav.css'; // Import your CSS file for styling
+import { ShopContext } from '../Context/ShopContext';
 
 const SideNav = () => {
   const [isExpanded, setIsExpanded] = useState(false);
   const location = useLocation(); // Get current location from react-router-dom
+  const { wishlistCount } = useContext(ShopContext); // Get wishlistCount from context
 
   const toggleExpand = () => {
     setIsExpanded(!isExpanded);
@@ -27,7 +29,8 @@ const SideNav = () => {
           <li className="nav-item">
             <Link to="/wishlist" className={`nav-link ${location.pathname === '/wishlist' ? 'active' : ''}`}>
               <FaHeart className="nav-icon" />
-              {isExpanded && <span>Wishlist</span>}
+              {isExpanded && <span>Wishlist ({wishlistCount})</span>}
+              {!isExpanded && wishlistCount > 0 && <span className="wishlist-count">{wishlistCount}</span>}
             </Link>
           </li>
           <li className="nav-item">

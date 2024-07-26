@@ -1,7 +1,7 @@
 /* CreateOrderModal.css */
 
 /* Adjust modal styles as needed */
-.modal-content {
+ .modal-content {
     border-radius: 2;
     width: 300px;
 }
@@ -16,4 +16,5 @@
     border-top: none;
 } 
 
+ 
 

@@ -22,7 +22,7 @@ const ResetPassword = () => {
     return (
         <div className='background-image'>
             <div className='reset-password-container'>
-                <div className='reset-password-card'>
+                <div className='reset-password-card'  style={{ padding: 0, marginRight: '40%' }}>
                     <div className='card-header-reset'>
                         Reset Your Password
                     </div>

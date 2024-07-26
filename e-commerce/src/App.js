@@ -1,8 +1,5 @@
-
-
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
-
 // Import Components
 import ENavbar from './Components/Navbar/Navbar';
 import Sidenav from './Components/Sidenav/Sidenav';
@@ -24,7 +21,7 @@ import Shop from './Components/Shop/Shop';
 import NewCollections from './Components/NewCollections/NewCollections';
 import ProductDisplay from './Components/ProductDisplay/ProductDisplay';
 import Product from './Components/Product/Product';
-import AdminDashboard from './Components/Admin/AdminDashboard/AdminDashboard';
+import AdminDashboard from './Components/Admin/AdminDashboard/AdminDashboard';        
 import Checkout from './Components/Checkout/Checkout';
 import Payment from './Components/Payment/Payment';
 import SellerDashboard from './Components/Seller/SellerDashboard/SellerDashboard';
@@ -38,7 +35,7 @@ import Users from './Components/Admin/Users/Users';
 import Products from './Components/Admin/Products/Products';
 import Order from './Components/Admin/Order/Order';
 import Reports from './Components/Admin/Reports/Reports';
-import OrderIndividual from './Components/Order-individual/OrderIndividual';
+import OrderIndividual from './Components/Seller/Order-Individual/OrderIndividual';
 import SideNavbar from './Components/Seller/SideNavbar/SideNavbar';
 import SellerNavbar from './Components/Seller/SellerNavbar/SellerNavbar';
 import Logout from './Components/Logout/Logout';
@@ -63,6 +60,7 @@ import AdminInvoicePage from './Components/Admin/AdminInvoice/AdminInvoice';
 import RefundsPage from './Components/Admin/Refunds/Refunds';
 import ProcessRefundPage from './Components/Admin/ProcessRefund/ProcessRefund';
 import ResetPassword from './Components/ResetPassword/ResetPassword';
+import ShippingDetails from './Components/Seller/ShippingDetails/ShippingDetails';
 import './App.css';
 
 // ScrollHandler Component
@@ -98,7 +96,7 @@ function AppContent() {
       '/login', '/signup', '/forgetpassword', '/seller-dashboard',
       '/ProductUpload', '/ExistingProduct', '/Dispatch', '/RevenueGenerate',
       '/Orderr', '/Settings', '/admin-dashboard', '/Users', '/Products',
-      '/Order', '/Reports', '/Setting', '/Logout', '/OrderIndividual', '/resetpassword'
+      '/Order', '/Reports', '/Setting', '/Logout', '/resetpassword'
     ];
     return !pathsWithoutSidebar.includes(location.pathname);
   };
@@ -133,7 +131,7 @@ function AppContent() {
       '/mens', '/women', '/orders', '/account', '/kids', '/popular', '/shop',
       '/newcollections', '/checkout', '/payment', '/NewSeller', '/seller-dashboard',
       '/ProductUpload', '/ExistingProduct', '/Dispatch', '/RevenueGenerate',
-      '/Orderr', '/Settings', '/OrderIndividual', '/NewBank', '/resetpassword'
+      '/Orderr', '/Settings',  '/NewBank', '/resetpassword'
     ];
     return !pathsWithoutAdminNavbar.includes(location.pathname) && !location.pathname.startsWith('/product/');
   };
@@ -144,10 +142,10 @@ function AppContent() {
       '/mens', '/women', '/orders', '/account', '/kids', '/popular', '/shop',
       '/newcollections', '/checkout', '/payment', '/NewSeller', '/seller-dashboard',
       '/ProductUpload', '/ExistingProduct', '/Dispatch', '/RevenueGenerate',
-      '/Orderr', '/Settings', '/Wallet', '/SellerAccount', '/OrderIndividual',
+      '/Orderr', '/Settings', '/Wallet', '/SellerAccount', 
       '/NewBank', '/resetpassword'
     ];
-    return !pathsWithoutAdminSidebar.includes(location.pathname) && !location.pathname.startsWith('/product/');
+    return !pathsWithoutAdminSidebar.includes(location.pathname) && !location.pathname.startsWith('/product/') && !location.pathname.startsWith('/OrderIndividual/')  && !location.pathname.startsWith('/ShippingDetails/') && !location.pathname.startsWith('/Dispatch/') ;
   };
 
   const shouldShowNavbar = () => {
@@ -164,7 +162,7 @@ function AppContent() {
       '/login', '/signup', '/forgetpassword', '/seller-dashboard',
       '/ProductUpload', '/ExistingProduct', '/Dispatch', '/RevenueGenerate',
       '/Orderr', '/Settings', '/admin-dashboard', '/Users', '/Products',
-      '/Order', '/Reports', '/Setting', '/Logout', '/OrderIndividual', '/resetpassword'
+      '/Order', '/Reports', '/Setting', '/Logout', '/OrderIndividual/:orderId', '/resetpassword'
     ];
     return !pathsWithoutFooter.includes(location.pathname);
   };
@@ -199,12 +197,12 @@ function AppContent() {
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/payment" element={<Payment />} />
-        <Route path="/OrderIndividual" element={<OrderIndividual />} />
+        <Route path="/OrderIndividual/:orderId" element={<OrderIndividual />} />
         <Route path="/seller-dashboard" element={<SellerDashboard />} />
         <Route path="/ProductUpload" element={<ProductUpload />} />
         <Route path="/ExistingProduct" element={<ExistingProduct />} />
         <Route path="/Orderr" element={<Orderr />} />
-        <Route path="/Dispatch" element={<Dispatch />} />
+        <Route path="/Dispatch/:orderId" element={<Dispatch />} />
         <Route path="/RevenueGenerate" element={<RevenueGenerate />} />
         <Route path="/Settings" element={<Settings />} />
         <Route path="/Users" element={<Users />} />
@@ -232,6 +230,7 @@ function AppContent() {
         <Route path="/refunds" element={<RefundsPage />} />
         <Route path="/refunds/:refundId" element={<ProcessRefundPage />} />
         <Route path="/resetpassword" element={<ResetPassword />} />
+        <Route path="/ShippingDetails/:orderId" element={<ShippingDetails />} />
       </Routes>
       {shouldShowFooter() && <Footer />}
     </div>

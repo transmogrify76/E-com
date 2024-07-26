@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios'; // Import axios
 import './Forgetpassword.css';
 
 const ForgetPassword = () => {
@@ -10,10 +11,22 @@ const ForgetPassword = () => {
     const [otpMessage, setOtpMessage] = useState('');
     const navigate = useNavigate();
 
-    const handleResetPassword = () => {
-        // Display the OTP pop-up
-        setShowOtpPopup(true);
-        setMessage(`Password reset instructions have been sent to ${email}`);
+    const handleResetPassword = async () => {
+        try {
+            // Make API call to request password reset
+            const response = await axios.post('http://localhost:3000/users/forgot-password', { email });
+            
+            // Handle response
+            if (response.status === 200) {
+                setShowOtpPopup(true);
+                setMessage(`Password reset instructions have been sent to ${email}`);
+            } else {
+                setMessage('Failed to send password reset instructions. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error requesting password reset:', error);
+            setMessage('An error occurred while sending password reset instructions. Please try again.');
+        }
     };
 
     const handleOtpSubmit = () => {

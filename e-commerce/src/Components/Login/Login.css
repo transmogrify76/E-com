@@ -54,6 +54,18 @@ body.no-scroll {
   border-radius: 5px;
 }
 
+.input select {
+  width: 100%;
+  padding: 10px;
+  padding-left: 40px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
 .submit-container {
   text-align: center;
   margin-top: 20px;
@@ -69,7 +81,7 @@ body.no-scroll {
   text-decoration: none;
 }
 
- .forgot-password,
+.forgot-password,
 .signup-link {
   text-align: center;
   margin-top: 10px;
@@ -82,4 +94,4 @@ body.no-scroll {
 .signup-link .signup {
   color: #007bff;
   text-decoration: none;
-}  
+}

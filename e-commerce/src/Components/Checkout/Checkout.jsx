@@ -1,6 +1,3 @@
-
-
-
 import React, { useContext } from 'react';
 import './Checkout.css'; // Import your checkout page styles
 import { ShopContext } from '../Context/ShopContext';
@@ -8,13 +5,13 @@ import removeIcon from '../Assests/Ecommerce_Frontend_Assets/Assets/cart_cross_i
 import { Link } from 'react-router-dom';
 
 const Checkout = () => {
-    const { all_product, cartItems, wishlistItems, removeFromCart } = useContext(ShopContext);
+    const { all_product, cartItems, removeFromCart } = useContext(ShopContext);
 
     const handleRemoveFromCart = (itemId, size) => {
         removeFromCart(itemId, size);
     };
 
-    // Calculate total amount in cart and wishlist
+    // Calculate total amount in cart
     const calculateTotal = () => {
         let total = 0;
 
@@ -26,14 +23,6 @@ const Checkout = () => {
                 if (product) {
                     total += product.new_price * quantity;
                 }
-            }
-        });
-
-        // Calculate total amount for wishlist items
-        wishlistItems.forEach((itemId) => {
-            const product = all_product.find((item) => item.id === itemId);
-            if (product) {
-                total += product.new_price; // Assuming wishlist items are added with quantity 1
             }
         });
 
@@ -89,33 +78,6 @@ const Checkout = () => {
                                 }
                                 return null;
                             })}
-                            {/* {wishlistItems.map((itemId) => {
-                                const product = all_product.find((item) => item.id === itemId);
-                                if (product) {
-                                    return (
-                                        <tr key={itemId}>
-                                            <td>
-                                                <img src={product.image} alt={product.name} className="checkout-product-icon" />
-                                                {product.name}
-                                                <span className="wishlist-tag">Wishlist</span>
-                                            </td>
-                                            <td>N/A</td>
-                                            <td>₹{product.new_price}</td>
-                                            <td>1</td> 
-                                            <td>₹{product.new_price}</td>
-                                            <td>
-                                                <img
-                                                    className="checkout-remove-icon"
-                                                    src={removeIcon}
-                                                    alt="Remove"
-                                                    onClick={() => handleRemoveFromCart(itemId, '')} // Wishlist items don’t have a size
-                                                />
-                                            </td>
-                                        </tr>
-                                    );
-                                }
-                                return null;
-                            })} */}
                         </tbody>
                     </table>
                 </section>

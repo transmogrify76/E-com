@@ -1,5 +1,6 @@
+
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate
+import { Link, useNavigate } from 'react-router-dom';
 import './Signup.css';
 
 const Signup = () => {
@@ -9,12 +10,13 @@ const Signup = () => {
   const [password, setPassword] = useState('');
   const [address, setAddress] = useState('');
   const [phoneNo, setPhoneNo] = useState('');
+  const [role, setRole] = useState('');
 
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
 
   useEffect(() => {
     document.body.classList.add('no-scroll');
-    
+
     return () => {
       document.body.classList.remove('no-scroll');
     };
@@ -30,6 +32,7 @@ const Signup = () => {
       fullname,
       address,
       phoneNo,
+      role,
     };
 
     try {
@@ -85,12 +88,20 @@ const Signup = () => {
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
-            <div className="input">
+            <div style={{ marginBottom: '15px' }}>
               <input
                 type="password"
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                style={{
+                  width: '80%',
+                  padding: '10px',
+                  fontSize: '16px',
+                  borderRadius: '4px',
+                  border: '1px solid #ccc',
+                  boxSizing: 'border-box',
+                }}
               />
             </div>
             <div className="input">
@@ -107,6 +118,14 @@ const Signup = () => {
                 placeholder="Phone No"
                 value={phoneNo}
                 onChange={(e) => setPhoneNo(e.target.value)}
+              />
+            </div>
+            <div className="input">
+              <input
+                type="text"
+                placeholder="Role"
+                value={role}
+                onChange={(e) => setRole(e.target.value)}
               />
             </div>
             <div className="submit-container">
