@@ -121,12 +121,19 @@ const Signup = () => {
               />
             </div>
             <div className="input">
-              <input
-                type="text"
-                placeholder="Role"
+              <select
                 value={role}
                 onChange={(e) => setRole(e.target.value)}
-              />
+                style={{
+                  width:'80%'
+                }}
+                required
+              >
+                <option value="" disabled>Select Role</option>
+                <option value="user">User</option>
+                <option value="admin">Admin</option>
+                <option value="seller">Seller</option>
+              </select>
             </div>
             <div className="submit-container">
               <button type="submit" className="submit">Signup</button>

@@ -124,9 +124,7 @@
 // export default NewSeller;
 
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios'; // Import axios
-import './NewSeller.css';
+ import './NewSeller.css';
 
 const NewSeller = () => {
   const [formData, setFormData] = useState({
@@ -136,11 +134,8 @@ const NewSeller = () => {
     contactPerson: '',
     email: '',
     phoneNumber: '',
-    address: '',
-    role: ''
+    address: ''
   });
-  const [error, setError] = useState('');
-  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({
@@ -152,35 +147,36 @@ const NewSeller = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const payload = {
+      email: formData.email,
+      password: formData.password,
+      companyname: formData.companyName,
+      contactperson: formData.contactPerson,
+      phoneno: formData.phoneNumber,
+      companyaddress: formData.address,
+      companydescription: formData.companyDescription,
+      role: "seller"
+    };
+
     try {
-      const response = await axios.post('http://localhost:3000/sellers/registerSeller', {
-        email: formData.email,
-        password: formData.password,
-        companyname: formData.companyName,
-        contactperson: formData.contactPerson,
-        phoneno: formData.phoneNumber,
-        companyaddress: formData.address,
-        companydescription: formData.companyDescription,
-        role: formData.role
+      const response = await fetch('http://localhost:3000/sellers/registerSeller', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
       });
 
-      if (response.status === 200) {
-        navigate('/login');
-      } else {
-        setError('Failed to register. Please try again.');
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
       }
+
+      const data = await response.json();
+      console.log('Success:', data);
+      // You can add additional logic here after a successful registration, e.g. redirecting the user
     } catch (error) {
-      if (error.response) {
-        // Server responded with a status other than 200 range
-        setError(`Server error: ${error.response.data.message || 'Unknown server error'}`);
-      } else if (error.request) {
-        // Request was made but no response received
-        setError('No response from server. Please check your network.');
-      } else {
-        // Something else happened
-        setError(`Error: ${error.message}`);
-      }
-      console.error('Error registering seller:', error); // Log full error details for debugging
+      console.error('Error:', error);
+      // You can handle errors here, e.g. showing a notification to the user
     }
   };
 
@@ -215,7 +211,7 @@ const NewSeller = () => {
         <div className="form-group">
           <label htmlFor="password">Password</label>
           <input
-            type="password"
+            type="password" // Changed to password type for security
             className="form-control"
             id="password"
             placeholder="Enter your Password"
@@ -271,19 +267,6 @@ const NewSeller = () => {
             required
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="role">Role</label>
-          <input
-            type="text"
-            className="form-control"
-            id="role"
-            placeholder="Enter your role"
-            value={formData.role}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        {error && <div className="error-message">{error}</div>}
         <button type="submit" className="btn btn-primary">
           Sign Up
         </button>

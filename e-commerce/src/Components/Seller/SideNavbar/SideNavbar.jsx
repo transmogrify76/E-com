@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBoxOpen, faClipboardList, faTruck, faChartLine, faCog, faAngleDoubleLeft, faAngleDoubleRight,faUpload,faWallet,faUser } from '@fortawesome/free-solid-svg-icons';
+import { faBoxOpen, faClipboardList, faTruck, faChartLine, faCog, faAngleDoubleLeft, faAngleDoubleRight,faUpload,faWallet,faUser,faHome } from '@fortawesome/free-solid-svg-icons';
 
 const SideNavbar = () => {
     const [isExpanded, setIsExpanded] = useState(true);
@@ -26,8 +26,14 @@ return (
             {isExpanded ? <FontAwesomeIcon icon={faAngleDoubleLeft} /> : <FontAwesomeIcon icon={faAngleDoubleRight} />}
         </button>
         <ul className="navbar-nav">
+        <li className="nav-item">
+                <Link to="/seller-dashboard" className={`nav-link ${location.pathname === '/seller-dashboard' ? 'active' : ''}`} onClick={() => handleMenuItemClick('SellerDashboard')}>
+                    <FontAwesomeIcon icon={faHome} className="nav-icon" />
+                    {isExpanded && <span>Seller Dashboard</span>}
+                </Link>
+            </li>
             <li className="nav-item">
-                <Link to="/seller-dashboard" className={`nav-link ${location.pathname === '/seller-dashboard' ? 'active' : ''}`} onClick={() => handleMenuItemClick('ProductUpload')}>
+                <Link to="/ProductUpload" className={`nav-link ${location.pathname === '/ProductUpload' ? 'active' : ''}`} onClick={() => handleMenuItemClick('ProductUpload')}>
                     <FontAwesomeIcon icon={faUpload} className="nav-icon" />
                     {isExpanded && <span>Product Upload</span>}
                 </Link>

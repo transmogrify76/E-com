@@ -82,7 +82,7 @@ const Settings = () => {
   };
 
   return (
-    <div className="app-container">
+    <div className="app-container-settings">
       {/* Account Settings Card */}
       <div className="settings-card">
         <h2 className="settings-heading">Account Settings</h2>
@@ -125,7 +125,7 @@ const Settings = () => {
               </label>
             </div>
 
-            <div className="form-group">
+          
               <label>
                 <input
                   type="checkbox"
@@ -133,11 +133,11 @@ const Settings = () => {
                   checked={accountSettings.emailNotifications}
                   onChange={handleAccountChange}
                 />{' '}
-                Email Notifications
+                Email Notifications 
               </label>
-            </div>
+         
 
-            <div className="form-group">
+            
               <label>
                 <input
                   type="checkbox"
@@ -147,7 +147,7 @@ const Settings = () => {
                 />{' '}
                 SMS Notifications
               </label>
-            </div>
+          
 
            
 

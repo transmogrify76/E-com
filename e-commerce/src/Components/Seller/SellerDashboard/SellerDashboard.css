@@ -1,125 +1,167 @@
-/* SellerDashboard.css */
 
-
-/* .seller-dashboard {
-  display: flex;
-  flex-direction: column;
-}
-
-.dashboard-container {
-  max-width: 500px;
-  width: 100%;
-}
-
-
-.dashboard-main {
-  background-color: #f0f0f0;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  margin-left: 150%;
- margin-right: 120%;
-}
-
-
-.menu-item {
-  cursor: pointer;
-  display: inline-block;
-  padding: 10px 20px;
-  border-radius: 4px;
-  margin-right: 10px;
-  color: #333;
-  transition: background-color 0.3s ease;
-}
-
-.menu-item:hover,
-.menu-item.active {
-  background-color: #e0e0e0;
-}
-
-
-.menu-icon {
-  margin-right: 10px;
-}
-
-
-.dashboard-main h2 {
-  margin-bottom: 20px;
-}
-
-
-@media (max-width: 768px) {
-  .dashboard-main {
-    padding: 15px;
-  }
-  
-  .menu-item {
-    font-size: 14px;
-    padding: 8px 16px;
-    margin-right: 8px;
-  }
-}  */
-
-
-/* SellerDashboard container */
 .seller-dashboard {
+  padding: 20px;
+  background-color: #f4f4f4; /* Light gray background for the dashboard */
+  height: 100vh;
+ margin-left: 100px;
+}
+
+.dashboard-mainn {
   display: flex;
-  justify-content: center;
-  background-color: #f4f4f4;
+}
+
+.seller-main-content {
+  flex: 1;
   padding: 20px;
 }
 
-/* Dashboard container */
-.dashboard-container {
-  max-width: 1200px;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-}
-
-/* Sidebar */
-.dashboard-sidebar {
-  width: 250px;
-  background-color: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-}
-
-.dashboard-sidebar h3 {
-  font-size: 1.5rem;
+.dashboard-overvieww {
   margin-bottom: 20px;
 }
 
-.dashboard-sidebar .menu-item {
-  cursor: pointer;
-  padding: 10px 0;
-  border-bottom: 1px solid #eee;
-  color: #333;
-  transition: background-color 0.3s ease;
+.dashboard-widgetss {
+  display: flex;
+  justify-content: space-between; /* Space between the widgets */
+  margin-bottom: 20px;
 }
 
-.dashboard-sidebar .menu-item:hover {
-  background-color: #f0f0f0;
-}
-
-.dashboard-sidebar .menu-item.active {
-  font-weight: bold;
-  color: #007bff;
-}
-
-/* Main content area */
-.dashboard-main {
-  flex-grow: 1;
-  background-color: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+.dashboard-widgett {
+  background: white; /* White background for the widget */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
   padding: 20px;
+  width: 23%; /* Fixed width for consistency */
 }
 
-/* Bell icon */
-.bell-icon {
-  float: right;
-  font-size: 1.5rem;
-  color: #333;
-  cursor: pointer;
+.widget-contentt {
+  display: flex; /* Align icon and data */
+  align-items: center; /* Center items vertically */
 }
 
+.widget-iconn {
+  font-size: 24px; /* Icon size */
+  margin-right: 10px; /* Space between icon and data */
+  color: white; /* Icon color */
+}
+
+.widget-dataa {
+  font-size: 20px; /* Font size for data */
+  font-weight: bold; /* Bold data for emphasis */
+}
+
+.recent-orders-listt {
+  list-style: none; /* Remove default list styles */
+  padding: 0; /* Remove padding */
+}
+
+.recent-orders-listt li {
+  margin: 5px 0; /* Space between recent orders */
+}
+
+.dashboard-chartss {
+  display: flex; /* Align charts horizontally */
+  justify-content: space-between; /* Space between charts */
+}
+
+.chart-widgett {
+  background: white; /* White background for chart */
+  border-radius: 8px; /* Rounded corners */
+  padding: 20px;
+  width: 48%; /* Set width for charts */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Shadow for chart */
+}
+
+.product-managementt {
+  margin-top: 20px; /* Space above product management section */
+}
+
+.product-managementt h2 {
+  margin-bottom: 10px; /* Space below heading */
+}
+
+.add-product-button {
+  padding: 10px 15px; /* Padding for button */
+  border: none; /* No border */
+  border-radius: 5px; /* Rounded corners */
+  background-color: #4CAF50; /* Green background color */
+  color: white; /* White text color */
+  cursor: pointer; /* Pointer cursor on hover */
+  margin-bottom: 15px; /* Space below button */
+  transition: background-color 0.3s; /* Transition for hover effect */
+}
+
+.add-product-button:hover {
+  background-color: #45a049; /* Darker green on hover */
+}
+
+.product-listt {
+  background: white; /* White background for product list */
+  padding: 10px;
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Shadow effect */
+}
+
+.sales-history {
+  margin-top: 20px; /* Space above sales history section */
+}
+
+.sales-history-table {
+  width: 100%; /* Full width for the table */
+  border-collapse: collapse; /* Collapse table borders */
+}
+
+.sales-history-table th,
+.sales-history-table td {
+  border: 1px solid #ddd; /* Light border for cells */
+  padding: 8px; /* Cell padding */
+}
+
+.sales-history-table th {
+  background-color: #f2f2f2; /* Light gray for header */
+  text-align: left; /* Left-align header text */
+}
+
+.sales-history-table tr:nth-child(even) {
+  background-color: #f9f9f9; /* Zebra striping for rows */
+}
+
+.sales-history-table tr:hover {
+  background-color: #f1f1f1; /* Highlight row on hover */
+}
+.users-widget {
+  background-color: #4CAF50; /* Green */
+}
+
+.products-widget {
+  background-color: #2196F3; /* Blue */
+}
+
+.sales-widget {
+  background-color: #FF9800; /* Orange */
+}
+
+.orders-widget {
+  background-color: #F44336; /* Red */
+}
+
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .dashboard-widgetss {
+      flex-direction: column; /* Stack widgets vertically on small screens */
+  }
+
+  .dashboard-widgett {
+      width: 100%; /* Full width for stacked widgets */
+      margin-bottom: 15px; /* Space below each widget */
+  }
+
+  .dashboard-chartss {
+      flex-direction: column; /* Stack charts vertically on small screens */
+  }
+
+  .chart-widgett {
+      width: 100%; /* Full width for stacked charts */
+      margin-bottom: 15px; /* Space below each chart */
+  }
+}

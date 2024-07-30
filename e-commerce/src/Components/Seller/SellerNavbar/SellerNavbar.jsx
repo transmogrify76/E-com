@@ -6,8 +6,10 @@ import user from '../../Assests/user.png';
 import logo from '../../Assests/Ecommerce_Frontend_Assets/Assets/logo.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 
 function SellerNavbar() {
+   const [menu, setMenu] = useState("shop");
     // Placeholder values or components
     const notificationCount = 5; // Example notification count
     const [isDropdownOpen, setIsDropdownOpen] = useState(false); // State for dropdown visibility
@@ -32,6 +34,11 @@ function SellerNavbar() {
                 <FontAwesomeIcon icon={faBell} className="notification-icon" />
                 <span className="badge">{notificationCount}</span>
             </div>
+            <div className="nav-login-cart">
+        <button onClick={() => { setMenu("shop") }}>
+          <Link style={{ textDecoration: 'none' }} to='/login'>Login</Link>
+        </button>
+        </div>
 
             <div className="dropdown-container" onClick={toggleDropdown}>
           <div className="user-icon">

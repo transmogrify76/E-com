@@ -2,6 +2,7 @@ body.no-scroll {
   overflow: hidden;
 }
 
+
 .background-image {
   display: flex;
   justify-content: center;
@@ -10,6 +11,7 @@ body.no-scroll {
   background-color: #2b002b;
   background-image: url('../../Components/Assests/ecommerce-service.png');
   background-size: cover;
+ 
 }
 
 .card-login {

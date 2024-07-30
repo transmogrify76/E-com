@@ -19,6 +19,7 @@ const Navbar = ({ user }) => {
                     <FontAwesomeIcon icon={faBell} />
                     <span className="badge">5</span> {/* Replace with actual notification count */}
                 </div>
+                
                 <div className="search-bar">
                     <input type="text" placeholder="Search..." />
                     <button><FontAwesomeIcon icon={faSearch} /></button>

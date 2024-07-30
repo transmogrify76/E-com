@@ -154,8 +154,10 @@ function AppContent() {
       '/account', '/kids', '/popular', '/shop', '/newcollections', '/productdisplay',
       '/product/:productId', '/checkout', '/payment', '/NewSeller'
     ];
+    
     return pathsWithNavbar.includes(location.pathname) || location.pathname.startsWith('/product/');
   };
+  
 
   const shouldShowFooter = () => {
     const pathsWithoutFooter = [

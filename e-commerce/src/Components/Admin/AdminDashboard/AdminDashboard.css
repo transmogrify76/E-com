@@ -1,44 +1,65 @@
 
-/* AdminDashboard container */
 .admin-dashboard {
-  display: flex;
-  flex-direction: column;
-  height: 100vh; 
-  margin-left: 40%;/* Adjust height as needed */
+  padding: 20px;
+  font-family: Arial, sans-serif;
+ 
 }
 
-/* Dashboard container */
-.dashboard-container {
-  display: flex;
-  flex: 1; /* Take remaining space */
-}
-
-/* Main content area */
 .dashboard-main {
-  flex: 1; /* Take remaining space */
-  padding: 20px;
+  display: flex;
+  justify-content: center;
+ 
+  
 }
 
-/* Admin main content */
 .admin-main-content {
-  background-color: #f0f0f0;
+  width: 100%;
+  max-width: 1800px;
+  margin-left: 100px;
+}
+
+.dashboard-overview {
+  background-color: #f9f9f9;
   padding: 20px;
-  border-radius: 8px;
+  border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Dashboard Overview */
 .dashboard-widgets {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 20px;
+  display: flex;
+    gap: 20px;
+    justify-content: space-around;
+    align-items: center;
 }
 
 .dashboard-widget {
-  background-color: #ffffff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  padding: 20px ;
+  border-radius: 10px;
+  color: white;
+  
+
+}
+
+.users-widget {
+  background-color: #4CAF50; 
+  width: 200px;
+}
+
+.products-widget {
+  background-color: #2196F3; 
+  width: 200px;
+}
+
+.sales-widget {
+  background-color: #FF9800; 
+}
+.seller-widget {
+  background-color: #FF5722; /* Deep Orange */
+  width: 200px;
+}
+
+.orders-widget {
+  background-color: #F44336; 
 }
 
 .widget-content {
@@ -47,23 +68,69 @@
 }
 
 .widget-icon {
+  font-size: 2rem;
   margin-right: 10px;
-  font-size: 24px; /* Adjust size as needed */
 }
 
 .widget-data {
-  font-size: 18px; /* Adjust size as needed */
+  font-size: 1.5rem;
 }
 
-/* Recent Orders */
-.recent-orders-list {
-  list-style-type: none;
-  padding: 0;
+.dashboard-charts {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
 }
 
-.recent-orders-list li {
-  margin-bottom: 5px;
-  font-size: 16px; /* Adjust size as needed */
+.chart-widget {
+  flex: 1;
+  margin-right: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Additional styles for other sections can be added as needed */
+.chart-widget:last-child {
+  margin-right: 0; 
+}
+ 
+@media (max-width: 768px) {
+  .dashboard-widgets {
+    flex-direction: column; 
+    align-items: center; 
+  }
+
+  .dashboard-widget {
+    max-width: 90%; 
+  }
+
+  .dashboard-charts {
+    flex-direction: column; 
+  }
+
+  .chart-widget {
+    margin-right: 0; 
+    margin-bottom: 20px;
+    min-width: 100%; 
+  }
+
+  .chart-widget:last-child {
+    margin-bottom: 0; 
+  }
+}
+
+@media (max-width: 480px) {
+  .widget-icon {
+    font-size: 1.5rem; 
+  }
+
+  .widget-data {
+    font-size: 1.2rem; 
+  }
+
+  .dashboard-widget {
+    padding: 15px; 
+  }
+}
+ 
