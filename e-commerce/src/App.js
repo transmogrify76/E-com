@@ -205,6 +205,7 @@ function AppContent() {
         <Route path="/ExistingProduct" element={<ExistingProduct />} />
         <Route path="/Orderr" element={<Orderr />} />
         <Route path="/Dispatch/:orderId" element={<Dispatch />} />
+        <Route path="/Dispatch" element={<Dispatch />} />
         <Route path="/RevenueGenerate" element={<RevenueGenerate />} />
         <Route path="/Settings" element={<Settings />} />
         <Route path="/Users" element={<Users />} />

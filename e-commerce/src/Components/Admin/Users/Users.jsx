@@ -232,7 +232,7 @@ const AdminPanelUser = () => {
         <DialogContent>
           {selectedUser && (
             <div>
-              <Typography variant="subtitle1">Name: {selectedUser.name}</Typography>
+              <Typography variant="subtitle1">Name: {selectedUser.name} </Typography>
               <Typography variant="subtitle1">Email: {selectedUser.email}</Typography>
               <Typography variant="subtitle1">Role: {selectedUser.role}</Typography>
               <Typography variant="subtitle1">Registration Date: {selectedUser.registrationDate}</Typography>

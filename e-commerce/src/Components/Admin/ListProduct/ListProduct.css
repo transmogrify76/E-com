@@ -6,10 +6,7 @@
     background-position: center;
     
 }
-.h-image{
-    
-    
-}
+
 .background-list h1{
     text-align: center;
     justify-content: center;
@@ -26,7 +23,7 @@
     padding: 20px;
     margin: 30px auto;
     border-radius: 6px;
-    background: url() no-repeat center center; /* Set your background image path */
+    /* Set your background image path */
     background-size: cover;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: add some shadow */
 }

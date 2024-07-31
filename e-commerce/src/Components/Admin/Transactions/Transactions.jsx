@@ -1,160 +1,219 @@
 
 import React, { useState, useEffect } from 'react';
-import ReactPaginate from 'react-paginate';
-import axios from 'axios';
-import './Transactions.css';
+import './Transactions.css'; // Your CSS file
 
-const TransactionList = () => {
-  const [transactions, setTransactions] = useState([]);
-  const [filteredTransactions, setFilteredTransactions] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [statusFilter, setStatusFilter] = useState('');
-  const [currentPage, setCurrentPage] = useState(0);
-  const [transactionsPerPage] = useState(10);
+// Transaction Management Component
+const TransactionManagement = () => {
+    const [transactions, setTransactions] = useState([]);
+    const [loadingTransactions, setLoadingTransactions] = useState(true);
+    const [filter, setFilter] = useState('');
+    const [statusFilter, setStatusFilter] = useState(''); // New state for status filter
 
-  useEffect(() => {
-    // Dummy data
-    const dummyData = [
-      { _id: '1', orderId: '1001', customerName: 'John Doe', amount: 99.99, status: 'pending' },
-      { _id: '2', orderId: '1002', customerName: 'Jane Smith', amount: 149.49, status: 'processed' },
-      { _id: '3', orderId: '1003', customerName: 'Alice Johnson', amount: 199.99, status: 'shipped' },
-      { _id: '4', orderId: '1004', customerName: 'Robert Brown', amount: 249.99, status: 'completed' },
-      { _id: '5', orderId: '1005', customerName: 'Emily Davis', amount: 299.99, status: 'canceled' },
-      { _id: '6', orderId: '1006', customerName: 'Michael Miller', amount: 349.99, status: 'pending' },
-      { _id: '7', orderId: '1007', customerName: 'Sarah Wilson', amount: 399.99, status: 'processed' },
-      { _id: '8', orderId: '1008', customerName: 'David Moore', amount: 449.99, status: 'shipped' },
-      { _id: '9', orderId: '1009', customerName: 'Laura Taylor', amount: 499.99, status: 'completed' },
-      { _id: '10', orderId: '1010', customerName: 'James Anderson', amount: 549.99, status: 'canceled' }
+    // Dummy transaction data
+    const dummyTransactions = [
+        {
+            id: 'T001',
+            customerName: 'John Doe',
+            orderId: 'O001',
+            amount: 150.00,
+            date: '2024-07-01T10:00:00Z',
+            paymentMethod: 'Credit Card',
+            status: 'Completed',
+            reason: null
+        },
+        {
+            id: 'T002',
+            customerName: 'Jane Smith',
+            orderId: 'O002',
+            amount: 250.00,
+            date: '2024-07-02T12:30:00Z',
+            paymentMethod: 'PayPal',
+            status: 'Pending',
+            reason: null
+        },
+        {
+            id: 'T003',
+            customerName: 'Alice Johnson',
+            orderId: 'O003',
+            amount: 75.50,
+            date: '2024-07-03T09:15:00Z',
+            paymentMethod: 'Debit Card',
+            status: 'Completed',
+            reason: null
+        },
+        {
+            id: 'T004',
+            customerName: 'Bob Brown',
+            orderId: 'O004',
+            amount: 300.00,
+            date: '2024-07-04T14:45:00Z',
+            paymentMethod: 'Credit Card',
+            status: 'Failed',
+            reason: 'Insufficient Funds'
+        },
+        {
+            id: 'T005',
+            customerName: 'Charlie Green',
+            orderId: 'O005',
+            amount: 120.00,
+            date: '2024-07-05T16:20:00Z',
+            paymentMethod: 'Cash',
+            status: 'Completed',
+            reason: null
+        },
+        {
+            id: 'T006',
+            customerName: 'Diana Prince',
+            orderId: 'O006',
+            amount: 80.00,
+            date: '2024-07-06T11:10:00Z',
+            paymentMethod: 'Credit Card',
+            status: 'Refunded',
+            reason: null
+        },
+        {
+            id: 'T007',
+            customerName: 'Ethan Hunt',
+            orderId: 'O007',
+            amount: 220.00,
+            date: '2024-07-07T18:30:00Z',
+            paymentMethod: 'PayPal',
+            status: 'Completed',
+            reason: null
+        },
+        {
+            id: 'T008',
+            customerName: 'Fiona Glenanne',
+            orderId: 'O008',
+            amount: 45.00,
+            date: '2024-07-08T08:00:00Z',
+            paymentMethod: 'Debit Card',
+            status: 'Pending',
+            reason: null
+        },
+        {
+            id: 'T009',
+            customerName: 'George Clooney',
+            orderId: 'O009',
+            amount: 90.00,
+            date: '2024-07-09T15:25:00Z',
+            paymentMethod: 'Credit Card',
+            status: 'Failed',
+            reason: 'Payment Timeout'
+        },
+        {
+            id: 'T010',
+            customerName: 'Hannah Montana',
+            orderId: 'O010',
+            amount: 300.00,
+            date: '2024-07-10T19:40:00Z',
+            paymentMethod: 'PayPal',
+            status: 'Completed',
+            reason: null
+        },
     ];
 
-    setTransactions(dummyData);
-    setFilteredTransactions(dummyData);
-  }, []);
+    useEffect(() => {
+        // Set transactions to dummy data
+        setTransactions(dummyTransactions);
+        setLoadingTransactions(false);
+    }, []);
 
-  useEffect(() => {
-    filterTransactions();
-  }, [searchTerm, statusFilter, transactions]);
+    const filteredTransactions = transactions.filter(transaction =>
+        (transaction.customerName.toLowerCase().includes(filter.toLowerCase()) ||
+            transaction.id.toLowerCase().includes(filter.toLowerCase())) &&
+        (statusFilter === '' || transaction.status === statusFilter) // Filter by status
+    );
 
-  const filterTransactions = () => {
-    let filtered = transactions;
+    const handleDelete = (transactionId) => {
+        const updatedTransactions = transactions.filter(transaction => transaction.id !== transactionId);
+        setTransactions(updatedTransactions);
+        alert(`Transaction ${transactionId} deleted successfully!`);
+    };
 
-    if (searchTerm) {
-      filtered = filtered.filter(transaction =>
-        transaction.orderId.includes(searchTerm) ||
-        transaction.customerName.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    }
+    const handleNotifyCustomer = (customerName) => {
+        alert(`Notifying ${customerName} about the failed transaction.`);
+        // Logic to notify the customer goes here
+    };
 
-    if (statusFilter) {
-      filtered = filtered.filter(transaction => transaction.status === statusFilter);
-    }
+    const handleViewDetails = (transaction) => {
+        alert(`Transaction Details:\n
+        ID: ${transaction.id}\n
+        Customer: ${transaction.customerName}\n
+        Order ID: ${transaction.orderId}\n
+        Amount: ₹${transaction.amount.toFixed(2)}\n
+        Date: ${new Date(transaction.date).toLocaleDateString()}\n
+        Payment Method: ${transaction.paymentMethod}\n
+        Status: ${transaction.status}\n
+        Reason for Failure: ${transaction.reason || 'N/A'}`);
+    };
 
-    setFilteredTransactions(filtered);
-  };
-
-  const updateTransactionStatus = (id, status) => {
-    setTransactions(transactions.map(transaction =>
-      transaction._id === id ? { ...transaction, status } : transaction
-    ));
-  };
-
-  const handlePageClick = (event) => {
-    setCurrentPage(event.selected);
-  };
-
-  const pageCount = Math.ceil(filteredTransactions.length / transactionsPerPage);
-  const offset = currentPage * transactionsPerPage;
-  const currentTransactions = filteredTransactions.slice(offset, offset + transactionsPerPage);
-
-  const handleEdit = (id) => {
-    // Placeholder function for edit action
-    console.log(`Edit transaction ${id}`);
-  };
-
-  const handleDelete = (id) => {
-    // Placeholder function for delete action
-    console.log(`Delete transaction ${id}`);
-    // Ideally, here you would make an API call to delete the transaction
-    // For demonstration, let's simulate the deletion locally
-    const updatedTransactions = transactions.filter(transaction => transaction._id !== id);
-    setTransactions(updatedTransactions);
-    setFilteredTransactions(updatedTransactions); // Update filtered list if applicable
-  };
-
-  return (
-    <div className="transaction-list-container">
-      <h2>Transaction List</h2>
-      <div className="search-filter-container">
-        <input
-          type="text"
-          placeholder="Search by Order ID or Customer Name"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="search-input"
-        />
-        <select
-          value={statusFilter}
-          onChange={(e) => setStatusFilter(e.target.value)}
-          className="status-filter"
-        >
-          <option value="">All Statuses</option>
-          <option value="pending">Pending</option>
-          <option value="processed">Processed</option>
-          <option value="shipped">Shipped</option>
-          <option value="completed">Completed</option>
-          <option value="canceled">Canceled</option>
-        </select>
-      </div>
-      <table>
-        <thead>
-          <tr>
-            <th>Order ID</th>
-            <th>Customer Name</th>
-            <th>Amount</th>
-            <th>Status</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {currentTransactions.map(transaction => (
-            <tr key={transaction._id}>
-              <td>{transaction.orderId}</td>
-              <td>{transaction.customerName}</td>
-              <td>₹{transaction.amount.toFixed(2)}</td> {/* Display Indian Rupee symbol */}
-              <td>{transaction.status}</td>
-              <td>
-                <select
-                  value={transaction.status}
-                  onChange={(e) => updateTransactionStatus(transaction._id, e.target.value)}
-                  className="status-select"
-                >
-                  <option value="pending">Pending</option>
-                  <option value="processed">Processed</option>
-                  <option value="shipped">Shipped</option>
-                  <option value="completed">Completed</option>
-                  <option value="canceled">Canceled</option>
+    return (
+        <div className="transaction-management-container">
+            <h2>Transaction Management</h2>
+            <div className="filter-options">
+                <input
+                    type="text"
+                    placeholder="Search by Transaction ID or Customer Name"
+                    value={filter}
+                    onChange={(e) => setFilter(e.target.value)}
+                />
+                <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
+                    <option value="">All Statuses</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Failed">Failed</option>
+                    <option value="Refunded">Refunded</option>
                 </select>
-                <button onClick={() => handleEdit(transaction._id)}>Edit</button> 
-                <button onClick={() => handleDelete(transaction._id)}>Delete</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <ReactPaginate
-        previousLabel={'previous'}
-        nextLabel={'next'}
-        breakLabel={'...'}
-        breakClassName={'break-me'}
-        pageCount={pageCount}
-        marginPagesDisplayed={2}
-        pageRangeDisplayed={5}
-        onPageChange={handlePageClick}
-        containerClassName={'pagination'}
-        activeClassName={'active'}
-      />
-    </div>
-  );
+            </div>
+            {loadingTransactions ? (
+                <p>Loading transactions...</p>
+            ) : (
+                <table className="transactions-table">
+                    <thead>
+                        <tr>
+                            <th>Transaction ID</th>
+                            <th>User/Customer</th>
+                            <th>Order ID</th>
+                            <th>Amount</th>
+                            <th>Date</th>
+                            <th>Payment Method</th>
+                            <th>Status</th>
+                            <th>Reason for Failure</th> {/* Added column for failure reasons */}
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {filteredTransactions.map(transaction => (
+                            <tr key={transaction.id}>
+                                <td>{transaction.id}</td>
+                                <td>{transaction.customerName}</td>
+                                <td>{transaction.orderId}</td>
+                                <td>₹{transaction.amount.toFixed(2)}</td>
+                                <td>{new Date(transaction.date).toLocaleDateString()}</td>
+                                <td>{transaction.paymentMethod}</td>
+                                <td>{transaction.status}</td>
+                                <td>{transaction.reason || '-'}</td> {/* Show reason if available, otherwise show '-' */}
+                                <td>
+                                    <button onClick={() => handleViewDetails(transaction)}>View Details</button>
+                                    <button onClick={() => handleDelete(transaction.id)}>Delete</button>
+                                    {transaction.status === 'Failed' && (
+                                        <button onClick={() => handleNotifyCustomer(transaction.customerName)}>Notify Customer</button>
+                                    )}
+                                </td>
+                            </tr>
+                        ))}
+                        {filteredTransactions.length === 0 && (
+                            <tr>
+                                <td colSpan="9">No transactions found.</td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
+            )}
+        </div>
+    );
 };
 
-export default TransactionList;
+// Exporting the component for use
+export default TransactionManagement;

@@ -1,121 +1,98 @@
-/* Transactions.css */
 
-/* Transactions.css */
+/* Container for the entire component */
+.transaction-management-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9; /* Light background for better contrast */
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
 
-.transaction-list-container {
-    max-width: 1000px;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .search-filter-container {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-  }
-  
-  .search-input {
-    padding: 8px;
-    width: 200px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  .status-filter {
-    padding: 8px;
-    width: 150px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-  }
-  
-  table th, table td {
-    padding: 10px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  table th {
-    background-color: #f0f0f0;
-  }
-  
-  .table-actions {
-    display: flex;
-    gap: 10px;
-  }
-  
-  .edit-button, .delete-button {
-    padding: 8px 12px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    background-color: #007bff;
-    color: #fff;
-    text-decoration: none;
-    text-align: center;
-    
-  }
-  
-  .edit-button:hover, .delete-button:hover {
-    background-color: #0056b3;
-  }
-  
-  .status-select {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .pagination {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-  }
-  
-  .pagination li {
-    display: inline-block;
-    margin: 0 5px;
-    cursor: pointer;
-  }
-  
-  .pagination li.active {
-    font-weight: bold;
-  }
-  
-  .pagination li a {
-    display: block;
-    padding: 8px;
-    text-decoration: none;
-    color: #333;
-  }
-  
-  .pagination li:hover {
-    background-color: #f0f0f0;
-  }
-  /* Transactions.css */
+/* Header styling */
+.transaction-management-container h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
 
-.table-actions {
-    display: flex;
-    align-items: center; /* Center align items vertically */
-  }
-  
-  .action-buttons {
-    margin-left: 10px; /* Adjust margin as needed for spacing */
-  }
-  
-  .action-buttons button {
-    margin-right: 5px; /* Adjust margin between buttons */
-  }
-  
-  
+/* Filter options styling */
+.filter-options {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.filter-options input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd; /* Border for input fields */
+  border-radius: 4px;
+  margin-right: 10px; /* Space between input and select */
+  font-size: 16px;
+}
+
+.filter-options select {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+/* Table styling */
+.transactions-table {
+  width: 100%;
+  border-collapse: collapse; /* Remove space between borders */
+  margin-top: 20px;
+}
+
+.transactions-table th,
+.transactions-table td {
+  padding: 12px 15px; /* Padding for cells */
+  text-align: left;
+  border-bottom: 1px solid #ddd; /* Bottom border for rows */
+}
+
+.transactions-table th {
+  background-color: #4CAF50; /* Green background for header */
+  color: white; /* White text for header */
+  font-weight: bold;
+}
+
+.transactions-table tr:hover {
+  background-color: #f1f1f1; /* Hover effect for rows */
+}
+
+/* Action button styling */
+.transactions-table button {
+  padding: 8px 12px;
+  margin-right: 5px; /* Space between buttons */
+  border: none;
+  border-radius: 4px;
+  color: white; /* White text color for buttons */
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.transactions-table button:nth-child(1) {
+  background-color: #007BFF; /* Blue for view */
+}
+
+.transactions-table button:nth-child(2) {
+  background-color: #dc3545; /* Red for delete */
+}
+
+.transactions-table button:nth-child(3) {
+  background-color: #ffc107; /* Yellow for notify */
+}
+
+/* Button hover effects */
+.transactions-table button:hover {
+  opacity: 0.9; /* Slightly transparent on hover */
+}
+
+/* No transactions found message */
+.transactions-table td[colspan="9"] {
+  text-align: center;
+  color: #777; /* Light gray for empty message */
+}
