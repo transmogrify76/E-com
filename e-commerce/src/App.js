@@ -35,7 +35,8 @@ import Users from './Components/Admin/Users/Users';
 import Products from './Components/Admin/Products/Products';
 import Order from './Components/Admin/Order/Order';
 import Reports from './Components/Admin/Reports/Reports';
-import OrderIndividual from './Components/Seller/Order-Individual/OrderIndividual';
+// import OrderIndividual from './Components/Seller/Order-Individual/OrderIndividual';
+// import OrderIndividual from './Components/Seller/Order-Individual/OrderIndividual';
 import SideNavbar from './Components/Seller/SideNavbar/SideNavbar';
 import SellerNavbar from './Components/Seller/SellerNavbar/SellerNavbar';
 import Logout from './Components/Logout/Logout';
@@ -199,7 +200,7 @@ function AppContent() {
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/payment" element={<Payment />} />
-        <Route path="/OrderIndividual/:orderId" element={<OrderIndividual />} />
+        {/* <Route path="/OrderIndividual/:orderId" element={<OrderIndividual />} /> */}
         <Route path="/seller-dashboard" element={<SellerDashboard />} />
         <Route path="/ProductUpload" element={<ProductUpload />} />
         <Route path="/ExistingProduct" element={<ExistingProduct />} />
