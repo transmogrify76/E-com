@@ -1,16 +1,15 @@
 .side-navbar {
-  width: 70px; /* Initial width when collapsed */
+  width: 80px; /* Initial width when collapsed */
   position: fixed;
   background-color: #281042;
   left: 0;
-  top: 0;
+  top: 60px;
   bottom: 0;
   padding-top: 20px;
   transition: width 0.3s ease;
   overflow-x: hidden;
   box-shadow: 2px 0 5px rgba(214, 212, 212, 0.1);
-  z-index: 10px; /* Ensure sidebar is above other content */
-  margin-top: 5.8%;
+  z-index: 1000; /* Ensure sidebar is above other content */
 }
 
 .side-navbar.expanded {
@@ -66,6 +65,19 @@
   font-size: 16px;
   display: inline-block;
 }
+.wishlist-count {
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 12px;
+  position: absolute; /* Ensure it's positioned relative to the parent */
+  top: 10px; /* Adjust as needed */
+  right: 10px; /* Adjust as needed */
+  font-weight: bold;
+  
+}
+
 
 /* Media Query for Responsive Design */
 @media screen and (max-width: 768px) {

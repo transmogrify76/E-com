@@ -1,218 +1,170 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBoxOpen, faEdit, faTrash, faPlus, faBell, faSearch, faUsers, faClipboardList, faChartLine, faCog, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import './Products.css'; // Adjust path as per your project structure
 
-const Products = () => {
-    const user = {
-        username: 'Admin', // Replace with actual admin username
-        avatar: 'https://via.placeholder.com/150', // Replace with actual avatar URL
-    };
+const AdminProducts = () => {
+    // State to manage products and filtered products
+    const [products, setProducts] = useState([]);
+    const [filteredProducts, setFilteredProducts] = useState([]);
 
-    const [activeMenuItem, setActiveMenuItem] = useState('Products');
-
-    const [products, setProducts] = useState([
-        { id: 1, name: 'Product A', description: 'Description of Product A', price: 49.99 },
-        { id: 2, name: 'Product B', description: 'Description of Product B', price: 29.99 },
-        { id: 3, name: 'Product C', description: 'Description of Product C', price: 19.99 },
-    ]);
-
-    const [newProduct, setNewProduct] = useState({
-        name: '',
-        description: '',
-        price: 0,
+    // State for managing filters
+    const [filters, setFilters] = useState({
+        category: '',
+        priceRange: '',
+        material: '',
+        size: '',
+        brand: ''
     });
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setNewProduct({ ...newProduct, [name]: value });
+    // Simulated API call to fetch products (useEffect simulates componentDidMount)
+    useEffect(() => {
+        // Replace with actual API call to fetch products
+        const fetchProducts = async () => {
+            try {
+                // Example fetch call
+                const response = await fetch('https://api.example.com/products');
+                if (response.ok) {
+                    const data = await response.json();
+                    setProducts(data.products); // Assuming data contains array of products
+                    setFilteredProducts(data.products); // Initialize filtered products with all products
+                } else {
+                    throw new Error('Failed to fetch products');
+                }
+            } catch (error) {
+                console.error('Error fetching products:', error);
+            }
+        };
+
+        fetchProducts();
+    }, []);
+
+    // Update filtered products based on filters
+    useEffect(() => {
+        let filtered = products;
+
+        // Apply filters
+        if (filters.category) {
+            filtered = filtered.filter(product => product.category === filters.category);
+        }
+        if (filters.priceRange) {
+            const [minPrice, maxPrice] = filters.priceRange.split('-');
+            filtered = filtered.filter(product => product.price >= parseFloat(minPrice) && product.price <= parseFloat(maxPrice));
+        }
+        if (filters.material) {
+            filtered = filtered.filter(product => product.material.toLowerCase().includes(filters.material.toLowerCase()));
+        }
+        if (filters.size) {
+            filtered = filtered.filter(product => product.size.toLowerCase().includes(filters.size.toLowerCase()));
+        }
+        if (filters.brand) {
+            filtered = filtered.filter(product => product.brand.toLowerCase().includes(filters.brand.toLowerCase()));
+        }
+
+        setFilteredProducts(filtered);
+    }, [filters, products]);
+
+    // Handle filter changes
+    const handleFilterChange = (filterName, value) => {
+        setFilters({ ...filters, [filterName]: value });
     };
 
-    const handleAddProduct = () => {
-        const id = products.length + 1;
-        const newProductWithId = { ...newProduct, id };
-        setProducts([...products, newProductWithId]);
-        setNewProduct({ name: '', description: '', price: 0 });
+    // Handle clear filters
+    const clearFilters = () => {
+        setFilters({
+            category: '',
+            priceRange: '',
+            material: '',
+            size: '',
+            brand: ''
+        });
     };
 
+    // Delete product by ID
     const handleDeleteProduct = (productId) => {
         const updatedProducts = products.filter(product => product.id !== productId);
         setProducts(updatedProducts);
-    };
-
-    const [editingProduct, setEditingProduct] = useState(null);
-
-    const handleEditProduct = (productId) => {
-        const productToEdit = products.find(product => product.id === productId);
-        setEditingProduct(productToEdit);
-    };
-
-    const cancelEdit = () => {
-        setEditingProduct(null);
-    };
-
-    const saveProduct = (updatedProduct) => {
-        const updatedProducts = products.map(product =>
-            product.id === updatedProduct.id ? updatedProduct : product
-        );
-        setProducts(updatedProducts);
-        setEditingProduct(null);
-    };
-
-    const handleMenuItemClick = (itemName) => {
-        setActiveMenuItem(itemName);
+        setFilteredProducts(updatedProducts); // Update filtered products after deletion
     };
 
     return (
-        <div className="admin-dashboard">
-            {/* Header */}
-            <header className="header">
-                <div className="header-left">
-                    <h2>Products Management</h2>
+        <div className="admin-products">
+            <div className="filters">
+                {/* Filter controls */}
+                <h2>Filters</h2>
+                <div className="filter-item">
+                    <label>Category:</label>
+                    <input
+                        type="text"
+                        value={filters.category}
+                        onChange={(e) => handleFilterChange('category', e.target.value)}
+                    />
                 </div>
-                <div className="header-right">
-                    <div className="user-profile">
-                        <img src={user.avatar} alt="User Avatar" className="avatar" />
-                        <span className="username">{user.username}</span>
-                    </div>
-                    <div className="notifications">
-                        <FontAwesomeIcon icon={faBell} />
-                        <span className="badge">5</span>
-                        
-                    </div>
+                <div className="filter-item">
+                    <label>Price Range:</label>
+                    <select
+                        value={filters.priceRange}
+                        onChange={(e) => handleFilterChange('priceRange', e.target.value)}
+                    >
+                        <option value="">Select price range</option>
+                        <option value="0-50">$0 - $50</option>
+                        <option value="50-100">$50 - $100</option>
+                        <option value="100-200">$100 - $200</option>
+                        <option value="200+">$200+</option>
+                    </select>
                 </div>
-            </header>
-
-            {/* Sidebar (sidenav) */}
-            <div className="admin-container">
-                {/* <nav className="sidenav">
-                    <ul>
-                        <li className={activeMenuItem === 'Users' ? 'active' : ''}>
-                            <Link to="/Users" onClick={() => handleMenuItemClick('Users')}>
-                                <FontAwesomeIcon icon={faUsers} style={{ marginRight: '8px' }} />
-                                Users Management
-                            </Link>
-                        </li>
-                        <li className={activeMenuItem === 'Products' ? 'active' : ''}>
-                            <Link to="/Products" onClick={() => handleMenuItemClick('Products')}>
-                                <FontAwesomeIcon icon={faBoxOpen} style={{ marginRight: '8px' }} />
-                                Products Management
-                            </Link>
-                        </li>
-                        <li className={activeMenuItem === 'Orders' ? 'active' : ''}>
-                            <Link to="/Order" onClick={() => handleMenuItemClick('Order')}>
-                                <FontAwesomeIcon icon={faClipboardList} style={{ marginRight: '8px' }} />
-                                Orders Management
-                            </Link>
-                        </li>
-                        <li className={activeMenuItem === 'Reports' ? 'active' : ''}>
-                            <Link to="/Reports" onClick={() => handleMenuItemClick('Reports')}>
-                                <FontAwesomeIcon icon={faChartLine} style={{ marginRight: '8px' }} />
-                                Reports & Analytics
-                            </Link>
-                        </li>
-                        <li className={activeMenuItem === 'Settings' ? 'active' : ''}>
-                            <Link to="/Settings" onClick={() => handleMenuItemClick('Settings')}>
-                                <FontAwesomeIcon icon={faCog} style={{ marginRight: '8px' }} />
-                                Settings
-                            </Link>
-                        </li>
-                        <li>
-                            <a href="/Logout">
-                                <FontAwesomeIcon icon={faSignOutAlt} style={{ marginRight: '8px' }} />
-                                Logout
-                            </a>
-                        </li>
-                    </ul>
-                </nav> */}
-
-                {/* Main Content */}
-                <main className="dashboard-main">
-                    <div className="admin-main-content">
-                        {/* Products Management */}
-                        <div className="products-management">
-                            <h2>Products Management</h2>
-                            <div className="products-list">
-                                {products.map(product => (
-                                    <div className="product-item" key={product.id}>
-                                        {editingProduct && editingProduct.id === product.id ? (
-                                            <div>
-                                                <input
-                                                    type="text"
-                                                    value={editingProduct.name}
-                                                    onChange={(e) => setEditingProduct({ ...editingProduct, name: e.target.value })}
-                                                />
-                                                <input
-                                                    type="text"
-                                                    value={editingProduct.description}
-                                                    onChange={(e) => setEditingProduct({ ...editingProduct, description: e.target.value })}
-                                                />
-                                                <input
-                                                    type="number"
-                                                    value={editingProduct.price}
-                                                    onChange={(e) => setEditingProduct({ ...editingProduct, price: parseFloat(e.target.value) })}
-                                                />
-                                                <button onClick={() => saveProduct(editingProduct)}>Save</button>
-                                                <button onClick={cancelEdit}>Cancel</button>
-                                            </div>
-                                        ) : (
-                                            <div>
-                                                <p><strong>Name:</strong> {product.name}</p>
-                                                <p><strong>Description:</strong> {product.description}</p>
-                                                <p><strong>Price:</strong> ${product.price.toFixed(2)}</p>
-                                                <div className="product-actions">
-                                                    <button onClick={() => handleEditProduct(product.id)}>
-                                                        <FontAwesomeIcon icon={faEdit} /> Edit
-                                                    </button>
-                                                    <button onClick={() => handleDeleteProduct(product.id)}>
-                                                        <FontAwesomeIcon icon={faTrash} /> Delete
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        )}
-                                    </div>
-                                ))}
+                <div className="filter-item">
+                    <label>Material:</label>
+                    <input
+                        type="text"
+                        value={filters.material}
+                        onChange={(e) => handleFilterChange('material', e.target.value)}
+                    />
+                </div>
+                <div className="filter-item">
+                    <label>Size:</label>
+                    <input
+                        type="text"
+                        value={filters.size}
+                        onChange={(e) => handleFilterChange('size', e.target.value)}
+                    />
+                </div>
+                <div className="filter-item">
+                    <label>Brand:</label>
+                    <input
+                        type="text"
+                        value={filters.brand}
+                        onChange={(e) => handleFilterChange('brand', e.target.value)}
+                    />
+                </div>
+                <button onClick={clearFilters}>Clear Filters</button>
+            </div>
+            <div className="product-list">
+                {/* Product list */}
+                <h2>Product Inventory</h2>
+                <div className="products">
+                    {filteredProducts.length > 0 ? (
+                        filteredProducts.map(product => (
+                            <div className="product-item" key={product.id}>
+                                <h3>{product.name}</h3>
+                                <p><strong>Category:</strong> {product.category}</p>
+                                <p><strong>Price:</strong> ${product.price.toFixed(2)}</p>
+                                <p><strong>Material:</strong> {product.material}</p>
+                                <p><strong>Size:</strong> {product.size}</p>
+                                <p><strong>Brand:</strong> {product.brand}</p>
+                                <div className="product-actions">
+                                    <button><FontAwesomeIcon icon={faEdit} /> Edit</button>
+                                    <button onClick={() => handleDeleteProduct(product.id)}><FontAwesomeIcon icon={faTrash} /> Delete</button>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-
-                    {/* Add New Product Form */}
-                    <div className="add-product">
-                        <h3>Add New Product</h3>
-                        <form onSubmit={e => { e.preventDefault(); handleAddProduct(); }}>
-                            <input
-                                type="text"
-                                name="name"
-                                placeholder="Product Name"
-                                value={newProduct.name}
-                                onChange={handleInputChange}
-                                required
-                            />
-                            <input
-                                type="text"
-                                name="description"
-                                placeholder="Product Description"
-                                value={newProduct.description}
-                                onChange={handleInputChange}
-                                required
-                            />
-                            <input
-                                type="number"
-                                name="price"
-                                placeholder="Product Price"
-                                value={newProduct.price}
-                                onChange={handleInputChange}
-                                required
-                            />
-                            <button type="submit"><FontAwesomeIcon icon={faPlus} /> Add Product</button>
-                        </form>
-                    </div>
-                </main>
+                        ))
+                    ) : (
+                        <p>No products found.</p>
+                    )}
+                </div>
             </div>
         </div>
     );
 };
 
-export default Products;
-
+export default AdminProducts;

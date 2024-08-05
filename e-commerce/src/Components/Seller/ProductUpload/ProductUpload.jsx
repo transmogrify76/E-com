@@ -1,9 +1,5 @@
-// ProductUpload.jsx
-// ProductUpload.js
-
 import React, { useState } from 'react';
-import styles from './ProductUpload.css'; // Import CSS module for styling
-
+import './ProductUpload.css'; // Import CSS for styling
 
 const ProductUpload = ({ onProductSubmit }) => {
     const [productName, setProductName] = useState('');
@@ -32,10 +28,10 @@ const ProductUpload = ({ onProductSubmit }) => {
     };
 
     return (
-        <div className={styles.productUploadContainer}>
-            <h2>Product Upload</h2>
-            <form onSubmit={handleSubmit}>
-                <div className={styles.formGroup}>
+        <div className="product-upload-container">
+            <h2>Upload a New Product</h2>
+            <form onSubmit={handleSubmit} className="product-upload-form">
+                <div className="form-group">
                     <label htmlFor="productName">Product Name:</label>
                     <input
                         type="text"
@@ -45,8 +41,8 @@ const ProductUpload = ({ onProductSubmit }) => {
                         required
                     />
                 </div>
-                <br></br>
-                <div className={styles.formGroup}>
+                
+                <div className="form-group">
                     <label htmlFor="productPrice">Product Price (₹):</label>
                     <input
                         type="number"
@@ -58,8 +54,8 @@ const ProductUpload = ({ onProductSubmit }) => {
                         required
                     />
                 </div>
-                <br></br>
-                <div className={styles.formGroup}>
+                
+                <div className="form-group">
                     <label htmlFor="productDescription">Product Description:</label>
                     <textarea
                         id="productDescription"
@@ -69,8 +65,8 @@ const ProductUpload = ({ onProductSubmit }) => {
                         required
                     ></textarea>
                 </div>
-                <br></br>
-                <div className={styles.formGroup}>
+                
+                <div className="form-group">
                     <label htmlFor="productImage">Product Image:</label>
                     <input
                         type="file"
@@ -80,8 +76,8 @@ const ProductUpload = ({ onProductSubmit }) => {
                         required
                     />
                 </div>
-                <br></br>
-                <button type="submit">Upload Product</button>
+                
+                <button type="submit" className="upload-button">Upload Product</button>
             </form>
         </div>
     );

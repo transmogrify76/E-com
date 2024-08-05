@@ -1,11 +1,12 @@
-.descriptionbox{
+.descriptionbox {
     margin: 120px 170px;
 }
-.descriptionbox-navigator{
-    display: flex;
 
+.descriptionbox-navigator {
+    display: flex;
 }
-.descriptionbox-nav-box{
+
+.descriptionbox-nav-box, .descriptionbox-nav-box-fade {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -14,23 +15,55 @@
     width: 171px;
     height: 70px;
     border: 1px solid #d0d0d0;
+    cursor: pointer;
 }
-.descriptionbox-nav-box-fade{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    font-weight: 600;
-    width: 171px;
-    height: 70px;
-    border: 1px solid #d0d0d0;
-    
+
+.descriptionbox-nav-box.active, .descriptionbox-nav-box-fade.active {
+    border-bottom: 3px solid #000;
 }
-.descriptionbox-description{
+
+.descriptionbox-description {
     display: flex;
     flex-direction: column;
     gap: 25px;
     border: 1px solid #b93434;
-    padding: 48PX;
-    padding-bottom: 70PX;
+    padding: 48px;
+    padding-bottom: 70px;
+}
+
+.descriptionbox-reviews {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    border: 1px solid #b93434;
+    padding: 48px;
+    padding-bottom: 70px;
+}
+
+.review {
+    border-bottom: 1px solid #d0d0d0;
+    padding-bottom: 10px;
+}
+
+.review h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.review p {
+    margin: 5px 0 10px;
+    font-size: 16px;
+}
+
+.review-stars {
+    display: flex;
+}
+
+.star {
+    color: gold;
+}
+
+.star-dull {
+    color: lightgray;
 }

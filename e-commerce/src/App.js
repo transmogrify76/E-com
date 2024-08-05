@@ -1,6 +1,6 @@
-
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
+// Import Components
 import ENavbar from './Components/Navbar/Navbar';
 import Sidenav from './Components/Sidenav/Sidenav';
 import Dashboard from './Components/Dashboard/Dashboard';
@@ -21,7 +21,7 @@ import Shop from './Components/Shop/Shop';
 import NewCollections from './Components/NewCollections/NewCollections';
 import ProductDisplay from './Components/ProductDisplay/ProductDisplay';
 import Product from './Components/Product/Product';
-import AdminDashboard from './Components/Admin/AdminDashboard/AdminDashboard';
+import AdminDashboard from './Components/Admin/AdminDashboard/AdminDashboard';        
 import Checkout from './Components/Checkout/Checkout';
 import Payment from './Components/Payment/Payment';
 import SellerDashboard from './Components/Seller/SellerDashboard/SellerDashboard';
@@ -35,8 +35,8 @@ import Users from './Components/Admin/Users/Users';
 import Products from './Components/Admin/Products/Products';
 import Order from './Components/Admin/Order/Order';
 import Reports from './Components/Admin/Reports/Reports';
-import Setting from './Components/Admin/Setting/Setting';
-import OrderIndividual from './Components/Order-individual/OrderIndividual';
+// import OrderIndividual from './Components/Seller/Order-Individual/OrderIndividual';
+// import OrderIndividual from './Components/Seller/Order-Individual/OrderIndividual';
 import SideNavbar from './Components/Seller/SideNavbar/SideNavbar';
 import SellerNavbar from './Components/Seller/SellerNavbar/SellerNavbar';
 import Logout from './Components/Logout/Logout';
@@ -44,10 +44,46 @@ import Wallet from './Components/Seller/Wallet/Wallet';
 import SellerAccount from './Components/Seller/Account/Account';
 import NewSeller from './Components/Seller/NewSeller/NewSeller';
 import NewBank from './Components/Seller/NewBank/NewBank';
+import Navbar from './Components/Admin/Navbar/Navbar';
+import Sidebar from './Components/Admin/Sidebar/Sidebar';
+import AddProduct from './Components/Admin/AddProduct/AddProduct';
+import ListProduct from './Components/Admin/ListProduct/ListProduct';
+import AdSettings from './Components/Admin/Settings/Settings';
+import AdAccount from './Components/Admin/Adaccount/Adaccount';
+import Delivery from './Components/Admin/Delivery/Delivery';
+import Inventory from './Components/Admin/Inventory/Inventory';
+import AdminPanelSeller from './Components/Admin/AdSeller/AdSeller';
+import CategoryManagement from './Components/Admin/Cattegories/Cattegories';
+import Shipments from './Components/Admin/Shipments/Shipments';
+import TransactionList from './Components/Admin/Transactions/Transactions';
+import AdminInvoice from './Components/Admin/Invoices/Invoices';
+import AdminInvoicePage from './Components/Admin/AdminInvoice/AdminInvoice';
+import RefundsPage from './Components/Admin/Refunds/Refunds';
+import ProcessRefundPage from './Components/Admin/ProcessRefund/ProcessRefund';
+import ResetPassword from './Components/ResetPassword/ResetPassword';
+import ShippingDetails from './Components/Seller/ShippingDetails/ShippingDetails';
+import './App.css';
+
+// ScrollHandler Component
+const ScrollHandler = () => {
+  const location = useLocation();
+  const noScrollRoutes = ['/login', '/signup', '/forgetpassword', '/resetpassword'];
+
+  useEffect(() => {
+    if (noScrollRoutes.includes(location.pathname)) {
+      document.body.classList.add('no-scroll');
+    } else {
+      document.body.classList.remove('no-scroll');
+    }
+  }, [location]);
+
+  return null;
+};
 
 function App() {
   return (
     <Router>
+      <ScrollHandler />
       <AppContent />
     </Router>
   );
@@ -56,59 +92,80 @@ function App() {
 function AppContent() {
   const location = useLocation();
 
-  // Function to determine if the sidebar should be shown
   const shouldShowSidebar = () => {
-    // Paths where sidebar should not be shown
     const pathsWithoutSidebar = [
       '/login', '/signup', '/forgetpassword', '/seller-dashboard',
       '/ProductUpload', '/ExistingProduct', '/Dispatch', '/RevenueGenerate',
       '/Orderr', '/Settings', '/admin-dashboard', '/Users', '/Products',
-      '/Order', '/Reports', '/Setting', '/Logout', '/OrderIndividual'
+      '/Order', '/Reports', '/Setting', '/Logout', '/resetpassword'
     ];
     return !pathsWithoutSidebar.includes(location.pathname);
   };
 
-  // Function to determine if the side navbar should be shown
   const shouldShowSideNavbar = () => {
-    // Array of paths where side navbar should not be shown
     const pathsWithoutSideNavbar = [
       '/', '/login', '/signup', '/forgetpassword', '/dashboard', '/cart', '/wishlist',
       '/mens', '/women', '/orders', '/account', '/kids', '/popular', '/shop',
-      '/newcollections', '/checkout', '/payment'
+      '/newcollections', '/checkout', '/payment', '/NewSeller', '/admin-dashboard',
+      '/list-product', '/add-product', '/categories', '/order', '/users', '/sellers',
+      '/transactions', '/delivery', '/adaccount', '/adsettings', '/inventory', 
+      '/shipments', '/invoice', '/refunds', '/resetpassword'
     ];
-    return !pathsWithoutSideNavbar.includes(location.pathname) && !location.pathname.startsWith('/product/');
+    return !pathsWithoutSideNavbar.includes(location.pathname) && !location.pathname.startsWith('/product/') && !location.pathname.startsWith('/invoice/') && !location.pathname.startsWith('/refunds/');
   };
 
-  // Function to determine if the seller navbar should be shown
   const shouldShowSellerNavbar = () => {
-    // Array of paths where seller navbar should not be shown
     const pathsWithoutSellerNavbar = [
       '/', '/login', '/signup', '/forgetpassword', '/dashboard', '/cart', '/wishlist',
       '/mens', '/women', '/orders', '/account', '/kids', '/popular', '/shop',
-      '/newcollections', '/checkout', '/payment'
+      '/newcollections', '/checkout', '/payment', '/NewSeller', '/admin-dashboard',
+      '/list-product', '/add-product', '/categories', '/order', '/users', '/sellers',
+      '/transactions', '/delivery', '/adaccount', '/adsettings', '/inventory',
+      '/shipments', '/resetpassword'
     ];
     return !pathsWithoutSellerNavbar.includes(location.pathname) && !location.pathname.startsWith('/product/');
   };
 
-  // Function to determine if the navbar should be shown
+  const shouldShowAdminNavbar = () => {
+    const pathsWithoutAdminNavbar = [
+      '/', '/login', '/signup', '/forgetpassword', '/dashboard', '/cart', '/wishlist',
+      '/mens', '/women', '/orders', '/account', '/kids', '/popular', '/shop',
+      '/newcollections', '/checkout', '/payment', '/NewSeller', '/seller-dashboard',
+      '/ProductUpload', '/ExistingProduct', '/Dispatch', '/RevenueGenerate',
+      '/Orderr', '/Settings',  '/NewBank', '/resetpassword'
+    ];
+    return !pathsWithoutAdminNavbar.includes(location.pathname) && !location.pathname.startsWith('/product/');
+  };
+
+  const shouldShowAdminSidebar = () => {
+    const pathsWithoutAdminSidebar = [
+      '/', '/login', '/signup', '/forgetpassword', '/dashboard', '/cart', '/wishlist',
+      '/mens', '/women', '/orders', '/account', '/kids', '/popular', '/shop',
+      '/newcollections', '/checkout', '/payment', '/NewSeller', '/seller-dashboard',
+      '/ProductUpload', '/ExistingProduct', '/Dispatch', '/RevenueGenerate',
+      '/Orderr', '/Settings', '/Wallet', '/SellerAccount', 
+      '/NewBank', '/resetpassword'
+    ];
+    return !pathsWithoutAdminSidebar.includes(location.pathname) && !location.pathname.startsWith('/product/') && !location.pathname.startsWith('/OrderIndividual/')  && !location.pathname.startsWith('/ShippingDetails/') && !location.pathname.startsWith('/Dispatch/') ;
+  };
+
   const shouldShowNavbar = () => {
-    // Paths where navbar should be shown
     const pathsWithNavbar = [
       '/', '/dashboard', '/cart', '/wishlist', '/mens', '/women', '/orders',
       '/account', '/kids', '/popular', '/shop', '/newcollections', '/productdisplay',
-      '/product/:productId', '/checkout', '/payment'
+      '/product/:productId', '/checkout', '/payment', '/NewSeller'
     ];
-    return pathsWithNavbar.includes(location.pathname) || location.pathname.startsWith('/product/');
+    
+    return pathsWithNavbar.includes(location.pathname) || location.pathname.startsWith('/product/') ;
   };
+  
 
-  // Function to determine if the footer should be shown
   const shouldShowFooter = () => {
-    // Paths where footer should not be shown
     const pathsWithoutFooter = [
       '/login', '/signup', '/forgetpassword', '/seller-dashboard',
       '/ProductUpload', '/ExistingProduct', '/Dispatch', '/RevenueGenerate',
       '/Orderr', '/Settings', '/admin-dashboard', '/Users', '/Products',
-      '/Order', '/Reports', '/Setting', '/Logout', '/OrderIndividual'
+      '/Order', '/Reports', '/Setting', '/Logout', '/OrderIndividual/:orderId', '/resetpassword'
     ];
     return !pathsWithoutFooter.includes(location.pathname);
   };
@@ -119,7 +176,10 @@ function AppContent() {
       {shouldShowSidebar() && <Sidenav />}
       {shouldShowSideNavbar() && <SideNavbar />}
       {shouldShowSellerNavbar() && <SellerNavbar />}
+      {shouldShowAdminNavbar() && <Navbar />}
+      {shouldShowAdminSidebar() && <Sidebar />}
       <Routes>
+        {/* Define Routes */}
         <Route path="/" element={<Dashboard />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/login" element={<Login />} />
@@ -140,11 +200,12 @@ function AppContent() {
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/payment" element={<Payment />} />
-        <Route path="/OrderIndividual" element={<OrderIndividual />} />
+        {/* <Route path="/OrderIndividual/:orderId" element={<OrderIndividual />} /> */}
         <Route path="/seller-dashboard" element={<SellerDashboard />} />
         <Route path="/ProductUpload" element={<ProductUpload />} />
         <Route path="/ExistingProduct" element={<ExistingProduct />} />
         <Route path="/Orderr" element={<Orderr />} />
+        <Route path="/Dispatch/:orderId" element={<Dispatch />} />
         <Route path="/Dispatch" element={<Dispatch />} />
         <Route path="/RevenueGenerate" element={<RevenueGenerate />} />
         <Route path="/Settings" element={<Settings />} />
@@ -152,13 +213,28 @@ function AppContent() {
         <Route path="/Products" element={<Products />} />
         <Route path="/Order" element={<Order />} />
         <Route path="/Reports" element={<Reports />} />
-        <Route path="/Setting" element={<Setting />} />
         <Route path="/Logout" element={<Logout />} />
         <Route path="/wallet" element={<Wallet />} />
         <Route path="/SellerNavbar" element={<SellerNavbar />} />
         <Route path="/NewSeller" element={<NewSeller />} />
         <Route path="/NewBank" element={<NewBank />} />
-        <Route path="/SellerAccount" element={<SellerAccount/>} />
+        <Route path="/SellerAccount" element={<SellerAccount />} />
+        <Route path="/add-product" element={<AddProduct />} />
+        <Route path="/list-product" element={<ListProduct />} />
+        <Route path="/adaccount" element={<AdAccount />} />
+        <Route path='/Delivery' element={<Delivery />} />
+        <Route path='/adsettings' element={<AdSettings />} />
+        <Route path='/inventory' element={<Inventory />} />
+        <Route path='/sellers' element={<AdminPanelSeller />} />
+        <Route path='/categories' element={<CategoryManagement />} />
+        <Route path='/shipments' element={<Shipments />} />
+        <Route path='/transactions' element={<TransactionList />} />
+        <Route path='/invoice' element={<AdminInvoice />} />
+        <Route path="/invoice/:invoiceNumber" element={<AdminInvoicePage />} />
+        <Route path="/refunds" element={<RefundsPage />} />
+        <Route path="/refunds/:refundId" element={<ProcessRefundPage />} />
+        <Route path="/resetpassword" element={<ResetPassword />} />
+        <Route path="/ShippingDetails/:orderId" element={<ShippingDetails />} />
       </Routes>
       {shouldShowFooter() && <Footer />}
     </div>
@@ -166,4 +242,5 @@ function AppContent() {
 }
 
 export default App;
+
 

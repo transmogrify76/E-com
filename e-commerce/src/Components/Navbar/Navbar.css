@@ -9,7 +9,8 @@
   position: fixed; /* Ensure navbar remains fixed */
   top: 0; /* Align to the top of the viewport */
   width: 100%; /* Take full width of the viewport */
-  z-index: 1000; /* Ensure it's above other content */
+  z-index: 1000;
+  /* Ensure it's above other content */
 }
 
 .nav-menu {
