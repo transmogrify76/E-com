@@ -14,7 +14,7 @@ const ForgetPassword = () => {
     const handleResetPassword = async () => {
         try {
             // Make API call to request password reset
-            const response = await axios.post('http://localhost:3000/users/forgot-password', { email });
+            const response = await axios.post('http://localhost:5000/users/forgot-password', { email });
             
             // Handle response
             if (response.status === 200) {

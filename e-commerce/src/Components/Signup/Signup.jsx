@@ -1,42 +1,59 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Signup.css';
 
 const Signup = () => {
   const [username, setUsername] = useState('');
-  const [fullname, setFullname] = useState('');
-  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [address, setAddress] = useState('');
-  const [phoneNo, setPhoneNo] = useState('');
+  const [email, setEmail] = useState('');
   const [role, setRole] = useState('');
-
+  const [roles, setRoles] = useState([]); // State for roles
+  const [error, setError] = useState(null); // State for error handling
   const navigate = useNavigate();
 
   useEffect(() => {
-    document.body.classList.add('no-scroll');
-
-    return () => {
-      document.body.classList.remove('no-scroll');
+    const fetchRoles = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/roles'); // Fetching roles
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.json();
+        
+        // Filter out roles named 'seller'
+        const filteredRoles = data.filter(role => role.name.toLowerCase() !== 'seller');
+        setRoles(filteredRoles); // Set filtered roles
+      } catch (error) {
+        console.error('Error fetching roles:', error.message);
+        setError('Failed to load roles. Please try again later.'); // Set error message
+      }
     };
+
+    fetchRoles(); // Call fetch function
   }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    // Check if role is selected
+    if (!role) {
+      setError('Please select a role');
+      return;
+    }
+
+    // Prepare the payload based on role selection
     const payload = {
       username,
-      email,
       password,
-      fullname,
-      address,
-      phoneNo,
-      role,
+      email,
+      role: role === '1' ? 'Admin' : 'User',  // Always include email for both roles
     };
 
+    // Determine endpoint based on role
+    const endpoint = role === '1' ? 'http://localhost:5000/admin' : 'http://localhost:5000/user/register';
+
     try {
-      const response = await fetch('http://localhost:3000/users/register', {
+      const response = await fetch(endpoint, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -48,12 +65,19 @@ const Signup = () => {
         // Redirect to login page on success
         navigate('/login');
       } else {
-        console.error('Registration failed.');
-        // Optionally, handle error responses here
+        const data = await response.json();
+        console.error('Registration failed:', data);
+        setError(data.message || 'Registration failed. Please try again.'); // Handle error responses
       }
     } catch (error) {
       console.error('An error occurred:', error);
+      setError('An error occurred during registration. Please try again.'); // Handle network errors
     }
+  };
+
+  const handleChange = (event) => {
+    setRole(event.target.value);
+    // Removed the line that resets the email state
   };
 
   return (
@@ -70,24 +94,10 @@ const Signup = () => {
                 placeholder="Username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
+                required
               />
             </div>
-            <div className="input">
-              <input
-                type="text"
-                placeholder="Full Name"
-                value={fullname}
-                onChange={(e) => setFullname(e.target.value)}
-              />
-            </div>
-            <div className="input">
-              <input
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
+
             <div style={{ marginBottom: '15px' }}>
               <input
                 type="password"
@@ -102,42 +112,44 @@ const Signup = () => {
                   border: '1px solid #ccc',
                   boxSizing: 'border-box',
                 }}
+                required
               />
             </div>
+
+            {/* Email input for both Admin and User roles */}
             <div className="input">
               <input
-                type="text"
-                placeholder="Address"
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required // Make email required for both roles
               />
             </div>
-            <div className="input">
-              <input
-                type="number"
-                placeholder="Phone No"
-                value={phoneNo}
-                onChange={(e) => setPhoneNo(e.target.value)}
-              />
-            </div>
+
             <div className="input">
               <select
                 value={role}
-                onChange={(e) => setRole(e.target.value)}
+                onChange={handleChange}
                 style={{
-                  width:'80%'
+                  width: '80%',
                 }}
                 required
               >
-                <option value="" disabled>Select Role</option>
-                <option value="user">User</option>
-                <option value="admin">Admin</option>
-                <option value="seller">Seller</option>
+                <option disabled value="">
+                  Select Role
+                </option>
+                <option value="1">Admin</option>
+                <option value="2">User</option>
               </select>
             </div>
+
+            {error && <p className="error-message">{error}</p>} {/* Show error message */}
+
             <div className="submit-container">
               <button type="submit" className="submit">Signup</button>
             </div>
+
             <div className="login-link">
               <span>Already have an account? </span>
               <Link to="/login" className="login">Login</Link>

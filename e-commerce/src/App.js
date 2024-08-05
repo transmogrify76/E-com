@@ -156,7 +156,7 @@ function AppContent() {
       '/product/:productId', '/checkout', '/payment', '/NewSeller'
     ];
     
-    return pathsWithNavbar.includes(location.pathname) || location.pathname.startsWith('/product/');
+    return pathsWithNavbar.includes(location.pathname) || location.pathname.startsWith('/product/') ;
   };
   
 
@@ -242,3 +242,5 @@ function AppContent() {
 }
 
 export default App;
+
+

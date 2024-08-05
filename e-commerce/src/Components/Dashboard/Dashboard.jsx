@@ -1,6 +1,6 @@
 import React from 'react'
 import './Dashboard.css'
-import hand_icon from '../Assests/Ecommerce_Frontend_Assets/Assets/hand_icon.png'
+// import hand_icon from '../Assests/Ecommerce_Frontend_Assets/Assets/hand_icon.png'
 import arrow_icon from '../Assests/Ecommerce_Frontend_Assets/Assets/arrow.png'
 import hero_icon from '../Assests/hero.jpg.png'
 import Popular from '../Popular/Popular'

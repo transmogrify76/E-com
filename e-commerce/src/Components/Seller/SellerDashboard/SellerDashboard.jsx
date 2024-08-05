@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBoxOpen, faMoneyBillAlt, faUsers } from '@fortawesome/free-solid-svg-icons';
@@ -19,11 +18,7 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 const SellerDashboard = () => {
     const navigate = useNavigate(); // Initialize the navigate function
-    const [activeMenuItem, setActiveMenuItem] = useState('Dashboard');
-
-    const handleMenuItemClick = (itemName) => {
-        setActiveMenuItem(itemName);
-    };
+    const [activeMenuItem] = useState('Dashboard');
 
     const salesData = {
         labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],

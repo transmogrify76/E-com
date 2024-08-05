@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUsers, faBoxOpen, faMoneyBillAlt, faTruck, faChartBar, faCogs,faUserFriends } from '@fortawesome/free-solid-svg-icons';
+import { faUsers, faBoxOpen, faMoneyBillAlt,faUserFriends } from '@fortawesome/free-solid-svg-icons';
 import { Bar } from 'react-chartjs-2';
 import {
     Chart as ChartJS,
@@ -19,12 +19,9 @@ import './AdminDashboard.css';
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const AdminDashboard = () => {
-    const [activeMenuItem, setActiveMenuItem] = useState('Dashboard');
+    const [activeMenuItem] = useState('Dashboard');
 
-    const handleMenuItemClick = (itemName) => {
-        setActiveMenuItem(itemName);
-    };
-
+   
     const salesData = {
         labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
         datasets: [

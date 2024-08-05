@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import './Inventory.css'; // Corrected CSS import
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilePdf } from '@fortawesome/free-solid-svg-icons';
-import { parse, icon } from '@fortawesome/fontawesome-svg-core';
+// import { parse, icon } from '@fortawesome/fontawesome-svg-core';
 
 
 const Inventory = () => {

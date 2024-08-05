@@ -5,7 +5,7 @@ import removeIcon from '../Assests/Ecommerce_Frontend_Assets/Assets/cart_cross_i
 import { Link } from 'react-router-dom';
 
 const CartItems = () => {
-    const { getTotalCartAmount, getTotalCartItems, all_product, cartItems, removeFromCart, wishlistItems } = useContext(ShopContext);
+    const { getTotalCartAmount, getTotalCartItems, all_product, cartItems, removeFromCart } = useContext(ShopContext);
 
     const handleRemoveFromCart = (itemId, size) => {
         removeFromCart(itemId, size);

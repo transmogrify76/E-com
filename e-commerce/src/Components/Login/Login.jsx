@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Login.css'; // Import your CSS file for styling
@@ -6,7 +5,6 @@ import './Login.css'; // Import your CSS file for styling
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState('');
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -14,7 +12,7 @@ const Login = () => {
   useEffect(() => {
     // Add the no-scroll class to the body when this component mounts
     document.body.classList.add('no-scroll');
-    
+
     // Clean up by removing the no-scroll class when this component unmounts
     return () => {
       document.body.classList.remove('no-scroll');
@@ -26,89 +24,54 @@ const Login = () => {
     setLoading(true);
     setError(null);
 
+    // Constructing the payload according to your API
     const payload = {
       username,
       password,
-      role,
     };
 
     try {
-      const response = await fetch('http://localhost:3000/users/login', {
+      const response = await fetch('http://localhost:5000/login', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
       });
 
+      // Check the response and parse JSON
       const data = await response.json();
 
       if (!response.ok) {
         throw new Error(data.message || 'Something went wrong');
       }
 
+      // Log the full response for debugging
+      console.log('Login response:', data);
+
       // Store the refresh token and access token in localStorage
       localStorage.setItem('refreshToken', data.refreshToken);
       localStorage.setItem('accessToken', data.accessToken);
 
+      // Check user role and redirect accordingly
+      const userRole = data.role; // Ensure this matches your API response structure
+
+      console.log('User role:', userRole); // Log user role for debugging
+
+      if (userRole === 'admin') {
+        navigate('/admin-dashboard'); // Redirect to admin dashboard
+      } else {
+        navigate('/dashboard'); // Redirect to user dashboard
+      }
+
       // Handle successful login
       console.log('Login successful:', data);
-      navigate('/dashboard'); // Redirect to a protected route after login
     } catch (error) {
       console.error('Login error:', error);
       setError(error.message);
     } finally {
       setLoading(false);
     }
-  };
-
-  const refreshToken = async () => {
-    const refreshToken = localStorage.getItem('refreshToken');
-
-    if (!refreshToken) {
-      throw new Error('No refresh token available');
-    }
-
-    const response = await fetch('http://localhost:3000/users/refresh-token', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ refreshToken })
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.message || 'Failed to refresh token');
-    }
-
-    localStorage.setItem('accessToken', data.accessToken);
-
-    return data.accessToken;
-  };
-
-  const fetchWithToken = async (url, options = {}) => {
-    let accessToken = localStorage.getItem('accessToken');
-
-    if (!accessToken) {
-      accessToken = await refreshToken();
-    }
-
-    options.headers = {
-      ...options.headers,
-      'Authorization': `Bearer ${accessToken}`
-    };
-
-    let response = await fetch(url, options);
-
-    if (response.status === 401) {
-      accessToken = await refreshToken();
-      options.headers['Authorization'] = `Bearer ${accessToken}`;
-      response = await fetch(url, options);
-    }
-
-    return response;
   };
 
   return (
@@ -135,26 +98,12 @@ const Login = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 style={{
-                  width:'80%'
+                  width: '80%',
                 }}
                 required
               />
             </div>
-            <div className="input">
-              <select
-                value={role}
-                onChange={(e) => setRole(e.target.value)}
-                style={{
-                  width:'80%'
-                }}
-                required
-              >
-                <option value="" disabled>Select Role</option>
-                <option value="user">User</option>
-                <option value="admin">Admin</option>
-                <option value="seller">Seller</option>
-              </select>
-            </div>
+
             <div className="submit-container">
               <button
                 type="submit"

@@ -1,77 +1,9 @@
-// import React from 'react';
-// import './Refunds.css'; // Ensure you have this CSS file in the appropriate path
-
-// const RefundsPage = () => {
-//   const refunds = [
-//     {
-//       id: 'REF-001',
-//       orderId: 'ORD-001',
-//       customerName: 'John Doe',
-//       refundAmount: 50,
-//       status: 'Pending'
-//     },
-//     {
-//       id: 'REF-002',
-//       orderId: 'ORD-002',
-//       customerName: 'Jane Smith',
-//       refundAmount: 30,
-//       status: 'Processed'
-//     }
-//     // Add more refunds as needed
-//   ];
-
-//   const handleProcessRefund = (refundId) => {
-//     console.log('Processing refund for refund ID', refundId);
-//     // Logic for processing refund
-//   };
-
-//   const handleViewDetails = (refundId) => {
-//     console.log('Viewing details for refund ID', refundId);
-//     // Logic for viewing refund details
-//   };
-
-//   return (
-//     <div className="refunds-container">
-//       <h2>Refunds Overview</h2>
-//       <table className="refunds-table">
-//         <thead>
-//           <tr>
-//             <th>Refund ID</th>
-//             <th>Order ID</th>
-//             <th>Customer Name</th>
-//             <th>Refund Amount (₹)</th>
-//             <th>Status</th>
-//             <th>Actions</th>
-//           </tr>
-//         </thead>
-//         <tbody>
-//           {refunds.map((refund) => (
-//             <tr key={refund.id}>
-//               <td>{refund.id}</td>
-//               <td>{refund.orderId}</td>
-//               <td>{refund.customerName}</td>
-//               <td>₹{refund.refundAmount}</td>
-//               <td>{refund.status}</td>
-//               <td>
-//                 <button onClick={() => handleProcessRefund(refund.id)}>Process Refund</button>
-//                 <button onClick={() => handleViewDetails(refund.id)}>View Details</button>
-//               </td>
-//             </tr>
-//           ))}
-//         </tbody>
-//       </table>
-//     </div>
-//   );
-// };
-
-// export default RefundsPage;
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Refunds.css'; // Ensure you have this CSS file in the appropriate path
 
 const RefundsPage = () => {
-  const [refunds, setRefunds] = useState([
+  const [refunds] = useState([
     {
       id: 1,
       orderId: 'ORD-001',

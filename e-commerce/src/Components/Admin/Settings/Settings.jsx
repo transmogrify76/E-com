@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './Settings.css'; // Import CSS for styling
-import Navbar from '../Navbar/Navbar';
+// import Navbar from '../Navbar/Navbar';
 
 const Settings = () => {
   // State for storing settings data

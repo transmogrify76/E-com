@@ -9,7 +9,7 @@ import { faBell } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 
 function SellerNavbar() {
-   const [menu, setMenu] = useState("shop");
+   const [ setMenu] = useState("shop");
     // Placeholder values or components
     const notificationCount = 5; // Example notification count
     const [isDropdownOpen, setIsDropdownOpen] = useState(false); // State for dropdown visibility
