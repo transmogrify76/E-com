@@ -1,9 +1,9 @@
-
 import React, { createContext, useState } from 'react';
 import all_product from '../../Components/Assests/Ecommerce_Frontend_Assets/Assets/all_product';
 
 export const ShopContext = createContext(null);
 
+// Function to get the default cart with initial quantities
 const getDefaultCart = () => {
     let cart = {};
     for (let index = 0; index < all_product.length; index++) {
@@ -20,7 +20,9 @@ const ShopContextProvider = (props) => {
     const [cartItems, setCartItems] = useState(getDefaultCart());
     const [wishlistItems, setWishlistItems] = useState([]);
     const [wishlistCount, setWishlistCount] = useState(0); // Add state for wishlist count
+    const [shippingCost, setShippingCost] = useState(0); // Default shipping cost
 
+    // Function to add item to the cart
     const addToCart = (itemId, quantity, size) => {
         setCartItems((prev) => ({
             ...prev,
@@ -31,6 +33,7 @@ const ShopContextProvider = (props) => {
         }));
     };
 
+    // Function to remove item from the cart
     const removeFromCart = (itemId, size) => {
         setCartItems((prev) => {
             const newCart = { ...prev };
@@ -44,6 +47,7 @@ const ShopContextProvider = (props) => {
         });
     };
 
+    // Function to add item to the wishlist
     const addToWishlist = (itemId) => {
         setWishlistItems((prev) => {
             const newWishlist = [...prev, itemId];
@@ -52,6 +56,7 @@ const ShopContextProvider = (props) => {
         });
     };
 
+    // Function to remove item from the wishlist
     const removeFromWishlist = (itemId) => {
         setWishlistItems((prev) => {
             const newWishlist = prev.filter((id) => id !== itemId);
@@ -60,6 +65,7 @@ const ShopContextProvider = (props) => {
         });
     };
 
+    // Function to calculate the total cart amount
     const getTotalCartAmount = () => {
         let totalAmount = 0;
         for (const item in cartItems) {
@@ -71,6 +77,7 @@ const ShopContextProvider = (props) => {
         return totalAmount;
     };
 
+    // Calculate total items in the cart
     const getTotalCartItems = () => {
         let totalItems = 0;
         for (const item in cartItems) {
@@ -86,6 +93,8 @@ const ShopContextProvider = (props) => {
         cartItems,
         wishlistItems,
         wishlistCount, // Add wishlist count to context
+        shippingCost,
+        setShippingCost, // Add setShippingCost to context
         addToCart,
         removeFromCart,
         addToWishlist,

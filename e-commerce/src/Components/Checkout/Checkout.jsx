@@ -1,32 +1,37 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import './Checkout.css'; // Import your checkout page styles
 import { ShopContext } from '../Context/ShopContext';
 import removeIcon from '../Assests/Ecommerce_Frontend_Assets/Assets/cart_cross_icon.png';
-import { Link } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 
 const Checkout = () => {
-    const { all_product, cartItems, removeFromCart } = useContext(ShopContext);
+    const { all_product, cartItems, removeFromCart, getTotalCartAmount, setShippingCost } = useContext(ShopContext);
+    const [shippingOption, setShippingOption] = useState('none'); // Default shipping option to 'none'
+    const [localShippingCost, setLocalShippingCost] = useState(0); // Local shipping cost state
+    const navigate = useNavigate(); // For navigation
+
+    // Calculate subtotal
+    const subtotal = getTotalCartAmount(); // Get subtotal
+    const totalWithShipping = subtotal + localShippingCost; // Calculate total with shipping
 
     const handleRemoveFromCart = (itemId, size) => {
         removeFromCart(itemId, size);
     };
 
-    // Calculate total amount in cart
-    const calculateTotal = () => {
-        let total = 0;
+    const handleShippingChange = (e) => {
+        const selectedOption = e.target.value;
+        setShippingOption(selectedOption);
 
-        // Calculate total amount for cart items
-        Object.keys(cartItems).forEach((itemId) => {
-            const { quantity } = cartItems[itemId];
-            if (quantity > 0) {
-                const product = all_product.find((item) => item.id === parseInt(itemId.split('-')[0]));
-                if (product) {
-                    total += product.new_price * quantity;
-                }
-            }
-        });
+        // Update shipping cost based on selection
+        const newShippingCost = selectedOption === 'express' ? 100 : selectedOption === 'standard' ? 50 : 0;
+        setLocalShippingCost(newShippingCost); // Update local shipping cost state
+        setShippingCost(newShippingCost); // Update the shipping cost in context
+    };
 
-        return total;
+    const handleProceedToPayment = () => {
+        // Set shipping cost to context if no option is selected
+        setShippingCost(localShippingCost);
+        navigate('/payment'); // Navigate to payment page
     };
 
     return (
@@ -81,42 +86,53 @@ const Checkout = () => {
                         </tbody>
                     </table>
                 </section>
-                <div className="promo-code">
-                    <input type="text" placeholder="Enter promo code" />
-                    <button>Apply</button>
-                </div>
                 <div className="checkout-grandtotal">
-                    <h3>Total</h3>
-                    <h3>₹{calculateTotal()}</h3>
+                    <h3>Subtotal: ₹{subtotal}</h3>
+                    <h3>Shipping: ₹{localShippingCost}</h3>
+                    <h3>Total: ₹{totalWithShipping}</h3>
                 </div>
-                <Link to="/payment">
-                    <button className="proceed-to-payment-button">Proceed to Payment</button>
-                </Link>
+               
+                <button className="proceed-to-payment-button" onClick={handleProceedToPayment}>
+                    Proceed to Payment
+                </button>
             </div>
             <div className="shipping-info">
                 <h2>Shipping Information</h2>
                 <form>
                     <label>Name:</label>
-                    <input type="text" placeholder="Enter your name" />
+                    <input type="text" placeholder="Enter your name" required />
                     <label>Address:</label>
-                    <textarea placeholder="Enter your address" />
+                    <textarea placeholder="Enter your address" required />
                     <label>Email:</label>
-                    <input type="email" placeholder="Enter your email" />
+                    <input type="email" placeholder="Enter your email" required />
                     <label>Phone:</label>
-                    <input type="tel" placeholder="Enter your phone number" />
+                    <input type="tel" placeholder="Enter your phone number" required />
                     <label>Delivery Instructions:</label>
                     <textarea placeholder="Enter any special delivery instructions" />
                 </form>
                 <div className="shipping-options">
-                    <label>
-                        <input type="radio" name="shipping" value="standard" checked />
-                        Standard Shipping (+₹50.00)
-                    </label>
-                    <label>
-                        <input type="radio" name="shipping" value="express" />
-                        Express Shipping (+₹100.00)
-                    </label>
-                </div>
+                   
+                   <label>
+                       <input
+                           type="radio"
+                           name="shipping"
+                           value="standard"
+                           checked={shippingOption === 'standard'}
+                           onChange={handleShippingChange}
+                       />
+                       Standard Shipping (+₹50.00)
+                   </label>
+                   <label>
+                       <input
+                           type="radio"
+                           name="shipping"
+                           value="express"
+                           checked={shippingOption === 'express'}
+                           onChange={handleShippingChange}
+                       />
+                       Express Shipping (+₹100.00)
+                   </label>
+               </div>
             </div>
         </div>
     );
