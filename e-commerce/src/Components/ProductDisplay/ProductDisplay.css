@@ -91,6 +91,13 @@
       border-color: #ccc;
   }
   
+  .size-option.selected {
+    background-color: #333;
+    color: #fff;
+    border-color: #333;
+}
+
+
   .productdisplay-quantity {
       margin-top: auto; /* Push quantity to the bottom */
       display: flex;
