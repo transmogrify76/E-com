@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import {
-  Card, CardContent, Typography, Grid, TextField, Button, Table, TableHead, TableBody, TableRow, TableCell, IconButton, Menu, MenuItem,
-} from '@material-ui/core';
-import { Search as SearchIcon, Edit as EditIcon, Delete as DeleteIcon, ShoppingCart as OrderIcon } from '@material-ui/icons';
+// import {
+//   Card, CardContent, Typography, Grid, TextField, Button, Table, TableHead, TableBody, TableRow, TableCell, IconButton, Menu, MenuItem,
+// } from '@material-ui/core';
+// import { Search as SearchIcon, Edit as EditIcon, Delete as DeleteIcon, ShoppingCart as OrderIcon } from '@material-ui/icons';
 import { Link } from 'react-router-dom';
 import './Order.css';
 
@@ -22,7 +22,7 @@ const AdminOrder = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filters, setFilters] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
-  const [selectedMenu, setSelectedMenu] = useState(null);
+  const [ setSelectedMenu] = useState(null);
   const [selectedFilter, setSelectedFilter] = useState('all'); // Track the selected filter
 
   const handleSearchChange = (event) => {
@@ -57,12 +57,6 @@ const AdminOrder = () => {
     setAnchorEl(null); // Close the menu after selection
   };
 
-  const handleFilterByStatus = (status) => {
-    const filteredOrders = initialOrders.filter(order =>
-      status === '' || order.status === status
-    );
-    setOrders(filteredOrders);
-  };
 
   // Calculate percentages for completed and canceled orders
   const completedOrders = initialOrders.filter(order => order.status === 'Paid');
@@ -91,8 +85,7 @@ const AdminOrder = () => {
 
   return (
     <div className="main-container">
-      <Grid container spacing={3}>
-        {/* Total Orders Card */}
+      {/* <Grid container spacing={3}>
         <Grid item xs={3}>
           <Card className="card" onClick={() => setSelectedFilter('all')}>
             <CardContent>
@@ -110,7 +103,6 @@ const AdminOrder = () => {
           </Card>
         </Grid>
 
-        {/* Active Orders Card */}
         <Grid item xs={3}>
           <Card className="card" onClick={() => setSelectedFilter('active')}>
             <CardContent>
@@ -129,7 +121,6 @@ const AdminOrder = () => {
           </Card>
         </Grid>
 
-        {/* Completed Orders Card */}
         <Grid item xs={3}>
           <Card className="card" onClick={() => setSelectedFilter('completed')}>
             <CardContent>
@@ -148,7 +139,6 @@ const AdminOrder = () => {
           </Card>
         </Grid>
 
-        {/* Canceled Orders Card */}
         <Grid item xs={3}>
           <Card className="card" onClick={() => setSelectedFilter('cancelled')}>
             <CardContent>
@@ -167,12 +157,10 @@ const AdminOrder = () => {
           </Card>
         </Grid>
 
-        {/* Search and Filters Section */}
         <Grid item xs={12}>
           <Card className="search-filters-section">
             <CardContent>
               <Grid container spacing={2} alignItems="center">
-                {/* Search Orders */}
                 <Grid item xs={6}>
                   <Typography variant="h6">Search Orders</Typography>
                   <TextField
@@ -192,7 +180,6 @@ const AdminOrder = () => {
                   </Button>
                 </Grid>
 
-                {/* Filters */}
                 <Grid item xs={6} container justify="flex-end" spacing={1}>
                   <Typography variant="h6">Filters:</Typography>
                   {filters.length > 0 && (
@@ -204,7 +191,6 @@ const AdminOrder = () => {
                       Clear Filters
                     </Button>
                   )}
-                  {/* Dropdown for managing orders */}
                   <Button
                     variant="outlined"
                     className="filter-button"
@@ -237,7 +223,6 @@ const AdminOrder = () => {
           </Card>
         </Grid>
 
-        {/* Order List */}
         <Grid item xs={12}>
           <Card>
             <CardContent>
@@ -287,7 +272,7 @@ const AdminOrder = () => {
             </CardContent>
           </Card>
         </Grid>
-      </Grid>
+      </Grid> */}
     </div>
   );
 };

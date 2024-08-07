@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBoxOpen, faMoneyBillAlt, faUsers } from '@fortawesome/free-solid-svg-icons';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faBoxOpen, faMoneyBillAlt, faUsers } from '@fortawesome/free-solid-svg-icons';
 import { Bar } from 'react-chartjs-2';
 import {
     Chart as ChartJS,

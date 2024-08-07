@@ -1,7 +1,6 @@
 
 import React, { useState } from 'react';
-import { Card, CardContent, Typography, Grid, Table, TableHead, TableBody, TableRow, TableCell } from '@material-ui/core';
-import { QrReader } from 'react-qr-reader';
+// import { Card, CardContent, Typography, Grid, Table, TableHead, TableBody, TableRow, TableCell } from '@material-ui/core';
 import './Shipments.css';
 
 const Shipments = () => {
@@ -39,17 +38,6 @@ const Shipments = () => {
     setShipments(updatedShipments);
   };
 
-  const handleUpdateStatus = (orderId, newStatus) => {
-    const updatedOrders = initialOrders.map(order => {
-      if (order.id === orderId) {
-        return { ...order, status: newStatus };
-      }
-      return order;
-    });
-    // For demo purposes, showing alert instead of actual state update
-    alert(`Order ID ${orderId} status updated to ${newStatus}`);
-  };
-
   return (
     <div className="shipments-container">
       <Grid container spacing={3}>
@@ -58,12 +46,6 @@ const Shipments = () => {
           <Card className="card">
             <CardContent>
               <Typography variant="h6" className="card-title">QR Code Scanner</Typography>
-              <QrReader
-                delay={300}
-                onError={handleErrorQRCode}
-                onScan={handleScanQRCode}
-                style={{ width: '100%' }}
-              />
               <Typography variant="subtitle1" className="qr-scan-result">
                 QR Scan Result: {qrScanResult || 'Waiting for scan...'}
               </Typography>

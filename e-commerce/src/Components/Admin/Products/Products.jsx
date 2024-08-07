@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import './Products.css'; // Adjust path as per your project structure
 
 const AdminProducts = () => {
@@ -153,7 +153,7 @@ const AdminProducts = () => {
                                 <p><strong>Size:</strong> {product.size}</p>
                                 <p><strong>Brand:</strong> {product.brand}</p>
                                 <div className="product-actions">
-                                    <button><FontAwesomeIcon icon={faEdit} /> Edit</button>
+                                    {/* <button><FontAwesomeIcon icon={faEdit} /> Edit</button> */}
                                     <button onClick={() => handleDeleteProduct(product.id)}><FontAwesomeIcon icon={faTrash} /> Delete</button>
                                 </div>
                             </div>

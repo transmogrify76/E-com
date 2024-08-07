@@ -3,8 +3,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Orderr.css'; // Import CSS file for styling
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faFilePdf, faEye, faTruck } from '@fortawesome/free-solid-svg-icons';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faSearch, faFilePdf, faEye, faTruck } from '@fortawesome/free-solid-svg-icons';
 import { Button } from 'react-bootstrap'; // Import Bootstrap components
 import CreateShippingModal from '../CreateShippingModal/CreateShippingModal'; // Import the CreateShippingModal component
 

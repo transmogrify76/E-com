@@ -49,11 +49,6 @@ const RefundsPage = () => {
     // Add more dummy data as needed
   ]);
 
-  const handleViewDetails = (refundId) => {
-    console.log(`View details for refund with ID ${refundId}`);
-    // Implement logic to view details
-  };
-
   return (
     <div className="refunds-container">
       <h2>Refunds Overview</h2>

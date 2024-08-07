@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './Adaccount.css'; // Import CSS for styling
-import ConfirmationModal from '../../ConfirmationModal/ConfirmationModal'; // Assuming ConfirmationModal component is implemented separately
+import ConfirmationModal from '../ConfirmationModal/ConfirmationModal';
 
 const AdminAccount = () => {
     // Mock data for demonstration

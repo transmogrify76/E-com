@@ -1,88 +1,7 @@
-
-// import React, { useState } from 'react';
-// import { Link, useNavigate } from 'react-router-dom';
-// import './ForgetPassword.css';
-
-// const ForgetPassword = () => {
-//     const [email, setEmail] = useState('');
-//     const [message, setMessage] = useState('');
-//     const [showOtpPopup, setShowOtpPopup] = useState(false);
-//     const [otp, setOtp] = useState('');
-//     const [otpMessage, setOtpMessage] = useState('');
-//     const navigate = useNavigate();
-
-//     const handleResetPassword = () => {
-//         // Show OTP popup and simulate sending OTP
-//         setShowOtpPopup(true);
-//         setMessage(`An OTP has been sent to ${email}`);
-//         // In a real application, you would send an OTP to the user's email here
-//     };
-
-//     const handleOtpSubmit = () => {
-//         // For simplicity, consider any OTP as valid
-//         // Replace this logic with actual OTP validation
-//         if (otp) {
-//             setOtpMessage('OTP verified successfully.');
-//             // Redirect to password reset page
-//             navigate('/resetpassword');
-//         } else {
-//             setOtpMessage('Please enter a valid OTP.');
-//         }
-//     };
-
-//     return (
-//         <div className='background-image'>
-//             <div className='card-login' style={{ padding: 0, fontSize: '16px', marginRight: '40%' }}>
-//                 <div className="card-header-login">
-//                     Forget Password
-//                 </div>
-//                 <div className="card-body-login">
-//                     <div className="inputs">
-//                         <div className="input">
-//                             <input
-//                                 type="email"
-//                                 placeholder="Email"
-//                                 value={email}
-//                                 onChange={(e) => setEmail(e.target.value)}
-//                             />
-//                         </div>
-//                     </div>
-//                     <div className="submit-container">
-//                         <button className="submit" onClick={handleResetPassword}>Reset Password</button>
-//                     </div>
-//                     {message && <div className="message">{message}</div>}
-//                     <div className="back-to-login">
-//                         <Link to="/login">Back to Login</Link>
-//                     </div>
-//                 </div>
-//             </div>
-
-//             {/* OTP Popup */}
-//             {showOtpPopup && (
-//                 <div className="otp-popup">
-//                     <div className="otp-popup-content">
-//                         <h3>Enter OTP</h3>
-//                         <p>An OTP has been sent to {email}. Please enter it below:</p>
-//                         <input
-//                             type="text"
-//                             placeholder="Enter OTP"
-//                             value={otp}
-//                             onChange={(e) => setOtp(e.target.value)}
-//                         />
-//                         <button onClick={handleOtpSubmit}>Submit</button>
-//                         {otpMessage && <div className="otp-message">{otpMessage}</div>}
-//                         <button className="close-popup" onClick={() => setShowOtpPopup(false)}>Close</button>
-//                     </div>
-//                 </div>
-//             )}
-//         </div>
-//     );
-// };
-
-// export default ForgetPassword;
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import './ForgetPassword.css';
+import axios from 'axios'; // Import axios
+import './Forgetpassword.css';
 
 const ForgetPassword = () => {
     const [email, setEmail] = useState('');
@@ -92,27 +11,30 @@ const ForgetPassword = () => {
     const [otpMessage, setOtpMessage] = useState('');
     const navigate = useNavigate();
 
-    useEffect(() => {
-        if (showOtpPopup) {
-            document.body.classList.add('no-scroll');
-        } else {
-            document.body.classList.remove('no-scroll');
+    const handleResetPassword = async () => {
+        try {
+            // Make API call to request password reset
+            const response = await axios.post('http://localhost:5000/users/forgot-password', { email });
+            
+            // Handle response
+            if (response.status === 200) {
+                setShowOtpPopup(true);
+                setMessage(`Password reset instructions have been sent to ${email}`);
+            } else {
+                setMessage('Failed to send password reset instructions. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error requesting password reset:', error);
+            setMessage('An error occurred while sending password reset instructions. Please try again.');
         }
-
-        return () => {
-            document.body.classList.remove('no-scroll');
-        };
-    }, [showOtpPopup]);
-
-    const handleResetPassword = () => {
-        setShowOtpPopup(true);
-        setMessage(`An OTP has been sent to ${email}`);
-        // In a real application, you would send an OTP to the user's email here
     };
 
     const handleOtpSubmit = () => {
+        // For simplicity, consider any OTP as valid
+        // Replace this logic with actual OTP validation
         if (otp) {
             setOtpMessage('OTP verified successfully.');
+            // Redirect to reset password page
             navigate('/resetpassword');
         } else {
             setOtpMessage('Please enter a valid OTP.');
@@ -146,11 +68,11 @@ const ForgetPassword = () => {
                 </div>
             </div>
 
+            {/* OTP Popup */}
             {showOtpPopup && (
                 <div className="otp-popup">
                     <div className="otp-popup-content">
-                        <h3>Enter OTP</h3>
-                        <p>An OTP has been sent to {email}. Please enter it below:</p>
+                        <h3> Please Enter OTP</h3>
                         <input
                             type="text"
                             placeholder="Enter OTP"
@@ -159,7 +81,7 @@ const ForgetPassword = () => {
                         />
                         <button onClick={handleOtpSubmit}>Submit</button>
                         {otpMessage && <div className="otp-message">{otpMessage}</div>}
-                        <button className="close-popup" onClick={() => setShowOtpPopup(false)}>Close</button>
+                        <button className="close-popup" onClick={() => setShowOtpPopup(false)}></button>
                     </div>
                 </div>
             )}

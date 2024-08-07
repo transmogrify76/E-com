@@ -1,6 +1,5 @@
 
 import React, { useState, useEffect } from 'react';
-import ReactPaginate from 'react-paginate';
 import './Delivery.css';
 
 const DeliveryList = () => {
@@ -197,19 +196,6 @@ const DeliveryList = () => {
           <button onClick={() => setEditDelivery(null)} style={{ marginLeft: '10px' }}>Cancel</button>
         </div>
       )}
-
-      <ReactPaginate
-        previousLabel={'previous'}
-        nextLabel={'next'}
-        breakLabel={'...'}
-        breakClassName={'break-me'}
-        pageCount={pageCount}
-        marginPagesDisplayed={2}
-        pageRangeDisplayed={5}
-        onPageChange={handlePageClick}
-        containerClassName={'pagination'}
-        activeClassName={'active'}
-      />
     </div>
   );
 };

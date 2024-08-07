@@ -117,7 +117,7 @@ const TransactionManagement = () => {
         // Set transactions to dummy data
         setTransactions(dummyTransactions);
         setLoadingTransactions(false);
-    }, []);
+    });
 
     const filteredTransactions = transactions.filter(transaction =>
         (transaction.customerName.toLowerCase().includes(filter.toLowerCase()) ||

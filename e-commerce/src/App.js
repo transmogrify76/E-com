@@ -1,29 +1,29 @@
-import React, { useEffect } from 'react';
+import React, { useEffect , useMemo } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 // Import Components
-import ENavbar from './Components/Navbar/Navbar';
-import Sidenav from './Components/Sidenav/Sidenav';
-import Dashboard from './Components/Dashboard/Dashboard';
-import Login from './Components/Login/Login';
-import Signup from './Components/Signup/Signup';
-import Cart from './Components/Cart/Cart';
-import Wishlist from './Components/Wishlist/Wishlist';
-import Orders from './Components/Orders/Orders';
+import ENavbar from './Components/User/Navbar/Navbar';
+import Sidenav from './Components/User/Sidenav/Sidenav';
+import Dashboard from './Components/Universal/Dashboard/Dashboard';
+import Login from './Components/Authentication/Login/Login';
+import Signup from './Components/Authentication/Signup/Signup';
+import Cart from './Components/User/Cart/Cart';
+import Wishlist from './Components/User/Wishlist/Wishlist';
+import Orders from './Components/User/Orders/Orders';
 import Account from './Components/Authentication/Account/Accounts';
-import ForgetPassword from './Components/Forgetpassword/Forgetpassword';
-import ShopCat from './Components/ShopCat/ShopCat';
+import ForgetPassword from './Components/Authentication/Forgetpassword/Forgetpassword';
+import ShopCat from './Components/User/ShopCat/ShopCat';
 import men_banner from './Components/Assests/Ecommerce_Frontend_Assets/Assets/banner_mens.png';
 import women_banner from './Components/Assests/Ecommerce_Frontend_Assets/Assets/banner_women.png';
 import kid_banner from './Components/Assests/Ecommerce_Frontend_Assets/Assets/banner_kids.png';
-import Footer from './Components/Footer/Footer';
-import Popular from './Components/Popular/Popular';
-import Shop from './Components/Shop/Shop';
-import NewCollections from './Components/NewCollections/NewCollections';
-import ProductDisplay from './Components/ProductDisplay/ProductDisplay';
-import Product from './Components/Product/Product';
+import Footer from './Components/Universal/Footer/Footer';
+import Popular from './Components/User/Popular/Popular';
+import Shop from './Components/User/Shop/Shop';
+import NewCollections from './Components/User/NewCollections/NewCollections';
+import ProductDisplay from './Components/User/ProductDisplay/ProductDisplay';
+import Product from './Components/User/Product/Product';
 import AdminDashboard from './Components/Admin/AdminDashboard/AdminDashboard';        
-import Checkout from './Components/Checkout/Checkout';
-import Payment from './Components/Payment/Payment';
+import Checkout from './Components/User/Checkout/Checkout';
+import Payment from './Components/User/Payment/Payment';
 import SellerDashboard from './Components/Seller/SellerDashboard/SellerDashboard';
 import ProductUpload from './Components/Seller/ProductUpload/ProductUpload';
 import ExistingProduct from './Components/Seller/ExistingProduct/ExcistingProduct';
@@ -35,11 +35,9 @@ import Users from './Components/Admin/Users/Users';
 import Products from './Components/Admin/Products/Products';
 import Order from './Components/Admin/Order/Order';
 import Reports from './Components/Admin/Reports/Reports';
-// import OrderIndividual from './Components/Seller/Order-Individual/OrderIndividual';
-// import OrderIndividual from './Components/Seller/Order-Individual/OrderIndividual';
 import SideNavbar from './Components/Seller/SideNavbar/SideNavbar';
 import SellerNavbar from './Components/Seller/SellerNavbar/SellerNavbar';
-import Logout from './Components/Logout/Logout';
+import Logout from './Components/Authentication/Logout/Logout';
 import Wallet from './Components/Seller/Wallet/Wallet';
 import SellerAccount from './Components/Seller/Account/Account';
 import NewSeller from './Components/Seller/NewSeller/NewSeller';
@@ -52,7 +50,6 @@ import AdSettings from './Components/Admin/Settings/Settings';
 import AdAccount from './Components/Admin/Adaccount/Adaccount';
 import Delivery from './Components/Admin/Delivery/Delivery';
 import Inventory from './Components/Admin/Inventory/Inventory';
-import AdminPanelSeller from './Components/Admin/AdSeller/AdSeller';
 import CategoryManagement from './Components/Admin/Cattegories/Cattegories';
 import Shipments from './Components/Admin/Shipments/Shipments';
 import TransactionList from './Components/Admin/Transactions/Transactions';
@@ -60,14 +57,14 @@ import AdminInvoice from './Components/Admin/Invoices/Invoices';
 import AdminInvoicePage from './Components/Admin/AdminInvoice/AdminInvoice';
 import RefundsPage from './Components/Admin/Refunds/Refunds';
 import ProcessRefundPage from './Components/Admin/ProcessRefund/ProcessRefund';
-import ResetPassword from './Components/ResetPassword/ResetPassword';
+import ResetPassword from './Components/Authentication/ResetPassword/ResetPassword';
 import ShippingDetails from './Components/Seller/ShippingDetails/ShippingDetails';
 import './App.css';
 
 // ScrollHandler Component
 const ScrollHandler = () => {
   const location = useLocation();
-  const noScrollRoutes = ['/login', '/signup', '/forgetpassword', '/resetpassword'];
+  const noScrollRoutes = useMemo(() => ['/login', '/signup', '/forgetpassword', '/resetpassword'], []);
 
   useEffect(() => {
     if (noScrollRoutes.includes(location.pathname)) {
@@ -75,7 +72,7 @@ const ScrollHandler = () => {
     } else {
       document.body.classList.remove('no-scroll');
     }
-  }, [location]);
+  }, [location, noScrollRoutes]);
 
   return null;
 };
@@ -200,7 +197,6 @@ function AppContent() {
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/payment" element={<Payment />} />
-        {/* <Route path="/OrderIndividual/:orderId" element={<OrderIndividual />} /> */}
         <Route path="/seller-dashboard" element={<SellerDashboard />} />
         <Route path="/ProductUpload" element={<ProductUpload />} />
         <Route path="/ExistingProduct" element={<ExistingProduct />} />
@@ -225,7 +221,6 @@ function AppContent() {
         <Route path='/Delivery' element={<Delivery />} />
         <Route path='/adsettings' element={<AdSettings />} />
         <Route path='/inventory' element={<Inventory />} />
-        <Route path='/sellers' element={<AdminPanelSeller />} />
         <Route path='/categories' element={<CategoryManagement />} />
         <Route path='/shipments' element={<Shipments />} />
         <Route path='/transactions' element={<TransactionList />} />

@@ -3,9 +3,8 @@
 
 import React, { useState } from 'react';
 import './Inventory.css'; // Corrected CSS import
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFilePdf } from '@fortawesome/free-solid-svg-icons';
-// import { parse, icon } from '@fortawesome/fontawesome-svg-core';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faFilePdf } from '@fortawesome/free-solid-svg-icons';
 
 
 const Inventory = () => {
@@ -29,7 +28,7 @@ const Inventory = () => {
                 <div className="header-containerr">
                     <h2>Existing Products</h2>
                     <div className="export-sectionn">
-                        <button onClick={exportToPDF}><FontAwesomeIcon icon={faFilePdf} /> Export to PDF</button>
+                        {/* <button onClick={exportToPDF}><FontAwesomeIcon icon={faFilePdf} /> Export to PDF</button> */}
                     </div>
                 </div>
                 <table>

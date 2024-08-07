@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 // import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit,faTrash} from '@fortawesome/free-solid-svg-icons';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faEdit,faTrash} from '@fortawesome/free-solid-svg-icons';
 
 import './Reports.css'; // Adjust path as per your project structure
 
@@ -40,10 +40,6 @@ const Reports = () => {
         setEditingReport(null); // Clear editing state if deleting the currently edited report
     };
 
-    const handleMenuItemClick = (itemName) => {
-        setActiveMenuItem(itemName);
-    };
-
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setEditingReport(prevState => ({
@@ -58,7 +54,6 @@ const Reports = () => {
             
             {/* Sidebar (sidenav) */}
             <div className="admin-container">
-               
 
                 {/* Main Content */}
                 <main className="dashboard-main">

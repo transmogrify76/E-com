@@ -3,8 +3,8 @@ import './Navbar.css';
 import { IoSearch } from "react-icons/io5";
 import user from '../../Assests/user.png';
 import logo from '../../Assests/Ecommerce_Frontend_Assets/Assets/logo.png';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBell } from '@fortawesome/free-solid-svg-icons';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faBell } from '@fortawesome/free-solid-svg-icons';
 
 function AdminNavbar() {
     // Placeholder values or components
@@ -28,7 +28,7 @@ function AdminNavbar() {
             </div>
 
             <div className="notifications">
-                <FontAwesomeIcon icon={faBell} className="notification-icon" />
+                {/* <FontAwesomeIcon icon={faBell} className="notification-icon" /> */}
                 <span className="badge">{notificationCount}</span>
             </div>
 
