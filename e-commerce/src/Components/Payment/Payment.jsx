@@ -15,6 +15,23 @@ const Payment = () => {
         billingAddress: ''
     });
 
+    //Sujata add
+
+  //  const [paymentMethod, setPaymentMethod] = useState('cod'); // Default to COD
+const [upiId, setUpiId] = useState('');
+const [upiValidationMessage, setUpiValidationMessage] = useState('');
+
+// Function to validate UPI ID
+const validateUpiId = () => {
+    // Simple regex for UPI ID validation (you can adjust it as needed)
+    const isValidUpi = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9.-]+$/.test(upiId);
+    setUpiValidationMessage(isValidUpi ? "Valid UPI ID" : "Invalid UPI ID");
+};
+
+//ends here
+
+
+
     const subtotal = getTotalCartAmount();
     const total = subtotal + shippingCost; // Calculate total based on context
 
@@ -63,26 +80,36 @@ const Payment = () => {
                         />
                         Credit Card/Debit Card
                     </label>
-                    <label>
-                        <input 
-                            type="radio" 
-                            name="payment" 
-                            value="upi" 
-                            checked={paymentMethod === 'upi'} 
-                            onChange={() => setPaymentMethod('upi')}
-                        />
-                        UPI
-                    </label>
-                    <label>
-                        <input 
-                            type="radio" 
-                            name="payment" 
-                            value="cod" 
-                            checked={paymentMethod === 'cod'} 
-                            onChange={() => setPaymentMethod('cod')}
-                        />
-                        Cash on Delivery
-                    </label>
+                 
+                 
+                    
+    <div>
+        <label>
+            <input 
+                type="radio" 
+                name="payment" 
+                value="upi" 
+                checked={paymentMethod === 'upi'} 
+                onChange={() => setPaymentMethod('upi')} 
+            />
+            UPI 
+        </label>
+
+        {/* Conditional rendering for UPI ID input */}
+        {paymentMethod === 'upi' && (
+            <div>
+                <input 
+                    type="text" 
+                    placeholder="Enter your UPI ID" 
+                    value={upiId} 
+                    onChange={(e) => setUpiId(e.target.value)} 
+                />
+                <button onClick={validateUpiId}>Check UPI ID</button>
+                {upiValidationMessage && <p>{upiValidationMessage}</p>}
+            </div>
+        )}
+
+    </div>
                 </div>
                 {paymentMethod === 'credit-card' && (
                     <form>
@@ -137,10 +164,14 @@ const Payment = () => {
                         <div className="value">₹{total}</div>
                     </div>
                 </div>
+                
+                {/* Sujata add */}
                 <label>
                     <input type="checkbox" required />
-                    I agree to the <a href="/terms">terms and conditions</a>.
+                    I agree to the <a href="https://onedrive.live.com/edit?id=FB22672498EF7806!see915a24f23a425ea43039e7c4397dbf&resid=FB22672498EF7806!see915a24f23a425ea43039e7c4397dbf&cid=fb22672498ef7806&ithint=file%2Cdocx&redeem=aHR0cHM6Ly8xZHJ2Lm1zL3cvYy9mYjIyNjcyNDk4ZWY3ODA2L0VTUmFrZTQ2OGw1Q3BEQTU1OFE1ZmI4QmpvTl92d21UMWNFeDh1TW5TUXVfVWc_ZT1FZ0VScDlc&migratedtospo=true&wdo=2" target="_blank" rel="noopener noreferrer">terms and conditions</a>.
                 </label>
+                {/* end here */}
+
                 <button
                     className="place-order-button"
                     onClick={handlePayment}

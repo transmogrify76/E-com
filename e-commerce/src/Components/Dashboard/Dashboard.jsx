@@ -7,6 +7,7 @@ import Popular from '../Popular/Popular'
 import Offers from '../Offers/Offers'
 import NewCollections from '../NewCollections/NewCollections'
 
+
 const Dashboard = () => {
   return (
     <div>
@@ -18,11 +19,22 @@ const Dashboard = () => {
     <p>New <br></br>Collections <br></br>
     for everyone</p>
 </div>
+
+
+
+{/*Sujata add */}
+
 <div className="hero-latest-version">
-    <button className='latestcollection'>Latest collection
-    </button>
-     <img src={arrow_icon} alt="" />
+<a href="https://www.amazon.com/s?k=amazon%27s+best+deals&rh=n%3A172282&dc&ds=v1%3AIGtsgiuc5D1cseZkYv5tzwp7TjnYdyZ%2BEMZ4AgQ4ysk&adgrpid=1335909030422677&hvadid=83494578236543&hvbmt=bb&hvdev=c&hvlocphy=156412&hvnetw=o&hvqmt=b&hvtargid=kwd-83495365302756&hydadcr=7690_13466622&msclkid=dd11b5dbfe0e1e8d6eeed368e0b75993&qid=1723014846&rnid=2941120011&tag=mh0b-20&ref=sr_nr_n_4" className='latestcollection'>
+<button className='latestcollection'>Latest collection
+</button>
+    </a>
+  <img src={arrow_icon} alt="" />
 </div>
+
+{/*end here*/ }
+
+
 </div>
 <div className="hero-right">
   <img src={hero_icon} alt="" />
