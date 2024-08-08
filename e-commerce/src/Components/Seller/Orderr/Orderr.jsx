@@ -23,7 +23,18 @@ const Orderr = () => {
     };
 
     const exportToPDF = () => {
-        alert('Exporting to PDF...');
+        const pdfTable = document.getElementById('order-table').outerHTML;
+        const blob = new Blob([pdfTable], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
+        
+        // Create a temporary link to trigger the download
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'orders.pdf';
+        link.click();
+
+        // Clean up
+        URL.revokeObjectURL(url);
     };
 
     const handleShowCreateShippingModal = () => {
@@ -106,7 +117,7 @@ const Orderr = () => {
                     </Button>
                 </div>
             </div>
-            <table className="order-table">
+            <table id="order-table" className="order-table">
                 <thead>
                     <tr>
                         <th>Order ID</th>

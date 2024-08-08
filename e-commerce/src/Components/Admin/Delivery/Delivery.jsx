@@ -1,5 +1,5 @@
-
 import React, { useState, useEffect } from 'react';
+import { FaPlus, FaEdit, FaTrash } from 'react-icons/fa';
 import './Delivery.css';
 
 const DeliveryList = () => {
@@ -25,16 +25,15 @@ const DeliveryList = () => {
     { _id: 8, orderId: 'ORD-008', deliveryPerson: 'Fiona Blue', date: '2024-07-10', status: 'canceled' },
     { _id: 9, orderId: 'ORD-009', deliveryPerson: 'George Grey', date: '2024-07-09', status: 'pending' },
     { _id: 10, orderId: 'ORD-010', deliveryPerson: 'Hannah Pink', date: '2024-07-08', status: 'in transit' },
+    { _id: 11, orderId: 'ORD-011', deliveryPerson: 'Ivy Purple', date: '2024-07-07', status: 'pending' },
+    { _id: 12, orderId: 'ORD-012', deliveryPerson: 'Jack Orange', date: '2024-07-06', status: 'in transit' },
+    // Add more dummy data if needed for testing pagination
   ];
 
   useEffect(() => {
     setDeliveries(dummyData);
     setFilteredDeliveries(dummyData);
-  }, []);
-
-  useEffect(() => {
-    filterDeliveries();
-  }, [searchTerm, statusFilter, deliveries]);
+  }, []); // Removed dummyData from dependencies
 
   const filterDeliveries = () => {
     let filtered = deliveries;
@@ -52,6 +51,10 @@ const DeliveryList = () => {
 
     setFilteredDeliveries(filtered);
   };
+
+  useEffect(() => {
+    filterDeliveries();
+  }, [searchTerm, statusFilter, deliveries]);
 
   const handleDelete = (id) => {
     const updatedDeliveries = deliveries.filter(delivery => delivery._id !== id);
@@ -87,13 +90,18 @@ const DeliveryList = () => {
     }
   };
 
-  const handlePageClick = (event) => {
-    setCurrentPage(event.selected);
-  };
-
-  const pageCount = Math.ceil(filteredDeliveries.length / deliveriesPerPage);
+  // Pagination Logic
   const offset = currentPage * deliveriesPerPage;
   const currentDeliveries = filteredDeliveries.slice(offset, offset + deliveriesPerPage);
+  const pageCount = Math.ceil(filteredDeliveries.length / deliveriesPerPage); // Calculate total pages
+
+  const handlePageChange = (direction) => {
+    if (direction === 'next' && currentPage < pageCount - 1) {
+      setCurrentPage(currentPage + 1);
+    } else if (direction === 'prev' && currentPage > 0) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
 
   return (
     <div className="delivery-list-container">
@@ -118,7 +126,9 @@ const DeliveryList = () => {
           <option value="delivered">Delivered</option>
           <option value="canceled">Canceled</option>
         </select>
-        <button onClick={() => setShowAddDelivery(true)} className="add-delivery-btn">Add New Delivery</button>
+        <button onClick={() => setShowAddDelivery(true)} className="add-delivery-btn">
+          <FaPlus /> Add New Delivery
+        </button>
       </div>
 
       {showAddDelivery && (
@@ -166,21 +176,23 @@ const DeliveryList = () => {
           </tr>
         </thead>
         <tbody>
-  {currentDeliveries.map(delivery => (
-    <tr key={delivery._id}>
-      <td>{delivery.orderId}</td>
-      <td>{delivery.deliveryPerson}</td>
-      <td>{delivery.date}</td>
-      <td>{delivery.status}</td>
-      <td>
-        <button onClick={() => handleEditDelivery(delivery)}   style={{ backgroundColor: '#ffc107', color: 'white', border: 'none', borderRadius: '4px', padding: '5px 10px' }} // Yellow button
-                >Update Status</button>
-        <button onClick={() => handleDelete(delivery._id)}  style={{ backgroundColor: '#dc3545', color: 'white', border: 'none', borderRadius: '4px', padding: '5px 10px', marginLeft: '10px' }} >Delete</button>
-      </td>
-    </tr>
-  ))}
-</tbody>
-
+          {currentDeliveries.map(delivery => (
+            <tr key={delivery._id}>
+              <td>{delivery.orderId}</td>
+              <td>{delivery.deliveryPerson}</td>
+              <td>{delivery.date}</td>
+              <td>{delivery.status}</td>
+              <td>
+                <button onClick={() => handleEditDelivery(delivery)} style={{ backgroundColor: '#ffc107', color: 'white', border: 'none', borderRadius: '4px', padding: '5px 10px' }}>
+                  <FaEdit /> Update Status
+                </button>
+                <button onClick={() => handleDelete(delivery._id)} style={{ backgroundColor: '#dc3545', color: 'white', border: 'none', borderRadius: '4px', padding: '5px 10px', marginLeft: '10px' }}>
+                  <FaTrash /> Delete
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
       </table>
 
       {editDelivery && (
@@ -196,6 +208,17 @@ const DeliveryList = () => {
           <button onClick={() => setEditDelivery(null)} style={{ marginLeft: '10px' }}>Cancel</button>
         </div>
       )}
+
+      {/* Pagination Controls */}
+      <div className="pagination-controls">
+        <button onClick={() => handlePageChange('prev')} disabled={currentPage === 0}>
+          Prev
+        </button>
+        <span>Page {currentPage + 1} of {pageCount}</span>
+        <button onClick={() => handlePageChange('next')} disabled={currentPage >= pageCount - 1}>
+          Next
+        </button>
+      </div>
     </div>
   );
 };

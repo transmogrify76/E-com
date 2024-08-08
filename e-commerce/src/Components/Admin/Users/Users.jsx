@@ -1,24 +1,5 @@
 import React, { useState, useEffect } from 'react';
-// import {
-//   Card,
-//   CardContent,
-//   Typography,
-//   Grid,
-//   Table,
-//   TableHead,
-//   TableBody,
-//   TableRow,
-//   TableCell,
-//   IconButton,
-//   Dialog,
-//   DialogTitle,
-//   DialogContent,
-//   DialogActions,
-//   Button,
-//   TextField,
-//   MenuItem,
-// } from '@material-ui/core';
-// import { Edit as EditIcon, Delete as DeleteIcon, Visibility as VisibilityIcon } from '@material-ui/icons';
+import { FaEye, FaEdit, FaTrash } from 'react-icons/fa'; // Importing icons from react-icons
 import './Users.css';
 
 const AdminPanelUser = () => {
@@ -52,7 +33,6 @@ const AdminPanelUser = () => {
         setSortedUsers(simulatedUsers); // Initialize sortedUsers with the fetched data
       } catch (error) {
         console.error('Error fetching users:', error);
-        // Handle error (e.g., show error message)
       }
     };
 
@@ -126,10 +106,6 @@ const AdminPanelUser = () => {
 
   // Handle editing user details
   const handleSaveEditUser = () => {
-    // Implement save functionality (e.g., API call to update user)
-    console.log('Edited user:', editUser);
-    // Update the UI or perform actions based on the edited user data
-    // For demonstration, you can update the state directly or call an API to persist the changes
     const updatedUsers = users.map((user) => (user.id === editUser.id ? editUser : user));
     setUsers(updatedUsers);
     setSortedUsers(updatedUsers);
@@ -139,9 +115,6 @@ const AdminPanelUser = () => {
 
   // Delete user handler
   const handleDeleteUser = (userId) => {
-    // Implement delete functionality here (e.g., API call)
-    console.log(`Delete user with ID: ${userId}`);
-    // Update UI after deletion (remove user from list)
     const updatedUsers = users.filter((user) => user.id !== userId);
     setUsers(updatedUsers);
     setSortedUsers(updatedUsers);
@@ -149,138 +122,104 @@ const AdminPanelUser = () => {
 
   return (
     <div className="admin-panel-container">
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <Card>
-            <CardContent>
-              <Typography variant="h5">Users List</Typography>
-              <div className="search-filter-container">
-                <TextField
-                  label="Search by Name"
-                  variant="outlined"
-                  value={searchTerm}
-                  onChange={handleSearchChange}
-                  className="search-input"
-                />
-                <TextField
-                  select
-                  label="Filter by Role"
-                  variant="outlined"
-                  value={roleFilter}
-                  onChange={handleRoleFilterChange}
-                  className="filter-select"
-                >
-                  <MenuItem key="All" value="All">
-                    All Roles
-                  </MenuItem>
-                  <MenuItem key="User" value="User">
-                    User
-                  </MenuItem>
-                  {/* <MenuItem key="Admin" value="Admin">
-                    Admin
-                  </MenuItem> */}
-                </TextField>
-              </div>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>
-                      <Button onClick={() => handleSortChange('name')}>
-                        Name {sortBy === 'name' && (sortOrder === 'asc' ? '▲' : '▼')}
-                      </Button>
-                    </TableCell>
-                    <TableCell>
-                      <Button onClick={() => handleSortChange('email')}>
-                        Email {sortBy === 'email' && (sortOrder === 'asc' ? '▲' : '▼')}
-                      </Button>
-                    </TableCell>
-                    <TableCell>Role</TableCell>
-                    <TableCell>Registration Date</TableCell>
-                    <TableCell>Actions</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {sortedUsers.map((user) => (
-                    <TableRow key={user.id}>
-                      <TableCell>{user.name}</TableCell>
-                      <TableCell>{user.email}</TableCell>
-                      <TableCell>{user.role}</TableCell>
-                      <TableCell>{user.registrationDate}</TableCell>
-                      <TableCell>
-                        <IconButton color="primary" onClick={() => handleViewUserDetails(user)}>
-                          <VisibilityIcon />
-                        </IconButton>
-                        <IconButton color="primary" onClick={() => handleEditUser(user)}>
-                          <EditIcon />
-                        </IconButton>
-                        <IconButton color="secondary" onClick={() => handleDeleteUser(user.id)}>
-                          <DeleteIcon />
-                        </IconButton>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
-        </Grid>
-      </Grid>
+      <h2>Users List</h2>
+      <div className="search-filter-container">
+        <input
+          type="text"
+          placeholder="Search by Name"
+          value={searchTerm}
+          onChange={handleSearchChange}
+          className="search-input"
+        />
+        <select value={roleFilter} onChange={handleRoleFilterChange} className="filter-select">
+          <option value="All">All Roles</option>
+          <option value="User">User</option>
+          {/* Uncomment if needed */}
+          {/* <option value="Admin">Admin</option> */}
+        </select>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th onClick={() => handleSortChange('name')}>
+              Name {sortBy === 'name' && (sortOrder === 'asc' ? '▲' : '▼')}
+            </th>
+            <th onClick={() => handleSortChange('email')}>
+              Email {sortBy === 'email' && (sortOrder === 'asc' ? '▲' : '▼')}
+            </th>
+            <th>Role</th>
+            <th>Registration Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {sortedUsers.map((user) => (
+            <tr key={user.id}>
+              <td>{user.name}</td>
+              <td>{user.email}</td>
+              <td>{user.role}</td>
+              <td>{user.registrationDate}</td>
+              <td>
+                <div className="action-buttons">
+                  <button className="button button-view" onClick={() => handleViewUserDetails(user)}>
+                    <FaEye /> View
+                  </button>
+                  <button className="button button-edit" onClick={() => handleEditUser(user)}>
+                    <FaEdit /> Edit
+                  </button>
+                  <button className="button button-delete" onClick={() => handleDeleteUser(user.id)}>
+                    <FaTrash /> Delete
+                  </button>
+                </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
 
       {/* User Details Dialog */}
-      <Dialog open={openDetailsDialog} onClose={handleCloseDetailsDialog} fullWidth maxWidth="sm">
-        <DialogTitle>User Details</DialogTitle>
-        <DialogContent>
+      {openDetailsDialog && (
+        <div className="dialog">
+          <h3>User Details</h3>
           {selectedUser && (
             <div>
-              <Typography variant="subtitle1">Name: {selectedUser.name} </Typography>
-              <Typography variant="subtitle1">Email: {selectedUser.email}</Typography>
-              <Typography variant="subtitle1">Role: {selectedUser.role}</Typography>
-              <Typography variant="subtitle1">Registration Date: {selectedUser.registrationDate}</Typography>
-              {/* Add more details as needed */}
+              <p>Name: {selectedUser.name}</p>
+              <p>Email: {selectedUser.email}</p>
+              <p>Role: {selectedUser.role}</p>
+              <p>Registration Date: {selectedUser.registrationDate}</p>
             </div>
           )}
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseDetailsDialog} color="primary">
-            Close
-          </Button>
-        </DialogActions>
-      </Dialog>
+          <button className="button button-close" onClick={handleCloseDetailsDialog}>Close</button>
+        </div>
+      )}
 
       {/* Edit User Dialog */}
-      <Dialog open={openEditDialog} onClose={handleCloseEditDialog} fullWidth maxWidth="sm">
-        <DialogTitle>Edit User</DialogTitle>
-        <DialogContent>
-          {/* Form for editing user details */}
+      {openEditDialog && (
+        <div className="dialog">
+          <h3>Edit User</h3>
           {editUser && (
             <form>
-              <TextField
-                label="Name"
-                variant="outlined"
-                fullWidth
+              <input
+                type="text"
+                placeholder="Name"
                 value={editUser.name}
                 onChange={(e) => setEditUser({ ...editUser, name: e.target.value })}
               />
-              <TextField
-                label="Email"
-                variant="outlined"
-                fullWidth
+              <input
+                type="email"
+                placeholder="Email"
                 value={editUser.email}
                 onChange={(e) => setEditUser({ ...editUser, email: e.target.value })}
               />
-              {/* Add more fields as needed */}
             </form>
           )}
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseEditDialog} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleSaveEditUser} color="primary">
-            Save
-          </Button>
-        </DialogActions>
-      </Dialog>
+          <div className="dialog-buttons"> {/* Added wrapper for buttons */}
+      <button className="button button-cancel" onClick={handleCloseEditDialog}>Cancel</button>
+      <button className="button button-save" onClick={handleSaveEditUser}>Save</button>
+    </div>
+  </div>
+)}
+     
     </div>
   );
 };

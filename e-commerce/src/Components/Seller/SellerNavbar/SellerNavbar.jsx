@@ -4,10 +4,8 @@ import { IoSearch } from 'react-icons/io5';
 import { BsBell } from 'react-icons/bs'; // Importing the Bell icon from React Icons
 import user from '../../Assests/user.png';
 import logo from '../../Assests/Ecommerce_Frontend_Assets/Assets/logo.png';
-import { Link } from 'react-router-dom';
 
 function SellerNavbar() {
-    const [setMenu] = useState('shop');
     const notificationCount = 5; // Example notification count
     const [isDropdownOpen, setIsDropdownOpen] = useState(false); // State for dropdown visibility
 
@@ -30,12 +28,6 @@ function SellerNavbar() {
             <div className="notifications">
                 <BsBell className="notification-icon" /> {/* Using the React Icons bell icon */}
                 <span className="badge">{notificationCount}</span>
-            </div>
-
-            <div className="nav-login-cart">
-                <button onClick={() => { setMenu("shop") }}>
-                    <Link style={{ textDecoration: 'none' }} to="/login">Login</Link>
-                </button>
             </div>
 
             <div className="dropdown-container" onClick={toggleDropdown}>

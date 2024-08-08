@@ -9,6 +9,8 @@
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px; /* Space between cards */
+  padding: 16px; /* Padding inside the card */
+  background-color: white; /* White background for card */
 }
 
 .search-filter-container {
@@ -32,7 +34,6 @@
   padding: 12px; /* Add padding for better spacing */
   text-align: left; /* Align text to the left */
   border-bottom: 1px solid #e0e0e0;
- 
 }
 
 .table th {
@@ -47,8 +48,60 @@
   background-color: #f1f1f1; /* Highlight row on hover */
 }
 
+/* Button container styles */
+.action-buttons {
+  display: flex;
+  gap: 10px; /* Space between buttons */
+}
+
 .button {
   border-radius: 4px; /* Rounded button corners */
+  padding: 8px 12px; /* Padding inside buttons */
+  border: none; /* Remove default border */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s; /* Smooth background color transition */
+}
+
+.button-view {
+  background-color: #4caf50; /* Green background for view */
+  color: white; /* White text */
+}
+
+.button-edit {
+  background-color: #2196f3; /* Blue background for edit */
+  color: white; /* White text */
+}
+
+.button-delete {
+  background-color: #f44336; /* Red background for delete */
+  color: white; /* White text */
+}
+
+.button-close {
+  background-color: #607d8b; /* Grey background for close */
+  color: white; /* White text */
+}
+
+.button-cancel {
+  background-color: #ff9800; /* Orange background for cancel */
+  color: white; /* White text */
+}
+
+.button-save {
+  background-color: #4caf50; /* Green background for save */
+  color: white; /* White text */
+}
+
+.button:hover {
+  opacity: 0.8; /* Slightly transparent on hover */
+}
+
+.dialog {
+  border: 1px solid #ccc; /* Light border for dialog */
+  padding: 20px; /* Padding inside dialog */
+  background-color: white; /* White background for dialog */
+  border-radius: 8px; /* Rounded corners for dialog */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Shadow for dialog */
 }
 
 .dialog-title {
@@ -70,6 +123,13 @@
 .icon-button:hover {
   background-color: rgba(0, 0, 0, 0.08); /* Light background on hover */
 }
+.dialog-buttons {
+  display: flex; /* Use flexbox to arrange buttons in a row */
+  justify-content: flex-end; /* Align buttons to the right */
+  gap: 10px; /* Space between buttons */
+  margin-top: 10px; /* Space above the button group */
+}
+
 
 @media (max-width: 600px) {
   .search-input,

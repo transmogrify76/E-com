@@ -33,9 +33,7 @@ import Orderr from './Components/Seller/Orderr/Orderr';
 import OrderIndividual from './Components/Seller/Order-individual/OrderIndividual';
 import Settings from './Components/Seller/Settings/Settings';
 import Users from './Components/Admin/Users/Users';
-import Products from './Components/Admin/Products/Products';
 import Order from './Components/Admin/Order/Order';
-import Reports from './Components/Admin/Reports/Reports';
 import SideNavbar from './Components/Seller/SideNavbar/SideNavbar';
 import SellerNavbar from './Components/Seller/SellerNavbar/SellerNavbar';
 import Logout from './Components/Authentication/Logout/Logout';
@@ -60,6 +58,7 @@ import RefundsPage from './Components/Admin/Refunds/Refunds';
 import ProcessRefundPage from './Components/Admin/ProcessRefund/ProcessRefund';
 import ResetPassword from './Components/Authentication/ResetPassword/ResetPassword';
 import ShippingDetails from './Components/Seller/ShippingDetails/ShippingDetails';
+import ManageSeller from './Components/Admin/ManageSeller/ManageSeller';
 import './App.css';
 
 // ScrollHandler Component
@@ -207,9 +206,8 @@ function AppContent() {
         <Route path="/RevenueGenerate" element={<RevenueGenerate />} />
         <Route path="/Settings" element={<Settings />} />
         <Route path="/Users" element={<Users />} />
-        <Route path="/Products" element={<Products />} />
         <Route path="/Order" element={<Order />} />
-        <Route path="/Reports" element={<Reports />} />
+        <Route path="/sellers" element={<ManageSeller />} />
         <Route path="/Logout" element={<Logout />} />
         <Route path="/wallet" element={<Wallet />} />
         <Route path="/SellerNavbar" element={<SellerNavbar />} />

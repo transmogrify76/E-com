@@ -1,9 +1,8 @@
-
 .seller-dashboard {
   padding: 20px;
   background-color: #f4f4f4; /* Light gray background for the dashboard */
   height: 100vh;
- margin-left: 100px;
+  margin-left: 100px;
 }
 
 .dashboard-mainn {
@@ -22,7 +21,7 @@
 .dashboard-widgetss {
   display: flex;
   justify-content: space-between; /* Space between the widgets */
-  margin-bottom: 20px;
+  margin-bottom: 20px; /* Space below the entire widget section */
 }
 
 .dashboard-widgett {
@@ -31,6 +30,12 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
   padding: 20px;
   width: 23%; /* Fixed width for consistency */
+  margin-right: 10px; /* Space between widgets */
+}
+
+/* Remove margin-right for the last widget to avoid overflow */
+.dashboard-widgett:last-child {
+  margin-right: 0; /* No margin on the last widget */
 }
 
 .widget-contentt {
@@ -128,6 +133,7 @@
 .sales-history-table tr:hover {
   background-color: #f1f1f1; /* Highlight row on hover */
 }
+
 .users-widget {
   background-color: #4CAF50; /* Green */
 }
@@ -144,24 +150,24 @@
   background-color: #F44336; /* Red */
 }
 
-
 /* Responsive Styles */
 @media (max-width: 768px) {
   .dashboard-widgetss {
-      flex-direction: column; /* Stack widgets vertically on small screens */
+    flex-direction: column; /* Stack widgets vertically on small screens */
   }
 
   .dashboard-widgett {
-      width: 100%; /* Full width for stacked widgets */
-      margin-bottom: 15px; /* Space below each widget */
+    width: 100%; /* Full width for stacked widgets */
+    margin-bottom: 15px; /* Space below each widget */
+    margin-right: 0; /* No margin on right for stacked widgets */
   }
 
   .dashboard-chartss {
-      flex-direction: column; /* Stack charts vertically on small screens */
+    flex-direction: column; /* Stack charts vertically on small screens */
   }
 
   .chart-widgett {
-      width: 100%; /* Full width for stacked charts */
-      margin-bottom: 15px; /* Space below each chart */
+    width: 100%; /* Full width for stacked charts */
+    margin-bottom: 15px; /* Space below each chart */
   }
 }
