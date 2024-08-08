@@ -1,12 +1,9 @@
-
-// src/Components/Orderr/Orderr.jsx
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Orderr.css'; // Import CSS file for styling
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faSearch, faFilePdf, faEye, faTruck } from '@fortawesome/free-solid-svg-icons';
 import { Button } from 'react-bootstrap'; // Import Bootstrap components
 import CreateShippingModal from '../CreateShippingModal/CreateShippingModal'; // Import the CreateShippingModal component
+import { FaSearch, FaFilePdf, FaEye, FaTruck } from 'react-icons/fa'; // Import React Icons
 
 const Orderr = () => {
     const [filter, setFilter] = useState('all');
@@ -69,18 +66,18 @@ const Orderr = () => {
                         width: '300px'
                     }}
                 />
-               <Button
+                <Button
                     variant="primary"
                     onClick={handleSearch}
                     style={{ marginRight: '350px', marginBottom: '10px' }}
                 >
-                    <FontAwesomeIcon icon={faSearch} /> Search
-                </Button> 
+                    <FaSearch /> Search {/* React Icon */}
+                </Button>
                 <Button
                     variant="secondary"
                     onClick={exportToPDF}
                 >
-                    <FontAwesomeIcon icon={faFilePdf} /> Export to PDF
+                    <FaFilePdf /> Export to PDF {/* React Icon */}
                 </Button>
                 <div>            
                     <select
@@ -129,18 +126,15 @@ const Orderr = () => {
                             <td>{order.total}</td>
                             <td>{order.status}</td>
                             <td>
-                                
                                 <Link to={`/OrderIndividual/${order.id}`}>
                                     <Button variant="info">
-                                        <FontAwesomeIcon icon={faEye} /> View
+                                        <FaEye /> View {/* React Icon */}
                                     </Button>
                                 </Link>
-
-                                
                                 {order.status !== 'Cancelled' && (
                                     <Link to={`/ShippingDetails/${order.id}`}>
                                         <Button variant="warning">
-                                            <FontAwesomeIcon icon={faTruck} /> Ship
+                                            <FaTruck /> Ship {/* React Icon */}
                                         </Button>
                                     </Link>
                                 )}

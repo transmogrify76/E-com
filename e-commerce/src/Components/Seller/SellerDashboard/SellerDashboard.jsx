@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faBoxOpen, faMoneyBillAlt, faUsers } from '@fortawesome/free-solid-svg-icons';
 import { Bar } from 'react-chartjs-2';
 import {
     Chart as ChartJS,
@@ -11,13 +9,14 @@ import {
     Tooltip,
     Legend,
 } from 'chart.js';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom';
+import { FaUsers, FaBoxOpen, FaMoneyBillAlt } from 'react-icons/fa'; // Importing React Icons
 import './SellerDashboard.css';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const SellerDashboard = () => {
-    const navigate = useNavigate(); // Initialize the navigate function
+    const navigate = useNavigate();
     const [activeMenuItem] = useState('Dashboard');
 
     const salesData = {
@@ -47,7 +46,7 @@ const SellerDashboard = () => {
     };
 
     const handleAddProduct = () => {
-        navigate('/ProductUpload'); // Redirect to the product upload page
+        navigate('/ProductUpload');
     };
 
     return (
@@ -61,21 +60,21 @@ const SellerDashboard = () => {
                                 <div className="dashboard-widgett users-widget">
                                     <h3>Total Users</h3>
                                     <div className="widget-contentt">
-                                        <span className="widget-iconn"><FontAwesomeIcon icon={faUsers} /></span>
+                                        <span className="widget-iconn"><FaUsers /></span> {/* React Icon */}
                                         <span className="widget-dataa">500</span>
                                     </div>
                                 </div>
                                 <div className="dashboard-widgett products-widget">
                                     <h3>Total Products</h3>
                                     <div className="widget-contentt">
-                                        <span className="widget-iconn"><FontAwesomeIcon icon={faBoxOpen} /></span>
+                                        <span className="widget-iconn"><FaBoxOpen /></span> {/* React Icon */}
                                         <span className="widget-dataa">200</span>
                                     </div>
                                 </div>
                                 <div className="dashboard-widgett sales-widget">
                                     <h3>Total Sales</h3>
                                     <div className="widget-contentt">
-                                        <span className="widget-iconn"><FontAwesomeIcon icon={faMoneyBillAlt} /></span>
+                                        <span className="widget-iconn"><FaMoneyBillAlt /></span> {/* React Icon */}
                                         <span className="widget-dataa">₹1,500,000</span>
                                     </div>
                                 </div>

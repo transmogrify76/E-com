@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
-// import {
-//   Card, CardContent, Typography, Grid, TextField, Button, Table, TableHead, TableBody, TableRow, TableCell, IconButton, Menu, MenuItem,
-// } from '@material-ui/core';
-// import { Search as SearchIcon, Edit as EditIcon, Delete as DeleteIcon, ShoppingCart as OrderIcon } from '@material-ui/icons';
 import { Link } from 'react-router-dom';
 import './Order.css';
+import { FaSearch, FaEdit, FaTrash, FaShoppingCart } from 'react-icons/fa';
 
 const AdminOrder = () => {
   const initialOrders = [
@@ -20,10 +17,10 @@ const AdminOrder = () => {
 
   const [orders, setOrders] = useState(initialOrders);
   const [searchTerm, setSearchTerm] = useState('');
-  const [filters, setFilters] = useState([]);
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [ setSelectedMenu] = useState(null);
-  const [selectedFilter, setSelectedFilter] = useState('all'); // Track the selected filter
+  const [selectedFilter, setSelectedFilter] = useState('all');
+  const [showMenu, setShowMenu] = useState(false);
+  const [isEditing, setIsEditing] = useState(false); // To track if editing
+  const [orderToEdit, setOrderToEdit] = useState(null); // To store order data for editing
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
@@ -37,9 +34,9 @@ const AdminOrder = () => {
   };
 
   const handleClearFilters = () => {
-    setFilters([]);
     setOrders(initialOrders);
     setSearchTerm('');
+    setSelectedFilter('all');
   };
 
   const handleDeleteOrder = (orderId) => {
@@ -47,26 +44,25 @@ const AdminOrder = () => {
     setOrders(updatedOrders);
   };
 
-  const handleEditOrder = (orderId) => {
-    console.log(`Edit order with ID: ${orderId}`);
+  const handleEditOrder = (order) => {
+    setOrderToEdit(order);
+    setIsEditing(true);
   };
 
-  const handleMenuItemClick = (menuItem) => {
-    setSelectedMenu(menuItem);
-    console.log(`Selected menu item: ${menuItem}`);
-    setAnchorEl(null); // Close the menu after selection
+  const handleSaveEdit = (order) => {
+    const updatedOrders = orders.map(o => (o.id === order.id ? order : o));
+    setOrders(updatedOrders);
+    setIsEditing(false);
+    setOrderToEdit(null);
   };
 
-
-  // Calculate percentages for completed and canceled orders
-  const completedOrders = initialOrders.filter(order => order.status === 'Paid');
-  const canceledOrders = initialOrders.filter(order => order.status === 'Cancelled');
-  const activeOrders = initialOrders.filter(order => order.status !== 'Paid' && order.status !== 'Cancelled');
-  const totalOrders = initialOrders.length;
+  const completedOrders = orders.filter(order => order.status === 'Paid');
+  const canceledOrders = orders.filter(order => order.status === 'Cancelled');
+  const activeOrders = orders.filter(order => order.status !== 'Paid' && order.status !== 'Cancelled');
+  const totalOrders = orders.length;
   const completedPercentage = (completedOrders.length / totalOrders) * 100;
   const canceledPercentage = (canceledOrders.length / totalOrders) * 100;
   const activePercentage = (activeOrders.length / totalOrders) * 100;
-  const totalOrdersPercentage = 80;
 
   const getFilteredOrders = () => {
     switch (selectedFilter) {
@@ -77,202 +73,189 @@ const AdminOrder = () => {
       case 'active':
         return activeOrders;
       default:
-        return initialOrders;
+        return orders;
     }
   };
 
   const filteredOrders = getFilteredOrders();
 
+  const toggleMenu = () => {
+    setShowMenu(prev => !prev);
+  };
+
   return (
     <div className="main-container">
-      {/* <Grid container spacing={3}>
-        <Grid item xs={3}>
-          <Card className="card" onClick={() => setSelectedFilter('all')}>
-            <CardContent>
-              <div className="card-content">
-                <Typography variant="h6" className="card-title">Total Orders</Typography>
-                <div className="progress-circle">
-                  <Typography className="progress-circle-text">{totalOrdersPercentage}%</Typography>
-                </div>
-              </div>
-              <div className="card-content">
-                <Typography variant="subtitle1">{totalOrders} orders</Typography>
-                <OrderIcon style={{ fontSize: 40, color: '#3f51b5' }} />
-              </div>
-            </CardContent>
-          </Card>
-        </Grid>
+      <div className="grid-container">
+        <div className="card" style={{ backgroundColor: '#f0f8ff' }} onClick={() => setSelectedFilter('all')}>
+          <div className="card-content">
+            <h6>Total Orders</h6>
+            <div className="progress-circle">
+              <span>{totalOrders}</span>
+            </div>
+            <div className="card-content">
+              <span>{totalOrders} orders</span>
+              <FaShoppingCart style={{ fontSize: 40, color: '#3f51b5' }} />
+            </div>
+          </div>
+        </div>
 
-        <Grid item xs={3}>
-          <Card className="card" onClick={() => setSelectedFilter('active')}>
-            <CardContent>
-              <div className="card-content">
-                <Typography variant="h6" className="card-title">Active Orders</Typography>
-                <div className="progress-circle">
-                  <Typography className="progress-circle-text">{activePercentage.toFixed(0)}%</Typography>
-                </div>
-              </div>
-              <div className="card-content">
-                <Typography variant="subtitle1">
-                  {activeOrders.length} active
-                </Typography>
-              </div>
-            </CardContent>
-          </Card>
-        </Grid>
+        <div className="card" style={{ backgroundColor: '#e6ffe6' }} onClick={() => setSelectedFilter('active')}>
+          <div className="card-content">
+            <h6>Active Orders</h6>
+            <div className="progress-circle">
+              <span>{activePercentage.toFixed(0)}%</span>
+            </div>
+            <div className="card-content">
+              <span>{activeOrders.length} active</span>
+            </div>
+          </div>
+        </div>
 
-        <Grid item xs={3}>
-          <Card className="card" onClick={() => setSelectedFilter('completed')}>
-            <CardContent>
-              <div className="card-content">
-                <Typography variant="h6" className="card-title">Completed Orders</Typography>
-                <div className="progress-circle">
-                  <Typography className="progress-circle-text">{completedPercentage.toFixed(0)}%</Typography>
-                </div>
-              </div>
-              <div className="card-content">
-                <Typography variant="subtitle1">
-                  {completedOrders.length} completed
-                </Typography>
-              </div>
-            </CardContent>
-          </Card>
-        </Grid>
+        <div className="card" style={{ backgroundColor: '#ffe6e6' }} onClick={() => setSelectedFilter('completed')}>
+          <div className="card-content">
+            <h6>Completed Orders</h6>
+            <div className="progress-circle">
+              <span>{completedPercentage.toFixed(0)}%</span>
+            </div>
+            <div className="card-content">
+              <span>{completedOrders.length} completed</span>
+            </div>
+          </div>
+        </div>
 
-        <Grid item xs={3}>
-          <Card className="card" onClick={() => setSelectedFilter('cancelled')}>
-            <CardContent>
-              <div className="card-content">
-                <Typography variant="h6" className="card-title">Cancelled Orders</Typography>
-                <div className="progress-circle">
-                  <Typography className="progress-circle-text">{canceledPercentage.toFixed(0)}%</Typography>
-                </div>
+        <div className="card" style={{ backgroundColor: '#ffffcc' }} onClick={() => setSelectedFilter('cancelled')}>
+          <div className="card-content">
+            <h6>Cancelled Orders</h6>
+            <div className="progress-circle">
+              <span>{canceledPercentage.toFixed(0)}%</span>
+            </div>
+            <div className="card-content">
+              <span>{canceledOrders.length} cancelled</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="search-filters-section">
+          <h6>Search Orders</h6>
+          <input
+            type="text"
+            placeholder="Search by customer"
+            value={searchTerm}
+            onChange={handleSearchChange}
+          />
+          <button onClick={handleSearchSubmit}>
+            <FaSearch />
+          </button>
+          <button onClick={handleClearFilters}>Clear Filters</button>
+          <div className="manage-orders">
+            <button onClick={toggleMenu}>
+              Manage Orders
+            </button>
+            {showMenu && (
+              <div className="menu">
+                <Link to="/shipments" onClick={() => setShowMenu(false)}>Shipments</Link>
+                <Link to="/invoice" onClick={() => setShowMenu(false)}>Invoice</Link>
+                <Link to="/refunds" onClick={() => setShowMenu(false)}>Refunds</Link>
               </div>
-              <div className="card-content">
-                <Typography variant="subtitle1">
-                  {canceledOrders.length} cancelled
-                </Typography>
-              </div>
-            </CardContent>
-          </Card>
-        </Grid>
+            )}
+          </div>
+        </div>
 
-        <Grid item xs={12}>
-          <Card className="search-filters-section">
-            <CardContent>
-              <Grid container spacing={2} alignItems="center">
-                <Grid item xs={6}>
-                  <Typography variant="h6">Search Orders</Typography>
-                  <TextField
-                    label="Search by customer"
-                    variant="outlined"
-                    className="search-input"
-                    value={searchTerm}
-                    onChange={handleSearchChange}
-                  />
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    className="search-button"
-                    onClick={handleSearchSubmit}
-                  >
-                    <SearchIcon />
-                  </Button>
-                </Grid>
+        <div className="table">
+          <h6>Order List</h6>
+          <table>
+            <thead>
+              <tr>
+                <th>Bill No.</th>
+                <th>Customer Name</th>
+                <th>Phone No.</th>
+                <th>Date Time</th>
+                <th>Total Products</th>
+                <th>Total Amount Paid</th>
+                <th>Paid Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredOrders.map(order => (
+                <tr key={order.id}>
+                  <td>{order.id}</td>
+                  <td>{order.customer}</td>
+                  <td>{order.phone}</td>
+                  <td>{order.datetime}</td>
+                  <td>{order.products}</td>
+                  <td>₹{order.amount.toFixed(2)}</td>
+                  <td>{order.status}</td>
+                  <td>
+                    <button className="button" onClick={() => handleEditOrder(order)} style={{ marginRight: '10px' }}>
+                      <FaEdit />
+                    </button>
+                    <button className="button" onClick={() => handleDeleteOrder(order.id)}>
+                      <FaTrash />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+              {filteredOrders.length === 0 && (
+                <tr>
+                  <td colSpan={8}>No orders found</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
 
-                <Grid item xs={6} container justify="flex-end" spacing={1}>
-                  <Typography variant="h6">Filters:</Typography>
-                  {filters.length > 0 && (
-                    <Button
-                      variant="outlined"
-                      className="filter-button"
-                      onClick={handleClearFilters}
-                    >
-                      Clear Filters
-                    </Button>
-                  )}
-                  <Button
-                    variant="outlined"
-                    className="filter-button"
-                    aria-controls="manage-orders-menu"
-                    aria-haspopup="true"
-                    onClick={(event) => setAnchorEl(event.currentTarget)}
-                  >
-                    Manage Orders
-                  </Button>
-                  <Menu
-                    id="manage-orders-menu"
-                    anchorEl={anchorEl}
-                    keepMounted
-                    open={Boolean(anchorEl)}
-                    onClose={() => setAnchorEl(null)}
-                  >
-                    <MenuItem component={Link} to="/shipments" onClick={() => handleMenuItemClick('Shipments')}>
-                      Shipments
-                    </MenuItem>
-                    <MenuItem component={Link} to="/invoice" onClick={() => handleMenuItemClick('Invoice')}>
-                      Invoice
-                    </MenuItem>
-                    <MenuItem component={Link} to="/refunds" onClick={() => handleMenuItemClick('Refunds')}>
-                      Refunds
-                    </MenuItem>
-                  </Menu>
-                </Grid>
-              </Grid>
-            </CardContent>
-          </Card>
-        </Grid>
-
-        <Grid item xs={12}>
-          <Card>
-            <CardContent>
-              <Typography variant="h6">Order List</Typography>
-              <Table className="table">
-                <TableHead>
-                  <TableRow>
-                    <TableCell className="table-cell">Bill No.</TableCell>
-                    <TableCell className="table-cell">Customer Name</TableCell>
-                    <TableCell className="table-cell">Phone No.</TableCell>
-                    <TableCell className="table-cell">Date Time</TableCell>
-                    <TableCell className="table-cell">Total Products</TableCell>
-                    <TableCell className="table-cell">Total Amount Paid</TableCell>
-                    <TableCell className="table-cell">Paid Status</TableCell>
-                    <TableCell className="table-cell">Action</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {filteredOrders.map(order => (
-                    <TableRow key={order.id}>
-                      <TableCell className="table-cell">{order.id}</TableCell>
-                      <TableCell className="table-cell">{order.customer}</TableCell>
-                      <TableCell className="table-cell">{order.phone}</TableCell>
-                      <TableCell className="table-cell">{order.datetime}</TableCell>
-                      <TableCell className="table-cell">{order.products}</TableCell>
-                      <TableCell className="table-cell">₹{order.amount.toFixed(2)}</TableCell>
-                      <TableCell className="table-cell">{order.status}</TableCell>
-                      <TableCell className="table-cell">
-                        <IconButton color="primary" size="small" onClick={() => handleEditOrder(order.id)}>
-                          <EditIcon />
-                        </IconButton>
-                        <IconButton color="secondary" size="small" onClick={() => handleDeleteOrder(order.id)}>
-                          <DeleteIcon />
-                        </IconButton>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                  {filteredOrders.length === 0 && (
-                    <TableRow>
-                      <TableCell colSpan={8} className="table-cell">
-                        No orders found
-                      </TableCell>
-                    </TableRow>
-                  )}
-                </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
-        </Grid>
-      </Grid> */}
+        {isEditing && orderToEdit && (
+          <div className="edit-modal">
+            <h6>Edit Order</h6>
+            <form onSubmit={(e) => {
+              e.preventDefault();
+              handleSaveEdit(orderToEdit);
+            }}>
+              <input
+                type="text"
+                value={orderToEdit.customer}
+                onChange={(e) => setOrderToEdit({ ...orderToEdit, customer: e.target.value })}
+                placeholder="Customer Name"
+              />
+              <input
+                type="text"
+                value={orderToEdit.phone}
+                onChange={(e) => setOrderToEdit({ ...orderToEdit, phone: e.target.value })}
+                placeholder="Phone No."
+              />
+              <input
+                type="datetime-local"
+                value={orderToEdit.datetime}
+                onChange={(e) => setOrderToEdit({ ...orderToEdit, datetime: e.target.value })}
+              />
+              <input
+                type="number"
+                value={orderToEdit.products}
+                onChange={(e) => setOrderToEdit({ ...orderToEdit, products: e.target.value })}
+                placeholder="Total Products"
+              />
+              <input
+                type="number"
+                value={orderToEdit.amount}
+                onChange={(e) => setOrderToEdit({ ...orderToEdit, amount: e.target.value })}
+                placeholder="Total Amount Paid"
+              />
+              <select
+                value={orderToEdit.status}
+                onChange={(e) => setOrderToEdit({ ...orderToEdit, status: e.target.value })}
+              >
+                <option value="Paid">Paid</option>
+                <option value="Pending">Pending</option>
+                <option value="Processing">Processing</option>
+                <option value="Cancelled">Cancelled</option>
+              </select>
+              <button type="submit">Save</button>
+              <button type="button" onClick={() => setIsEditing(false)}>Cancel</button>
+            </form>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

@@ -30,6 +30,7 @@ import ExistingProduct from './Components/Seller/ExistingProduct/ExcistingProduc
 import Dispatch from './Components/Seller/Dispatch/Dispatch';
 import RevenueGenerate from './Components/Seller/RevenueGenerate/RevenueGenerate';
 import Orderr from './Components/Seller/Orderr/Orderr';
+import OrderIndividual from './Components/Seller/Order-individual/OrderIndividual';
 import Settings from './Components/Seller/Settings/Settings';
 import Users from './Components/Admin/Users/Users';
 import Products from './Components/Admin/Products/Products';
@@ -215,6 +216,7 @@ function AppContent() {
         <Route path="/NewSeller" element={<NewSeller />} />
         <Route path="/NewBank" element={<NewBank />} />
         <Route path="/SellerAccount" element={<SellerAccount />} />
+        <Route path="/OrderIndividual/:orderId" element={<OrderIndividual />} />
         <Route path="/add-product" element={<AddProduct />} />
         <Route path="/list-product" element={<ListProduct />} />
         <Route path="/adaccount" element={<AdAccount />} />
