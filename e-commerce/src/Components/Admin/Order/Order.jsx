@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Order.css';
-import { FaSearch, FaEdit, FaTrash, FaShoppingCart } from 'react-icons/fa';
+import { FaSearch, FaEdit, FaTrash, FaShoppingCart } from 'react-icons/fa'; // Import React Icons
 
 const AdminOrder = () => {
   const initialOrders = [
@@ -17,10 +17,8 @@ const AdminOrder = () => {
 
   const [orders, setOrders] = useState(initialOrders);
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedFilter, setSelectedFilter] = useState('all');
+  const [selectedFilter, setSelectedFilter] = useState('all'); // Track the selected filter
   const [showMenu, setShowMenu] = useState(false);
-  const [isEditing, setIsEditing] = useState(false); // To track if editing
-  const [orderToEdit, setOrderToEdit] = useState(null); // To store order data for editing
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
@@ -36,7 +34,6 @@ const AdminOrder = () => {
   const handleClearFilters = () => {
     setOrders(initialOrders);
     setSearchTerm('');
-    setSelectedFilter('all');
   };
 
   const handleDeleteOrder = (orderId) => {
@@ -44,22 +41,15 @@ const AdminOrder = () => {
     setOrders(updatedOrders);
   };
 
-  const handleEditOrder = (order) => {
-    setOrderToEdit(order);
-    setIsEditing(true);
+  const handleEditOrder = (orderId) => {
+    console.log(`Edit order with ID: ${orderId}`);
   };
 
-  const handleSaveEdit = (order) => {
-    const updatedOrders = orders.map(o => (o.id === order.id ? order : o));
-    setOrders(updatedOrders);
-    setIsEditing(false);
-    setOrderToEdit(null);
-  };
-
-  const completedOrders = orders.filter(order => order.status === 'Paid');
-  const canceledOrders = orders.filter(order => order.status === 'Cancelled');
-  const activeOrders = orders.filter(order => order.status !== 'Paid' && order.status !== 'Cancelled');
-  const totalOrders = orders.length;
+  // Calculate percentages for completed and canceled orders
+  const completedOrders = initialOrders.filter(order => order.status === 'Paid');
+  const canceledOrders = initialOrders.filter(order => order.status === 'Cancelled');
+  const activeOrders = initialOrders.filter(order => order.status !== 'Paid' && order.status !== 'Cancelled');
+  const totalOrders = initialOrders.length;
   const completedPercentage = (completedOrders.length / totalOrders) * 100;
   const canceledPercentage = (canceledOrders.length / totalOrders) * 100;
   const activePercentage = (activeOrders.length / totalOrders) * 100;
@@ -73,70 +63,66 @@ const AdminOrder = () => {
       case 'active':
         return activeOrders;
       default:
-        return orders;
+        return initialOrders;
     }
   };
 
   const filteredOrders = getFilteredOrders();
 
-  const toggleMenu = () => {
-    setShowMenu(prev => !prev);
-  };
-
   return (
     <div className="main-container">
       <div className="grid-container">
-        <div className="card" style={{ backgroundColor: '#f0f8ff' }} onClick={() => setSelectedFilter('all')}>
+        <div className="card" onClick={() => setSelectedFilter('all')}>
           <div className="card-content">
-            <h6>Total Orders</h6>
+            <h6 style={{ fontSize: '20px' }}>Total Orders</h6> {/* Increased font size */}
             <div className="progress-circle">
-              <span>{totalOrders}</span>
+              <span>80%</span>
             </div>
             <div className="card-content">
-              <span>{totalOrders} orders</span>
+              <span style={{ fontSize: '18px' }}>{totalOrders} orders</span> {/* Increased font size */}
               <FaShoppingCart style={{ fontSize: 40, color: '#3f51b5' }} />
             </div>
           </div>
         </div>
 
-        <div className="card" style={{ backgroundColor: '#e6ffe6' }} onClick={() => setSelectedFilter('active')}>
+        <div className="card" onClick={() => setSelectedFilter('active')}>
           <div className="card-content">
-            <h6>Active Orders</h6>
+            <h6 style={{ fontSize: '20px' }}>Active Orders</h6> {/* Increased font size */}
             <div className="progress-circle">
               <span>{activePercentage.toFixed(0)}%</span>
             </div>
             <div className="card-content">
-              <span>{activeOrders.length} active</span>
+              <span style={{ fontSize: '18px' }}>{activeOrders.length} active</span> {/* Increased font size */}
             </div>
           </div>
         </div>
 
-        <div className="card" style={{ backgroundColor: '#ffe6e6' }} onClick={() => setSelectedFilter('completed')}>
+        <div className="card" onClick={() => setSelectedFilter('completed')}>
           <div className="card-content">
-            <h6>Completed Orders</h6>
+            <h6 style={{ fontSize: '20px' }}>Completed Orders</h6> {/* Increased font size */}
             <div className="progress-circle">
               <span>{completedPercentage.toFixed(0)}%</span>
             </div>
             <div className="card-content">
-              <span>{completedOrders.length} completed</span>
+              <span style={{ fontSize: '18px' }}>{completedOrders.length} completed</span> {/* Increased font size */}
             </div>
           </div>
         </div>
 
-        <div className="card" style={{ backgroundColor: '#ffffcc' }} onClick={() => setSelectedFilter('cancelled')}>
+        <div className="card" onClick={() => setSelectedFilter('cancelled')}>
           <div className="card-content">
-            <h6>Cancelled Orders</h6>
+            <h6 style={{ fontSize: '20px' }}>Cancelled Orders</h6> {/* Increased font size */}
             <div className="progress-circle">
               <span>{canceledPercentage.toFixed(0)}%</span>
             </div>
             <div className="card-content">
-              <span>{canceledOrders.length} cancelled</span>
+              <span style={{ fontSize: '18px' }}>{canceledOrders.length} cancelled</span> {/* Increased font size */}
             </div>
           </div>
         </div>
 
         <div className="search-filters-section">
-          <h6>Search Orders</h6>
+        <h6 style={{ fontSize: '20px', fontWeight: 'bold', margin: '20px 0' }}>Search Order</h6>
           <input
             type="text"
             placeholder="Search by customer"
@@ -145,12 +131,10 @@ const AdminOrder = () => {
           />
           <button onClick={handleSearchSubmit}>
             <FaSearch />
-          </button>
+          </button><br></br>
           <button onClick={handleClearFilters}>Clear Filters</button>
           <div className="manage-orders">
-            <button onClick={toggleMenu}>
-              Manage Orders
-            </button>
+            <button onClick={() => setShowMenu(!showMenu)}>Manage Orders</button>
             {showMenu && (
               <div className="menu">
                 <Link to="/shipments" onClick={() => setShowMenu(false)}>Shipments</Link>
@@ -162,7 +146,8 @@ const AdminOrder = () => {
         </div>
 
         <div className="table">
-          <h6>Order List</h6>
+        <h6 style={{ fontSize: '24px', fontWeight: 'bold', margin: '20px 0' }}>Order List</h6>
+
           <table>
             <thead>
               <tr>
@@ -187,10 +172,16 @@ const AdminOrder = () => {
                   <td>₹{order.amount.toFixed(2)}</td>
                   <td>{order.status}</td>
                   <td>
-                    <button className="button" onClick={() => handleEditOrder(order)} style={{ marginRight: '10px' }}>
+                    <button 
+                      onClick={() => handleEditOrder(order.id)} 
+                      style={{ marginRight: '10px', fontSize: '16px' }} // Added margin and increased font size
+                    >
                       <FaEdit />
                     </button>
-                    <button className="button" onClick={() => handleDeleteOrder(order.id)}>
+                    <button 
+                      onClick={() => handleDeleteOrder(order.id)} 
+                      style={{ fontSize: '16px' }} // Increased font size
+                    >
                       <FaTrash />
                     </button>
                   </td>
@@ -204,57 +195,6 @@ const AdminOrder = () => {
             </tbody>
           </table>
         </div>
-
-        {isEditing && orderToEdit && (
-          <div className="edit-modal">
-            <h6>Edit Order</h6>
-            <form onSubmit={(e) => {
-              e.preventDefault();
-              handleSaveEdit(orderToEdit);
-            }}>
-              <input
-                type="text"
-                value={orderToEdit.customer}
-                onChange={(e) => setOrderToEdit({ ...orderToEdit, customer: e.target.value })}
-                placeholder="Customer Name"
-              />
-              <input
-                type="text"
-                value={orderToEdit.phone}
-                onChange={(e) => setOrderToEdit({ ...orderToEdit, phone: e.target.value })}
-                placeholder="Phone No."
-              />
-              <input
-                type="datetime-local"
-                value={orderToEdit.datetime}
-                onChange={(e) => setOrderToEdit({ ...orderToEdit, datetime: e.target.value })}
-              />
-              <input
-                type="number"
-                value={orderToEdit.products}
-                onChange={(e) => setOrderToEdit({ ...orderToEdit, products: e.target.value })}
-                placeholder="Total Products"
-              />
-              <input
-                type="number"
-                value={orderToEdit.amount}
-                onChange={(e) => setOrderToEdit({ ...orderToEdit, amount: e.target.value })}
-                placeholder="Total Amount Paid"
-              />
-              <select
-                value={orderToEdit.status}
-                onChange={(e) => setOrderToEdit({ ...orderToEdit, status: e.target.value })}
-              >
-                <option value="Paid">Paid</option>
-                <option value="Pending">Pending</option>
-                <option value="Processing">Processing</option>
-                <option value="Cancelled">Cancelled</option>
-              </select>
-              <button type="submit">Save</button>
-              <button type="button" onClick={() => setIsEditing(false)}>Cancel</button>
-            </form>
-          </div>
-        )}
       </div>
     </div>
   );

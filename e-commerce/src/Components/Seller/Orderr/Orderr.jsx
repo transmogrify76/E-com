@@ -47,11 +47,14 @@ const Orderr = () => {
 
     const handleCreateOrder = (newOrderData) => {
         const newOrder = {
-            id: orders.length + 1,
-            ...newOrderData,
+            id: orders.length + 1, // Increment ID based on existing orders
+            purchaseDate: new Date().toLocaleString(), // Current date and time
+            customerName: newOrderData.productName, // Set customer name from the order data
+            total: newOrderData.stockPrice, // Set total from the order data
+            status: newOrderData.status, // Set status from the order data
         };
-        setOrders([...orders, newOrder]);
-        handleCloseCreateShippingModal();
+        setOrders([...orders, newOrder]); // Add new order to the orders list
+        handleCloseCreateShippingModal(); // Close the modal
     };
 
     const handleFilterChange = (event) => {
@@ -129,30 +132,31 @@ const Orderr = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {filteredOrders.map(order => (
-                        <tr key={order.id}>
-                            <td>{order.id}</td>
-                            <td>{order.purchaseDate}</td>
-                            <td>{order.customerName}</td>
-                            <td>{order.total}</td>
-                            <td>{order.status}</td>
-                            <td>
-                                <Link to={`/OrderIndividual/${order.id}`}>
-                                    <Button variant="info">
-                                        <FaEye /> View {/* React Icon */}
-                                    </Button>
-                                </Link>
-                                {order.status !== 'Cancelled' && (
-                                    <Link to={`/ShippingDetails/${order.id}`}>
-                                        <Button variant="warning">
-                                            <FaTruck /> Ship {/* React Icon */}
-                                        </Button>
-                                    </Link>
-                                )}
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
+    {filteredOrders.map(order => (
+        <tr key={order.id}>
+            <td>{order.id}</td>
+            <td>{order.purchaseDate}</td>
+            <td>{order.customerName}</td>
+            <td>{order.total}</td>
+            <td>{order.status}</td>
+            <td>
+                <Link to={`/OrderIndividual/${order.id}`}>
+                    <Button variant="info" style={{ marginRight: '10px' }}> {/* Added margin */}
+                        <FaEye /> View {/* React Icon */}
+                    </Button>
+                </Link>
+                {order.status !== 'Cancelled' && (
+                    <Link to={`/ShippingDetails/${order.id}`}>
+                        <Button variant="warning">
+                            <FaTruck /> Ship {/* React Icon */}
+                        </Button>
+                    </Link>
+                )}
+            </td>
+        </tr>
+    ))}
+</tbody>
+
             </table>
 
             <CreateShippingModal

@@ -74,6 +74,11 @@ const ResetPassword = () => {
                                 placeholder='Enter OTP'
                                 value={otp}
                                 onChange={(e) => setOtp(e.target.value)}
+                                style={{
+                                    margin: '10px 0px',
+                                    padding:'13px',
+                                    width:'70%'
+                                  }}
                             />
                         </div>
                         <div className='input-group-reset'>
@@ -84,6 +89,11 @@ const ResetPassword = () => {
                                 placeholder='Enter new password'
                                 value={newPassword}
                                 onChange={(e) => setNewPassword(e.target.value)}
+                                style={{
+                                    margin: '10px 0px',
+                                    padding:'13px',
+                                    width:'70%'
+                                  }}
                             />
                         </div>
                         <button onClick={handleSubmit} disabled={loading}>

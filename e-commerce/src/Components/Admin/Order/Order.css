@@ -97,8 +97,7 @@ body {
 }
 
 .table h6 {
-  margin-bottom: 10px;
-  font-size: 20px; /* Space below table heading */
+  margin-bottom: 10px; /* Space below table heading */
 }
 
 .table table {
@@ -200,6 +199,13 @@ body {
 .menu a:hover {
   background-color: #f1f1f1; /* Highlight on hover */
 }
+.total-orders {
+    font-size: 18px; /* Set the font size */
+    color: #333;     /* Set the text color */
+    margin: 10px 0; /* Set top and bottom margin */
+    font-weight: bold; /* Make the text bold */
+}
+
 
 /* Media Queries */
 @media (max-width: 960px) {

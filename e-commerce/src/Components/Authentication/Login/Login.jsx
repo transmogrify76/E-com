@@ -88,6 +88,11 @@ const Login = () => {
                 placeholder="Username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
+                style={{
+                  margin: '10px 0px',
+                  padding:'12px',
+                  width:'70%'
+                }}
                 required
               />
             </div>
@@ -98,7 +103,9 @@ const Login = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 style={{
-                  width: '80%',
+                  margin: '10px 0px',
+                  padding:'13px',
+                  width:'70%'
                 }}
                 required
               />

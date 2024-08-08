@@ -51,6 +51,11 @@ const ForgetPassword = () => {
                                 placeholder="Email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
+                                style={{
+                                    margin: '10px 0px',
+                                    padding:'13px',
+                                    width:'70%'
+                                  }}
                             />
                         </div>
                     </div>

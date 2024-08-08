@@ -7,7 +7,7 @@ const Signup = () => {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [role, setRole] = useState('');
-  const [setRoles] = useState([]); // State for roles
+  const [roles, setRoles] = useState([]); // Keep this line
   const [error, setError] = useState(null); // State for error handling
   const navigate = useNavigate();
 
@@ -30,7 +30,7 @@ const Signup = () => {
     };
 
     fetchRoles(); // Call fetch function
-  }, []);
+  }, []); // No need to include setRoles here
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -77,7 +77,6 @@ const Signup = () => {
 
   const handleChange = (event) => {
     setRole(event.target.value);
-    // Removed the line that resets the email state
   };
 
   return (
@@ -94,6 +93,11 @@ const Signup = () => {
                 placeholder="Username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
+                style={{
+                  margin: '10px 0px',
+                  padding:'13px',
+                  width:'70%'
+                }}
                 required
               />
             </div>
@@ -105,12 +109,11 @@ const Signup = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 style={{
-                  width: '80%',
-                  padding: '10px',
-                  fontSize: '16px',
-                  borderRadius: '4px',
-                  border: '1px solid #ccc',
-                  boxSizing: 'border-box',
+                  margin: '10px 0px',
+                  padding: '13px',
+                  width: '70%',
+                  borderRadius: '5px', // Add border radius here
+                  border: '1px solid ', // Optional: Add border for better visibility
                 }}
                 required
               />
@@ -123,6 +126,11 @@ const Signup = () => {
                 placeholder="Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                style={{
+                  margin: '10px 0px',
+                  padding:'13px',
+                  width:'70%'
+                }}
                 required // Make email required for both roles
               />
             </div>
@@ -132,15 +140,20 @@ const Signup = () => {
                 value={role}
                 onChange={handleChange}
                 style={{
-                  width: '80%',
+                  margin: '10px 0px',
+                  padding:'13px',
+                  width:'80%'
                 }}
                 required
               >
                 <option disabled value="">
                   Select Role
                 </option>
-                <option value="1">Admin</option>
-                <option value="2">User</option>
+                {roles.map((roleItem) => (
+                  <option key={roleItem.id} value={roleItem.id}>
+                    {roleItem.name}
+                  </option>
+                ))}
               </select>
             </div>
 

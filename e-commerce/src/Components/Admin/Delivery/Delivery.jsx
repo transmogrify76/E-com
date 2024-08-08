@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { FaPlus, FaEdit, FaTrash } from 'react-icons/fa';
 import './Delivery.css';
 
@@ -14,28 +14,28 @@ const DeliveryList = () => {
   const [editDelivery, setEditDelivery] = useState(null);
   const [newStatus, setNewStatus] = useState('');
 
-  const dummyData = [
-    { _id: 1, orderId: 'ORD-001', deliveryPerson: 'John Doe', date: '2024-07-17', status: 'pending' },
-    { _id: 2, orderId: 'ORD-002', deliveryPerson: 'Jane Smith', date: '2024-07-16', status: 'in transit' },
-    { _id: 3, orderId: 'ORD-003', deliveryPerson: 'Alice Johnson', date: '2024-07-15', status: 'delivered' },
-    { _id: 4, orderId: 'ORD-004', deliveryPerson: 'Bob Brown', date: '2024-07-14', status: 'canceled' },
-    { _id: 5, orderId: 'ORD-005', deliveryPerson: 'Charlie Green', date: '2024-07-13', status: 'pending' },
-    { _id: 6, orderId: 'ORD-006', deliveryPerson: 'Daisy White', date: '2024-07-12', status: 'in transit' },
-    { _id: 7, orderId: 'ORD-007', deliveryPerson: 'Ethan Black', date: '2024-07-11', status: 'delivered' },
-    { _id: 8, orderId: 'ORD-008', deliveryPerson: 'Fiona Blue', date: '2024-07-10', status: 'canceled' },
-    { _id: 9, orderId: 'ORD-009', deliveryPerson: 'George Grey', date: '2024-07-09', status: 'pending' },
-    { _id: 10, orderId: 'ORD-010', deliveryPerson: 'Hannah Pink', date: '2024-07-08', status: 'in transit' },
-    { _id: 11, orderId: 'ORD-011', deliveryPerson: 'Ivy Purple', date: '2024-07-07', status: 'pending' },
-    { _id: 12, orderId: 'ORD-012', deliveryPerson: 'Jack Orange', date: '2024-07-06', status: 'in transit' },
-    // Add more dummy data if needed for testing pagination
-  ];
-
+  // Encapsulate dummyData inside useEffect
   useEffect(() => {
+    const dummyData = [
+      { _id: 1, orderId: 'ORD-001', deliveryPerson: 'John Doe', date: '2024-07-17', status: 'pending' },
+      { _id: 2, orderId: 'ORD-002', deliveryPerson: 'Jane Smith', date: '2024-07-16', status: 'in transit' },
+      { _id: 3, orderId: 'ORD-003', deliveryPerson: 'Alice Johnson', date: '2024-07-15', status: 'delivered' },
+      { _id: 4, orderId: 'ORD-004', deliveryPerson: 'Bob Brown', date: '2024-07-14', status: 'canceled' },
+      { _id: 5, orderId: 'ORD-005', deliveryPerson: 'Charlie Green', date: '2024-07-13', status: 'pending' },
+      { _id: 6, orderId: 'ORD-006', deliveryPerson: 'Daisy White', date: '2024-07-12', status: 'in transit' },
+      { _id: 7, orderId: 'ORD-007', deliveryPerson: 'Ethan Black', date: '2024-07-11', status: 'delivered' },
+      { _id: 8, orderId: 'ORD-008', deliveryPerson: 'Fiona Blue', date: '2024-07-10', status: 'canceled' },
+      { _id: 9, orderId: 'ORD-009', deliveryPerson: 'George Grey', date: '2024-07-09', status: 'pending' },
+      { _id: 10, orderId: 'ORD-010', deliveryPerson: 'Hannah Pink', date: '2024-07-08', status: 'in transit' },
+      { _id: 11, orderId: 'ORD-011', deliveryPerson: 'Ivy Purple', date: '2024-07-07', status: 'pending' },
+      { _id: 12, orderId: 'ORD-012', deliveryPerson: 'Jack Orange', date: '2024-07-06', status: 'in transit' },
+    ];
+    
     setDeliveries(dummyData);
     setFilteredDeliveries(dummyData);
-  }, []); // Removed dummyData from dependencies
+  }, []); // No need to include dummyData as it's now encapsulated
 
-  const filterDeliveries = () => {
+  const filterDeliveries = useCallback(() => {
     let filtered = deliveries;
 
     if (searchTerm) {
@@ -50,11 +50,11 @@ const DeliveryList = () => {
     }
 
     setFilteredDeliveries(filtered);
-  };
+  }, [deliveries, searchTerm, statusFilter]);
 
   useEffect(() => {
     filterDeliveries();
-  }, [searchTerm, statusFilter, deliveries]);
+  }, [filterDeliveries]); // Only use filterDeliveries as a dependency
 
   const handleDelete = (id) => {
     const updatedDeliveries = deliveries.filter(delivery => delivery._id !== id);

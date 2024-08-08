@@ -1,20 +1,79 @@
-/* CreateOrderModal.css */
+/* CreateShippingModal.css */
 
-/* Adjust modal styles as needed */
- .modal-content {
-    border-radius: 2;
-    width: 300px;
+/* Modal Styling */
+.modal-content {
+    border-radius: 8px; /* Rounded corners for the modal */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Subtle shadow effect */
 }
 
+/* Modal Header */
 .modal-header {
-    background-color: #723aad;
-    color: #fff;
+    background-color: #5d4f88; /* Dark purple background */
+    color: white; /* White text color */
+    border-top-left-radius: 8px; /* Rounded top left corner */
+    border-top-right-radius: 8px; /* Rounded top right corner */
 }
 
-.modal-footer {
-    background-color: #f8f9fa;
-    border-top: none;
-} 
+/* Modal Title */
+.modal-title {
+    font-weight: bold; /* Bold title */
+}
 
- 
+/* Modal Body */
+.modal-body {
+    padding: 20px; /* Padding inside modal */
+}
 
+/* Form Group Styling */
+.form-group {
+    margin-bottom: 1.5rem; /* Space below each form group */
+}
+
+/* Input and Textarea Styling */
+.form-control {
+    border: 1px solid #ccc; /* Light border */
+    border-radius: 4px; /* Rounded corners */
+    box-shadow: none; /* Remove default box-shadow */
+    transition: border-color 0.3s; /* Smooth transition for border color */
+}
+
+/* Focus Effect on Input Fields */
+.form-control:focus {
+    border-color: #5d4f88; /* Change border color on focus */
+    outline: none; /* Remove default outline */
+}
+
+/* Button Styling */
+button[type="submit"] {
+    background-color: #5d4f88; /* Button background color */
+    color: white; /* Button text color */
+    padding: 10px 20px; /* Padding inside button */
+    border: none; /* Remove border */
+    border-radius: 4px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s; /* Smooth transition for background color */
+}
+
+/* Button Hover Effect */
+button[type="submit"]:hover {
+    background-color: #4a3b6e; /* Darker shade on hover */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .modal-body {
+        padding: 15px; /* Reduce padding on smaller screens */
+    }
+
+    .modal-header {
+        padding: 15px; /* Reduce padding in header */
+    }
+
+    .modal-title {
+        font-size: 20px; /* Adjust font size for smaller screens */
+    }
+
+    .form-group {
+        margin-bottom: 1rem; /* Reduce bottom margin for form groups */
+    }
+}
