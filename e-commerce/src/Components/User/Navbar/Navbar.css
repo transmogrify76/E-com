@@ -9,8 +9,7 @@
   position: fixed; /* Ensure navbar remains fixed */
   top: 0; /* Align to the top of the viewport */
   width: 100%; /* Take full width of the viewport */
-  z-index: 1000;
-  /* Ensure it's above other content */
+  z-index: 1000; /* Ensure it's above other content */
 }
 
 .nav-menu {
@@ -28,6 +27,33 @@
   text-decoration: none;
   color: #ecf0f1;
   position: relative;
+}
+
+.headerSearch {
+  display: flex; /* Use flexbox to align input and button in a row */
+  align-items: center; /* Center items vertically */
+}
+
+.headerSearch input {
+  padding: 10px;
+  border: 1px solid #ccc; /* Light gray border */
+  border-radius: 5px; /* Rounded corners */
+  width: 200px; /* Adjust width as needed */
+}
+
+.btn-search {
+  padding: 10px 15px; /* Padding for the button */
+  background-color: #007bff; /* Button background color */
+  color: white; /* Button text color */
+  border: none; /* No border */
+  border-radius: 5px; /* Rounded corners */
+  margin-left: 0px; /* Space between input and button */
+  cursor: pointer;
+  margin-top: 50px; /* Pointer cursor on hover */
+}
+
+.btn-search:hover {
+  background-color: #0056b3; /* Darker shade on hover */
 }
 
 .nav-login-cart {
@@ -60,12 +86,8 @@
 
 /* Optional: Add padding to the body to account for the fixed navbar */
 body {
-  padding-top: 70px; /* Adjust based on your navbar height */
+  padding-top: 70px; 
 }
-
-
-
-
 
 .dropdown-content {
   display: none; /* Initially hide dropdown */
@@ -101,6 +123,6 @@ body {
   display: block;
 }
 
-.user-icon{
-  height:50px
+.user-icon {
+  height: 50px;
 }

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import {jwtDecode} from 'jwt-decode'; // Import jwt-decode
+import { jwtDecode } from 'jwt-decode'; // Import jwt-decode
 import './Login.css';
 
 const Login = () => {
@@ -18,11 +18,23 @@ const Login = () => {
     const payload = { username, password };
 
     try {
-      const response = await fetch('http://localhost:5000/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
+      // Check if the user is attempting to log in as an admin
+      let response;
+      if (username === 'adminuser') {
+        // Admin login
+        response = await fetch('http://localhost:5000/admin', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+      } else {
+        // Regular user login
+        response = await fetch('http://localhost:5000/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+      }
 
       const data = await response.json();
 
@@ -48,7 +60,9 @@ const Login = () => {
       const userRole = decodedToken.role; // Extract user role from token
 
       // Navigate to the appropriate dashboard based on user role
-      if (userRole === 'Seller') {
+      if (userRole === 'Admin') {
+        navigate('/admin-dashboard'); // Redirect to admin dashboard
+      } else if (userRole === 'Seller') {
         navigate('/seller-dashboard'); // Redirect to seller dashboard
       } else {
         navigate('/dashboard', { state: { userId, userUsername } }); // Redirect to user dashboard
@@ -78,8 +92,8 @@ const Login = () => {
                 onChange={(e) => setUsername(e.target.value)}
                 style={{
                   margin: '10px 0px',
-                  padding:'12px',
-                  width:'70%'
+                  padding: '12px',
+                  width: '70%'
                 }}
                 required
               />
@@ -92,8 +106,8 @@ const Login = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 style={{
                   margin: '10px 0px',
-                  padding:'13px',
-                  width:'70%'
+                  padding: '13px',
+                  width: '70%'
                 }}
                 required
               />
