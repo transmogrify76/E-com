@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import './Login.css'; // Import your CSS file for styling
+import {jwtDecode} from 'jwt-decode'; // Import jwt-decode
+import './Login.css';
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -9,63 +10,50 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    // Add the no-scroll class to the body when this component mounts
-    document.body.classList.add('no-scroll');
-
-    // Clean up by removing the no-scroll class when this component unmounts
-    return () => {
-      document.body.classList.remove('no-scroll');
-    };
-  }, []);
-
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
 
-    // Constructing the payload according to your API
-    const payload = {
-      username,
-      password,
-    };
+    const payload = { username, password };
 
     try {
       const response = await fetch('http://localhost:5000/login', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
 
-      // Check the response and parse JSON
       const data = await response.json();
+
+      // Log the full response for debugging
+      console.log('Response from server:', data);
 
       if (!response.ok) {
         throw new Error(data.message || 'Something went wrong');
       }
 
-      // Log the full response for debugging
-      console.log('Login response:', data);
+      // Store the access token in localStorage
+      localStorage.setItem('accessToken', data.access_token); // Access token from the response
 
-      // Store the refresh token and access token in localStorage
-      localStorage.setItem('refreshToken', data.refreshToken);
-      localStorage.setItem('accessToken', data.accessToken);
-
-      // Check user role and redirect accordingly
-      const userRole = data.role; // Ensure this matches your API response structure
-
-      console.log('User role:', userRole); // Log user role for debugging
-
-      if (userRole === 'admin') {
-        navigate('/admin-dashboard'); // Redirect to admin dashboard
-      } else {
-        navigate('/dashboard'); // Redirect to user dashboard
+      // Check if the access token is a valid string
+      if (!data.access_token || typeof data.access_token !== 'string') {
+        throw new Error('Invalid access token received.');
       }
 
-      // Handle successful login
-      console.log('Login successful:', data);
+      // Decode the JWT token to extract user role
+      const decodedToken = jwtDecode(data.access_token);
+      const userId = decodedToken.sub; // Extract user ID from token (using sub field)
+      const userUsername = decodedToken.username; // Extract username from token
+      const userRole = decodedToken.role; // Extract user role from token
+
+      // Navigate to the appropriate dashboard based on user role
+      if (userRole === 'Seller') {
+        navigate('/seller-dashboard'); // Redirect to seller dashboard
+      } else {
+        navigate('/dashboard', { state: { userId, userUsername } }); // Redirect to user dashboard
+      }
+
     } catch (error) {
       console.error('Login error:', error);
       setError(error.message);
@@ -110,7 +98,7 @@ const Login = () => {
                 required
               />
             </div>
-
+    
             <div className="submit-container">
               <button
                 type="submit"

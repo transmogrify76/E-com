@@ -15,9 +15,10 @@
   margin-top: 60px;
 }
 
-h2 {
+.product-upload-container h2 {
   text-align: center;
   color: #333;
+  margin-left: 170px;
 }
 
 .product-upload-form {

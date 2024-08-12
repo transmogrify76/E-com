@@ -20,11 +20,11 @@ const AdminPanelSeller = () => {
             try {
                 // Simulated data for demonstration
                 const simulatedSellers = [
-                    { id: 1, name: 'Seller One', email: 'seller1@example.com', status: 'Active', registrationDate: '2023-07-01' },
-                    { id: 2, name: 'Seller Two', email: 'seller2@example.com', status: 'Inactive', registrationDate: '2023-07-05' },
-                    { id: 3, name: 'Seller Three', email: 'seller3@example.com', status: 'Active', registrationDate: '2023-07-10' },
-                    { id: 4, name: 'Seller Four', email: 'seller4@example.com', status: 'Active', registrationDate: '2023-07-15' },
-                    { id: 5, name: 'Seller Five', email: 'seller5@example.com', status: 'Inactive', registrationDate: '2023-07-20' },
+                    { id: 1, name: 'Seller One', email: 'seller1@example.com', phone: '123-456-7890', status: 'Active', registrationDate: '2023-07-01' },
+                    { id: 2, name: 'Seller Two', email: 'seller2@example.com', phone: '234-567-8901', status: 'Inactive', registrationDate: '2023-07-05' },
+                    { id: 3, name: 'Seller Three', email: 'seller3@example.com', phone: '345-678-9012', status: 'Active', registrationDate: '2023-07-10' },
+                    { id: 4, name: 'Seller Four', email: 'seller4@example.com', phone: '456-789-0123', status: 'Active', registrationDate: '2023-07-15' },
+                    { id: 5, name: 'Seller Five', email: 'seller5@example.com', phone: '567-890-1234', status: 'Inactive', registrationDate: '2023-07-20' },
                 ];
 
                 setSellers(simulatedSellers);
@@ -144,6 +144,9 @@ const AdminPanelSeller = () => {
                         <th onClick={() => handleSortChange('email')}>
                             Email {sortBy === 'email' && (sortOrder === 'asc' ? '▲' : '▼')}
                         </th>
+                        <th onClick={() => handleSortChange('phone')}>
+                            Phone {sortBy === 'phone' && (sortOrder === 'asc' ? '▲' : '▼')}
+                        </th>
                         <th>Status</th>
                         <th>Registration Date</th>
                         <th>Actions</th>
@@ -154,6 +157,7 @@ const AdminPanelSeller = () => {
                         <tr key={seller.id}>
                             <td>{seller.name}</td>
                             <td>{seller.email}</td>
+                            <td>{seller.phone}</td>
                             <td>{seller.status}</td>
                             <td>{seller.registrationDate}</td>
                             <td>
@@ -182,6 +186,7 @@ const AdminPanelSeller = () => {
                         <div>
                             <p>Name: {selectedSeller.name}</p>
                             <p>Email: {selectedSeller.email}</p>
+                            <p>Phone: {selectedSeller.phone}</p> {/* Added phone number display */}
                             <p>Status: {selectedSeller.status}</p>
                             <p>Registration Date: {selectedSeller.registrationDate}</p>
                         </div>
@@ -207,6 +212,12 @@ const AdminPanelSeller = () => {
                                 placeholder="Email"
                                 value={editSeller.email}
                                 onChange={(e) => setEditSeller({ ...editSeller, email: e.target.value })}
+                            />
+                            <input
+                                type="text"
+                                placeholder="Phone"
+                                value={editSeller.phone}
+                                onChange={(e) => setEditSeller({ ...editSeller, phone: e.target.value })}
                             />
                             <select
                                 value={editSeller.status}

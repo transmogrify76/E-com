@@ -1,19 +1,20 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './ResetPassword.css';
 
 const ResetPassword = () => {
     const [otp, setOtp] = useState('');
     const [newPassword, setNewPassword] = useState('');
-    const [message, setMessage] = useState('');
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
-    const handleSubmit = async () => {
-        // Basic validation
+    const handleSubmit = async (e) => {
+        e.preventDefault(); // Prevent default form submission
         if (!otp || !newPassword) {
-            setMessage('Please enter both OTP and new password.');
+            toast.error('Please enter both OTP and new password.');
             return;
         }
 
@@ -24,34 +25,36 @@ const ResetPassword = () => {
                 newPassword,
             };
 
-            console.log('Sending request to server with payload:', payload); // Log request payload
-
             const response = await axios.post('http://localhost:5000/reset-password', payload, {
                 headers: {
-                    'Content-Type': 'application/json' // Ensure content type is set
-                }
+                    'Content-Type': 'application/json',
+                },
             });
 
-            console.log('Response from server:', response); // Log response
+            // Log the response for debugging
+            console.log('Response from server:', response);
 
-            if (response.status === 200) {
-                setMessage('Password reset successfully. Redirecting to login...');
+            // Check if the response indicates success
+            if (response.status === 201) {
+                toast.success('Password reset successfully!');
+                // Redirect to login page after a successful reset
+                navigate("/login")
                 setTimeout(() => {
-                    navigate('/login'); // Redirect to login after 2 seconds
-                }, 2000);
+                    navigate("/login")
+                  
+                }, 2000); // Optional delay for user experience
+            } else {
+                // Handle cases where the server responds but it's not a success
+                toast.error(response.data?.message || 'Failed to reset password. Please try again.');
             }
         } catch (error) {
-            console.error('Error resetting password:', error);
+          console.log(error)
             if (error.response) {
-                // Server responded with a status other than 200
-                setMessage(error.response.data.message || 'Failed to reset password. Please try again.');
-            } else if (error.request) {
-                // No response was received from the server
-                console.error('No response from server:', error.request);
-                setMessage('No response from server. Please check your connection or if the server is running.');
+                // Check if there's a response from the server
+                toast.error(error.response.data?.message || 'Failed to reset password. Please try again.');
             } else {
-                // Something happened in setting up the request
-                setMessage('An error occurred. Please try again later.');
+                // If there's no response from the server
+                toast.error('An error occurred. Please try again later.');
             }
         } finally {
             setLoading(false);
@@ -65,7 +68,7 @@ const ResetPassword = () => {
                     <div className='card-header-reset'>
                         Reset Your Password
                     </div>
-                    <div className="card-body-reset">
+                    <form onSubmit={handleSubmit} className="card-body-reset">
                         <div className='input-group-reset'>
                             <label htmlFor='otp'>OTP:</label>
                             <input
@@ -76,9 +79,9 @@ const ResetPassword = () => {
                                 onChange={(e) => setOtp(e.target.value)}
                                 style={{
                                     margin: '10px 0px',
-                                    padding:'13px',
-                                    width:'70%'
-                                  }}
+                                    padding: '13px',
+                                    width: '70%',
+                                }}
                             />
                         </div>
                         <div className='input-group-reset'>
@@ -91,16 +94,36 @@ const ResetPassword = () => {
                                 onChange={(e) => setNewPassword(e.target.value)}
                                 style={{
                                     margin: '10px 0px',
-                                    padding:'13px',
-                                    width:'70%'
-                                  }}
+                                    padding: '13px',
+                                    width: '70%',
+                                }}
                             />
                         </div>
-                        <button onClick={handleSubmit} disabled={loading}>
+                        <button 
+                            type="submit" // Ensure button type is submit
+                            disabled={loading} 
+                            style={{
+                                padding: '10px 20px',
+                                backgroundColor: loading ? '#ccc' : '#007bff',
+                                color: 'white',
+                                border: 'none',
+                                borderRadius: '5px',
+                                cursor: loading ? 'not-allowed' : 'pointer',
+                                marginTop: '10px',
+                            }}
+                        >
                             {loading ? 'Submitting...' : 'Submit'}
                         </button>
-                        {message && <div className='message'>{message}</div>}
-                    </div>
+                    </form>
+                    <ToastContainer 
+                        position="top-center" 
+                        autoClose={5000} 
+                        hideProgressBar={false} 
+                        closeOnClick 
+                        pauseOnHover 
+                        draggable 
+                        pauseOnFocusLoss 
+                    />
                 </div>
             </div>
         </div>

@@ -20,13 +20,13 @@ const AdminPanelUser = () => {
       try {
         // Simulated data for demonstration
         const simulatedUsers = [
-          { id: 1, name: 'John Doe', email: 'john@example.com', role: 'Admin', registrationDate: '2023-07-01' },
-          { id: 2, name: 'Jane Smith', email: 'jane@example.com', role: 'User', registrationDate: '2023-07-05' },
-          { id: 3, name: 'Michael Johnson', email: 'michael@example.com', role: 'User', registrationDate: '2023-07-10' },
-          { id: 4, name: 'Emily Brown', email: 'emily@example.com', role: 'User', registrationDate: '2023-07-15' },
-          { id: 5, name: 'David Lee', email: 'david@example.com', role: 'Admin', registrationDate: '2023-07-20' },
-          { id: 6, name: 'Sarah Wilson', email: 'sarah@example.com', role: 'User', registrationDate: '2023-07-25' },
-          { id: 7, name: 'Ryan Garcia', email: 'ryan@example.com', role: 'User', registrationDate: '2023-07-30' },
+          { id: 1, name: 'John Doe', email: 'john@example.com', role: 'Admin', registrationDate: '2023-07-01', phone: '123-456-7890' },
+          { id: 2, name: 'Jane Smith', email: 'jane@example.com', role: 'User', registrationDate: '2023-07-05', phone: '234-567-8901' },
+          { id: 3, name: 'Michael Johnson', email: 'michael@example.com', role: 'User', registrationDate: '2023-07-10', phone: '345-678-9012' },
+          { id: 4, name: 'Emily Brown', email: 'emily@example.com', role: 'User', registrationDate: '2023-07-15', phone: '456-789-0123' },
+          { id: 5, name: 'David Lee', email: 'david@example.com', role: 'Admin', registrationDate: '2023-07-20', phone: '567-890-1234' },
+          { id: 6, name: 'Sarah Wilson', email: 'sarah@example.com', role: 'User', registrationDate: '2023-07-25', phone: '678-901-2345' },
+          { id: 7, name: 'Ryan Garcia', email: 'ryan@example.com', role: 'User', registrationDate: '2023-07-30', phone: '789-012-3456' },
         ];
 
         setUsers(simulatedUsers);
@@ -134,8 +134,7 @@ const AdminPanelUser = () => {
         <select value={roleFilter} onChange={handleRoleFilterChange} className="filter-select">
           <option value="All">All Roles</option>
           <option value="User">User</option>
-          {/* Uncomment if needed */}
-          {/* <option value="Admin">Admin</option> */}
+          <option value="Admin">Admin</option> {/* Added Admin role filter */}
         </select>
       </div>
       <table>
@@ -147,6 +146,9 @@ const AdminPanelUser = () => {
             <th onClick={() => handleSortChange('email')}>
               Email {sortBy === 'email' && (sortOrder === 'asc' ? '▲' : '▼')}
             </th>
+            <th onClick={() => handleSortChange('phone')}>
+              Phone {sortBy === 'phone' && (sortOrder === 'asc' ? '▲' : '▼')}
+            </th>
             <th>Role</th>
             <th>Registration Date</th>
             <th>Actions</th>
@@ -157,6 +159,7 @@ const AdminPanelUser = () => {
             <tr key={user.id}>
               <td>{user.name}</td>
               <td>{user.email}</td>
+              <td>{user.phone}</td>
               <td>{user.role}</td>
               <td>{user.registrationDate}</td>
               <td>
@@ -185,6 +188,7 @@ const AdminPanelUser = () => {
             <div>
               <p>Name: {selectedUser.name}</p>
               <p>Email: {selectedUser.email}</p>
+              <p>Phone: {selectedUser.phone}</p>
               <p>Role: {selectedUser.role}</p>
               <p>Registration Date: {selectedUser.registrationDate}</p>
             </div>
@@ -211,14 +215,20 @@ const AdminPanelUser = () => {
                 value={editUser.email}
                 onChange={(e) => setEditUser({ ...editUser, email: e.target.value })}
               />
+              <input
+                type="text"
+                placeholder="Phone"
+                value={editUser.phone}
+                onChange={(e) => setEditUser({ ...editUser, phone: e.target.value })}
+              />
             </form>
           )}
           <div className="dialog-buttons"> {/* Added wrapper for buttons */}
-      <button className="button button-cancel" onClick={handleCloseEditDialog}>Cancel</button>
-      <button className="button button-save" onClick={handleSaveEditUser}>Save</button>
-    </div>
-  </div>
-)}
+            <button className="button button-cancel" onClick={handleCloseEditDialog}>Cancel</button>
+            <button className="button button-save" onClick={handleSaveEditUser}>Save</button>
+          </div>
+        </div>
+      )}
      
     </div>
   );

@@ -38,6 +38,7 @@ import SideNavbar from './Components/Seller/SideNavbar/SideNavbar';
 import SellerNavbar from './Components/Seller/SellerNavbar/SellerNavbar';
 import Logout from './Components/Authentication/Logout/Logout';
 import Wallet from './Components/Seller/Wallet/Wallet';
+import Pricing from './Components/Seller/Pricing/Pricing';
 import SellerAccount from './Components/Seller/Account/Account';
 import NewSeller from './Components/Seller/NewSeller/NewSeller';
 import NewBank from './Components/Seller/NewBank/NewBank';
@@ -129,7 +130,7 @@ function AppContent() {
       '/mens', '/women', '/orders', '/account', '/kids', '/popular', '/shop',
       '/newcollections', '/checkout', '/payment', '/NewSeller', '/seller-dashboard',
       '/ProductUpload', '/ExistingProduct', '/Dispatch', '/RevenueGenerate',
-      '/Orderr', '/Settings',  '/NewBank', '/resetpassword'
+      '/Orderr', '/Settings',  '/NewBank', '/resetpassword','/Pricing'
     ];
     return !pathsWithoutAdminNavbar.includes(location.pathname) && !location.pathname.startsWith('/product/');
   };
@@ -141,7 +142,7 @@ function AppContent() {
       '/newcollections', '/checkout', '/payment', '/NewSeller', '/seller-dashboard',
       '/ProductUpload', '/ExistingProduct', '/Dispatch', '/RevenueGenerate',
       '/Orderr', '/Settings', '/Wallet', '/SellerAccount', 
-      '/NewBank', '/resetpassword'
+      '/NewBank', '/resetpassword','/Pricing'
     ];
     return !pathsWithoutAdminSidebar.includes(location.pathname) && !location.pathname.startsWith('/product/') && !location.pathname.startsWith('/OrderIndividual/')  && !location.pathname.startsWith('/ShippingDetails/') && !location.pathname.startsWith('/Dispatch/') ;
   };
@@ -210,6 +211,7 @@ function AppContent() {
         <Route path="/sellers" element={<ManageSeller />} />
         <Route path="/Logout" element={<Logout />} />
         <Route path="/wallet" element={<Wallet />} />
+        <Route path="/Pricing" element={<Pricing />} />
         <Route path="/SellerNavbar" element={<SellerNavbar />} />
         <Route path="/NewSeller" element={<NewSeller />} />
         <Route path="/NewBank" element={<NewBank />} />
