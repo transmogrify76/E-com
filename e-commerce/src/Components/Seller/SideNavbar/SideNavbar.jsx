@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { FaHome, FaUpload, FaBoxOpen, FaClipboardList, FaTruck, FaChartLine, FaCog, FaWallet, FaUser,FaMoneyBillWave} from 'react-icons/fa';
+import { FaHome, FaUpload, FaBoxOpen, FaClipboardList, FaTruck, FaChartLine, FaCog,FaUser,FaMoneyBillWave} from 'react-icons/fa';
 import { MdExpandLess, MdExpandMore } from 'react-icons/md';
 
 const SideNavbar = () => {
@@ -65,12 +65,7 @@ const SideNavbar = () => {
                         {isExpanded && <span>Revenue Generation</span>}
                     </Link>
                 </li>
-                <li className="nav-item">
-                    <Link to="/Wallet" className={`nav-link ${location.pathname === '/Wallet' ? 'active' : ''}`} onClick={() => handleMenuItemClick('Wallet')}>
-                        <FaWallet className="nav-icon" />
-                        {isExpanded && <span>Wallet</span>}
-                    </Link>
-                </li>
+               
                 <li className="nav-item">
                     <Link to="/Settings" className={`nav-link ${location.pathname === '/Settings' ? 'active' : ''}`} onClick={() => handleMenuItemClick('Settings')}>
                         <FaCog className="nav-icon" />

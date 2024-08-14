@@ -84,3 +84,4 @@ const ProductUpload = ({ onProductSubmit }) => {
 };
 
 export default ProductUpload;
+

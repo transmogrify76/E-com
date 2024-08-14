@@ -37,11 +37,11 @@ import Order from './Components/Admin/Order/Order';
 import SideNavbar from './Components/Seller/SideNavbar/SideNavbar';
 import SellerNavbar from './Components/Seller/SellerNavbar/SellerNavbar';
 import Logout from './Components/Authentication/Logout/Logout';
-import Wallet from './Components/Seller/Wallet/Wallet';
+import Wallet from './Components/User/Wallet/Wallet';
 import Pricing from './Components/Seller/Pricing/Pricing';
 import SellerAccount from './Components/Seller/Account/Account';
 import NewSeller from './Components/Seller/NewSeller/NewSeller';
-import NewBank from './Components/Seller/NewBank/NewBank';
+import NewBank from './Components/User/NewBank/NewBank';
 import Navbar from './Components/Admin/Navbar/Navbar';
 import Sidebar from './Components/Admin/Sidebar/Sidebar';
 import AddProduct from './Components/Admin/AddProduct/AddProduct';
@@ -107,7 +107,7 @@ function AppContent() {
       '/newcollections', '/checkout', '/payment', '/NewSeller', '/admin-dashboard',
       '/list-product', '/add-product', '/categories', '/order', '/users', '/sellers',
       '/transactions', '/delivery', '/adaccount', '/adsettings', '/inventory', 
-      '/shipments', '/invoice', '/refunds', '/resetpassword'
+      '/shipments', '/invoice', '/refunds', '/resetpassword','/Wallet','/NewBank'
     ];
     return !pathsWithoutSideNavbar.includes(location.pathname) && !location.pathname.startsWith('/product/') && !location.pathname.startsWith('/invoice/') && !location.pathname.startsWith('/refunds/');
   };
@@ -119,7 +119,7 @@ function AppContent() {
       '/newcollections', '/checkout', '/payment', '/NewSeller', '/admin-dashboard',
       '/list-product', '/add-product', '/categories', '/order', '/users', '/sellers',
       '/transactions', '/delivery', '/adaccount', '/adsettings', '/inventory',
-      '/shipments', '/resetpassword'
+      '/shipments', '/resetpassword','/Wallet','/NewBank'
     ];
     return !pathsWithoutSellerNavbar.includes(location.pathname) && !location.pathname.startsWith('/product/');
   };
@@ -130,7 +130,7 @@ function AppContent() {
       '/mens', '/women', '/orders', '/account', '/kids', '/popular', '/shop',
       '/newcollections', '/checkout', '/payment', '/NewSeller', '/seller-dashboard',
       '/ProductUpload', '/ExistingProduct', '/Dispatch', '/RevenueGenerate',
-      '/Orderr', '/Settings',  '/NewBank', '/resetpassword','/Pricing'
+      '/Orderr', '/Settings',  '/NewBank', '/resetpassword','/Pricing','/Wallet','/NewBank'
     ];
     return !pathsWithoutAdminNavbar.includes(location.pathname) && !location.pathname.startsWith('/product/');
   };
@@ -151,7 +151,7 @@ function AppContent() {
     const pathsWithNavbar = [
       '/', '/dashboard', '/cart', '/wishlist', '/mens', '/women', '/orders',
       '/account', '/kids', '/popular', '/shop', '/newcollections', '/productdisplay',
-      '/product/:productId', '/checkout', '/payment', '/NewSeller'
+      '/product/:productId', '/checkout', '/payment', '/NewSeller','/Wallet','/NewBank'
     ];
     
     return pathsWithNavbar.includes(location.pathname) || location.pathname.startsWith('/product/') ;
