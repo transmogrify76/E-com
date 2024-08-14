@@ -1,82 +1,114 @@
+
 import React, { useState, useEffect } from 'react';
 import './ListProduct.css';
 import cross_icon from '../../Assests/Admin_Assets/cross_icon.png';
 
 const ListProduct = () => {
-    const [allProducts, setAllProducts] = useState([]);
+    const [products, setProducts] = useState([]);
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(true);
 
-    const fetchInfo = async () => {
+    // Fetch all products from the API
+    const fetchAllProducts = async () => {
         try {
-            const response = await fetch('http://localhost:5000/allproducts');
-            const data = await response.json();
-            setAllProducts(data);
-        } catch (error) {
-            console.error("Error fetching products:", error);
-        }
-    };
-
-    useEffect(() => {
-        fetchInfo();
-    }, []);
-
-    const removeProduct = async (id) => {
-        try {
-            await fetch('http://localhost:5000/removeproduct', {
-                method: 'POST',
+            const response = await fetch('http://localhost:5000/products', {
+                method: 'GET',
                 headers: {
-                    Accept: 'application/json',
+                    'Accept': 'application/json',
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ id })
             });
-            fetchInfo();
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch products');
+            }
+
+            const data = await response.json();
+            setProducts(data);
         } catch (error) {
-            console.error("Error removing product:", error);
+            console.error("Error fetching products:", error);
+            setError("Failed to fetch products");
+        } finally {
+            setLoading(false);
         }
     };
+
+    // Remove a product by ID
+    const removeProduct = async (id) => {
+        try {
+            const response = await fetch(`http://localhost:5000/products/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to remove product');
+            }
+
+            // Update the product list by filtering out the removed product
+            setProducts(products.filter(product => product.id !== id));
+        } catch (error) {
+            console.error("Error removing product:", error);
+            setError("Failed to remove product");
+        }
+    };
+
+    // Fetch all products on component mount
+    useEffect(() => {
+        fetchAllProducts();
+    }, []); // Empty dependency array ensures this runs once on mount
 
     return (
         <div className='list-product'>
-            <div classname = "h-image">
-            <h1 >Admin Panel - All Product List</h1>
+            <div className="header">
+                <h1>Admin Panel - Product List</h1>
             </div>
             
-        <div className='background-list'>
-            
-        </div>
-        <div className="listproduct-format-main">
-            <p>Products</p>
-            <p>Title</p>
-            <p>Old Price (₹)</p>
-            <p>New Price (₹)</p>
-            <p>Size</p>
-            <p>Category</p>
-            <p>Remove</p>
-        </div>
-        <div className="listproduct-allproducts">
-            {allProducts.length > 0 ? (
-                allProducts.map((product, index) => (
-                    <div key={index} className="listproduct-format">
-                        <img src={product.image} alt={product.name} className="listproduct-product-icon" />
-                        <p>{product.name}</p>
-                        <p>₹{product.old_price}</p>
-                        <p>₹{product.new_price}</p>
-                        <p>{product.size}</p>
-                        <p>{product.category}</p>
-                        <img 
-                            onClick={() => { removeProduct(product.id); }} 
-                            className='listproduct-remove-icon' 
-                            src={cross_icon} 
-                            alt="Remove" 
-                        />
-                    </div>
-                ))
+            {error && <p className="error-message">{error}</p>}
+            {loading ? (
+                <p>Loading...</p>
             ) : (
-                <p>No products available.</p> // Message for empty product list
+                <table className="product-table">
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Product Name</th>
+                            <th>Description</th>
+                            <th>Price (₹)</th>
+                            <th>Remove</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {products.length > 0 ? (
+                            products.map(product => (
+                                <tr key={product.id}>
+                                    <td><img src={product.image} alt={product.name} className="product-image" /></td>
+                                    <td>{product.name}</td>
+                                    <td>{product.description}</td>
+                                    <td>₹{product.price}</td>
+                                    <td>
+                                        <img 
+                                            onClick={() => removeProduct(product.id)} 
+                                            className='remove-icon' 
+                                            src={cross_icon} 
+                                            alt="Remove" 
+                                        />
+                                    </td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan="5">No products available.</td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
             )}
         </div>
-    </div>
-);
+    );
 };
 
 export default ListProduct;

@@ -1,90 +1,57 @@
-.background-list{
-    background-image: url("../../Assests/Ecommerce_Frontend_Assets/images/all.jpg");
-    width: 100%;
-    height: 50%;
-    background-size: cover;
-    background-position: center;
-    
-}
 
-.background-list h1{
-    text-align: center;
-    justify-content: center;
-}
-/* .list-product h1{
-
-} */
+/* ListProduct.css */
 .list-product {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    height: 740px;
+    background-color: #f5f5f5; /* Light gray background color */
     padding: 20px;
-    margin: 30px auto;
-    border-radius: 6px;
-    /* Set your background image path */
-    background-size: cover;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: add some shadow */
+    font-family: Arial, sans-serif;
+    margin-left: 100px;
 }
 
-.listproduct-format-main {
-    display: grid;
-    grid-template-columns: 200px 1fr 1fr 1fr 1fr 1fr 60px; /* Adjusted to accommodate all columns */
-    gap: 10px;
+.header {
+    background-color: #007bff; /* Blue background color */
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.error-message {
+    color: red;
+    text-align: center;
+    font-weight: bold;
+}
+
+.product-table {
     width: 100%;
-    padding: 20px 0;
-    color: #454545;
-    font-size: 15px;
-    font-weight: 600;
+    border-collapse: collapse;
+    margin: 20px 0;
 }
 
-.listproduct-format {
-    display: grid; /* Use grid for individual product rows */
-    grid-template-columns: 80px 1fr 1fr 1fr 1fr 1fr 60px; /* Match column layout */
-    align-items: center; /* Center items vertically */
-    padding: 10px 0; /* Optional: add some padding */
+.product-table th, .product-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
 }
 
-.listproduct-product-icon {
-    height: 80px;
-    width: 80px; /* Set width to maintain aspect ratio */
-    object-fit: cover; /* Ensure image covers the container */
+.product-table th {
+    background-color: #007bff; /* Blue background for table headers */
+    color: white;
 }
 
-.listproduct-remove-icon {
+.product-table tr:nth-child(even) {
+    background-color: #f2f2f2; /* Zebra striping for rows */
+}
+
+.product-image {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.remove-icon {
+    width: 20px;
+    height: 20px;
     cursor: pointer;
-    margin: auto;
-}
-
-.listproduct-allproducts {
-    width: 100%;
-    max-height: 500px; /* Set a maximum height */
-    overflow-y: auto; /* Enable scrolling */
-}
-
-.list-product h1 {
-    margin: 0; /* Remove default margin */
-    padding-bottom: 10px; /* Optional: Adjust spacing between heading and list */
-    font-size: 1.5rem; /* Adjust font size */
-    color: #333333; /* Adjust text color */
-    border-bottom: 1px solid #cccccc; /* Optional: Underline effect */
-}
-
-@media(max-width: 800px) {
-    .list-product {
-        width: 95%;
-        height: auto; /* Allow height to adjust based on content */
-        padding: 10px 30px;
-        margin: 20px auto;
-    }
-    .listproduct-format-main, .listproduct-format {
-        grid-template-columns: 60px 1fr 1fr 1fr 1fr 1fr 50px; /* Adjust columns for smaller screens */
-        padding: 10px 0;
-        font-size: 12px;
-    }
-    .listproduct-product-icon {
-        height: 60px;
-        width: 60px; /* Adjust width for smaller screens */
-    }
 }
