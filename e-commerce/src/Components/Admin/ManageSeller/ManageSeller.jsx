@@ -1,241 +1,251 @@
 import React, { useState, useEffect } from 'react';
-import { FaEye, FaEdit, FaTrash } from 'react-icons/fa'; // Importing icons from react-icons
-import './ManageSeller.css'; // Assuming you're using the same CSS for styling
+import { FaEye, FaEdit, FaTrash } from 'react-icons/fa';
+import './ManageSeller.css'; // Ensure you have the correct path to your CSS
 
 const AdminPanelSeller = () => {
     const [sellers, setSellers] = useState([]);
+    const [filteredSellers, setFilteredSellers] = useState([]);
     const [selectedSeller, setSelectedSeller] = useState(null);
+    const [editSeller, setEditSeller] = useState(null);
     const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
-    const [searchTerm, setSearchTerm] = useState('');
-    const [statusFilter, setStatusFilter] = useState('All');
-    const [sortedSellers, setSortedSellers] = useState([]);
-    const [sortBy, setSortBy] = useState('name');
-    const [sortOrder, setSortOrder] = useState('asc');
     const [openEditDialog, setOpenEditDialog] = useState(false);
-    const [editSeller, setEditSeller] = useState(null); // Track the seller being edited
+    const [searchTerm, setSearchTerm] = useState('');
+    const [error, setError] = useState(null);
 
     useEffect(() => {
-        // Simulating fetching sellers data
         const fetchSellers = async () => {
             try {
-                // Simulated data for demonstration
-                const simulatedSellers = [
-                    { id: 1, name: 'Seller One', email: 'seller1@example.com', phone: '123-456-7890', status: 'Active', registrationDate: '2023-07-01' },
-                    { id: 2, name: 'Seller Two', email: 'seller2@example.com', phone: '234-567-8901', status: 'Inactive', registrationDate: '2023-07-05' },
-                    { id: 3, name: 'Seller Three', email: 'seller3@example.com', phone: '345-678-9012', status: 'Active', registrationDate: '2023-07-10' },
-                    { id: 4, name: 'Seller Four', email: 'seller4@example.com', phone: '456-789-0123', status: 'Active', registrationDate: '2023-07-15' },
-                    { id: 5, name: 'Seller Five', email: 'seller5@example.com', phone: '567-890-1234', status: 'Inactive', registrationDate: '2023-07-20' },
-                ];
-
-                setSellers(simulatedSellers);
-                setSortedSellers(simulatedSellers); // Initialize sortedSellers with the fetched data
+                const response = await fetch('http://localhost:5000/user/sellers');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                const data = await response.json();
+                setSellers(data);
+                setFilteredSellers(data);
             } catch (error) {
-                console.error('Error fetching sellers:', error);
+                console.error('Error fetching sellers:', error.message);
+                setError('Failed to load sellers. Please try again later.');
             }
         };
 
         fetchSellers();
     }, []);
 
-    // Handle search term change
-    const handleSearchChange = (event) => {
-        setSearchTerm(event.target.value);
-    };
+    const handleSearch = (event) => {
+        const value = event.target.value;
+        setSearchTerm(value);
 
-    // Handle status filter change
-    const handleStatusFilterChange = (event) => {
-        setStatusFilter(event.target.value);
-    };
-
-    // Filter sellers based on search term and status filter
-    useEffect(() => {
-        const filteredSellers = sellers.filter(
-            (seller) =>
-                seller.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-                (statusFilter === 'All' || seller.status === statusFilter)
-        );
-        setSortedSellers(filteredSellers);
-    }, [sellers, searchTerm, statusFilter]);
-
-    // Sort sellers based on sortBy and sortOrder
-    useEffect(() => {
-        const sortedSellersCopy = [...sortedSellers];
-        sortedSellersCopy.sort((a, b) => {
-            const aValue = typeof a[sortBy] === 'string' ? a[sortBy].toLowerCase() : a[sortBy];
-            const bValue = typeof b[sortBy] === 'string' ? b[sortBy].toLowerCase() : b[sortBy];
-
-            if (aValue < bValue) return sortOrder === 'asc' ? -1 : 1;
-            if (aValue > bValue) return sortOrder === 'asc' ? 1 : -1;
-            return 0;
-        });
-        setSortedSellers(sortedSellersCopy);
-    }, [sortedSellers, sortBy, sortOrder]);
-
-    // Handle sorting change
-    const handleSortChange = (property) => {
-        if (sortBy === property) {
-            setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+        if (value === '') {
+            setFilteredSellers(sellers);
         } else {
-            setSortBy(property);
-            setSortOrder('asc');
+            const filtered = sellers.filter(seller =>
+                seller.id.toString().includes(value)
+            );
+            setFilteredSellers(filtered);
         }
     };
 
-    // View seller details dialog handlers
-    const handleViewSellerDetails = (seller) => {
-        setSelectedSeller(seller);
-        setOpenDetailsDialog(true);
+    const handleViewSellerDetails = async (sellerId) => {
+        try {
+            const response = await fetch(`http://localhost:5000/user/sellers/${sellerId}`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            const seller = await response.json();
+            setSelectedSeller(seller);
+            setOpenDetailsDialog(true);
+        } catch (error) {
+            console.error('Error fetching seller details:', error.message);
+            setError('Failed to load seller details. Please try again later.');
+        }
     };
 
     const handleCloseDetailsDialog = () => {
         setOpenDetailsDialog(false);
+        setSelectedSeller(null);
     };
 
-    // Edit seller dialog handlers
     const handleEditSeller = (seller) => {
-        setEditSeller({ ...seller }); // Set the seller being edited
+        setEditSeller({ ...seller });
         setOpenEditDialog(true);
     };
 
     const handleCloseEditDialog = () => {
         setOpenEditDialog(false);
-        setEditSeller(null); // Clear the editSeller state after closing the dialog
+        setEditSeller(null);
     };
 
-    // Handle editing seller details
-    const handleSaveEditSeller = () => {
-        const updatedSellers = sellers.map((seller) => (seller.id === editSeller.id ? editSeller : seller));
-        setSellers(updatedSellers);
-        setSortedSellers(updatedSellers);
-        setOpenEditDialog(false);
-        setEditSeller(null); // Clear editSeller state after saving
+    const handleSaveEditSeller = async () => {
+        try {
+            const response = await fetch(`http://localhost:5000/user/sellers/${editSeller.id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(editSeller),
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const updatedSeller = await response.json();
+            const updatedSellers = sellers.map(seller =>
+                seller.id === updatedSeller.id ? updatedSeller : seller
+            );
+            setSellers(updatedSellers);
+            setFilteredSellers(updatedSellers);
+            setOpenEditDialog(false);
+            setEditSeller(null);
+        } catch (error) {
+            console.error('Error saving seller:', error.message);
+            setError('Failed to update seller. Please try again later.');
+        }
     };
 
-    // Delete seller handler
-    const handleDeleteSeller = (sellerId) => {
-        const updatedSellers = sellers.filter((seller) => seller.id !== sellerId);
-        setSellers(updatedSellers);
-        setSortedSellers(updatedSellers);
+    const handleDeleteSeller = async (sellerId) => {
+        if (window.confirm('Are you sure you want to delete this seller?')) {
+            try {
+                const response = await fetch(`http://localhost:5000/user/sellers/${sellerId}`, {
+                    method: 'DELETE',
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                const updatedSellers = sellers.filter(seller => seller.id !== sellerId);
+                setSellers(updatedSellers);
+                setFilteredSellers(updatedSellers);
+            } catch (error) {
+                console.error('Error deleting seller:', error.message);
+                setError('Failed to delete seller. Please try again later.');
+            }
+        }
     };
 
     return (
         <div className="admin-panel-container">
             <h2>Sellers List</h2>
+            {error && <p className="error-message">{error}</p>}
+            
             <div className="search-filter-container">
                 <input
                     type="text"
-                    placeholder="Search by Name"
+                    placeholder="Search by seller ID"
                     value={searchTerm}
-                    onChange={handleSearchChange}
+                    onChange={handleSearch}
                     className="search-input"
                 />
-                <select value={statusFilter} onChange={handleStatusFilterChange} className="filter-select">
-                    <option value="All">All Statuses</option>
-                    <option value="Active">Active</option>
-                    <option value="Inactive">Inactive</option>
-                </select>
             </div>
             <table>
                 <thead>
                     <tr>
-                        <th onClick={() => handleSortChange('name')}>
-                            Name {sortBy === 'name' && (sortOrder === 'asc' ? '▲' : '▼')}
-                        </th>
-                        <th onClick={() => handleSortChange('email')}>
-                            Email {sortBy === 'email' && (sortOrder === 'asc' ? '▲' : '▼')}
-                        </th>
-                        <th onClick={() => handleSortChange('phone')}>
-                            Phone {sortBy === 'phone' && (sortOrder === 'asc' ? '▲' : '▼')}
-                        </th>
-                        <th>Status</th>
-                        <th>Registration Date</th>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {sortedSellers.map((seller) => (
-                        <tr key={seller.id}>
-                            <td>{seller.name}</td>
-                            <td>{seller.email}</td>
-                            <td>{seller.phone}</td>
-                            <td>{seller.status}</td>
-                            <td>{seller.registrationDate}</td>
-                            <td>
-                                <div className="action-buttons">
-                                    <button className="button button-view" onClick={() => handleViewSellerDetails(seller)}>
-                                        <FaEye /> View
-                                    </button>
-                                    <button className="button button-edit" onClick={() => handleEditSeller(seller)}>
-                                        <FaEdit /> Edit
-                                    </button>
-                                    <button className="button button-delete" onClick={() => handleDeleteSeller(seller.id)}>
-                                        <FaTrash /> Delete
-                                    </button>
-                                </div>
-                            </td>
+                    {filteredSellers.length > 0 ? (
+                        filteredSellers.map((seller) => (
+                            <tr key={seller.id}>
+                                <td>{seller.id}</td>
+                                <td>{seller.contactPerson || 'N/A'}</td>
+                                <td>{seller.email || 'N/A'}</td>
+                                <td>{seller.phoneNumber || 'N/A'}</td>
+                                <td>
+                                    <div className="action-buttons">
+                                        <button className="button button-view" onClick={() => handleViewSellerDetails(seller.id)}>
+                                            <FaEye /> View
+                                        </button>
+                                        <button className="button button-edit" onClick={() => handleEditSeller(seller)}>
+                                            <FaEdit /> Edit
+                                        </button>
+                                        <button className="button button-delete" onClick={() => handleDeleteSeller(seller.id)}>
+                                            <FaTrash /> Delete
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        ))
+                    ) : (
+                        <tr>
+                            <td colSpan="5" className="no-data">No sellers found</td>
                         </tr>
-                    ))}
+                    )}
                 </tbody>
             </table>
 
             {/* Seller Details Dialog */}
-            {openDetailsDialog && (
-                <div className="dialog">
-                    <h3>Seller Details</h3>
-                    {selectedSeller && (
-                        <div>
-                            <p>Name: {selectedSeller.name}</p>
-                            <p>Email: {selectedSeller.email}</p>
-                            <p>Phone: {selectedSeller.phone}</p> {/* Added phone number display */}
-                            <p>Status: {selectedSeller.status}</p>
-                            <p>Registration Date: {selectedSeller.registrationDate}</p>
-                        </div>
-                    )}
-                    <button className="button button-close" onClick={handleCloseDetailsDialog}>Close</button>
+            {selectedSeller && openDetailsDialog && (
+                <div className="dialog open">
+                    <div className="dialog-content">
+                        <h3>Seller Details</h3>
+                        <p>ID: {selectedSeller.id}</p>
+                        <p>Name: {selectedSeller.contactPerson || 'N/A'}</p>
+                        <p>Email: {selectedSeller.email || 'N/A'}</p>
+                        <p>Phone: {selectedSeller.phoneNumber || 'N/A'}</p>
+                        <button onClick={handleCloseDetailsDialog} className="button button-close">Close</button>
+                    </div>
                 </div>
             )}
 
             {/* Edit Seller Dialog */}
-            {openEditDialog && (
-                <div className="dialog">
-                    <h3>Edit Seller</h3>
-                    {editSeller && (
-                        <form>
+            {editSeller && openEditDialog && (
+                <div className="dialog open">
+                    <div className="dialog-content">
+                        <h3>Edit Seller</h3>
+                        <label>
+                            Name:
                             <input
                                 type="text"
-                                placeholder="Name"
-                                value={editSeller.name}
-                                onChange={(e) => setEditSeller({ ...editSeller, name: e.target.value })}
+                                value={editSeller.contactPerson || ''}
+                                onChange={(e) => setEditSeller({ ...editSeller, contactPerson: e.target.value })}
+                                style={inputStyle}
                             />
+                        </label>
+                        <label>
+                            Email:
                             <input
                                 type="email"
-                                placeholder="Email"
-                                value={editSeller.email}
+                                value={editSeller.email || ''}
                                 onChange={(e) => setEditSeller({ ...editSeller, email: e.target.value })}
+                                style={inputStyle}
                             />
+                        </label>
+                        <label>
+                            Phone:
                             <input
                                 type="text"
-                                placeholder="Phone"
-                                value={editSeller.phone}
-                                onChange={(e) => setEditSeller({ ...editSeller, phone: e.target.value })}
+                                value={editSeller.phoneNumber || ''}
+                                onChange={(e) => setEditSeller({ ...editSeller, phoneNumber: e.target.value })}
+                                style={inputStyle}
                             />
-                            <select
-                                value={editSeller.status}
-                                onChange={(e) => setEditSeller({ ...editSeller, status: e.target.value })}
-                            >
-                                <option value="Active">Active</option>
-                                <option value="Inactive">Inactive</option>
-                            </select>
-                        </form>
-                    )}
-                    <div className="dialog-buttons">
-                        <button className="button button-cancel" onClick={handleCloseEditDialog}>Cancel</button>
-                        <button className="button button-save" onClick={handleSaveEditSeller}>Save</button>
+                        </label>
+                        <div className="dialog-buttons">
+                            <button onClick={handleSaveEditSeller} className="button button-save">Save Changes</button>
+                            <button onClick={handleCloseEditDialog} className="button button-cancel">Cancel</button>
+                        </div>
                     </div>
                 </div>
             )}
         </div>
     );
+};
+
+// Common styles for input fields
+const inputStyle = {
+    display: 'block',
+    width: 'calc(100% - 20px)', // Adjust width according to the container
+    padding: '8px',
+    border: '1px solid #ccc',
+    borderRadius: '4px',
+    marginTop: '5px',
+    fontSize: '16px',
+    boxSizing: 'border-box' // Ensures padding and border are included in the width
 };
 
 export default AdminPanelSeller;

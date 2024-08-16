@@ -128,3 +128,5 @@ const ProductDisplay = ({ product }) => {
 };
 
 export default ProductDisplay;
+
+
