@@ -235,3 +235,4 @@ const AdminPanelUser = () => {
 };
 
 export default AdminPanelUser;
+

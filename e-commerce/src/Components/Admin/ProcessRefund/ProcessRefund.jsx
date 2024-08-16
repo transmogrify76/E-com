@@ -1,39 +1,3 @@
-// import React from 'react';
-// import { useParams, Link } from 'react-router-dom';
-// import './ProcessRefund.css'; // Ensure you have this CSS file in the appropriate path
-
-// const ProcessRefundPage = ({ refunds, handleApproveRefund, handleCancelRefund }) => {
-//   const { refundId } = useParams();
-//   const refund = refunds.find(r => r.id === parseInt(refundId));
-
-//   if (!refund) {
-//     return <div>Refund not found</div>;
-//   }
-
-//   return (
-//     <div className="process-refund-container">
-//       <h2>Processing Refund #{refund.refundNumber}</h2>
-//       <p>Date: {refund.date}</p>
-//       <p>Amount: ${refund.amount}</p>
-//       <p>Status: {refund.status}</p>
-//       <p>Customer Name: {refund.customer.name}</p>
-//       <p>Customer Email: {refund.customer.email}</p>
-//       <p>Order Number: {refund.customer.orderNumber}</p>
-//       <div className="refund-actions">
-//         {refund.status === 'Pending' && (
-//           <>
-//             <button onClick={() => handleApproveRefund(refund.id)}>Approve</button>
-//             <button onClick={() => handleCancelRefund(refund.id)}>Cancel</button>
-//           </>
-//         )}
-//       </div>
-//       <Link to="/admin/refunds" className="back-button">Back to Refund List</Link>
-//     </div>
-//   );
-// };
-
-// export default ProcessRefundPage;
-
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import './ProcessRefund.css'; // Ensure you have this CSS file in the appropriate path
