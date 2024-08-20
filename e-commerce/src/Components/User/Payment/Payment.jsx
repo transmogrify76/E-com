@@ -14,6 +14,9 @@ const Payment = () => {
         cvv: '',
         billingAddress: ''
     });
+    const [upiDetails, setUpiDetails] = useState({
+        upiId: ''
+    });
 
     const subtotal = getTotalCartAmount();
     const total = subtotal + shippingCost; // Calculate total based on context
@@ -42,10 +45,17 @@ const Payment = () => {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setCardDetails((prevDetails) => ({
-            ...prevDetails,
-            [name]: value
-        }));
+        if (paymentMethod === 'credit-card') {
+            setCardDetails((prevDetails) => ({
+                ...prevDetails,
+                [name]: value
+            }));
+        } else if (paymentMethod === 'upi') {
+            setUpiDetails((prevDetails) => ({
+                ...prevDetails,
+                [name]: value
+            }));
+        }
     };
 
     return (
@@ -115,6 +125,18 @@ const Payment = () => {
                             name="billingAddress" 
                             value={cardDetails.billingAddress} 
                             placeholder="123 Street, City, Country" 
+                            onChange={handleInputChange}
+                        />
+                    </form>
+                )}
+                {paymentMethod === 'upi' && (
+                    <form>
+                        <label>UPI ID:</label>
+                        <input 
+                            type="text" 
+                            name="upiId" 
+                            value={upiDetails.upiId} 
+                            placeholder="example@upi" 
                             onChange={handleInputChange}
                         />
                     </form>

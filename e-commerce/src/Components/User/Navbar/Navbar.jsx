@@ -79,6 +79,6 @@ function ENavbar() {
   );
 }
 
-export default ENavbar;
+ export default ENavbar;
 
 

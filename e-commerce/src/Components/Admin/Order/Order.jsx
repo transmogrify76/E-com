@@ -71,58 +71,58 @@ const AdminOrder = () => {
 
   return (
     <div className="main-container">
-      <div className="grid-container">
-        <div className="card" onClick={() => setSelectedFilter('all')}>
-          <div className="card-content">
-            <h6 style={{ fontSize: '20px' }}>Total Orders</h6> {/* Increased font size */}
-            <div className="progress-circle">
-              <span>80%</span>
-            </div>
-            <div className="card-content">
-              <span style={{ fontSize: '18px' }}>{totalOrders} orders</span> {/* Increased font size */}
-              <FaShoppingCart style={{ fontSize: 40, color: '#3f51b5' }} />
-            </div>
+    <div className="grid-container">
+      <div className="card total-orders" onClick={() => setSelectedFilter('all')}>
+        <div className="card-content">
+          <h4>Total Orders</h4>
+          <div className="progress-circle">
+            <span>80%</span>
+          </div>
+          <div className="card-details">
+            <span>{totalOrders} orders</span>
+            <FaShoppingCart className="card-icon" />
           </div>
         </div>
+      </div>
 
-        <div className="card" onClick={() => setSelectedFilter('active')}>
-          <div className="card-content">
-            <h6 style={{ fontSize: '20px' }}>Active Orders</h6> {/* Increased font size */}
-            <div className="progress-circle">
-              <span>{activePercentage.toFixed(0)}%</span>
-            </div>
-            <div className="card-content">
-              <span style={{ fontSize: '18px' }}>{activeOrders.length} active</span> {/* Increased font size */}
-            </div>
+      <div className="card active-orders" onClick={() => setSelectedFilter('active')}>
+        <div className="card-content">
+          <h4>Active Orders</h4>
+          <div className="progress-circle">
+            <span>{activePercentage.toFixed(0)}%</span>
+          </div>
+          <div className="card-details">
+            <span>{activeOrders.length} active</span>
           </div>
         </div>
+      </div>
 
-        <div className="card" onClick={() => setSelectedFilter('completed')}>
-          <div className="card-content">
-            <h6 style={{ fontSize: '20px' }}>Completed Orders</h6> {/* Increased font size */}
-            <div className="progress-circle">
-              <span>{completedPercentage.toFixed(0)}%</span>
-            </div>
-            <div className="card-content">
-              <span style={{ fontSize: '18px' }}>{completedOrders.length} completed</span> {/* Increased font size */}
-            </div>
+      <div className="card completed-orders" onClick={() => setSelectedFilter('completed')}>
+        <div className="card-content">
+          <h4>Completed Orders</h4>
+          <div className="progress-circle">
+            <span>{completedPercentage.toFixed(0)}%</span>
+          </div>
+          <div className="card-details">
+            <span>{completedOrders.length} completed</span>
           </div>
         </div>
+      </div>
 
-        <div className="card" onClick={() => setSelectedFilter('cancelled')}>
-          <div className="card-content">
-            <h6 style={{ fontSize: '20px' }}>Cancelled Orders</h6> {/* Increased font size */}
-            <div className="progress-circle">
-              <span>{canceledPercentage.toFixed(0)}%</span>
-            </div>
-            <div className="card-content">
-              <span style={{ fontSize: '18px' }}>{canceledOrders.length} cancelled</span> {/* Increased font size */}
-            </div>
+      <div className="card cancelled-orders" onClick={() => setSelectedFilter('cancelled')}>
+        <div className="card-content">
+          <h4>Cancelled Orders</h4>
+          <div className="progress-circle">
+            <span>{canceledPercentage.toFixed(0)}%</span>
+          </div>
+          <div className="card-details">
+            <span>{canceledOrders.length} cancelled</span>
           </div>
         </div>
+      </div>
 
         <div className="search-filters-section">
-        <h6 style={{ fontSize: '20px', fontWeight: 'bold', margin: '20px 0' }}>Search Order</h6>
+        <h4 style={{ fontSize: '20px', fontWeight: 'bold', margin: '20px 0' }}>Search Order</h4>
           <input
             type="text"
             placeholder="Search by customer"
@@ -180,7 +180,7 @@ const AdminOrder = () => {
                     </button>
                     <button 
                       onClick={() => handleDeleteOrder(order.id)} 
-                      style={{ fontSize: '16px' }} // Increased font size
+                      style={{ fontSize: '16px',color:'red' }} // Increased font size
                     >
                       <FaTrash />
                     </button>

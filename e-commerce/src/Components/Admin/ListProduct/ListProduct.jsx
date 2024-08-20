@@ -85,7 +85,8 @@ const ListProduct = () => {
                         {products.length > 0 ? (
                             products.map(product => (
                                 <tr key={product.id}>
-                                    <td><img src={product.image} alt={product.image} className="product-image" /></td>
+                                    <td><img src
+                                    ={product.image} alt={product.image} className="product-image" /></td>
                                     <td>{product.name}</td>
                                     <td>{product.description}</td>
                                     <td>₹{product.price}</td>
@@ -112,3 +113,4 @@ const ListProduct = () => {
 };
 
 export default ListProduct;
+

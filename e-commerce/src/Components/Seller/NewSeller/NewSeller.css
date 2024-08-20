@@ -1,6 +1,4 @@
 /* NewSeller.css */
-
-/* Container for the form */
 .new-seller-form-container {
   max-width: 800px;
   margin: 0 auto;
@@ -53,29 +51,6 @@
   color: #6c757d;
   opacity: 1;
 }
-
-/* Select input styling */
-/* .input {
-  display: flex;
-  align-items: center;
-  margin-bottom: 15px;
-}
-
-.input select {
-  flex: 1;
-  padding: 10px;
-  border: 1px solid #ced4da;
-  border-radius: 4px;
-  font-size: 16px;
-  color: #495057;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.input select:focus {
-  border-color: #80bdff;
-  outline: none;
-  box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
-} */
 
 /* Error message styling */
 .error-message {

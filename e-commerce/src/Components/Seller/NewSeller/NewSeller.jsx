@@ -7,7 +7,7 @@ const NewSeller = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     companyName: '',
-    companyDescription: '',
+    description: '',
     password: '',
     contactPerson: '',
     email: '',
@@ -120,9 +120,9 @@ const NewSeller = () => {
           <input
             type="text"
             className="form-control"
-            id="companyDescription"
+            id="description"
             placeholder="Enter your company description"
-            value={formData.companyDescription} // Fixed this to the correct variable
+            value={formData.description} // Fixed this to the correct variable
             onChange={handleChange}
             required
           />

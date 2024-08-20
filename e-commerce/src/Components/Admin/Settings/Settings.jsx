@@ -38,7 +38,8 @@ const Settings = () => {
 
   return (
     <div className="settings-container">
-      <h2>Admin Settings</h2>
+     <h2 style={{ marginLeft: '380px' }}>Status Updates</h2>
+
 
       <div className="settings-flex-container">
         {/* Site Information Card */}

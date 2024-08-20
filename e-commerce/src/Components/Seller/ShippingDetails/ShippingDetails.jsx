@@ -87,8 +87,8 @@ const ShippingDetails = () => {
         <p><strong>Delivery Status:</strong> {shippingDetails.deliveryStatus}</p>
 
         <div className="status-updates">
-          <h2>Status Updates</h2>
-          <ul>
+        <h2 style={{ marginLeft: '200px' }}>Status Updates</h2>
+         <ul>
             {shippingDetails.statusUpdates.map((update, index) => (
               <li key={index}>
                 <p><strong>Date:</strong> {update.date}</p>

@@ -1,8 +1,6 @@
-
-
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { FaHome, FaUpload, FaBoxOpen, FaClipboardList, FaTruck, FaChartLine, FaCog,FaUser,FaMoneyBillWave} from 'react-icons/fa';
+import { FaHome, FaUpload, FaBoxOpen, FaClipboardList, FaTruck, FaChartLine, FaCog,FaUser,FaMoneyBillWave, FaListUl} from 'react-icons/fa';
 import { MdExpandLess, MdExpandMore } from 'react-icons/md';
 
 const SideNavbar = () => {
@@ -33,6 +31,13 @@ const SideNavbar = () => {
                     <Link to="/ProductUpload" className={`nav-link ${location.pathname === '/ProductUpload' ? 'active' : ''}`} onClick={() => handleMenuItemClick('ProductUpload')}>
                         <FaUpload className="nav-icon" />
                         {isExpanded && <span>Product Upload</span>}
+                    </Link>
+                </li>
+               
+                <li className="nav-item">
+                    <Link to="/productmanagement" className={`nav-link ${location.pathname === '/productmanagement' ? 'active' : ''}`} onClick={() => handleMenuItemClick('ProductManagement')}>
+                        < FaListUl className="nav-icon" />
+                        {isExpanded && <span>Product Management</span>}
                     </Link>
                 </li>
                 <li className="nav-item">

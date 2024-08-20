@@ -1,8 +1,7 @@
-
-
 // AdminPanel.jsx
 import React, { useState } from 'react';
 import './Cattegories.css'; // Make sure to create and link this CSS file
+import { FaTrash } from 'react-icons/fa'; // Import the trash icon
 
 const AdminPanel = () => {
   const [categories, setCategories] = useState([
@@ -18,7 +17,7 @@ const AdminPanel = () => {
   const [newCategoryName, setNewCategoryName] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [newSubcategoryName, setNewSubcategoryName] = useState('');
-  
+
   const handleAddCategory = () => {
     if (!newCategoryName) return;
 
@@ -58,13 +57,17 @@ const AdminPanel = () => {
       <div key={category.id} className="category">
         <div className="category-header">
           <span>{category.name}</span>
-          <button onClick={() => handleDeleteCategory(category.id)}>Delete</button>
+          <button onClick={() => handleDeleteCategory(category.id)} className="icon-button">
+            <FaTrash />
+          </button>
         </div>
         <div className="subcategories">
           {categories.filter(subcategory => subcategory.parent === category.id).map(subcategory => (
             <div key={subcategory.id} className="subcategory">
               <span>{subcategory.name}</span>
-              <button onClick={() => handleDeleteCategory(subcategory.id)}>Delete</button>
+              <button onClick={() => handleDeleteCategory(subcategory.id)} className="icon-button">
+                <FaTrash />
+              </button>
             </div>
           ))}
         </div>

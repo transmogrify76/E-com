@@ -3,8 +3,8 @@ import { Table, Button, InputGroup, FormControl } from 'react-bootstrap';
 
 const SellerPricingSection = () => {
   const [products, setProducts] = useState([
-    { id: 1, name: 'Product A', price: 2000.00, stock: 100, discount: 0, offer: '' },
-    { id: 2, name: 'Product B', price: 1500.00, stock: 50, discount: 0, offer: '' },
+    { id: 1, name: 'Product A', price: 2000.00, stock: 100, discount: 0, offer: '', gst: 0 },
+    { id: 2, name: 'Product B', price: 1500.00, stock: 50, discount: 0, offer: '', gst: 0 },
   ]);
   const [competitorPrices, setCompetitorPrices] = useState([]);
   const [newPrice, setNewPrice] = useState('');
@@ -12,6 +12,7 @@ const SellerPricingSection = () => {
   const [offerDescription, setOfferDescription] = useState('');
   const [newStock, setNewStock] = useState('');
   const [insightsData, setInsightsData] = useState([]);
+  const [gstRate, setGstRate] = useState('');
 
   const updatePrice = (id) => {
     setProducts(products.map(product =>
@@ -39,6 +40,13 @@ const SellerPricingSection = () => {
       product.id === id ? { ...product, offer: offerDescription } : product
     ));
     setOfferDescription('');
+  };
+
+  const applyGst = () => {
+    setProducts(products.map(product =>
+      ({ ...product, gst: parseFloat(gstRate) })
+    ));
+    setGstRate('');
   };
 
   const addCompetitorPrice = (name, price) => {
@@ -76,6 +84,7 @@ const SellerPricingSection = () => {
               <th style={{ padding: '5px', fontSize: '14px', textAlign: 'right' }}>Discounted Price (₹)</th>
               <th style={{ padding: '5px', fontSize: '14px', textAlign: 'right' }}>Stock</th>
               <th style={{ padding: '5px', fontSize: '14px', textAlign: 'left' }}>Special Offer</th>
+              <th style={{ padding: '5px', fontSize: '14px', textAlign: 'right' }}>Price with GST (₹)</th>
               <th style={{ padding: '5px', fontSize: '14px', textAlign: 'center' }}>Actions</th>
             </tr>
           </thead>
@@ -87,6 +96,9 @@ const SellerPricingSection = () => {
                 <td style={{ padding: '5px', textAlign: 'right' }}>₹{(product.price * (1 - product.discount / 100)).toFixed(2)}</td>
                 <td style={{ padding: '5px', textAlign: 'center' }}>{product.stock}</td>
                 <td style={{ padding: '5px' }}>{product.offer || 'None'}</td>
+                <td style={{ padding: '5px', textAlign: 'right' }}>
+                  ₹{(product.price * (1 + (product.gst / 100))).toFixed(2)}
+                </td>
                 <td style={{ padding: '5px', textAlign: 'center' }}>
                   <InputGroup className="mb-2" style={{ width: '200px' }}>
                     <FormControl
@@ -114,7 +126,6 @@ const SellerPricingSection = () => {
                   </InputGroup>
                   <div style={{ marginBottom: '15px' }} /> {/* Gap added here */}
 
-
                   <InputGroup className="mb-2" style={{ width: '200px' }}>
                     <FormControl
                       type="number"
@@ -141,6 +152,22 @@ const SellerPricingSection = () => {
             ))}
           </tbody>
         </Table>
+      </section>
+
+      <section className="gst-section">
+        <h2>Apply GST</h2>
+        <InputGroup className="mb-3" style={{ width: '300px', margin: '0 auto' }}>
+          <FormControl
+            type="number"
+            placeholder="GST Rate (%)"
+            value={gstRate}
+            onChange={(e) => setGstRate(e.target.value)}
+            style={{ height: '30px', fontSize: '14px' }}
+          />
+          <Button variant="primary" onClick={applyGst}>
+            Apply GST
+          </Button>
+        </InputGroup>
       </section>
 
       <section className="discounts-promotions">

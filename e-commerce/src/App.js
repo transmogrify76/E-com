@@ -60,12 +60,15 @@ import ProcessRefundPage from './Components/Admin/ProcessRefund/ProcessRefund';
 import ResetPassword from './Components/Authentication/ResetPassword/ResetPassword';
 import ShippingDetails from './Components/Seller/ShippingDetails/ShippingDetails';
 import ManageSeller from './Components/Admin/ManageSeller/ManageSeller';
+import ProductManagement from './Components/Seller/ProductManagement/ProductManagement';
 import './App.css';
 
 // ScrollHandler Component
 const ScrollHandler = () => {
   const location = useLocation();
   const noScrollRoutes = useMemo(() => ['/login', '/signup', '/forgetpassword', '/resetpassword'], []);
+  
+  
 
   useEffect(() => {
     if (noScrollRoutes.includes(location.pathname)) {
@@ -77,6 +80,7 @@ const ScrollHandler = () => {
 
   return null;
 };
+
 
 function App() {
   return (
@@ -142,7 +146,7 @@ function AppContent() {
       '/newcollections', '/checkout', '/payment', '/NewSeller', '/seller-dashboard',
       '/ProductUpload', '/ExistingProduct', '/Dispatch', '/RevenueGenerate',
       '/Orderr', '/Settings', '/Wallet', '/SellerAccount', 
-      '/NewBank', '/resetpassword','/Pricing'
+      '/NewBank', '/resetpassword','/Pricing','/productmanagement'
     ];
     return !pathsWithoutAdminSidebar.includes(location.pathname) && !location.pathname.startsWith('/product/') && !location.pathname.startsWith('/OrderIndividual/')  && !location.pathname.startsWith('/ShippingDetails/') && !location.pathname.startsWith('/Dispatch/') ;
   };
@@ -154,7 +158,7 @@ function AppContent() {
       '/product/:productId', '/checkout', '/payment', '/NewSeller','/Wallet','/NewBank'
     ];
     
-    return pathsWithNavbar.includes(location.pathname) || location.pathname.startsWith('/product/') ;
+    return pathsWithNavbar.includes(location.pathname) || location.pathname.startsWith('/product/')  ;
   };
   
 
@@ -231,7 +235,8 @@ function AppContent() {
         <Route path="/refunds" element={<RefundsPage />} />
         <Route path="/refunds/:refundId" element={<ProcessRefundPage />} />
         <Route path="/resetpassword" element={<ResetPassword />} />
-        <Route path="/ShippingDetails/:orderId" element={<ShippingDetails />} />
+        <Route path="/productmanagement" element={<ProductManagement />} />
+       <Route path="/ShippingDetails/:orderId" element={<ShippingDetails />} />
       </Routes>
       {shouldShowFooter() && <Footer />}
     </div>

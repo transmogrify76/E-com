@@ -54,7 +54,8 @@ const SellerAccount = () => {
 
     return (
         <div className="seller-account">
-            <h2>My Account</h2>
+           <h2 style={{ marginLeft: '370px' }}>My Account</h2>
+
 
             {/* Personal Information Section */}
             <section className="account-section">

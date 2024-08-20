@@ -41,7 +41,8 @@ const AdminAccount = () => {
 
     return (
         <div className="admin-account">
-            <h2>Admin Account</h2>
+           <h2 style={{ marginLeft: '360px' }}>Admin Account</h2>
+
 
             {/* Personal Information Section */}
             <section className="account-section">

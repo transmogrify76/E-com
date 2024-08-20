@@ -16,42 +16,43 @@ body {
   flex-wrap: wrap; /* Allow wrapping on smaller screens */
   gap: 20px; /* Space between cards */
 }
-
 .card {
-  flex: 1; /* Allow cards to grow and shrink */
-  min-width: 200px; /* Minimum width for responsiveness */
-  max-width: 300px; /* Set a max-width for cards */
-  background-color: #ffffff; /* Background color for cards */
-  border: 1px solid #ccc; /* Border for cards */
-  border-radius: 8px; /* Rounded corners */
-  padding: 15px; /* Inner padding */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-  cursor: pointer; /* Pointer cursor for clickable cards */
-  transition: transform 0.2s; /* Smooth scaling effect on hover */
+  
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 60px;
+  text-align: center;
 }
 
-.card:hover {
-  transform: scale(1.05); /* Slightly scale up on hover */
-}
+.total-orders { background-color: #e0f7fa; }
+.active-orders { background-color: #c8e6c9; }
+.completed-orders { background-color: #fff9c4; }
+.cancelled-orders { background-color: #ffcdd2; }
 
 .card-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px; /* Space below card content */
+  margin-bottom: 10px;
 }
 
 .progress-circle {
-  position: relative;
-  width: 50px; /* Size of the progress circle */
-  height: 50px;
+  background-color: #ddd;
   border-radius: 50%;
-  border: 2px solid #3f51b5; /* Border color */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #f0f0f0; /* Background color */
+  display: inline-block;
+  height: 80px;
+  line-height: 80px;
+  text-align: center;
+  width: 80px;
+  margin: 0 auto;
 }
+
+.card-details {
+  margin-top: 10px;
+}
+
+.card-icon {
+  font-size: 24px;
+  margin-left: 5px;
+}
+
 
 .search-filters-section {
   margin-top: 20px; /* Space above the filters */
@@ -154,7 +155,7 @@ body {
   padding: 10px; /* Inner padding */
   border: none; /* Remove border */
   border-radius: 5px; /* Rounded corners */
-  background-color: #3f51b5; /* Button background color */
+  background-color: #10997b; /* Button background color */
   color: white; /* Button text color */
   cursor: pointer; /* Pointer cursor */
   transition: background-color 0.3s; /* Smooth background transition */
