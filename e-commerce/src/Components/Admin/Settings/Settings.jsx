@@ -38,7 +38,7 @@ const Settings = () => {
 
   return (
     <div className="settings-container">
-     <h2 style={{ marginLeft: '380px' }}>Status Updates</h2>
+     <h2 style={{ marginLeft: '380px' }}>Settings</h2>
 
 
       <div className="settings-flex-container">

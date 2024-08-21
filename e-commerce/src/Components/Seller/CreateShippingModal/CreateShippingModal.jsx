@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { Modal, Button, Form, Row, Col } from 'react-bootstrap'; // Import Bootstrap components
+import { Modal, Button, Form, Row, Col } from 'react-bootstrap';
 import './CreateShippingModal.css';
 
 const CreateShippingModal = ({ show, handleClose, handleCreateOrder }) => {
     const [orderData, setOrderData] = useState({
-        productId: '', // Added productId to state
+        productId: '',
         productName: '',
         quantity: '',
         size: '',
@@ -18,7 +18,7 @@ const CreateShippingModal = ({ show, handleClose, handleCreateOrder }) => {
         city: '',
         pin: '',
         productWeight: '',
-        status: 'Pending', // Default status
+        status: 'Pending',
     });
 
     const handleChange = (e) => {
@@ -28,12 +28,12 @@ const CreateShippingModal = ({ show, handleClose, handleCreateOrder }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        handleCreateOrder(orderData); // Pass orderData to parent component for processing
-        handleClose(); // Close modal after form submission
+        handleCreateOrder(orderData);
+        handleClose();
     };
 
     return (
-        <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false}>
+        <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false} className="create-shipping-modal">
             <Modal.Header closeButton>
                 <Modal.Title>Create New Shipping</Modal.Title>
             </Modal.Header>

@@ -100,8 +100,8 @@ const NewSeller = () => {
 
   return (
     <div className="new-seller-form-container">
-      <h2>New Seller Sign Up</h2>
-      <p>Username: {userUsername}</p>
+     <h2 style={{ marginLeft: '330px' }}>New Seller Sign Up</h2>
+     <p>Username: {userUsername}</p>
       <form className="new-seller-form" onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="companyName">Company Name</label>
@@ -127,7 +127,7 @@ const NewSeller = () => {
             required
           />
         </div>
-        <div className="form-group">
+        {/* <div className="form-group">
           <label htmlFor="password">Password</label>
           <input
             type="password"
@@ -138,7 +138,7 @@ const NewSeller = () => {
             onChange={handleChange}
             required
           />
-        </div>
+        </div> */}
         <div className="form-group">
           <label htmlFor="contactPerson">Contact Person</label>
           <input

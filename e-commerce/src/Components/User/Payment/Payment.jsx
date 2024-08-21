@@ -61,7 +61,7 @@ const Payment = () => {
     return (
         <div className="payment-container">
             <section className="payment-info">
-                <h2>Payment Information</h2>
+            <h2 style={{ marginLeft: '280px',color: '#39083f'}}>Payment Information</h2>
                 <div className="payment-methods">
                     <label>
                         <input 
@@ -144,7 +144,7 @@ const Payment = () => {
             </section>
 
             <section className="order-review">
-                <h2>Order Review</h2>
+                <h2 style={{ marginLeft: '280px'}}>Order Review</h2>
                 <div className="order-summary-review">
                     <div className="summary-item">
                         <div className="label">Subtotal:</div>

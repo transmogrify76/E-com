@@ -1,81 +1,68 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './ProductManagement.css'; // Include your styling
 
 const ProductManagement = () => {
-  // Dummy data
-  const initialProducts = [
-    {
-      id: 1,
-      name: 'T-Shirt',
-      description: 'A comfortable cotton T-shirt',
-      price: 19.99,
-      categories: ['Apparel', 'Men'],
-      variants: [
-        { size: 'S', color: 'Red', stock: 20 },
-        { size: 'M', color: 'Blue', stock: 15 },
-        { size: 'L', color: 'Green', stock: 10 }
-      ]
-    },
-    {
-      id: 2,
-      name: 'Jeans',
-      description: 'Stylish denim jeans',
-      price: 49.99,
-      categories: ['Apparel', 'Women'],
-      variants: [
-        { size: '28', color: 'Black', stock: 25 },
-        { size: '30', color: 'Blue', stock: 30 }
-      ]
-    },
-    {
-      id: 3,
-      name: 'Sneakers',
-      description: 'Comfortable sports shoes',
-      price: 89.99,
-      categories: ['Footwear'],
-      variants: [
-        { size: '8', color: 'White', stock: 12 },
-        { size: '9', color: 'Grey', stock: 18 }
-      ]
-    }
-  ];
-
-  const [products, setProducts] = useState(initialProducts);
+  // State variables
+  const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const [editProduct, setEditProduct] = useState(null);
   const [newVariant, setNewVariant] = useState({ size: '', color: '', stock: '' });
   const [showVariantForm, setShowVariantForm] = useState(false);
+  const [searchId, setSearchId] = useState('');
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Simulate fetching products
-    // fetchProducts();
+    fetchProducts();
   }, []);
 
-  const handleEditProduct = (product) => {
-    setEditProduct({ ...product });
-    setShowVariantForm(false); // Hide variant form when editing product
+  // Fetch all products
+  const fetchProducts = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/products');
+      setProducts(response.data);
+      setFilteredProducts(response.data); // Initialize filteredProducts with all products
+    } catch (err) {
+      console.error('Error fetching products:', err);
+      setError('Failed to fetch products. Please try again later.');
+    }
   };
 
-  const handleSaveEditProduct = () => {
+  // Handle search by product ID
+  const handleSearch = () => {
+    if (searchId) {
+      const filtered = products.filter(product => product.id === parseInt(searchId, 10));
+      setFilteredProducts(filtered);
+    } else {
+      setFilteredProducts(products);
+    }
+  };
+
+  // Handle product edit
+  const handleEditProduct = (product) => {
+    setEditProduct({ ...product });
+    setShowVariantForm(false);
+  };
+
+  // Save edited product
+  const handleSaveEditProduct = async () => {
     try {
-      // Simulate saving product
-      const updatedProducts = products.map(product =>
-        product.id === editProduct.id ? editProduct : product
-      );
-      setProducts(updatedProducts);
+      await axios.patch(`http://localhost:5000/products/${editProduct.id}`, editProduct);
+      fetchProducts(); // Refresh product list
       setEditProduct(null);
+      setShowVariantForm(false);
     } catch (error) {
       console.error('Error updating product:', error);
       setError('Failed to update product. Please try again later.');
     }
   };
 
-  const handleDeleteProduct = (productId) => {
+  // Handle product deletion
+  const handleDeleteProduct = async (productId) => {
     if (window.confirm('Are you sure you want to delete this product?')) {
       try {
-        // Simulate deleting product
-        const updatedProducts = products.filter(product => product.id !== productId);
-        setProducts(updatedProducts);
+        await axios.delete(`http://localhost:5000/products/${productId}`);
+        fetchProducts(); // Refresh product list
       } catch (error) {
         console.error('Error deleting product:', error);
         setError('Failed to delete product. Please try again later.');
@@ -83,9 +70,10 @@ const ProductManagement = () => {
     }
   };
 
+  // Add new variant
   const handleAddVariant = () => {
     if (editProduct) {
-      const updatedVariants = [...editProduct.variants, newVariant];
+      const updatedVariants = [...(editProduct.variants || []), newVariant];
       setEditProduct({ ...editProduct, variants: updatedVariants });
       setNewVariant({ size: '', color: '', stock: '' });
       setShowVariantForm(false);
@@ -97,6 +85,16 @@ const ProductManagement = () => {
       <h2>Product Management</h2>
       {error && <p className="error-message">{error}</p>}
 
+      <div className="search-bar">
+        <input
+          type="text"
+          value={searchId}
+          onChange={(e) => setSearchId(e.target.value)}
+          placeholder="Search by Product ID"
+        />
+        <button onClick={handleSearch} className="action-button search">Search</button>
+      </div>
+
       <div className="product-list">
         <h3>Product Listing</h3>
         <table>
@@ -107,25 +105,33 @@ const ProductManagement = () => {
               <th>Description</th>
               <th>Price</th>
               <th>Categories</th>
+              <th>Image</th>
               <th>Variants</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            {products.length > 0 ? (
-              products.map(product => (
+            {filteredProducts.length > 0 ? (
+              filteredProducts.map(product => (
                 <tr key={product.id}>
                   <td>{product.id}</td>
                   <td>{product.name}</td>
                   <td>{product.description}</td>
                   <td>{product.price}</td>
-                  <td>{product.categories.join(', ')}</td>
+                  <td>{product.categories ? product.categories.join(', ') : 'No categories'}</td>
                   <td>
-                    {product.variants.map((variant, index) => (
-                      <div key={index}>
-                        Size: {variant.size}, Color: {variant.color}, Stock: {variant.stock}
-                      </div>
-                    ))}
+                    <img src={product.imageUrl || 'default-image-url'} alt={product.name} className="product-image" />
+                  </td>
+                  <td>
+                    {product.variants && product.variants.length > 0 ? (
+                      product.variants.map((variant, index) => (
+                        <div key={index}>
+                          Size: {variant.size}, Color: {variant.color}, Stock: {variant.stock}
+                        </div>
+                      ))
+                    ) : (
+                      <p>No variants</p>
+                    )}
                     <button
                       onClick={() => {
                         handleEditProduct(product);
@@ -144,7 +150,7 @@ const ProductManagement = () => {
               ))
             ) : (
               <tr>
-                <td colSpan="7" className="no-data">No products found</td>
+                <td colSpan="8" className="no-data">No products found</td>
               </tr>
             )}
           </tbody>
@@ -183,52 +189,64 @@ const ProductManagement = () => {
               Categories:
               <input
                 type="text"
-                value={editProduct.categories.join(', ')}
+                value={editProduct.categories ? editProduct.categories.join(', ') : ''}
                 onChange={(e) => setEditProduct({ ...editProduct, categories: e.target.value.split(',').map(cat => cat.trim()) })}
+              />
+            </label>
+            <label>
+              Image URL:
+              <input
+                type="text"
+                value={editProduct.imageUrl || ''}
+                onChange={(e) => setEditProduct({ ...editProduct, imageUrl: e.target.value })}
               />
             </label>
             <div>
               <h4>Product Variants</h4>
-              {editProduct.variants.map((variant, index) => (
-                <div key={index}>
-                  <label>
-                    Size:
-                    <input
-                      type="text"
-                      value={variant.size}
-                      onChange={(e) => {
-                        const newVariants = [...editProduct.variants];
-                        newVariants[index].size = e.target.value;
-                        setEditProduct({ ...editProduct, variants: newVariants });
-                      }}
-                    />
-                  </label>
-                  <label>
-                    Color:
-                    <input
-                      type="text"
-                      value={variant.color}
-                      onChange={(e) => {
-                        const newVariants = [...editProduct.variants];
-                        newVariants[index].color = e.target.value;
-                        setEditProduct({ ...editProduct, variants: newVariants });
-                      }}
-                    />
-                  </label>
-                  <label>
-                    Stock:
-                    <input
-                      type="number"
-                      value={variant.stock}
-                      onChange={(e) => {
-                        const newVariants = [...editProduct.variants];
-                        newVariants[index].stock = e.target.value;
-                        setEditProduct({ ...editProduct, variants: newVariants });
-                      }}
-                    />
-                  </label>
-                </div>
-              ))}
+              {editProduct.variants && editProduct.variants.length > 0 ? (
+                editProduct.variants.map((variant, index) => (
+                  <div key={index}>
+                    <label>
+                      Size:
+                      <input
+                        type="text"
+                        value={variant.size}
+                        onChange={(e) => {
+                          const newVariants = [...editProduct.variants];
+                          newVariants[index].size = e.target.value;
+                          setEditProduct({ ...editProduct, variants: newVariants });
+                        }}
+                      />
+                    </label>
+                    <label>
+                      Color:
+                      <input
+                        type="text"
+                        value={variant.color}
+                        onChange={(e) => {
+                          const newVariants = [...editProduct.variants];
+                          newVariants[index].color = e.target.value;
+                          setEditProduct({ ...editProduct, variants: newVariants });
+                        }}
+                      />
+                    </label>
+                    <label>
+                      Stock:
+                      <input
+                        type="number"
+                        value={variant.stock}
+                        onChange={(e) => {
+                          const newVariants = [...editProduct.variants];
+                          newVariants[index].stock = e.target.value;
+                          setEditProduct({ ...editProduct, variants: newVariants });
+                        }}
+                      />
+                    </label>
+                  </div>
+                ))
+              ) : (
+                <p>No variants</p>
+              )}
             </div>
             {showVariantForm && (
               <div className="variant-formm">

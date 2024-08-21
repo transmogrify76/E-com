@@ -1,12 +1,20 @@
-
 import React, { useState, useEffect } from 'react';
 import './ListProduct.css';
-import cross_icon from '../../Assests/Admin_Assets/cross_icon.png';
+import { FaEdit, FaTrash } from 'react-icons/fa';
 
 const ListProduct = () => {
     const [products, setProducts] = useState([]);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [searchId, setSearchId] = useState('');
+    const [filteredProducts, setFilteredProducts] = useState([]);
+    const [editingProduct, setEditingProduct] = useState(null);
+    const [formData, setFormData] = useState({
+        name: '',
+        description: '',
+        price: '',
+        image: ''
+    });
 
     // Fetch all products from the API
     const fetchAllProducts = async () => {
@@ -25,6 +33,7 @@ const ListProduct = () => {
 
             const data = await response.json();
             setProducts(data);
+            setFilteredProducts(data);
         } catch (error) {
             console.error("Error fetching products:", error);
             setError("Failed to fetch products");
@@ -50,13 +59,83 @@ const ListProduct = () => {
 
             // Update the product list by filtering out the removed product
             setProducts(products.filter(product => product.id !== id));
+            setFilteredProducts(filteredProducts.filter(product => product.id !== id));
         } catch (error) {
             console.error("Error removing product:", error);
             setError("Failed to remove product");
         }
     };
 
-    // Fetch all products on component mount
+    // Handle search by product ID
+    const handleSearch = (event) => {
+        setSearchId(event.target.value);
+        if (event.target.value) {
+            setFilteredProducts(products.filter(product => product.id === parseInt(event.target.value, 10)));
+        } else {
+            setFilteredProducts(products);
+        }
+    };
+
+    // Handle form input change
+    const handleInputChange = (event) => {
+        const { name, value } = event.target;
+        setFormData(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
+
+    // Handle form submission
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        try {
+            const response = await fetch(`http://localhost:5000/products/${editingProduct.id}`, {
+                method: 'PATCH',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to update product');
+            }
+
+            const updatedProduct = await response.json();
+
+            // Update the product list with the updated product
+            setProducts(products.map(product => 
+                product.id === editingProduct.id ? updatedProduct : product
+            ));
+            setFilteredProducts(filteredProducts.map(product => 
+                product.id === editingProduct.id ? updatedProduct : product
+            ));
+            setEditingProduct(null); // Close the form
+            setFormData({
+                name: '',
+                description: '',
+                price: '',
+                image: ''
+            });
+        } catch (error) {
+            console.error("Error updating product:", error);
+            setError("Failed to update product");
+        }
+    };
+
+    // Open edit form
+    const handleEditClick = (product) => {
+        setEditingProduct(product);
+        setFormData({
+            name: product.name,
+            description: product.description,
+            price: product.price,
+            image: product.image
+        });
+    };
+
     useEffect(() => {
         fetchAllProducts();
     }, []); // Empty dependency array ensures this runs once on mount
@@ -65,52 +144,115 @@ const ListProduct = () => {
         <div className='list-product'>
             <div className="header">
                 <h1>Admin Panel - Product List</h1>
+                <input 
+                    type="text" 
+                    placeholder="Search by Product ID" 
+                    value={searchId} 
+                    onChange={handleSearch} 
+                    className="search-input"
+                />
             </div>
             
             {error && <p className="error-message">{error}</p>}
             {loading ? (
                 <p>Loading...</p>
             ) : (
-                <table className="product-table">
-                    <thead>
-                        <tr>
-                            <th>Image</th>
-                            <th>Product Name</th>
-                            <th>Description</th>
-                            <th>Price (₹)</th>
-                            <th>Remove</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {products.length > 0 ? (
-                            products.map(product => (
-                                <tr key={product.id}>
-                                    <td><img src
-                                    ={product.image} alt={product.image} className="product-image" /></td>
-                                    <td>{product.name}</td>
-                                    <td>{product.description}</td>
-                                    <td>₹{product.price}</td>
-                                    <td>
-                                        <img 
-                                            onClick={() => removeProduct(product.id)} 
-                                            className='remove-icon' 
-                                            src={cross_icon} 
-                                            alt="Remove" 
-                                        />
-                                    </td>
-                                </tr>
-                            ))
-                        ) : (
+                <>
+                    {editingProduct && (
+                        <div className="edit-form">
+                            <h2>Edit Product</h2>
+                            <form onSubmit={handleSubmit}>
+                                <label>
+                                    Name:
+                                    <input 
+                                        type="text" 
+                                        name="name" 
+                                        value={formData.name} 
+                                        onChange={handleInputChange} 
+                                    />
+                                </label>
+                                <label>
+                                    Description:
+                                    <input 
+                                        type="text" 
+                                        name="description" 
+                                        value={formData.description} 
+                                        onChange={handleInputChange} 
+                                    />
+                                </label>
+                                <label>
+                                    Price (₹):
+                                    <input 
+                                        type="number" 
+                                        name="price" 
+                                        value={formData.price} 
+                                        onChange={handleInputChange} 
+                                    />
+                                </label>
+                                {/* <label>
+                                    Image URL:
+                                    <input 
+                                        type="text" 
+                                        name="image" 
+                                        value={formData.image} 
+                                        onChange={handleInputChange} 
+                                    />
+                                </label> */}
+                                <button type="submit">Update</button>
+                                <button type="button" onClick={() => setEditingProduct(null)}>Cancel</button>
+                            </form>
+                        </div>
+                    )}
+
+                    <table className="product-table">
+                        <thead>
                             <tr>
-                                <td colSpan="5">No products available.</td>
+                                <th>ID</th>
+                                <th>Image</th>
+                                <th>Product Name</th>
+                                <th>Description</th>
+                                <th>Price (₹)</th>
+                                <th>Actions</th>
                             </tr>
-                        )}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {filteredProducts.length > 0 ? (
+                                filteredProducts.map(product => (
+                                    <tr key={product.id}>
+                                        <td>{product.id}</td>
+                                        <td>
+                                            <img src={product.image} alt={product.image} className="product-image" />
+                                        </td>
+                                        <td>{product.name}</td>
+                                        <td>{product.description}</td>
+                                        <td>₹{product.price}</td>
+                                        <td>
+                                            <button 
+                                                className="edit-button"
+                                                onClick={() => handleEditClick(product)}
+                                            >
+                                                <FaEdit /> Edit
+                                            </button>
+                                            <button 
+                                                className="delete-button"
+                                                onClick={() => removeProduct(product.id)}
+                                            >
+                                                <FaTrash /> Delete
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan="6">No products available.</td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+                </>
             )}
         </div>
     );
 };
 
 export default ListProduct;
-
