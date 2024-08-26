@@ -4,6 +4,7 @@ import { IoSearch } from "react-icons/io5";
 import { BsBell } from 'react-icons/bs'; // Notification icon
 import user from '../../Assests/user.png';
 import logo from '../../Assests/Ecommerce_Frontend_Assets/Assets/logo.png';
+import { Link } from 'react-router-dom';
 
 function AdminNavbar() {
     const notificationCount = 5; // Example notification count
@@ -26,10 +27,10 @@ function AdminNavbar() {
             </div>
 
            
-            <div className="notifications">
+            <Link to="/notificationadmin" className="notifications">
                 <BsBell className="notification-icon" /> {/* Using the React Icons bell icon */}
                 <span className="badge">{notificationCount}</span>
-            </div>
+            </Link>
            
 
             <div className="dropdown-container" onClick={toggleDropdown}>

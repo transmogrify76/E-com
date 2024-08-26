@@ -1,0 +1,26 @@
+.contact-us {
+    padding: 20px;
+  }
+  
+  .contact-methods {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .contact-method {
+    margin-bottom: 20px;
+  }
+  
+  .contact-method h3 {
+    margin: 0;
+  }
+  
+  .contact-method p {
+    margin: 5px 0;
+  }
+  
+  .contact-method a {
+    color: #007BFF;
+    text-decoration: none;
+  }
+  

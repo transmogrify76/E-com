@@ -5,6 +5,8 @@ import { BsBell } from 'react-icons/bs'; // Importing the Bell icon from React I
 import user from '../../Assests/user.png';
 import logo from '../../Assests/Ecommerce_Frontend_Assets/Assets/logo.png';
 
+import { Link } from 'react-router-dom';
+
 function SellerNavbar() {
     const notificationCount = 5; // Example notification count
     const [isDropdownOpen, setIsDropdownOpen] = useState(false); // State for dropdown visibility
@@ -17,7 +19,7 @@ function SellerNavbar() {
         <div className="navbar">
             <div className="nav-logo">
                 <img src={logo} alt="logo" />
-                <p style={{ color: 'white' }}>E-Com</p>
+                <p className="logo-text">E-Com</p>
             </div>
 
             <div className="headerSearch">
@@ -25,10 +27,12 @@ function SellerNavbar() {
                 <button className="btn-search"><IoSearch /></button>
             </div>
 
-            <div className="notifications">
+            <Link to="/notifications" className="notifications">
                 <BsBell className="notification-icon" /> {/* Using the React Icons bell icon */}
-                <span className="badge">{notificationCount}</span>
-            </div>
+                {notificationCount > 0 && (
+                    <span className="badge">{notificationCount}</span>
+                )}
+            </Link>
 
             <div className="dropdown-container" onClick={toggleDropdown}>
                 <div className="user-icon">
@@ -36,8 +40,8 @@ function SellerNavbar() {
                 </div>
                 {isDropdownOpen && (
                     <div className="dropdown-content">
-                        <a href="/SellerAccount">My Profile</a>
-                        <a href="/login">Log out</a>
+                        <Link to="/SellerAccount">My Profile</Link>
+                        <Link to="/login">Log out</Link>
                     </div>
                 )}
             </div>

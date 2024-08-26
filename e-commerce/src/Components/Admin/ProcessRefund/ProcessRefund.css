@@ -12,7 +12,7 @@
 }
 
 /* Header section */
-.header {
+.header-refunds {
   margin-bottom: 20px; /* Spacing below the header */
 }
 
@@ -25,7 +25,7 @@
 
 .refund-details {
   font-size: 16px;
-  color: white; /* Medium gray for the details */
+  color: black; /* Medium gray for the details */
   line-height: 1.6;
 }
 

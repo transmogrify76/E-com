@@ -35,7 +35,7 @@ const ProcessRefundPage = ({ refunds, handleProcessRefund, handleViewDetails }) 
 
   return (
     <div className="process-refund-container">
-      <div className="header">
+      <div className="header-refunds">
         <h2>Processing Refund #{refund.id}</h2>
         <div className="refund-details">
           <div>Date: {refund.date}</div>

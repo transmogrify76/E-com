@@ -1,7 +1,9 @@
 body.no-scroll {
   overflow: hidden;
 }
-
+body.no-Enavbar {
+  padding-top: 0; /* Adjust padding if needed when navbar is hidden */
+}
 
 .background-image {
   display: flex;

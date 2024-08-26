@@ -1,0 +1,65 @@
+/* Container for the notifications page */
+.admin-notifications {
+    padding: 20px;
+    background-color: #f5f5f5;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    width: 80%;
+    margin-left: 200px;
+}
+
+/* Title of the notifications page */
+.admin-notifications h1 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* List container */
+.notification-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Individual notification item */
+.notification-item {
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+/* Style for unread notifications */
+.notification-item.unread {
+    border-left: 5px solid #007bff;
+    background-color: #e7f0ff;
+}
+
+/* Style for read notifications */
+.notification-item.read {
+    background-color: #f0f0f0;
+    border-left: 5px solid #d6d6d6;
+}
+
+/* Hover effect for notification items */
+.notification-item:hover {
+    background-color: #f1f1f1;
+    border-color: #ccc;
+}
+
+/* Date and time in the notification */
+.notification-item small {
+    display: block;
+    color: #777;
+    margin-top: 5px;
+}
+
+/* No notifications message */
+.admin-notifications p {
+    font-size: 18px;
+    color: #666;
+}

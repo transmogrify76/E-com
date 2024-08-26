@@ -1,0 +1,21 @@
+/* Terms.css */
+
+/* Basic reset for margins and paddings */
+
+  
+  .terms-container {
+    max-width: 900px; /* Limit width for better readability */
+    margin: 0 auto; /* Center align the container */
+    background-color: #fff; /* White background for content area */
+    padding: 20px; /* Padding inside the container */
+    border-radius: 8px; /* Rounded corners for a modern look */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  }
+  
+  p {
+    margin-bottom: 20px; /* Space between paragraphs */
+    font-size: 1em; /* Standard font size for paragraphs */
+    color: #333; /* Consistent text color */
+    line-height: 1.6; /* Improve readability with line height */
+  }
+  

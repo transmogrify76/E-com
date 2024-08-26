@@ -161,7 +161,7 @@ const Payment = () => {
                 </div>
                 <label>
                     <input type="checkbox" required />
-                    I agree to the <a href="/terms">terms and conditions</a>.
+                    I agree to the <a href="/term">terms and conditions</a>.
                 </label>
                 <button
                     className="place-order-button"
