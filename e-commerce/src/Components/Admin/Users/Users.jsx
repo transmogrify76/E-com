@@ -1,109 +1,50 @@
+// Users.js
 import React, { useState, useEffect } from 'react';
-// import {
-//   Card,
-//   CardContent,
-//   Typography,
-//   Grid,
-//   Table,
-//   TableHead,
-//   TableBody,
-//   TableRow,
-//   TableCell,
-//   IconButton,
-//   Dialog,
-//   DialogTitle,
-//   DialogContent,
-//   DialogActions,
-//   Button,
-//   TextField,
-//   MenuItem,
-// } from '@material-ui/core';
-// import { Edit as EditIcon, Delete as DeleteIcon, Visibility as VisibilityIcon } from '@material-ui/icons';
 import './Users.css';
 
-const AdminPanelUser = () => {
+const Users = () => {
   const [users, setUsers] = useState([]);
+  const [filteredUsers, setFilteredUsers] = useState([]);
+  const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
   const [selectedUser, setSelectedUser] = useState(null);
   const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [roleFilter, setRoleFilter] = useState('All');
-  const [sortedUsers, setSortedUsers] = useState([]);
-  const [sortBy, setSortBy] = useState('name');
-  const [sortOrder, setSortOrder] = useState('asc');
+  const [editUser, setEditUser] = useState(null);
   const [openEditDialog, setOpenEditDialog] = useState(false);
-  const [editUser, setEditUser] = useState(null); // Track the user being edited
 
   useEffect(() => {
-    // Simulating fetching users data
     const fetchUsers = async () => {
       try {
-        // Simulated data for demonstration
-        const simulatedUsers = [
-          { id: 1, name: 'John Doe', email: 'john@example.com', role: 'Admin', registrationDate: '2023-07-01' },
-          { id: 2, name: 'Jane Smith', email: 'jane@example.com', role: 'User', registrationDate: '2023-07-05' },
-          { id: 3, name: 'Michael Johnson', email: 'michael@example.com', role: 'User', registrationDate: '2023-07-10' },
-          { id: 4, name: 'Emily Brown', email: 'emily@example.com', role: 'User', registrationDate: '2023-07-15' },
-          { id: 5, name: 'David Lee', email: 'david@example.com', role: 'Admin', registrationDate: '2023-07-20' },
-          { id: 6, name: 'Sarah Wilson', email: 'sarah@example.com', role: 'User', registrationDate: '2023-07-25' },
-          { id: 7, name: 'Ryan Garcia', email: 'ryan@example.com', role: 'User', registrationDate: '2023-07-30' },
-        ];
-
-        setUsers(simulatedUsers);
-        setSortedUsers(simulatedUsers); // Initialize sortedUsers with the fetched data
+        const response = await fetch('http://localhost:5000/user/users');
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.json();
+        setUsers(data);
+        setFilteredUsers(data);
       } catch (error) {
-        console.error('Error fetching users:', error);
-        // Handle error (e.g., show error message)
+        console.error('Error fetching users:', error.message);
+        setError('Failed to load users. Please try again later.');
       }
     };
 
     fetchUsers();
   }, []);
 
-  // Handle search term change
-  const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
-  };
+  const handleSearch = (event) => {
+    const value = event.target.value;
+    setSearchTerm(value);
 
-  // Handle role filter change
-  const handleRoleFilterChange = (event) => {
-    setRoleFilter(event.target.value);
-  };
-
-  // Filter users based on search term and role filter
-  useEffect(() => {
-    const filteredUsers = users.filter(
-      (user) =>
-        user.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-        (roleFilter === 'All' || user.role === roleFilter)
-    );
-    setSortedUsers(filteredUsers);
-  }, [users, searchTerm, roleFilter]);
-
-  // Sort users based on sortBy and sortOrder
-  useEffect(() => {
-    const sortedUsersCopy = [...sortedUsers];
-    sortedUsersCopy.sort((a, b) => {
-      const aValue = typeof a[sortBy] === 'string' ? a[sortBy].toLowerCase() : a[sortBy];
-      const bValue = typeof b[sortBy] === 'string' ? b[sortBy].toLowerCase() : b[sortBy];
-
-      if (aValue < bValue) return sortOrder === 'asc' ? -1 : 1;
-      if (aValue > bValue) return sortOrder === 'asc' ? 1 : -1;
-      return 0;
-    });
-    setSortedUsers(sortedUsersCopy);
-  }, [sortedUsers, sortBy, sortOrder]);
-
-  // Handle sorting change
-  const handleSortChange = (property) => {
-    if (sortBy === property) {
-      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+    if (value === '') {
+      setFilteredUsers(users);
     } else {
-      setSortBy(property);
-      setSortOrder('asc');
+      const filtered = users.filter(user =>
+        user.id.toString().includes(value)
+      );
+      setFilteredUsers(filtered);
     }
   };
 
-  // View user details dialog handlers
   const handleViewUserDetails = (user) => {
     setSelectedUser(user);
     setOpenDetailsDialog(true);
@@ -111,178 +52,202 @@ const AdminPanelUser = () => {
 
   const handleCloseDetailsDialog = () => {
     setOpenDetailsDialog(false);
+    setSelectedUser(null);
   };
 
-  // Edit user dialog handlers
   const handleEditUser = (user) => {
-    setEditUser({ ...user }); // Set the user being edited
+    setEditUser({ ...user });
     setOpenEditDialog(true);
   };
 
   const handleCloseEditDialog = () => {
     setOpenEditDialog(false);
-    setEditUser(null); // Clear the editUser state after closing the dialog
+    setEditUser(null);
   };
 
-  // Handle editing user details
-  const handleSaveEditUser = () => {
-    // Implement save functionality (e.g., API call to update user)
-    console.log('Edited user:', editUser);
-    // Update the UI or perform actions based on the edited user data
-    // For demonstration, you can update the state directly or call an API to persist the changes
-    const updatedUsers = users.map((user) => (user.id === editUser.id ? editUser : user));
-    setUsers(updatedUsers);
-    setSortedUsers(updatedUsers);
-    setOpenEditDialog(false);
-    setEditUser(null); // Clear editUser state after saving
+  const handleSaveEditUser = async () => {
+    try {
+      const response = await fetch(`http://localhost:5000/user/${editUser.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(editUser),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const updatedUsers = users.map((user) => (user.id === editUser.id ? editUser : user));
+      setUsers(updatedUsers);
+      setFilteredUsers(updatedUsers);
+      setOpenEditDialog(false);
+      setEditUser(null);
+    } catch (error) {
+      console.error('Error updating user:', error.message);
+      setError('Failed to update user. Please try again later.');
+    }
   };
 
-  // Delete user handler
-  const handleDeleteUser = (userId) => {
-    // Implement delete functionality here (e.g., API call)
-    console.log(`Delete user with ID: ${userId}`);
-    // Update UI after deletion (remove user from list)
-    const updatedUsers = users.filter((user) => user.id !== userId);
-    setUsers(updatedUsers);
-    setSortedUsers(updatedUsers);
+  const handleDeleteUser = async (userId) => {
+    if (window.confirm('Are you sure you want to delete this user?')) {
+      try {
+        const response = await fetch(`http://localhost:5000/user/${userId}`, {
+          method: 'DELETE',
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const updatedUsers = users.filter((user) => user.id !== userId);
+        setUsers(updatedUsers);
+        setFilteredUsers(updatedUsers);
+      } catch (error) {
+        console.error('Error deleting user:', error.message);
+        setError('Failed to delete user. Please try again later.');
+      }
+    }
   };
 
   return (
-    <div className="admin-panel-container">
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <Card>
-            <CardContent>
-              <Typography variant="h5">Users List</Typography>
-              <div className="search-filter-container">
-                <TextField
-                  label="Search by Name"
-                  variant="outlined"
-                  value={searchTerm}
-                  onChange={handleSearchChange}
-                  className="search-input"
-                />
-                <TextField
-                  select
-                  label="Filter by Role"
-                  variant="outlined"
-                  value={roleFilter}
-                  onChange={handleRoleFilterChange}
-                  className="filter-select"
-                >
-                  <MenuItem key="All" value="All">
-                    All Roles
-                  </MenuItem>
-                  <MenuItem key="User" value="User">
-                    User
-                  </MenuItem>
-                  {/* <MenuItem key="Admin" value="Admin">
-                    Admin
-                  </MenuItem> */}
-                </TextField>
-              </div>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>
-                      <Button onClick={() => handleSortChange('name')}>
-                        Name {sortBy === 'name' && (sortOrder === 'asc' ? '▲' : '▼')}
-                      </Button>
-                    </TableCell>
-                    <TableCell>
-                      <Button onClick={() => handleSortChange('email')}>
-                        Email {sortBy === 'email' && (sortOrder === 'asc' ? '▲' : '▼')}
-                      </Button>
-                    </TableCell>
-                    <TableCell>Role</TableCell>
-                    <TableCell>Registration Date</TableCell>
-                    <TableCell>Actions</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {sortedUsers.map((user) => (
-                    <TableRow key={user.id}>
-                      <TableCell>{user.name}</TableCell>
-                      <TableCell>{user.email}</TableCell>
-                      <TableCell>{user.role}</TableCell>
-                      <TableCell>{user.registrationDate}</TableCell>
-                      <TableCell>
-                        <IconButton color="primary" onClick={() => handleViewUserDetails(user)}>
-                          <VisibilityIcon />
-                        </IconButton>
-                        <IconButton color="primary" onClick={() => handleEditUser(user)}>
-                          <EditIcon />
-                        </IconButton>
-                        <IconButton color="secondary" onClick={() => handleDeleteUser(user.id)}>
-                          <DeleteIcon />
-                        </IconButton>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
-        </Grid>
-      </Grid>
+    <div className="admin-panel">
+      <h2>Users List</h2>
+      {error && <p className="error-message">{error}</p>}
+      
+      <div className="search-container">
+        <input
+          type="text"
+          placeholder="Search by User ID"
+          value={searchTerm}
+          onChange={handleSearch}
+          style={{
+            padding: '10px',
+            width: '200px',  // Set the width to be smaller
+            border: '1px solid #ccc',
+            borderRadius: '4px',
+            fontSize: '16px',
+          }}
+          className="search-input"
+        />
+      </div>
+
+      <table className="user-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredUsers.length > 0 ? (
+            filteredUsers.map(user => (
+              <tr key={user.id}>
+                <td>{user.id}</td>
+                <td>{user.name}</td>
+                <td>{user.email}</td>
+                <td>{user.phoneNumber}</td>
+                <td className="actions" style={{ display: 'flex', gap: '8px' }}>
+                  <button onClick={() => handleViewUserDetails(user)} className="action-button view">View</button>
+                  <button onClick={() => handleEditUser(user)} className="action-button edit">Edit</button>
+                  <button onClick={() => handleDeleteUser(user.id)} className="action-button delete">Delete</button>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="5" className="no-data">No users found</td>
+            </tr>
+          )}
+        </tbody>
+      </table>
 
       {/* User Details Dialog */}
-      <Dialog open={openDetailsDialog} onClose={handleCloseDetailsDialog} fullWidth maxWidth="sm">
-        <DialogTitle>User Details</DialogTitle>
-        <DialogContent>
-          {selectedUser && (
-            <div>
-              <Typography variant="subtitle1">Name: {selectedUser.name} </Typography>
-              <Typography variant="subtitle1">Email: {selectedUser.email}</Typography>
-              <Typography variant="subtitle1">Role: {selectedUser.role}</Typography>
-              <Typography variant="subtitle1">Registration Date: {selectedUser.registrationDate}</Typography>
-              {/* Add more details as needed */}
-            </div>
-          )}
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseDetailsDialog} color="primary">
-            Close
-          </Button>
-        </DialogActions>
-      </Dialog>
+      {selectedUser && (
+        <div className={`dialog ${openDetailsDialog ? 'open' : 'closed'}`}>
+          <div className="dialog-content">
+            <h3>User Details</h3>
+            <p>ID: {selectedUser.id}</p>
+            <p>Name: {selectedUser.name}</p>
+            <p>Email: {selectedUser.email}</p>
+            <p>Phone Number: {selectedUser.phoneNumber}</p>
+            <button onClick={handleCloseDetailsDialog}>Close</button>
+          </div>
+        </div>
+      )}
 
-      {/* Edit User Dialog */}
-      <Dialog open={openEditDialog} onClose={handleCloseEditDialog} fullWidth maxWidth="sm">
-        <DialogTitle>Edit User</DialogTitle>
-        <DialogContent>
-          {/* Form for editing user details */}
-          {editUser && (
-            <form>
-              <TextField
-                label="Name"
-                variant="outlined"
-                fullWidth
+      {/* User Edit Dialog */}
+      {editUser && (
+        <div className={`dialog ${openEditDialog ? 'open' : 'closed'}`}>
+          <div className="dialog-content">
+            <h3>Edit User</h3>
+            <label>
+              Name:
+              <input
+                type="text"
                 value={editUser.name}
                 onChange={(e) => setEditUser({ ...editUser, name: e.target.value })}
+                style={{
+                  display: 'block',
+                  width: 'calc(100% - 20px)', // Adjust width according to the container
+                  padding: '8px',
+                  border: '1px solid #ccc',
+                  borderRadius: '4px',
+                  marginTop: '5px',
+                  fontSize: '16px',
+                  boxSizing: 'border-box' // Ensures padding and border are included in the width
+                }}
               />
-              <TextField
-                label="Email"
-                variant="outlined"
-                fullWidth
+            </label>
+            <label>
+              Email:
+              <input
+                type="email"
                 value={editUser.email}
                 onChange={(e) => setEditUser({ ...editUser, email: e.target.value })}
+                style={{
+                  display: 'block',
+                  width: 'calc(100% - 20px)', // Adjust width according to the container
+                  padding: '8px',
+                  border: '1px solid #ccc',
+                  borderRadius: '4px',
+                  marginTop: '5px',
+                  fontSize: '16px',
+                  boxSizing: 'border-box' // Ensures padding and border are included in the width
+                }}
               />
-              {/* Add more fields as needed */}
-            </form>
-          )}
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseEditDialog} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleSaveEditUser} color="primary">
-            Save
-          </Button>
-        </DialogActions>
-      </Dialog>
+            </label>
+            <label>
+              Phone Number:
+              <input
+                type="tel"
+                value={editUser.phoneNumber}
+                onChange={(e) => setEditUser({ ...editUser, phoneNumber: e.target.value })}
+                style={{
+                  display: 'block',
+                  width: 'calc(100% - 20px)', // Adjust width according to the container
+                  padding: '8px',
+                  border: '1px solid #ccc',
+                  borderRadius: '4px',
+                  marginTop: '5px',
+                  fontSize: '16px',
+                  boxSizing: 'border-box' // Ensures padding and border are included in the width
+                }}
+              />
+            </label>
+            <button onClick={handleSaveEditUser} style={{ marginRight: '10px' }}>Save Changes</button>
+            <button onClick={handleCloseEditDialog}>Cancel</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
-export default AdminPanelUser;
+export default Users;
+
+

@@ -7,49 +7,49 @@ const Signup = () => {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [role, setRole] = useState('');
-  const [setRoles] = useState([]); // State for roles
-  const [error, setError] = useState(null); // State for error handling
+  const [name, setName] = useState(''); // State for name
+  const [phoneNumber, setPhoneNumber] = useState(''); // State for phone number
+  const [roles, setRoles] = useState([]);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchRoles = async () => {
       try {
-        const response = await fetch('http://localhost:5000/roles'); // Fetching roles
+        const response = await fetch('http://localhost:5000/roles');
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
         const data = await response.json();
         
-        // Filter out roles named 'seller'
         const filteredRoles = data.filter(role => role.name.toLowerCase() !== 'seller');
-        setRoles(filteredRoles); // Set filtered roles
+        setRoles(filteredRoles);
       } catch (error) {
         console.error('Error fetching roles:', error.message);
-        setError('Failed to load roles. Please try again later.'); // Set error message
+        setError('Failed to load roles. Please try again later.');
       }
     };
 
-    fetchRoles(); // Call fetch function
+    fetchRoles();
   }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Check if role is selected
     if (!role) {
       setError('Please select a role');
       return;
     }
 
-    // Prepare the payload based on role selection
     const payload = {
       username,
       password,
       email,
-      role: role === '1' ? 'Admin' : 'User',  // Always include email for both roles
+      name, // Include name
+      phoneNumber, // Include phone number
+      role: role === '1' ? 'Admin' : 'User',
     };
 
-    // Determine endpoint based on role
     const endpoint = role === '1' ? 'http://localhost:5000/admin' : 'http://localhost:5000/user/register';
 
     try {
@@ -62,22 +62,20 @@ const Signup = () => {
       });
 
       if (response.ok) {
-        // Redirect to login page on success
         navigate('/login');
       } else {
         const data = await response.json();
         console.error('Registration failed:', data);
-        setError(data.message || 'Registration failed. Please try again.'); // Handle error responses
+        setError(data.message || 'Registration failed. Please try again.');
       }
     } catch (error) {
       console.error('An error occurred:', error);
-      setError('An error occurred during registration. Please try again.'); // Handle network errors
+      setError('An error occurred during registration. Please try again.');
     }
   };
 
   const handleChange = (event) => {
     setRole(event.target.value);
-    // Removed the line that resets the email state
   };
 
   return (
@@ -94,6 +92,11 @@ const Signup = () => {
                 placeholder="Username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
+                style={{
+                  margin: '10px 0px',
+                  padding: '13px',
+                  width: '70%'
+                }}
                 required
               />
             </div>
@@ -105,25 +108,58 @@ const Signup = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 style={{
-                  width: '80%',
-                  padding: '10px',
-                  fontSize: '16px',
-                  borderRadius: '4px',
-                  border: '1px solid #ccc',
-                  boxSizing: 'border-box',
+                  margin: '10px 0px',
+                  padding: '13px',
+                  width: '70%',
+                  borderRadius: '5px',
+                  border: '1px solid ',
                 }}
                 required
               />
             </div>
 
-            {/* Email input for both Admin and User roles */}
+            <div className="input">
+              <input
+                type="text"
+                placeholder="Name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                style={{
+                  margin: '10px 0px',
+                  padding: '13px',
+                  width: '70%'
+                }}
+                required
+              />
+            </div>
+
+            <div className="input">
+              <input
+                type="tel"
+                placeholder="Phone Number"
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+                style={{
+                  margin: '10px 0px',
+                  padding: '13px',
+                  width: '70%'
+                }}
+                required
+              />
+            </div>
+
             <div className="input">
               <input
                 type="email"
                 placeholder="Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                required // Make email required for both roles
+                style={{
+                  margin: '10px 0px',
+                  padding: '13px',
+                  width: '70%'
+                }}
+                required
               />
             </div>
 
@@ -132,19 +168,24 @@ const Signup = () => {
                 value={role}
                 onChange={handleChange}
                 style={{
-                  width: '80%',
+                  margin: '10px 0px',
+                  padding: '13px',
+                  width: '80%'
                 }}
                 required
               >
                 <option disabled value="">
                   Select Role
                 </option>
-                <option value="1">Admin</option>
-                <option value="2">User</option>
+                {roles.map((roleItem) => (
+                  <option key={roleItem.id} value={roleItem.id}>
+                    {roleItem.name}
+                  </option>
+                ))}
               </select>
             </div>
 
-            {error && <p className="error-message">{error}</p>} {/* Show error message */}
+            {error && <p className="error-message">{error}</p>}
 
             <div className="submit-container">
               <button type="submit" className="submit">Signup</button>

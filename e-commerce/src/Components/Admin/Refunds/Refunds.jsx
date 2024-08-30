@@ -44,9 +44,7 @@ const RefundsPage = () => {
       status: 'Rejected',
       date: '2024-07-14',
     },
-    // Add more dummy data as needed
-  
-    // Add more dummy data as needed
+    
   ]);
 
   return (
@@ -55,12 +53,12 @@ const RefundsPage = () => {
       <table className="refunds-table">
         <thead>
           <tr>
-            <th>Refund ID</th>
-            <th>Order ID</th>
-            <th>Customer Name</th>
-            <th>Refund Amount (₹)</th>
-            <th>Status</th>
-            <th>Actions</th>
+          <th style={{ color: 'white' }}>Refund ID</th>
+          <th style={{ color: 'white' }}>Order ID</th>
+            <th style={{ color: 'white' }}>Customer Name</th>
+            <th style={{ color: 'white' }}>Refund Amount (₹)</th>
+            <th style={{ color: 'white' }}>Status</th>
+            <th style={{ color: 'white' }}>Actions</th>
           </tr>
         </thead>
         <tbody>

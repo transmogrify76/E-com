@@ -2,6 +2,7 @@
 body.no-scroll {
   overflow: hidden;
 }
+
 .background-image {
   display: flex;
   justify-content: center;
@@ -28,8 +29,10 @@ body.no-scroll {
   text-align: center;
   color: #fff;
 }
-.header_Signup h2{
+
+.header_Signup h2 {
   color: #fff;
+  margin-left: 150px;
 }
 
 .body {
@@ -41,11 +44,21 @@ body.no-scroll {
   margin-bottom: 15px;
 }
 
-.input input {
-  width: calc(100% - 40px);
+.input input,
+.input select {
+  width: calc(100% - 20px); /* Ensures full width accounting for padding */
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
+  font-size: 16px; /* Increase font size for better readability */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Add transition for focus effects */
+}
+
+.input input:focus,
+.input select:focus {
+  border-color: #7c3ad1; /* Change border color on focus */
+  box-shadow: 0 0 5px rgba(124, 58, 209, 0.5); /* Add shadow on focus */
+  outline: none; /* Remove default outline */
 }
 
 .submit-container {
@@ -61,6 +74,12 @@ body.no-scroll {
   color: #fff;
   cursor: pointer;
   text-decoration: none;
+  font-size: 16px; /* Increase button font size */
+  transition: background-color 0.3s ease; /* Add transition for hover effect */
+}
+
+.submit:hover {
+  background-color: #0056b3; /* Darker shade on hover */
 }
 
 .login-link {
@@ -77,16 +96,25 @@ body.no-scroll {
   text-decoration: none;
 }
 
+.login-link .login:hover {
+  text-decoration: underline; /* Underline on hover */
+}
 
+.error-message {
+  color: red; /* Color for error messages */
+  text-align: center; /* Center align error messages */
+  margin-top: 10px; /* Space between the form and error message */
+}
 
+/* Responsive styles */
 @media (max-width: 768px) {
-  .card {
+  .card-login {
     width: 80%;
   }
 }
 
 @media (max-width: 576px) {
-  .card {
+  .card-login {
     width: 90%;
   }
-} 
+}

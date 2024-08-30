@@ -1,90 +1,136 @@
-.background-list{
-    background-image: url("../../Assests/Ecommerce_Frontend_Assets/images/all.jpg");
-    width: 100%;
-    height: 50%;
-    background-size: cover;
-    background-position: center;
-    
-}
 
-.background-list h1{
-    text-align: center;
-    justify-content: center;
-}
-/* .list-product h1{
+/* ListProduct.css */
 
-} */
+/* Container for the product list */
 .list-product {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+
+/* Header styling */
+.header {
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
-    width: 100%;
-    height: 740px;
-    padding: 20px;
-    margin: 30px auto;
-    border-radius: 6px;
-    /* Set your background image path */
-    background-size: cover;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: add some shadow */
+    margin-bottom: 20px;
+    margin-left: 500px;
 }
 
-.listproduct-format-main {
-    display: grid;
-    grid-template-columns: 200px 1fr 1fr 1fr 1fr 1fr 60px; /* Adjusted to accommodate all columns */
-    gap: 10px;
-    width: 100%;
-    padding: 20px 0;
-    color: #454545;
-    font-size: 15px;
-    font-weight: 600;
+.header h1 {
+    font-size: 24px;
+    color: #333;
 }
 
-.listproduct-format {
-    display: grid; /* Use grid for individual product rows */
-    grid-template-columns: 80px 1fr 1fr 1fr 1fr 1fr 60px; /* Match column layout */
-    align-items: center; /* Center items vertically */
-    padding: 10px 0; /* Optional: add some padding */
+.search-input {
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
-.listproduct-product-icon {
-    height: 80px;
-    width: 80px; /* Set width to maintain aspect ratio */
-    object-fit: cover; /* Ensure image covers the container */
+/* Error message styling */
+.error-message {
+    color: red;
+    margin-bottom: 10px;
 }
 
-.listproduct-remove-icon {
+/* Table styling */
+.product-table {
+    width: 80%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    margin-left: 200px;
+}
+
+.product-table th,
+.product-table td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.product-table th {
+    background-color: maroon;
+    color: white;
+}
+
+.product-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.product-table img.product-image {
+    max-width: 100px;
+    height: auto;
+}
+
+/* Buttons and form styling */
+.edit-button, .delete-button {
+    background-color: #f0f0f0;
+    border: none;
+    padding: 8px 12px;
+    margin: 0 4px;
+    border-radius: 4px;
     cursor: pointer;
-    margin: auto;
+    font-size: 16px;
 }
 
-.listproduct-allproducts {
-    width: 100%;
-    max-height: 500px; /* Set a maximum height */
-    overflow-y: auto; /* Enable scrolling */
+.edit-button {
+    background-color: #4caf50;
+    color: white;
 }
 
-.list-product h1 {
-    margin: 0; /* Remove default margin */
-    padding-bottom: 10px; /* Optional: Adjust spacing between heading and list */
-    font-size: 1.5rem; /* Adjust font size */
-    color: #333333; /* Adjust text color */
-    border-bottom: 1px solid #cccccc; /* Optional: Underline effect */
+.delete-button {
+    background-color: #f44336;
+    color: white;
 }
 
-@media(max-width: 800px) {
-    .list-product {
-        width: 95%;
-        height: auto; /* Allow height to adjust based on content */
-        padding: 10px 30px;
-        margin: 20px auto;
-    }
-    .listproduct-format-main, .listproduct-format {
-        grid-template-columns: 60px 1fr 1fr 1fr 1fr 1fr 50px; /* Adjust columns for smaller screens */
-        padding: 10px 0;
-        font-size: 12px;
-    }
-    .listproduct-product-icon {
-        height: 60px;
-        width: 60px; /* Adjust width for smaller screens */
-    }
+.edit-button:hover, .delete-button:hover {
+    opacity: 0.8;
+}
+
+.edit-form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    width: 50%;
+    margin-left: 400px;
+}
+
+.edit-form h2 {
+    margin-bottom: 20px;
+   
+}
+
+.edit-form label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.edit-form input[type="text"], .edit-form input[type="number"], .edit-form input[type="file"] {
+    width: calc(100% - 22px);
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.edit-form button {
+    padding: 10px 15px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.edit-form button[type="submit"] {
+    background-color: #4caf50;
+    color: white;
+}
+
+.edit-form button[type="button"] {
+    background-color: #ccc;
+    color: black;
 }

@@ -1,11 +1,10 @@
-
-
 import React, { useState } from 'react';
-import { Modal, Button, Form, Row, Col } from 'react-bootstrap'; // Import Bootstrap components
+import { Modal, Button, Form, Row, Col } from 'react-bootstrap';
 import './CreateShippingModal.css';
 
 const CreateShippingModal = ({ show, handleClose, handleCreateOrder }) => {
     const [orderData, setOrderData] = useState({
+        productId: '',
         productName: '',
         quantity: '',
         size: '',
@@ -19,7 +18,7 @@ const CreateShippingModal = ({ show, handleClose, handleCreateOrder }) => {
         city: '',
         pin: '',
         productWeight: '',
-        status: 'Pending', // Default status
+        status: 'Pending',
     });
 
     const handleChange = (e) => {
@@ -29,19 +28,19 @@ const CreateShippingModal = ({ show, handleClose, handleCreateOrder }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        handleCreateOrder(orderData); // Pass orderData to parent component for processing
-        handleClose(); // Close modal after form submission
+        handleCreateOrder(orderData);
+        handleClose();
     };
 
     return (
-        <Modal show={show} onHide={handleClose}>
+        <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false} className="create-shipping-modal">
             <Modal.Header closeButton>
                 <Modal.Title>Create New Shipping</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
-                    <Row>
-                        <Col>
+                    <Row className="mb-3">
+                        <Col md={6}>
                             <Form.Group controlId="productId">
                                 <Form.Label>Product ID</Form.Label>
                                 <Form.Control
@@ -49,12 +48,12 @@ const CreateShippingModal = ({ show, handleClose, handleCreateOrder }) => {
                                     name="productId"
                                     value={orderData.productId}
                                     onChange={handleChange}
-                                    placeholder="Enter product Id"
+                                    placeholder="Enter product ID"
                                     required
                                 />
                             </Form.Group>
                         </Col>
-                        <Col>
+                        <Col md={6}>
                             <Form.Group controlId="productName">
                                 <Form.Label>Product Name</Form.Label>
                                 <Form.Control
@@ -68,65 +67,66 @@ const CreateShippingModal = ({ show, handleClose, handleCreateOrder }) => {
                             </Form.Group>
                         </Col>
                     </Row>
-                    
-                  <Row>
-                    <Col>
-                     <Form.Group controlId="quantity">
-                        <Form.Label>Quantity</Form.Label>
-                        <Form.Control
-                            type="number"
-                            name="quantity"
-                            value={orderData.quantity}
-                            onChange={handleChange}
-                            placeholder="Enter quantity"
-                            required
-                        />
-                    </Form.Group>
-                    </Col>
-                    <Col>
-                    <Form.Group controlId="size">
-                        <Form.Label>Size</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="size"
-                            value={orderData.size}
-                            onChange={handleChange}
-                            placeholder="Enter size"
-                            required
-                        />
-                    </Form.Group>
-                    </Col>
+
+                    <Row className="mb-3">
+                        <Col md={6}>
+                            <Form.Group controlId="quantity">
+                                <Form.Label>Quantity</Form.Label>
+                                <Form.Control
+                                    type="number"
+                                    name="quantity"
+                                    value={orderData.quantity}
+                                    onChange={handleChange}
+                                    placeholder="Enter quantity"
+                                    required
+                                />
+                            </Form.Group>
+                        </Col>
+                        <Col md={6}>
+                            <Form.Group controlId="size">
+                                <Form.Label>Size</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    name="size"
+                                    value={orderData.size}
+                                    onChange={handleChange}
+                                    placeholder="Enter size"
+                                    required
+                                />
+                            </Form.Group>
+                        </Col>
                     </Row>
-                   <Row> 
-                    <Col>
-                    <Form.Group controlId="productWeight">
-                        <Form.Label>Product Weight</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="productWeight"
-                            value={orderData.productWeight}
-                            onChange={handleChange}
-                            placeholder="Enter product weight"
-                            required
-                        />
-                    </Form.Group>
-                    </Col>
-                    <Col>
-                    <Form.Group controlId="stockPrice">
-                        <Form.Label>Total</Form.Label>
-                        <Form.Control
-                            type="number"
-                            name="stockPrice"
-                            value={orderData.stockPrice}
-                            onChange={handleChange}
-                            placeholder="Enter stock price"
-                            required
-                        />
-                    </Form.Group>
-                    </Col>
+
+                    <Row className="mb-3">
+                        <Col md={6}>
+                            <Form.Group controlId="productWeight">
+                                <Form.Label>Product Weight</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    name="productWeight"
+                                    value={orderData.productWeight}
+                                    onChange={handleChange}
+                                    placeholder="Enter product weight"
+                                    required
+                                />
+                            </Form.Group>
+                        </Col>
+                        <Col md={6}>
+                            <Form.Group controlId="stockPrice">
+                                <Form.Label>Total</Form.Label>
+                                <Form.Control
+                                    type="number"
+                                    name="stockPrice"
+                                    value={orderData.stockPrice}
+                                    onChange={handleChange}
+                                    placeholder="Enter stock price"
+                                    required
+                                />
+                            </Form.Group>
+                        </Col>
                     </Row>
-                   
-                    <Form.Group controlId="refundPolicy">
+
+                    <Form.Group controlId="refundPolicy" className="mb-3">
                         <Form.Label>Refund Policy</Form.Label>
                         <Form.Control
                             as="textarea"
@@ -138,90 +138,95 @@ const CreateShippingModal = ({ show, handleClose, handleCreateOrder }) => {
                             required
                         />
                     </Form.Group>
-                    <Row>
-                 <Col>  <Form.Group controlId="pickupAddress">
-                        <Form.Label>Pickup Address</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="pickupAddress"
-                            value={orderData.pickupAddress}
-                            onChange={handleChange}
-                            placeholder="Enter pickup address"
-                            required
-                        />
-                    </Form.Group>
-                    </Col>
-                    <Col>
-                    <Form.Group controlId="deliveryAddress">
-                        <Form.Label>Delivery Address</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="deliveryAddress"
-                            value={orderData.deliveryAddress}
-                            onChange={handleChange}
-                            placeholder="Enter delivery address"
-                            required
-                        />
-                    </Form.Group>
-                    </Col>
+
+                    <Row className="mb-3">
+                        <Col md={6}>
+                            <Form.Group controlId="pickupAddress">
+                                <Form.Label>Pickup Address</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    name="pickupAddress"
+                                    value={orderData.pickupAddress}
+                                    onChange={handleChange}
+                                    placeholder="Enter pickup address"
+                                    required
+                                />
+                            </Form.Group>
+                        </Col>
+                        <Col md={6}>
+                            <Form.Group controlId="deliveryAddress">
+                                <Form.Label>Delivery Address</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    name="deliveryAddress"
+                                    value={orderData.deliveryAddress}
+                                    onChange={handleChange}
+                                    placeholder="Enter delivery address"
+                                    required
+                                />
+                            </Form.Group>
+                        </Col>
                     </Row>
-                    <Row>
-                        <Col>
-                    <Form.Group controlId="landmark">
-                        <Form.Label>Landmark</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="landmark"
-                            value={orderData.landmark}
-                            onChange={handleChange}
-                            placeholder="Enter landmark"
-                            required
-                        />
-                    </Form.Group>
-                    </Col>
-                    <Col>
-                    <Form.Group controlId="country">
-                        <Form.Label>Country</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="country"
-                            value={orderData.country}
-                            onChange={handleChange}
-                            placeholder="Enter country"
-                            required
-                        />
-                    </Form.Group>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col>
-                    <Form.Group controlId="state">
-                        <Form.Label>State</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="state"
-                            value={orderData.state}
-                            onChange={handleChange}
-                            placeholder="Enter state"
-                            required
-                        />
-                    </Form.Group>
-                    </Col>
-                    <Col>
-                    <Form.Group controlId="city">
-                        <Form.Label>City</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="city"
-                            value={orderData.city}
-                            onChange={handleChange}
-                            placeholder="Enter city"
-                            required
-                        />
-                    </Form.Group>
-                    </Col>
+
+                    <Row className="mb-3">
+                        <Col md={6}>
+                            <Form.Group controlId="landmark">
+                                <Form.Label>Landmark</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    name="landmark"
+                                    value={orderData.landmark}
+                                    onChange={handleChange}
+                                    placeholder="Enter landmark"
+                                    required
+                                />
+                            </Form.Group>
+                        </Col>
+                        <Col md={6}>
+                            <Form.Group controlId="country">
+                                <Form.Label>Country</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    name="country"
+                                    value={orderData.country}
+                                    onChange={handleChange}
+                                    placeholder="Enter country"
+                                    required
+                                />
+                            </Form.Group>
+                        </Col>
                     </Row>
-                    <Form.Group controlId="pin">
+
+                    <Row className="mb-3">
+                        <Col md={6}>
+                            <Form.Group controlId="state">
+                                <Form.Label>State</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    name="state"
+                                    value={orderData.state}
+                                    onChange={handleChange}
+                                    placeholder="Enter state"
+                                    required
+                                />
+                            </Form.Group>
+                        </Col>
+                        <Col md={6}>
+                            <Form.Group controlId="city">
+                                <Form.Label>City</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    name="city"
+                                    value={orderData.city}
+                                    onChange={handleChange}
+                                    placeholder="Enter city"
+                                    required
+                                />
+                            </Form.Group>
+                        </Col>
+                    </Row>
+
+                    <Form.Group controlId="pin" className="mb-3">
                         <Form.Label>Pin Code</Form.Label>
                         <Form.Control
                             type="text"
@@ -232,6 +237,7 @@ const CreateShippingModal = ({ show, handleClose, handleCreateOrder }) => {
                             required
                         />
                     </Form.Group>
+
                     <Button variant="primary" type="submit">
                         Create Shipment
                     </Button>
@@ -242,4 +248,3 @@ const CreateShippingModal = ({ show, handleClose, handleCreateOrder }) => {
 };
 
 export default CreateShippingModal;
-

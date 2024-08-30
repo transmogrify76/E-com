@@ -53,7 +53,7 @@ function ENavbar() {
 
       <div className="nav-login-cart">
         <button onClick={() => { setMenu("shop") }}>
-          <Link style={{ textDecoration: 'none' }} to='/login'>Login</Link>
+          <Link style={{ textDecoration: 'none',color:'white' }} to='/login'>Login</Link>
         </button>
 
         <Link to="/cart">
@@ -79,4 +79,6 @@ function ENavbar() {
   );
 }
 
-export default ENavbar;
+ export default ENavbar;
+
+

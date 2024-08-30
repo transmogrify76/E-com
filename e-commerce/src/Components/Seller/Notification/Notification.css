@@ -1,0 +1,61 @@
+/* src/components/NotificationsPage.css */
+
+.notifications-page {
+    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f4f4; /* Light gray background for the page */
+    color: #333; /* Dark text color for contrast */
+    border-radius: 8px; /* Rounded corners for a modern look */
+    max-width: 800px;
+    margin: 0 auto; /* Centering the content */
+}
+
+.notifications-page h1 {
+    margin-bottom: 20px;
+    font-size: 26px;
+    color: #2d3748; /* Darker color for the heading */
+    font-weight: 600; /* Slightly bold for emphasis */
+}
+
+.notification-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.notification {
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    border: 1px solid #e2e8f0; /* Light gray border */
+    cursor: pointer;
+    background-color: #fff; /* White background for each notification */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition effects */
+}
+
+.notification:hover {
+    background-color: #e2e8f0; /* Light gray background on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow effect on hover */
+}
+
+.notification.read {
+    opacity: 0.7; /* Dimmed background for read notifications */
+}
+
+.notification.unread {
+    font-weight: 500; /* Semi-bold for unread notifications */
+    border-left: 5px solid #38a169; /* Green left border for unread notifications */
+}
+
+.notification p {
+    margin: 0;
+    font-size: 16px;
+    color: #4a5568; /* Darker gray for notification message text */
+}
+
+.notification small {
+    display: block;
+    margin-top: 5px;
+    font-size: 14px;
+    color: #a0aec0; /* Light gray color for the date */
+}

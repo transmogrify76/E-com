@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { FaHome, FaFolder, FaShoppingCart, FaUser, FaAngleDoubleLeft, FaAngleDoubleRight, FaBoxOpen, FaClipboardList, FaCog, FaUserFriends, FaMoneyBillAlt, FaTruck } from 'react-icons/fa';
+import { FaHome, FaFolder, FaShoppingCart, FaUser, FaAngleDoubleLeft, FaAngleDoubleRight, FaBoxOpen, FaClipboardList, FaUserFriends, FaMoneyBillAlt, FaTruck } from 'react-icons/fa';
+import { AiOutlineSetting } from 'react-icons/ai';
+import { MdList } from 'react-icons/md';
 import './Sidebar.css'; // Import your CSS file for styling
 
 const Sidebar = () => {
@@ -50,7 +52,7 @@ const Sidebar = () => {
           </li>
           <li className="nav-item">
             <Link to="/order" className={`nav-link ${location.pathname === '/order' ? 'active' : ''}`}>
-              <FaClipboardList className="nav-icon" />
+              < MdList  className="nav-icon" />
               {isExpanded && <span>Manage Orders</span>}
             </Link>
           </li>
@@ -86,7 +88,7 @@ const Sidebar = () => {
           </li>
           <li className="nav-item">
             <Link to="/adsettings" className={`nav-link ${location.pathname === '/adsettings' ? 'active' : ''}`}>
-              <FaCog className="nav-icon" />
+              <AiOutlineSetting className="nav-icon" />
               {isExpanded && <span>Settings</span>}
             </Link>
           </li>

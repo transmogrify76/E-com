@@ -1,108 +1,238 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0; /* Remove default margin */
+}
+
 .main-container {
-    margin-top: 110px;
-    width: 80%;
-    margin-left: 260px;
-  }
+  margin-top: 110px; /* Space from top */
+  width: 80%; /* Width of the container */
+  margin-left: 260px; /* Space from the left */
+  padding: 20px; /* Inner padding */
+}
+
+.grid-container {
+  display: flex; /* Use flexbox for card alignment */
+  justify-content: space-between; /* Space between the cards */
+  flex-wrap: wrap; /* Allow wrapping on smaller screens */
+  gap: 20px; /* Space between cards */
+}
+.card {
   
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 60px;
+  text-align: center;
+}
+
+.total-orders { background-color: #e0f7fa; }
+.active-orders { background-color: #c8e6c9; }
+.completed-orders { background-color: #fff9c4; }
+.cancelled-orders { background-color: #ffcdd2; }
+
+.card-content {
+  margin-bottom: 10px;
+}
+
+.progress-circle {
+  background-color: #ddd;
+  border-radius: 50%;
+  display: inline-block;
+  height: 80px;
+  line-height: 80px;
+  text-align: center;
+  width: 80px;
+  margin: 0 auto;
+}
+
+.card-details {
+  margin-top: 10px;
+}
+
+.card-icon {
+  font-size: 24px;
+  margin-left: 5px;
+}
+
+
+.search-filters-section {
+  margin-top: 20px; /* Space above the filters */
+  margin-bottom: 20px; /* Space below the filters */
+  padding: 15px; /* Inner padding */
+  background-color: #f9f9f9; /* Light background for the filter section */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.search-filters-section input {
+  padding: 10px; /* Inner padding for input */
+  margin-right: 10px; /* Space between input and button */
+  border: 1px solid #ccc; /* Border color */
+  border-radius: 5px; /* Rounded corners */
+  width: 200px; /* Set a fixed width for input */
+}
+
+.search-filters-section button {
+  padding: 10px; /* Inner padding for button */
+  border: none; /* Remove border */
+  border-radius: 5px; /* Rounded corners */
+  background-color: #3f51b5; /* Button background color */
+  color: white; /* Button text color */
+  cursor: pointer; /* Pointer cursor */
+  transition: background-color 0.3s; /* Smooth background transition */
+}
+
+.search-filters-section button:hover {
+  background-color: #5c6bc0; /* Button hover color */
+}
+
+.manage-orders {
+  position: relative; /* Position for dropdown */
+}
+
+.table {
+  margin-top: 20px; /* Space above table */
+}
+
+.table-cell {
+  font-size: 0.95rem; /* Font size for table cells */
+}
+
+.table h6 {
+  margin-bottom: 10px; /* Space below table heading */
+}
+
+.table table {
+  width: 100%; /* Full width */
+  border-collapse: collapse; /* Merge borders */
+}
+
+.table th, .table td {
+  padding: 10px; /* Inner padding */
+  border: 1px solid #ddd; /* Border color */
+  text-align: center; /* Center text */
+}
+
+.table th {
+  background-color: green; /* Header background color */
+  color: white; /* Text color for header */
+}
+
+.table tr:hover {
+  background-color: #f9f9f9; /* Row hover background color */
+}
+
+.edit-modal {
+  position: fixed; /* Fixed position for modal */
+  top: 50%; /* Center vertically */
+  left: 50%; /* Center horizontally */
+  transform: translate(-50%, -50%); /* Adjust for center */
+  background-color: white; /* Modal background color */
+  border: 1px solid #ccc; /* Border color */
+  padding: 20px; /* Inner padding */
+  z-index: 1000; /* Bring modal to front */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Modal shadow */
+}
+
+.edit-modal h6 {
+  margin-bottom: 15px; /* Space below modal heading */
+}
+
+.edit-modal form {
+  display: flex; /* Flexbox layout for form */
+  flex-direction: column; /* Stack inputs */
+}
+
+.edit-modal input,
+.edit-modal select {
+  margin: 10px 0; /* Space above and below inputs */
+  padding: 10px; /* Inner padding */
+  border: 1px solid #ccc; /* Border color */
+  border-radius: 5px; /* Rounded corners */
+}
+
+.edit-modal button {
+  margin-top: 10px; /* Space above button */
+  padding: 10px; /* Inner padding */
+  border: none; /* Remove border */
+  border-radius: 5px; /* Rounded corners */
+  background-color: #10997b; /* Button background color */
+  color: white; /* Button text color */
+  cursor: pointer; /* Pointer cursor */
+  transition: background-color 0.3s; /* Smooth background transition */
+}
+
+.edit-modal button:hover {
+  background-color: #5c6bc0; /* Button hover color */
+}
+
+/* Card Colors */
+.card:nth-child(1) {
+  background-color: #f0f8ff; /* Light Blue */
+}
+
+.card:nth-child(2) {
+  background-color: #e6ffe6; /* Light Green */
+}
+
+.card:nth-child(3) {
+  background-color: #ffe6e6; /* Light Red */
+}
+
+.card:nth-child(4) {
+  background-color: #ffffcc; /* Light Yellow */
+}
+
+.menu {
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 10; /* Ensure the menu appears above other elements */
+}
+
+.menu a {
+  display: block;
+  padding: 10px;
+  color: black;
+  text-decoration: none;
+}
+
+.menu a:hover {
+  background-color: #f1f1f1; /* Highlight on hover */
+}
+.total-orders {
+    font-size: 18px; /* Set the font size */
+    color: #333;     /* Set the text color */
+    margin: 10px 0; /* Set top and bottom margin */
+    font-weight: bold; /* Make the text bold */
+}
+
+
+/* Media Queries */
+@media (max-width: 960px) {
+  .main-container {
+      width: 90%; /* Wider on medium screens */
+      margin-left: auto; /* Center align */
+      margin-right: auto; /* Center align */
+  }
+}
+
+@media (max-width: 600px) {
+  .main-container {
+      width: 100%; /* Full width on small screens */
+      margin-left: auto; /* Center align */
+      margin-right: auto; /* Center align */
+      padding: 10px; /* Padding adjustment */
+  }
+
   .card {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
+      margin-bottom: 20px; /* Space below cards */
+      width: 100%; /* Full width cards */
   }
-  
-  .card-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
+
+  .search-filters-section input {
+      width: 100%; /* Full width input on small screens */
+      margin-right: 0; /* Remove right margin */
+      margin-bottom: 10px; /* Space below input */
   }
-  
-  .card-title {
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-  
-  .progress-circle {
-    position: relative;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    border: 2px solid #3f51b5;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #f0f0f0;
-  }
-  
-  .progress-circle-text {
-    font-size: 0.9rem;
-    font-weight: bold;
-    color: #3f51b5;
-  }
-  
-  .search-filters-section {
-    margin-bottom: 20px;
-    padding: 15px;
-  }
-  
-  .search-input {
-    margin-right: 10px;
-    width: 200px;
-  }
-  
-  .search-button {
-    height: 40px;
-    margin-left: 10px;
-  }
-  
-  .filter-button {
-    margin-left: 10px;
-  }
-  
-  .table {
-    margin-top: 20px;
-  }
-  
-  .table-cell {
-    font-size: 0.95rem;
-  }
-  
-  @media (max-width: 960px) {
-    .main-container {
-      width: 90%;
-      margin-left: auto;
-      margin-right: auto;
-    }
-  }
-  
-  @media (max-width: 600px) {
-    .main-container {
-      width: 100%;
-      margin-left: auto;
-      margin-right: auto;
-      padding: 10px;
-    }
-  
-    .card {
-      margin-bottom: 20px;
-    }
-  
-    .search-input {
-      width: 100%;
-      margin-right: 0;
-      margin-bottom: 10px;
-    }
-  
-    .search-button {
-      width: calc(100% - 10px);
-      margin-left: 0;
-    }
-  
-    .filter-button {
-      width: calc(100% - 10px);
-      margin-left: 0;
-    }
-  } 
-  
-  
+}

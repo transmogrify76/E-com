@@ -1,0 +1,74 @@
+.seller-pricing-section {
+    padding: 20px;
+    background-color: #f9f9f9; /* Light background for contrast */
+}
+
+h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-size: 20px;
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+.product-listing,
+.discounts-promotions,
+.competitor-price-tracking,
+.pricing-strategy-insights,
+.help-support {
+    margin-bottom: 30px;
+    background-color: #ffffff; /* White background for sections */
+    padding: 15px;
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.table {
+    margin: 0 auto;
+}
+
+.table th, .table td {
+    padding: 5px;
+    font-size: 14px; /* Consistent font size */
+}
+
+.table th {
+    background-color: #f8f9fa; /* Light gray background for header */
+}
+
+.table td {
+    text-align: left;
+}
+
+.input-group {
+    width: 200px;
+}
+
+.input-group .form-control {
+    height: 30px;
+    font-size: 14px; /* Font size for inputs */
+}
+
+.btn {
+    font-size: 14px; /* Font size for buttons */
+}
+
+.discount-list {
+    background-color: #f8f9fa; /* Light gray for the discount list */
+    padding: 10px;
+    border-radius: 5px; /* Rounded corners */
+}
+
+.support-contact {
+    margin-top: 10px;
+    font-size: 14px; /* Font size for support contact */
+}
+
+.support-contact p {
+    margin: 0; /* Remove default margin */
+}
+/* Add this to your CSS file */
+

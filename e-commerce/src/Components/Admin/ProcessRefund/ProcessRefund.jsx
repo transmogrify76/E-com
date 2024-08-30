@@ -1,39 +1,3 @@
-// import React from 'react';
-// import { useParams, Link } from 'react-router-dom';
-// import './ProcessRefund.css'; // Ensure you have this CSS file in the appropriate path
-
-// const ProcessRefundPage = ({ refunds, handleApproveRefund, handleCancelRefund }) => {
-//   const { refundId } = useParams();
-//   const refund = refunds.find(r => r.id === parseInt(refundId));
-
-//   if (!refund) {
-//     return <div>Refund not found</div>;
-//   }
-
-//   return (
-//     <div className="process-refund-container">
-//       <h2>Processing Refund #{refund.refundNumber}</h2>
-//       <p>Date: {refund.date}</p>
-//       <p>Amount: ${refund.amount}</p>
-//       <p>Status: {refund.status}</p>
-//       <p>Customer Name: {refund.customer.name}</p>
-//       <p>Customer Email: {refund.customer.email}</p>
-//       <p>Order Number: {refund.customer.orderNumber}</p>
-//       <div className="refund-actions">
-//         {refund.status === 'Pending' && (
-//           <>
-//             <button onClick={() => handleApproveRefund(refund.id)}>Approve</button>
-//             <button onClick={() => handleCancelRefund(refund.id)}>Cancel</button>
-//           </>
-//         )}
-//       </div>
-//       <Link to="/admin/refunds" className="back-button">Back to Refund List</Link>
-//     </div>
-//   );
-// };
-
-// export default ProcessRefundPage;
-
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import './ProcessRefund.css'; // Ensure you have this CSS file in the appropriate path
@@ -43,47 +7,11 @@ const ProcessRefundPage = ({ refunds, handleProcessRefund, handleViewDetails }) 
 
   // Dummy data for refunds (replace with your actual data)
   const dummyRefunds = [
-    {
-      id: 1,
-      orderId: 'ORD-001',
-      customerName: 'Smriti De',
-      refundAmount: 50,
-      status: 'Pending',
-      date: '2024-07-18', // Add more details as needed
-    },
-    {
-      id: 2,
-      orderId: 'ORD-002',
-      customerName: 'Jony Smith',
-      refundAmount: 30,
-      status: 'Processed',
-      date: '2024-07-17', // Add more details as needed
-    },
-    {
-      id: 3,
-      orderId: 'ORD-003',
-      customerName: 'Manik Sen',
-      refundAmount: 25,
-      status: 'Approved',
-      date: '2024-07-16',
-    },
-    {
-      id: 4,
-      orderId: 'ORD-004',
-      customerName: 'Emily Banerjee',
-      refundAmount: 40,
-      status: 'Pending',
-      date: '2024-07-15',
-    },
-    {
-      id: 5,
-      orderId: 'ORD-005',
-      customerName: 'Saroj Adak',
-      refundAmount: 20,
-      status: 'Rejected',
-      date: '2024-07-14',
-    },
-    // Add more dummy data as needed
+    { id: 1, orderId: 'ORD-001', customerName: 'Smriti De', refundAmount: 50, status: 'Pending', date: '2024-07-18' },
+    { id: 2, orderId: 'ORD-002', customerName: 'Jony Smith', refundAmount: 30, status: 'Processed', date: '2024-07-17' },
+    { id: 3, orderId: 'ORD-003', customerName: 'Manik Sen', refundAmount: 25, status: 'Approved', date: '2024-07-16' },
+    { id: 4, orderId: 'ORD-004', customerName: 'Emily Banerjee', refundAmount: 40, status: 'Pending', date: '2024-07-15' },
+    { id: 5, orderId: 'ORD-005', customerName: 'Saroj Adak', refundAmount: 20, status: 'Rejected', date: '2024-07-14' },
   ];
 
   // Find the refund with the matching ID
@@ -94,14 +22,12 @@ const ProcessRefundPage = ({ refunds, handleProcessRefund, handleViewDetails }) 
   }
 
   const handleApproveRefund = () => {
-    // Example logic to update refund status to 'Approved'
     setRefund({ ...refund, status: 'Approved' });
     console.log('Approving refund', refund.id);
     // Implement API call or backend integration here to update the refund status
   };
 
   const handleCancelRefund = () => {
-    // Example logic to update refund status to 'Cancelled'
     setRefund({ ...refund, status: 'Cancelled' });
     console.log('Canceling refund', refund.id);
     // Implement API call or backend integration here to update the refund status
@@ -109,20 +35,22 @@ const ProcessRefundPage = ({ refunds, handleProcessRefund, handleViewDetails }) 
 
   return (
     <div className="process-refund-container">
-      <div className="header">
+      <div className="header-refunds">
         <h2>Processing Refund #{refund.id}</h2>
-        <p>Date: {refund.date}</p>
-        <p>Order ID: {refund.orderId}</p>
-        <p>Customer Name: {refund.customerName}</p>
-        <p>Refund Amount: ₹{refund.refundAmount}</p>  
-        <p>Status: {refund.status}</p>
+        <div className="refund-details">
+          <div>Date: {refund.date}</div>
+          <div>Order ID: {refund.orderId}</div>
+          <div>Customer Name: {refund.customerName}</div>
+          <div>Refund Amount: ₹{refund.refundAmount}</div>
+          <div>Status: {refund.status}</div>
+        </div>
       </div>
 
       <div className="actions">
         {refund.status === 'Pending' && (
           <>
-            <button onClick={handleApproveRefund}>Approve Refund</button>
-            <button onClick={handleCancelRefund}>Cancel Refund</button>
+            <button className="approve-button" onClick={handleApproveRefund}>Approve Refund</button>
+            <button className="cancel-button" onClick={handleCancelRefund}>Cancel Refund</button>
           </>
         )}
         <Link to="/refunds" className="back-button">Back to Refund List</Link>

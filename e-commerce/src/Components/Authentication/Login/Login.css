@@ -1,7 +1,9 @@
 body.no-scroll {
   overflow: hidden;
 }
-
+body.no-Enavbar {
+  padding-top: 0; /* Adjust padding if needed when navbar is hidden */
+}
 
 .background-image {
   display: flex;
@@ -30,6 +32,7 @@ body.no-scroll {
 
 .card-header-login h2 {
   color: #fff;
+  align-items: center;
 }
 
 .card-body-login {
@@ -97,3 +100,17 @@ body.no-scroll {
   color: #007bff;
   text-decoration: none;
 }
+.card-header-login {
+  background: linear-gradient(100deg, #7c3ad1, #2d2481); /* Gradient header */
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  padding: 15px; /* Adjusted padding for better spacing */
+  text-align: center; /* Center the text */
+  color: #fff; /* White text color */
+}
+
+.card-header-login h2 {
+  margin-left: 150px; /* Remove default margin */
+  font-size: 24px; /* Optional: Increase font size for better visibility */
+}
+

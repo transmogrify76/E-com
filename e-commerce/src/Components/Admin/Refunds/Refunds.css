@@ -18,10 +18,11 @@
     border: 1px solid #ddd;
     padding: 8px;
     text-align: left;
+    
   }
   
   .refunds-table th {
-    background-color: #f2f2f2;
+    background-color: #811b1b;
   }
   
   .refunds-table tbody tr:nth-child(even) {

@@ -1,20 +1,54 @@
-/* CreateOrderModal.css */
+/* CreateShippingModal.css */
 
-/* Adjust modal styles as needed */
- .modal-content {
-    border-radius: 2;
-    width: 300px;
+/* Style the modal */
+.create-shipping-modal .modal-dialog {
+    max-width: 800px;
+    margin-left: 400px; 
+  margin-bottom: 300px;/* Adjust the width of the modal */
 }
 
-.modal-header {
-    background-color: #723aad;
-    color: #fff;
+/* Ensure the modal body has a scrollable area if needed */
+.create-shipping-modal .modal-body {
+    max-height: 200px; /* Adjust the height to control scrolling */
+    overflow-y: auto;
+     /* Add a vertical scrollbar if content overflows */
 }
 
-.modal-footer {
-    background-color: #f8f9fa;
-    border-top: none;
-} 
+/* Style form controls for consistent spacing */
+.create-shipping-modal .form-control {
+    margin-bottom: 1rem; /* Add bottom margin for spacing between form fields */
+}
 
- 
+/* Style for row spacing */
+.create-shipping-modal .row.mb-3 {
+    margin-bottom: 1.5rem; /* Add margin to rows for spacing */
+}
 
+/* Style form labels */
+.create-shipping-modal .form-label {
+    font-weight: bold; /* Make form labels bold */
+    margin-bottom: 0.5rem; /* Add spacing below labels */
+}
+
+/* Style buttons */
+.create-shipping-modal .btn-primary {
+    width: 100%; /* Make button full-width for better appearance */
+    padding: 0.75rem; /* Add padding for a better button size */
+}
+
+/* Optional: Style the modal header */
+.create-shipping-modal .modal-header {
+    background-color: purple; /* Light background for the header */
+    border-bottom: 1px solid #dee2e6; 
+    color: white;/* Border to separate header from body */
+}
+
+/* Optional: Style the close button */
+.create-shipping-modal .btn-close {
+    color: #000; /* Color for the close button */
+}
+
+/* Style the modal title */
+.create-shipping-modal .modal-title {
+    font-size: 1.25rem; /* Larger font size for the title */
+}

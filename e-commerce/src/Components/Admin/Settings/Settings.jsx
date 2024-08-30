@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import './Settings.css'; // Import CSS for styling
-// import Navbar from '../Navbar/Navbar';
 
 const Settings = () => {
   // State for storing settings data
@@ -24,9 +23,7 @@ const Settings = () => {
 
   // Function to handle saving settings
   const handleSaveSettings = () => {
-    // Implement logic to save settings (e.g., API calls)
     console.log('Saving settings:', storeSettings);
-    // Show confirmation or success message
     alert('Settings saved successfully!');
   };
 
@@ -40,9 +37,9 @@ const Settings = () => {
   };
 
   return (
-    
     <div className="settings-container">
-      <h2>Admin Settings</h2>
+     <h2 style={{ marginLeft: '380px' }}>Settings</h2>
+
 
       <div className="settings-flex-container">
         {/* Site Information Card */}
@@ -146,77 +143,71 @@ const Settings = () => {
           </div>
         </div>
       </div>
+
       <div className="settings-flex-container">
-      {/* Payment Settings Card */}
-      <div className="settings-card">
-        <h3>Payment Settings</h3>
-        <div className="form-group">
-          <label>Payment Gateway:</label>
-          <select
-            name="paymentGateway"
-            value={storeSettings.paymentGateway}
-            onChange={handleInputChange}
-          >
-            <option value="paypal">PayPal</option>
-            <option value="stripe">Stripe</option>
-            <option value="square">Square</option>
-          </select>
+        {/* Payment Settings Card */}
+        <div className="settings-card">
+          <h3>Payment Settings</h3>
+          <div className="form-group">
+            <label>Payment Gateway:</label>
+            <select
+              name="paymentGateway"
+              value={storeSettings.paymentGateway}
+              onChange={handleInputChange}
+            >
+              <option value="paypal">PayPal</option>
+              <option value="stripe">Stripe</option>
+              <option value="square">Square</option>
+            </select>
+          </div>
+          <div className="form-group">
+            <label>Bank Account:</label>
+            <input
+              type="text"
+              name="bankAccount"
+              value={storeSettings.bankAccount}
+              onChange={handleInputChange}
+            />
+          </div>
         </div>
-        <div className="form-group">
-          <label>Bank Account:</label>
-          <input
-            type="text"
-            name="bankAccount"
-            value={storeSettings.bankAccount}
-            onChange={handleInputChange}
-          />
+
+        {/* Notification and Security Settings Card */}
+        <div className="settings-card">
+          <h3>Notification & Security Settings</h3>
+          <div className="form-group">
+            <label>
+              <input
+                type="checkbox"
+                name="emailNotifications"
+                checked={storeSettings.emailNotifications}
+                onChange={handleInputChange}
+              />{' '}
+              Email Notifications
+            </label>
+         
+            <label>
+              <input
+                type="checkbox"
+                name="smsNotifications"
+                checked={storeSettings.smsNotifications}
+                onChange={handleInputChange}
+              />{' '}
+              SMS Notifications
+            </label>
+         
+            <label>
+              <input
+                type="checkbox"
+                name="enable2FA"
+                checked={storeSettings.enable2FA}
+                onChange={handleInputChange}
+              />{' '}
+              Enable Two-Factor Authentication
+            </label>
+          </div>
         </div>
       </div>
 
-      {/* Notification Settings Card */}
-      <div className="settings-card">
-        <h3>Notification Settings</h3>
-        <div className="form-group">
-          <label>
-            <input
-              type="checkbox"
-              name="emailNotifications"
-              checked={storeSettings.emailNotifications}
-              onChange={handleInputChange}
-            />{' '}
-            Email Notifications
-          </label>
-        </div>
-        <div className="form-group">
-          <label>
-            <input
-              type="checkbox"
-              name="smsNotifications"
-              checked={storeSettings.smsNotifications}
-              onChange={handleInputChange}
-            />{' '}
-            SMS Notifications
-          </label>
-          <h3>Security Settings</h3>
-        <div className="form-group">
-          <label>
-            <input
-              type="checkbox"
-              name="enable2FA"
-              checked={storeSettings.enable2FA}
-              onChange={handleInputChange}
-            />{' '}
-            Enable Two-Factor Authentication
-          </label>
-        </div>
-        </div>
-      </div>
-
-      {/* Security Settings Card */}
-     
-     
-      </div>
-<br></br>
       {/* Save Button */}
       <button className="btn-save" onClick={handleSaveSettings}>
         Save Settings
@@ -226,4 +217,3 @@ const Settings = () => {
 };
 
 export default Settings;
-

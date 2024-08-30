@@ -1,43 +1,39 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios'; // Import axios
+import axios from 'axios'; // Import axios for API calls
 import './Forgetpassword.css';
 
 const ForgetPassword = () => {
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
-    const [showOtpPopup, setShowOtpPopup] = useState(false);
-    const [otp, setOtp] = useState('');
-    const [otpMessage, setOtpMessage] = useState('');
     const navigate = useNavigate();
 
+    // Handle reset password request
     const handleResetPassword = async () => {
         try {
             // Make API call to request password reset
-            const response = await axios.post('http://localhost:5000/users/forgot-password', { email });
-            
+            const response = await axios.post('http://localhost:5000/forgot-password', { email });
+
+            // Log the full response for debugging
+            console.log('Response:', response);
+
             // Handle response
-            if (response.status === 200) {
-                setShowOtpPopup(true);
+            if (response.status >= 200 && response.status < 300) {
+                // If the request was successful, redirect to the reset password page
                 setMessage(`Password reset instructions have been sent to ${email}`);
+                // Optionally, you could navigate to a new page here or show a different UI
+                navigate('/resetpassword');
             } else {
                 setMessage('Failed to send password reset instructions. Please try again.');
             }
         } catch (error) {
             console.error('Error requesting password reset:', error);
-            setMessage('An error occurred while sending password reset instructions. Please try again.');
-        }
-    };
-
-    const handleOtpSubmit = () => {
-        // For simplicity, consider any OTP as valid
-        // Replace this logic with actual OTP validation
-        if (otp) {
-            setOtpMessage('OTP verified successfully.');
-            // Redirect to reset password page
-            navigate('/resetpassword');
-        } else {
-            setOtpMessage('Please enter a valid OTP.');
+            // Check if the error response contains any specific message
+            if (error.response) {
+                setMessage(error.response.data.message || 'An error occurred while sending password reset instructions. Please try again.');
+            } else {
+                setMessage('An error occurred. Please check your connection and try again.');
+            }
         }
     };
 
@@ -55,6 +51,11 @@ const ForgetPassword = () => {
                                 placeholder="Email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
+                                style={{
+                                    margin: '10px 0px',
+                                    padding:'13px',
+                                    width:'70%'
+                                  }}
                             />
                         </div>
                     </div>
@@ -67,24 +68,6 @@ const ForgetPassword = () => {
                     </div>
                 </div>
             </div>
-
-            {/* OTP Popup */}
-            {showOtpPopup && (
-                <div className="otp-popup">
-                    <div className="otp-popup-content">
-                        <h3> Please Enter OTP</h3>
-                        <input
-                            type="text"
-                            placeholder="Enter OTP"
-                            value={otp}
-                            onChange={(e) => setOtp(e.target.value)}
-                        />
-                        <button onClick={handleOtpSubmit}>Submit</button>
-                        {otpMessage && <div className="otp-message">{otpMessage}</div>}
-                        <button className="close-popup" onClick={() => setShowOtpPopup(false)}></button>
-                    </div>
-                </div>
-            )}
         </div>
     );
 };

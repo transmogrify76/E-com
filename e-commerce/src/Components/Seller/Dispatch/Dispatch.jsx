@@ -18,7 +18,22 @@ const dummyShippingDetails = {
         deliveryStatus: 'On Time',
         deliveryInstructions: 'Leave package at the front porch. Contact customer at 123-456-7890 if no one is home.',
     },
-    // ... other dummy data
+    2: { 
+        id: 2, 
+        carrier: 'FedEx', 
+        trackingNumber: '123456789012', 
+        estimatedDelivery: '2023-01-06', 
+        address: '456 Elm St, Shelbyville', 
+        contact: 'Jane Smith',
+        statusUpdates: [
+            { date: '2023-01-02', event: 'Package received by FedEx' },
+            { date: '2023-01-03', event: 'In transit to sorting facility' },
+            { date: '2023-01-04', event: 'Out for delivery' },
+        ],
+        deliveryStatus: 'On Time',
+        deliveryInstructions: 'Leave package at the side door. Contact customer if needed.',
+    },
+    // Add more dummy data as needed
 };
 
 const DispatchPage = () => {

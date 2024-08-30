@@ -1,34 +1,107 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import {jwtDecode} from 'jwt-decode'; // Ensure this package is installed
 import './NewSeller.css';
 
 const NewSeller = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     companyName: '',
-    companyDescription:'',
-    password:'',
+    description: '',
+    password: '',
     contactPerson: '',
     email: '',
     phoneNumber: '',
     address: ''
   });
 
+  const [userId, setUserId] = useState(null);
+  const [userUsername, setUserUsername] = useState('');
+  const [userRole, setUserRole] = useState('');
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem('accessToken'); // Retrieve the token
+
+    if (accessToken) {
+      try {
+        // Decode the JWT token to get user ID and username
+        const decodedToken = jwtDecode(accessToken);
+        console.log(decodedToken); // Log the decoded token for debugging
+
+        // Map the decoded token data to state
+        setUserId(decodedToken.sub); // Set userId from the 'sub' field in the token
+        setUserUsername(decodedToken.username); // Set username from the token
+        setUserRole(decodedToken.role); // Set role from the token
+
+        // If the user is already a seller, redirect to the seller dashboard
+        if (decodedToken.role === 'Seller') {
+          navigate('/seller-dashboard'); // Redirect to seller dashboard
+        }
+      } catch (error) {
+        console.error('Failed to decode token:', error);
+        navigate('/login'); // Redirect to login if token is invalid
+      }
+    } else {
+      navigate('/login'); // Redirect to login if no token is present
+    }
+  }, [navigate]);
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.id]: e.target.value
+      [e.target.id]: e.target.value // Update form data dynamically
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted with data:', formData);
-    // Add logic to send form data to server or handle submission
-    // You can implement Axios or fetch here to send data to the backend
+
+    const payload = {
+      ...formData,
+      id: userId, // Include userId in the payload
+      username: userUsername, // Include username in the payload
+      roleId: 3, // Assuming this is the default role ID for sellers
+      isSeller: true // Default value for isSeller
+    };
+
+    try {
+      const response = await fetch('http://localhost:5000/user/update', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Something went wrong');
+      }
+
+      console.log('Seller updated successfully:', data);
+      navigate('/seller-dashboard'); // Redirect to the seller dashboard after success
+
+    } catch (error) {
+      console.error('Error updating seller:', error);
+      // Handle the error appropriately (e.g., show an error message)
+    }
+  };
+
+  const handleBecomeSellerClick = () => {
+    // Check if user role is already seller
+    if (userRole === 'Seller') {
+      navigate('/seller-dashboard'); // Redirect to seller dashboard if already a seller
+    } else {
+      // User is not a seller, show signup form
+      navigate('/NewSeller'); // Redirect to signup page
+    }
   };
 
   return (
     <div className="new-seller-form-container">
-      <h2>New Seller Sign Up</h2>
+     <h2 style={{ marginLeft: '330px' }}>New Seller Sign Up</h2>
+     <p>Username: {userUsername}</p>
       <form className="new-seller-form" onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="companyName">Company Name</label>
@@ -43,29 +116,29 @@ const NewSeller = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="companyName">Company Description</label>
+          <label htmlFor="companyDescription">Company Description</label>
           <input
             type="text"
             className="form-control"
-            id="companyDescription"
+            id="description"
             placeholder="Enter your company description"
-            value={formData.companyDescription}
+            value={formData.description} // Fixed this to the correct variable
             onChange={handleChange}
             required
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="companyName">Password</label>
+        {/* <div className="form-group">
+          <label htmlFor="password">Password</label>
           <input
-            type="text"
+            type="password"
             className="form-control"
-            id="companyName"
+            id="password"
             placeholder="Enter your Password"
             value={formData.password}
             onChange={handleChange}
             required
           />
-        </div>
+        </div> */}
         <div className="form-group">
           <label htmlFor="contactPerson">Contact Person</label>
           <input
@@ -114,103 +187,14 @@ const NewSeller = () => {
           />
         </div>
         <button type="submit" className="btn btn-primary">
-          Sign Up
+          Become Seller
         </button>
       </form>
+      <button className="btn btn-secondary" onClick={handleBecomeSellerClick}>
+        Go to Seller Dashboard
+      </button>
     </div>
   );
 };
 
 export default NewSeller;
-
-// import React, { useState, useEffect } from 'react';
-// import { useNavigate } from 'react-router-dom';
-// import { jwtDecode } from 'jwt-decode'; // Use named import instead of default
-// import './NewSeller.css'; // Ensure this file exists for styling
-
-// const NewSeller = () => {
-//   const [user, setUser] = useState(null);
-//   const [loading, setLoading] = useState(false);
-//   const [error, setError] = useState(null);
-//   const navigate = useNavigate();
-
-//   useEffect(() => {
-//     // Fetch and decode the access token when the component mounts
-//     const token = localStorage.getItem('accessToken');
-//     if (token) {
-//       try {
-//         const decoded = jwtDecode(token); // Decode the token
-//         console.log('Decoded Token:', decoded);
-//         setUser({
-//           id: decoded.id,
-//           username: decoded.username,
-//           roleId: decoded.roleId,
-//         });
-//       } catch (error) {
-//         console.error('Failed to decode token:', error);
-//       }
-//     } else {
-//       console.error('No access token found in localStorage');
-//     }
-//   }, []);
-
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-
-//     // Ensure the user object is available
-//     if (!user) {
-//       console.error('User not found');
-//       return;
-//     }
-
-//     const payload = {
-//       id: user.id,
-//       username: user.username,
-//       roleId: user.roleId,
-//       role: "seller", // Set the role to "seller"
-//     };
-
-//     console.log('Payload to send:', payload);
-//     setLoading(true); // Set loading state
-
-//     try {
-//       const response = await fetch('http://localhost:5000/user/update', {
-//         method: 'PATCH', // Using PATCH method
-//         headers: {
-//           'Content-Type': 'application/json',
-//         },
-//         body: JSON.stringify(payload),
-//       });
-
-//       if (!response.ok) {
-//         const errorData = await response.json();
-//         throw new Error(`Network response was not ok: ${errorData.message}`);
-//       }
-
-//       const data = await response.json();
-//       console.log('Success:', data);
-      
-//       // Redirect to the seller dashboard on successful response
-//       navigate('/seller-dashboard'); 
-//     } catch (error) {
-//       console.error('Error during API call:', error);
-//       setError(error.message); // Handle error messages
-//     } finally {
-//       setLoading(false); // Reset loading state
-//     }
-//   };
-
-//   return (
-//     <div className="new-seller-form-container">
-//       <h2>Become a Seller</h2>
-//       {error && <p className="error-message">{error}</p>} {/* Show error message */}
-//       <form className="new-seller-form" onSubmit={handleSubmit}>
-//         <button type="submit" className="btn btn-primary" disabled={loading}>
-//           {loading ? 'Submitting...' : 'Confirm as Seller'}
-//         </button>
-//       </form>
-//     </div>
-//   );
-// };
-
-// export default NewSeller;

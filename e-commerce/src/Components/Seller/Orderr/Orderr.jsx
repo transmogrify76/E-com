@@ -1,12 +1,9 @@
-
-// src/Components/Orderr/Orderr.jsx
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Orderr.css'; // Import CSS file for styling
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faSearch, faFilePdf, faEye, faTruck } from '@fortawesome/free-solid-svg-icons';
 import { Button } from 'react-bootstrap'; // Import Bootstrap components
 import CreateShippingModal from '../CreateShippingModal/CreateShippingModal'; // Import the CreateShippingModal component
+import { FaSearch, FaFilePdf, FaEye, FaTruck } from 'react-icons/fa'; // Import React Icons
 
 const Orderr = () => {
     const [filter, setFilter] = useState('all');
@@ -26,7 +23,18 @@ const Orderr = () => {
     };
 
     const exportToPDF = () => {
-        alert('Exporting to PDF...');
+        const pdfTable = document.getElementById('order-table').outerHTML;
+        const blob = new Blob([pdfTable], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
+        
+        // Create a temporary link to trigger the download
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'orders.pdf';
+        link.click();
+
+        // Clean up
+        URL.revokeObjectURL(url);
     };
 
     const handleShowCreateShippingModal = () => {
@@ -39,11 +47,14 @@ const Orderr = () => {
 
     const handleCreateOrder = (newOrderData) => {
         const newOrder = {
-            id: orders.length + 1,
-            ...newOrderData,
+            id: orders.length + 1, // Increment ID based on existing orders
+            purchaseDate: new Date().toLocaleString(), // Current date and time
+            customerName: newOrderData.productName, // Set customer name from the order data
+            total: newOrderData.stockPrice, // Set total from the order data
+            status: newOrderData.status, // Set status from the order data
         };
-        setOrders([...orders, newOrder]);
-        handleCloseCreateShippingModal();
+        setOrders([...orders, newOrder]); // Add new order to the orders list
+        handleCloseCreateShippingModal(); // Close the modal
     };
 
     const handleFilterChange = (event) => {
@@ -69,18 +80,18 @@ const Orderr = () => {
                         width: '300px'
                     }}
                 />
-               <Button
+                <Button
                     variant="primary"
                     onClick={handleSearch}
                     style={{ marginRight: '350px', marginBottom: '10px' }}
                 >
-                    <FontAwesomeIcon icon={faSearch} /> Search
-                </Button> 
+                    <FaSearch /> Search {/* React Icon */}
+                </Button>
                 <Button
                     variant="secondary"
                     onClick={exportToPDF}
                 >
-                    <FontAwesomeIcon icon={faFilePdf} /> Export to PDF
+                    <FaFilePdf /> Export to PDF {/* React Icon */}
                 </Button>
                 <div>            
                     <select
@@ -109,7 +120,7 @@ const Orderr = () => {
                     </Button>
                 </div>
             </div>
-            <table className="order-table">
+            <table id="order-table" className="order-table">
                 <thead>
                     <tr>
                         <th>Order ID</th>
@@ -121,33 +132,31 @@ const Orderr = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {filteredOrders.map(order => (
-                        <tr key={order.id}>
-                            <td>{order.id}</td>
-                            <td>{order.purchaseDate}</td>
-                            <td>{order.customerName}</td>
-                            <td>{order.total}</td>
-                            <td>{order.status}</td>
-                            <td>
-                                
-                                <Link to={`/OrderIndividual/${order.id}`}>
-                                    <Button variant="info">
-                                        <FontAwesomeIcon icon={faEye} /> View
-                                    </Button>
-                                </Link>
+    {filteredOrders.map(order => (
+        <tr key={order.id}>
+            <td>{order.id}</td>
+            <td>{order.purchaseDate}</td>
+            <td>{order.customerName}</td>
+            <td>{order.total}</td>
+            <td>{order.status}</td>
+            <td>
+                <Link to={`/OrderIndividual/${order.id}`}>
+                    <Button variant="info" style={{ marginRight: '10px' }}> {/* Added margin */}
+                        <FaEye /> View {/* React Icon */}
+                    </Button>
+                </Link>
+                {order.status !== 'Cancelled' && (
+                    <Link to={`/ShippingDetails/${order.id}`}>
+                        <Button variant="warning">
+                            <FaTruck /> Ship {/* React Icon */}
+                        </Button>
+                    </Link>
+                )}
+            </td>
+        </tr>
+    ))}
+</tbody>
 
-                                
-                                {order.status !== 'Cancelled' && (
-                                    <Link to={`/ShippingDetails/${order.id}`}>
-                                        <Button variant="warning">
-                                            <FontAwesomeIcon icon={faTruck} /> Ship
-                                        </Button>
-                                    </Link>
-                                )}
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
             </table>
 
             <CreateShippingModal

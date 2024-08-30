@@ -5,26 +5,62 @@ const ProductUpload = ({ onProductSubmit }) => {
     const [productName, setProductName] = useState('');
     const [productPrice, setProductPrice] = useState('');
     const [productDescription, setProductDescription] = useState('');
-    const [productImage, setProductImage] = useState(null);
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const newProduct = {
-            name: productName,
-            price: parseFloat(productPrice),
-            description: productDescription,
-            image: productImage
-        };
-        onProductSubmit(newProduct);
-        setProductName('');
-        setProductPrice('');
-        setProductDescription('');
-        setProductImage(null);
-    };
+    const [productImages, setProductImages] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
 
     const handleFileChange = (e) => {
-        const file = e.target.files[0];
-        setProductImage(file);
+        const files = Array.from(e.target.files);
+        setProductImages(files);
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        setError(null);
+
+        // Create FormData object
+        const formData = new FormData();
+        formData.append('name', productName);
+        formData.append('price', productPrice);
+        formData.append('description', productDescription);
+
+        // Add userId from localStorage
+        formData.append('userId', localStorage.getItem('userId')); // Ensure 'userId' is available in localStorage
+
+        // Append each file to FormData with the field name 'images'
+        productImages.forEach((file) => {
+            formData.append('images', file);
+        });
+
+        try {
+            const response = await fetch('http://localhost:5000/products/upload', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('accessToken')}` // Include token if needed
+                },
+                body: formData,
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Failed to upload product');
+            }
+
+            const data = await response.json();
+            console.log('Product upload successful:', data);
+
+            // Clear the form and handle success
+            setProductName('');
+            setProductPrice('');
+            setProductDescription('');
+            setProductImages([]);
+        } catch (error) {
+            console.error('Error uploading product:', error);
+            setError(error.message);
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -67,17 +103,22 @@ const ProductUpload = ({ onProductSubmit }) => {
                 </div>
                 
                 <div className="form-group">
-                    <label htmlFor="productImage">Product Image:</label>
+                    <label htmlFor="productImage">Product Images:</label>
                     <input
                         type="file"
                         id="productImage"
                         onChange={handleFileChange}
                         accept=".jpg,.jpeg,.png"
+                        multiple
                         required
                     />
                 </div>
                 
-                <button type="submit" className="upload-button">Upload Product</button>
+                <button type="submit" className="upload-button" disabled={loading}>
+                    {loading ? 'Uploading...' : 'Upload Product'}
+                </button>
+                
+                {error && <p className="error-message">{error}</p>}
             </form>
         </div>
     );

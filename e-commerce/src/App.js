@@ -1,6 +1,7 @@
-import React, { useEffect , useMemo } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 // Import Components
+import { useEffect, useMemo } from 'react';
 import ENavbar from './Components/User/Navbar/Navbar';
 import Sidenav from './Components/User/Sidenav/Sidenav';
 import Dashboard from './Components/Universal/Dashboard/Dashboard';
@@ -21,7 +22,7 @@ import Shop from './Components/User/Shop/Shop';
 import NewCollections from './Components/User/NewCollections/NewCollections';
 import ProductDisplay from './Components/User/ProductDisplay/ProductDisplay';
 import Product from './Components/User/Product/Product';
-import AdminDashboard from './Components/Admin/AdminDashboard/AdminDashboard';        
+import AdminDashboard from './Components/Admin/AdminDashboard/AdminDashboard';
 import Checkout from './Components/User/Checkout/Checkout';
 import Payment from './Components/User/Payment/Payment';
 import SellerDashboard from './Components/Seller/SellerDashboard/SellerDashboard';
@@ -30,18 +31,18 @@ import ExistingProduct from './Components/Seller/ExistingProduct/ExcistingProduc
 import Dispatch from './Components/Seller/Dispatch/Dispatch';
 import RevenueGenerate from './Components/Seller/RevenueGenerate/RevenueGenerate';
 import Orderr from './Components/Seller/Orderr/Orderr';
+import OrderIndividual from './Components/Seller/Order-individual/OrderIndividual';
 import Settings from './Components/Seller/Settings/Settings';
 import Users from './Components/Admin/Users/Users';
-import Products from './Components/Admin/Products/Products';
 import Order from './Components/Admin/Order/Order';
-import Reports from './Components/Admin/Reports/Reports';
 import SideNavbar from './Components/Seller/SideNavbar/SideNavbar';
 import SellerNavbar from './Components/Seller/SellerNavbar/SellerNavbar';
 import Logout from './Components/Authentication/Logout/Logout';
-import Wallet from './Components/Seller/Wallet/Wallet';
+import Wallet from './Components/User/Wallet/Wallet';
+import Pricing from './Components/Seller/Pricing/Pricing';
 import SellerAccount from './Components/Seller/Account/Account';
 import NewSeller from './Components/Seller/NewSeller/NewSeller';
-import NewBank from './Components/Seller/NewBank/NewBank';
+import NewBank from './Components/User/NewBank/NewBank';
 import Navbar from './Components/Admin/Navbar/Navbar';
 import Sidebar from './Components/Admin/Sidebar/Sidebar';
 import AddProduct from './Components/Admin/AddProduct/AddProduct';
@@ -59,20 +60,28 @@ import RefundsPage from './Components/Admin/Refunds/Refunds';
 import ProcessRefundPage from './Components/Admin/ProcessRefund/ProcessRefund';
 import ResetPassword from './Components/Authentication/ResetPassword/ResetPassword';
 import ShippingDetails from './Components/Seller/ShippingDetails/ShippingDetails';
+import ManageSeller from './Components/Admin/ManageSeller/ManageSeller';
+import ProductManagement from './Components/Seller/ProductManagement/ProductManagement';
+import NotificationsPage from './Components/Seller/Notification/Notification';
+import NotificationAdd from './Components/Admin/NotificationAdmin/NotiAd';
+import Termsandcondition from './Components/User/Termsandconditions/Terms';
+import CustomerServicePage from './Components/User/CustomerService/CustomerService';
 import './App.css';
 
 // ScrollHandler Component
 const ScrollHandler = () => {
   const location = useLocation();
-  const noScrollRoutes = useMemo(() => ['/login', '/signup', '/forgetpassword', '/resetpassword'], []);
+  const noScrollAndNoNavbarRoutes = useMemo(() => [
+    '/login', '/signup', '/forgetpassword', '/resetpassword'
+  ], []);
 
   useEffect(() => {
-    if (noScrollRoutes.includes(location.pathname)) {
-      document.body.classList.add('no-scroll');
+    if (noScrollAndNoNavbarRoutes.includes(location.pathname)) {
+      document.body.classList.add('no-scroll', 'no-Enavbar');
     } else {
-      document.body.classList.remove('no-scroll');
+      document.body.classList.remove('no-scroll', 'no-Enavbar');
     }
-  }, [location, noScrollRoutes]);
+  }, [location, noScrollAndNoNavbarRoutes]);
 
   return null;
 };
@@ -105,8 +114,8 @@ function AppContent() {
       '/mens', '/women', '/orders', '/account', '/kids', '/popular', '/shop',
       '/newcollections', '/checkout', '/payment', '/NewSeller', '/admin-dashboard',
       '/list-product', '/add-product', '/categories', '/order', '/users', '/sellers',
-      '/transactions', '/delivery', '/adaccount', '/adsettings', '/inventory', 
-      '/shipments', '/invoice', '/refunds', '/resetpassword'
+      '/transactions', '/delivery', '/adaccount', '/adsettings', '/inventory',
+      '/shipments', '/invoice', '/refunds', '/resetpassword', '/Wallet', '/NewBank', '/notificationadmin','/term'
     ];
     return !pathsWithoutSideNavbar.includes(location.pathname) && !location.pathname.startsWith('/product/') && !location.pathname.startsWith('/invoice/') && !location.pathname.startsWith('/refunds/');
   };
@@ -118,7 +127,7 @@ function AppContent() {
       '/newcollections', '/checkout', '/payment', '/NewSeller', '/admin-dashboard',
       '/list-product', '/add-product', '/categories', '/order', '/users', '/sellers',
       '/transactions', '/delivery', '/adaccount', '/adsettings', '/inventory',
-      '/shipments', '/resetpassword'
+      '/shipments', '/resetpassword', '/Wallet', '/NewBank', '/notificationadmin','/term'
     ];
     return !pathsWithoutSellerNavbar.includes(location.pathname) && !location.pathname.startsWith('/product/');
   };
@@ -129,7 +138,7 @@ function AppContent() {
       '/mens', '/women', '/orders', '/account', '/kids', '/popular', '/shop',
       '/newcollections', '/checkout', '/payment', '/NewSeller', '/seller-dashboard',
       '/ProductUpload', '/ExistingProduct', '/Dispatch', '/RevenueGenerate',
-      '/Orderr', '/Settings',  '/NewBank', '/resetpassword'
+      '/Orderr', '/Settings', '/Wallet', '/NewBank', '/resetpassword', '/Pricing', '/notifications','/term'
     ];
     return !pathsWithoutAdminNavbar.includes(location.pathname) && !location.pathname.startsWith('/product/');
   };
@@ -140,22 +149,21 @@ function AppContent() {
       '/mens', '/women', '/orders', '/account', '/kids', '/popular', '/shop',
       '/newcollections', '/checkout', '/payment', '/NewSeller', '/seller-dashboard',
       '/ProductUpload', '/ExistingProduct', '/Dispatch', '/RevenueGenerate',
-      '/Orderr', '/Settings', '/Wallet', '/SellerAccount', 
-      '/NewBank', '/resetpassword'
+      '/Orderr', '/Settings', '/Wallet', '/SellerAccount',
+      '/NewBank', '/resetpassword', '/Pricing', '/productmanagement', '/notifications','/term'
     ];
-    return !pathsWithoutAdminSidebar.includes(location.pathname) && !location.pathname.startsWith('/product/') && !location.pathname.startsWith('/OrderIndividual/')  && !location.pathname.startsWith('/ShippingDetails/') && !location.pathname.startsWith('/Dispatch/') ;
+    return !pathsWithoutAdminSidebar.includes(location.pathname) && !location.pathname.startsWith('/product/') && !location.pathname.startsWith('/OrderIndividual/') && !location.pathname.startsWith('/ShippingDetails/') && !location.pathname.startsWith('/Dispatch/');
   };
 
   const shouldShowNavbar = () => {
     const pathsWithNavbar = [
       '/', '/dashboard', '/cart', '/wishlist', '/mens', '/women', '/orders',
       '/account', '/kids', '/popular', '/shop', '/newcollections', '/productdisplay',
-      '/product/:productId', '/checkout', '/payment', '/NewSeller'
+      '/product/:productId', '/checkout', '/payment', '/NewSeller', '/Wallet', '/NewBank','/term'
     ];
-    
-    return pathsWithNavbar.includes(location.pathname) || location.pathname.startsWith('/product/') ;
+
+    return pathsWithNavbar.includes(location.pathname) || location.pathname.startsWith('/product/');
   };
-  
 
   const shouldShowFooter = () => {
     const pathsWithoutFooter = [
@@ -206,15 +214,16 @@ function AppContent() {
         <Route path="/RevenueGenerate" element={<RevenueGenerate />} />
         <Route path="/Settings" element={<Settings />} />
         <Route path="/Users" element={<Users />} />
-        <Route path="/Products" element={<Products />} />
         <Route path="/Order" element={<Order />} />
-        <Route path="/Reports" element={<Reports />} />
+        <Route path="/sellers" element={<ManageSeller />} />
         <Route path="/Logout" element={<Logout />} />
         <Route path="/wallet" element={<Wallet />} />
+        <Route path="/Pricing" element={<Pricing />} />
         <Route path="/SellerNavbar" element={<SellerNavbar />} />
         <Route path="/NewSeller" element={<NewSeller />} />
         <Route path="/NewBank" element={<NewBank />} />
         <Route path="/SellerAccount" element={<SellerAccount />} />
+        <Route path="/OrderIndividual/:orderId" element={<OrderIndividual />} />
         <Route path="/add-product" element={<AddProduct />} />
         <Route path="/list-product" element={<ListProduct />} />
         <Route path="/adaccount" element={<AdAccount />} />
@@ -229,6 +238,11 @@ function AppContent() {
         <Route path="/refunds" element={<RefundsPage />} />
         <Route path="/refunds/:refundId" element={<ProcessRefundPage />} />
         <Route path="/resetpassword" element={<ResetPassword />} />
+        <Route path="/productmanagement" element={<ProductManagement />} />
+        <Route path="/notifications" element={<NotificationsPage />} />
+        <Route path="/notificationadmin" element={<NotificationAdd />} />
+        <Route path="/term" element={<Termsandcondition/>} />
+        <Route path="/customerservice" element={<CustomerServicePage/>} />
         <Route path="/ShippingDetails/:orderId" element={<ShippingDetails />} />
       </Routes>
       {shouldShowFooter() && <Footer />}
@@ -237,5 +251,3 @@ function AppContent() {
 }
 
 export default App;
-
-

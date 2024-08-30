@@ -1,80 +1,177 @@
-/* Users.css */
-
-.admin-panel-container {
+/* General Styles */
+.admin-panel {
   padding: 20px;
-  background-color: #f5f5f5; /* Light background for the whole panel */
+  font-family: Arial, sans-serif;
+  color: #333;
+  background-color: #f5f5f5;
+  margin-left: 150px;
 }
 
-.card {
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px; /* Space between cards */
+h2 {
+  margin-top: 0;
+  color: #444;
 }
 
-.search-filter-container {
-  display: flex;
-  justify-content: space-between;
+/* Search Container */
+.search-container {
   margin-bottom: 20px;
 }
 
-.search-input,
-.filter-select {
-  width: 48%; /* Make inputs take half the width */
+.search-input {
+  padding: 10px;
+  width: 100px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
 }
 
-.table {
+/* Table Styles */
+.user-table {
   width: 100%;
-  border-collapse: collapse; /* Remove space between borders */
+  border-collapse: collapse;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.table th,
-.table td {
-  padding: 12px; /* Add padding for better spacing */
-  text-align: left; /* Align text to the left */
-  border-bottom: 1px solid #e0e0e0;
- 
+.user-table th, .user-table td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
 }
 
-.table th {
-  background-color: #2196f3; /* Header background color */
-  color: white; /* Header text color */
-  position: sticky; /* Make header sticky */
-  top: 0; /* Stick to the top */
-  z-index: 1; /* Ensure it's above other elements */
+.user-table th {
+  background-color: #007bff; /* Blue */
+  color: #fff;
+  font-weight: bold;
 }
 
-.table tr:hover {
-  background-color: #f1f1f1; /* Highlight row on hover */
+.user-table td {
+  background-color: #fff;
 }
 
-.button {
-  border-radius: 4px; /* Rounded button corners */
+.user-table tr:nth-child(even) {
+  background-color: #f9f9f9;
 }
 
-.dialog-title {
-  font-weight: bold; /* Bold title in dialogs */
+.user-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Actions */
+.actions {
+  display: flex;
+  gap: 5px; /* Reduced gap between buttons */
+}
+
+.action-button {
+  padding: 6px 10px; /* Slightly reduced padding */
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.action-button:hover {
+  transform: scale(1.05);
+}
+
+.action-button.view {
+  background-color: #28a745; /* Green */
+}
+
+.action-button.edit {
+  background-color: #ffc107; /* Yellow */
+}
+
+.action-button.delete {
+  background-color: #dc3545; /* Red */
+}
+
+.no-data {
+  text-align: center;
+  color: #999;
+}
+
+/* Error Message */
+.error-message {
+  color: #dc3545; /* Red */
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* Dialog Styles */
+.dialog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.dialog.open {
+  opacity: 1;
+  visibility: visible;
 }
 
 .dialog-content {
-  margin-top: 10px; /* Space above dialog content */
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  max-width: 90%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.dialog-actions {
-  justify-content: flex-end; /* Align buttons to the right */
+.dialog-content h3 {
+  margin-top: 0;
+  color: #007bff; /* Blue */
 }
 
-.icon-button {
-  padding: 6px; /* Reduce padding for icon buttons */
+.dialog-content label {
+  display: block;
+  margin-bottom: 10px;
 }
 
-.icon-button:hover {
-  background-color: rgba(0, 0, 0, 0.08); /* Light background on hover */
+.dialog-content input {
+  width: calc(100% - 20px);
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-top: 5px;
+  font-size: 16px;
 }
 
-@media (max-width: 600px) {
-  .search-input,
-  .filter-select {
-    width: 100%; /* Full width on small screens */
-    margin-bottom: 10px; /* Space below inputs */
-  }
+.dialog-content button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+
+.dialog-content button.save {
+  background-color: #28a745; /* Green */
+}
+
+.dialog-content button.cancel {
+  background-color: #dc3545; /* Red */
+}
+
+.dialog-content button:hover {
+  transform: scale(1.05);
 }

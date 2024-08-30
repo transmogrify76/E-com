@@ -14,6 +14,9 @@ const Payment = () => {
         cvv: '',
         billingAddress: ''
     });
+    const [upiDetails, setUpiDetails] = useState({
+        upiId: ''
+    });
 
     const subtotal = getTotalCartAmount();
     const total = subtotal + shippingCost; // Calculate total based on context
@@ -42,16 +45,23 @@ const Payment = () => {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setCardDetails((prevDetails) => ({
-            ...prevDetails,
-            [name]: value
-        }));
+        if (paymentMethod === 'credit-card') {
+            setCardDetails((prevDetails) => ({
+                ...prevDetails,
+                [name]: value
+            }));
+        } else if (paymentMethod === 'upi') {
+            setUpiDetails((prevDetails) => ({
+                ...prevDetails,
+                [name]: value
+            }));
+        }
     };
 
     return (
         <div className="payment-container">
             <section className="payment-info">
-                <h2>Payment Information</h2>
+            <h2 style={{ marginLeft: '280px',color: '#39083f'}}>Payment Information</h2>
                 <div className="payment-methods">
                     <label>
                         <input 
@@ -119,10 +129,22 @@ const Payment = () => {
                         />
                     </form>
                 )}
+                {paymentMethod === 'upi' && (
+                    <form>
+                        <label>UPI ID:</label>
+                        <input 
+                            type="text" 
+                            name="upiId" 
+                            value={upiDetails.upiId} 
+                            placeholder="example@upi" 
+                            onChange={handleInputChange}
+                        />
+                    </form>
+                )}
             </section>
 
             <section className="order-review">
-                <h2>Order Review</h2>
+                <h2 style={{ marginLeft: '280px'}}>Order Review</h2>
                 <div className="order-summary-review">
                     <div className="summary-item">
                         <div className="label">Subtotal:</div>
@@ -139,7 +161,7 @@ const Payment = () => {
                 </div>
                 <label>
                     <input type="checkbox" required />
-                    I agree to the <a href="/terms">terms and conditions</a>.
+                    I agree to the <a href="/term">terms and conditions</a>.
                 </label>
                 <button
                     className="place-order-button"

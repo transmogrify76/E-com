@@ -1,11 +1,6 @@
-
-
-
 import React, { useState } from 'react';
 import './Inventory.css'; // Corrected CSS import
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faFilePdf } from '@fortawesome/free-solid-svg-icons';
-
+import { FaFilePdf } from 'react-icons/fa'; // Importing the PDF icon from React Icons
 
 const Inventory = () => {
     const exportToPDF = () => {
@@ -22,13 +17,15 @@ const Inventory = () => {
     ]);
 
     return (
-        <div className="app-containerr">
+        <div className="app-container">
             {/* Main Content */}
-            <div className="existing-product-containerr">
-                <div className="header-containerr">
+            <div className="existing-product-container">
+                <div className="header-container">
                     <h2>Existing Products</h2>
-                    <div className="export-sectionn">
-                        {/* <button onClick={exportToPDF}><FontAwesomeIcon icon={faFilePdf} /> Export to PDF</button> */}
+                    <div className="export-section">
+                        <button onClick={exportToPDF}>
+                            <FaFilePdf /> Export to PDF
+                        </button>
                     </div>
                 </div>
                 <table>
