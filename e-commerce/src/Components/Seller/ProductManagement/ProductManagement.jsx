@@ -122,7 +122,7 @@
 //                   <td>{product.description}</td>
 //                   <td>{product.price}</td>
 //                   <td>{product.categories ? product.categories.join(', ') : 'No categories'}</td>
-                 
+
 //                   <td>
 //                     {product.variants && product.variants.length > 0 ? (
 //                       product.variants.map((variant, index) => (
@@ -308,16 +308,43 @@ const ProductManagement = () => {
     fetchProducts();
   }, []);
 
+  // Convert buffer to base64
+  const bufferToBase64 = (buffer) => {
+    const binary = String.fromCharCode(...new Uint8Array(buffer));
+    return `data:image/jpeg;base64,${window.btoa(binary)}`;
+  };
+
   // Fetch all products
   const fetchProducts = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/products');
-      setProducts(response.data);
-      setFilteredProducts(response.data); // Initialize filteredProducts with all products
-      setLoading(false);
-    } catch (err) {
-      console.error('Error fetching products:', err);
-      setError('Failed to fetch products. Please try again later.');
+      const response = await fetch('http://localhost:5000/products', {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch products');
+      }
+
+      const data = await response.json();
+
+      // Convert nested image buffers to base64 strings
+      const productsWithImages = data.map(product => ({
+        ...product,
+        image: product.images && product.images.length > 0 && product.images[0].data && product.images[0].data.data
+          ? bufferToBase64(product.images[0].data.data)
+          : '' // Default to empty string if no image data is available
+      }));
+
+      setProducts(productsWithImages);
+      setFilteredProducts(productsWithImages);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+      setError("Failed to fetch products");
+    } finally {
       setLoading(false);
     }
   };
@@ -365,10 +392,10 @@ const ProductManagement = () => {
       }
 
       const updatedProduct = await response.json();
-      setProducts(products.map(product => 
+      setProducts(products.map(product =>
         product.id === updatedProduct.id ? updatedProduct : product
       ));
-      setFilteredProducts(filteredProducts.map(product => 
+      setFilteredProducts(filteredProducts.map(product =>
         product.id === updatedProduct.id ? updatedProduct : product
       ));
       setFormData(null); // Close the form
@@ -419,7 +446,7 @@ const ProductManagement = () => {
                 <th>Image</th>
                 <th>Name</th>
                 <th>Description</th>
-                <th>Price</th>
+                <th>Priceeeeeeeeee</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -429,7 +456,11 @@ const ProductManagement = () => {
                   <tr key={product.id}>
                     <td>{product.id}</td>
                     <td>
-                      <img src={product.imageUrl || 'default-image-url'} alt={product.name} className="product-image" />
+                      {product.image ? (
+                        <img src={product.image} alt={product.name} className="product-image" style={{'max-height': '40px' , width: 'auto'}}/>
+                      ) : (
+                        <p>No Image Available</p>
+                      )}
                     </td>
                     <td>{product.name}</td>
                     <td>{product.description}</td>
@@ -460,32 +491,32 @@ const ProductManagement = () => {
           <form onSubmit={handleSubmit}>
             <label>
               Name:
-              <input 
-                type="text" 
-                name="name" 
-                value={formData.name || ''} 
-                onChange={handleInputChange} 
+              <input
+                type="text"
+                name="name"
+                value={formData.name || ''}
+                onChange={handleInputChange}
               />
             </label>
             <label>
               Description:
-              <input 
-                type="text" 
-                name="description" 
-                value={formData.description || ''} 
-                onChange={handleInputChange} 
+              <input
+                type="text"
+                name="description"
+                value={formData.description || ''}
+                onChange={handleInputChange}
               />
             </label>
             <label>
               Price (₹):
-              <input 
-                type="number" 
-                name="price" 
-                value={formData.price || ''} 
-                onChange={handleInputChange} 
+              <input
+                type="number"
+                name="price"
+                value={formData.price || ''}
+                onChange={handleInputChange}
               />
             </label>
-             {/* <label>
+            {/* <label>
               Image URL:
               <input 
                 type="text" 
