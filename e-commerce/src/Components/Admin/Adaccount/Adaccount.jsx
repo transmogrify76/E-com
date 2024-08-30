@@ -1,73 +1,93 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Adaccount.css'; // Import CSS for styling
 import ConfirmationModal from '../ConfirmationModal/ConfirmationModal';
 
 const AdminAccount = () => {
-    // Mock data for demonstration
-    const adminData = {
-        name: 'Puja Das',
-        email: 'puja.das@example.com',
-        role: 'Administrator',
-        department: 'Operations'
-    };
-
-    const siteInfo = {
-        siteName: 'E-Com Admin',
-        siteLogo: '/path/to/logo.png',
-        foundedYear: '2024',
-        siteAbout: 'This is a brief description of the ecommerce admin site.'
-    };
-
-    // State for handling modal display
+    const [adminData, setAdminData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const [showModal, setShowModal] = useState(false);
 
-    // Function to handle logout
+    useEffect(() => {
+        const fetchAdminData = async () => {
+            setLoading(true);
+            const adminId = localStorage.getItem('userId');
+            const accessToken = localStorage.getItem('accessToken');
+
+            if (!adminId || !accessToken) {
+                setError('Admin ID or access token not found');
+                setLoading(false);
+                return;
+            }
+
+            try {
+                const response = await fetch(`http://localhost:5000/admin/${adminId}`, {
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch admin data');
+                }
+
+                const data = await response.json();
+                setAdminData(data);
+            } catch (error) {
+                setError(error.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchAdminData();
+    }, []);
+
     const handleLogout = () => {
-        setShowModal(true); // Show confirmation modal
+        setShowModal(true);
     };
 
-    // Function to confirm logout
     const confirmLogout = () => {
         // Perform logout logic here
-        console.log('Logging out...');
-        // Example: Redirect user to logout page or clear session
-        // After logout, you can redirect to a different route
+        localStorage.clear(); // Example: Clear localStorage
+        window.location.href = '/login'; // Redirect to login page
     };
 
-    // Function to cancel logout
     const cancelLogout = () => {
-        setShowModal(false); // Hide confirmation modal
+        setShowModal(false);
     };
+
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p className="error-message">{error}</p>;
 
     return (
         <div className="admin-account">
-           <h2 style={{ marginLeft: '360px' }}>Admin Account</h2>
+            <h2 style={{ marginLeft: '360px' }}>Admin Account</h2>
 
+            {adminData ? (
+                <>
+                    {/* Personal Information Section */}
+                    <section className="account-section">
+                        <h5>Personal Information</h5>
+                        <div className="user-info-section">
+                            <p><strong>Name:</strong> {adminData.name}</p>
+                            <p><strong>Email:</strong> {adminData.email}</p>
+                           <p><strong>Phone Number:</strong> {adminData.phoneNumber}</p>
+                            <p><strong>Role:</strong> {adminData.role?.name}</p> {/* Accessing nested role name */}
+                            {/* <p><strong>Company Name:</strong> {adminData.companyName}</p>
+                            <p><strong>Description:</strong> {adminData.description}</p>
+                            <p><strong>Contact Person:</strong> {adminData.contactPerson}</p>
+                            <p><strong>Address:</strong> {adminData.address}</p> */}
+                        </div>
+                    </section>
 
-            {/* Personal Information Section */}
-            <section className="account-section">
-                <h5>Personal Information</h5>
-                <div className="user-info-section">
-                    <p><strong>Name:</strong> {adminData.name}</p>
-                    <p><strong>Email:</strong> {adminData.email}</p>
-                    <p><strong>Role:</strong> {adminData.role}</p>
-                    <p><strong>Department:</strong> {adminData.department}</p>
-                </div>
-            </section>
-
-            {/* Site Information Section */}
-            <section className="account-section">
-                <h5>Site Information</h5>
-                <div className="user-info-section">
-                    <p><strong>Site Name:</strong> {siteInfo.siteName}</p>
-                    <p><strong>Site Logo:</strong> <img src={siteInfo.siteLogo} alt="Site Logo" /></p>
-                    <p><strong>About Site:</strong> {siteInfo.siteAbout}</p>
-                    <p><strong>Founded Year:</strong> {siteInfo.foundedYear}</p>
-                </div>
-            </section>
-
-            {/* Logout Button */}
-            <button onClick={handleLogout}>Logout</button>
+                    {/* Logout Button */}
+                    <button onClick={handleLogout}>Logout</button>
+                </>
+            ) : (
+                <p>No admin data available</p>
+            )}
 
             {/* Confirmation Modal */}
             {showModal && (

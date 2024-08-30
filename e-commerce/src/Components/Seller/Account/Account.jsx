@@ -1,107 +1,79 @@
-import React, { useState } from 'react';
-import './Account.css'; // Import CSS for styling
- import ConfirmationModal from '../../Admin/ConfirmationModal/ConfirmationModal';// Assuming ConfirmationModal component is implemented separately
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import './Account.css'; // Import your CSS
 
-const SellerAccount = () => {
-    // Mock data for demonstration
-    const userData = {
-        name: 'Puja Das',
-        email: 'puja.das@gmail.com',
-        address: 'Mani Casadona',
-        phoneNumber: '1234512345'
+const SellerAccountPage = () => {
+  const navigate = useNavigate();
+  const [sellerData, setSellerData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchSellerData = async () => {
+      const sellerId = localStorage.getItem('sellerId'); // Retrieve seller ID from local storage
+      const accessToken = localStorage.getItem('accessToken'); // Retrieve the token
+
+      if (!sellerId || !accessToken) {
+        console.error('Seller ID or access token not found');
+        navigate('/login'); // Redirect to login if no seller ID or token found
+        return;
+      }
+
+      try {
+        const response = await fetch(`http://localhost:5000/user/sellers/${sellerId}`, {
+          headers: {
+            'Authorization': `Bearer ${accessToken}` // Pass token for authorization
+          }
+        });
+
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new Error(`Error fetching seller data: ${response.status} - ${errorText}`);
+        }
+
+        const data = await response.json();
+        setSellerData(data);
+        setLoading(false); // Data has been successfully fetched
+
+      } catch (error) {
+        setError(error.message);
+        setLoading(false); // Data fetching has finished with an error
+        console.error('Error fetching seller data:', error);
+      }
     };
 
-    const brandInfo = {
-        brandName: 'Example Store',
-        brandLogo: '/path/to/logo.png',
-        establishedYear: '2024',
-        brandAbout: 'This is a brief description of the brand.'
-    };
+    fetchSellerData();
+  }, [navigate]);
 
-    const otherInfo = {
-        address: '456 Park Ave, Townsville',
-        bankAccount: ' 123456789',
-        taxID: 'TAX12345',
-        gstNo: '000000000'
+  if (loading) return <p>Loading...</p>; // Show loading state while fetching
 
-    };
+  if (error) return <p>Error: {error}</p>; // Show error message if something goes wrong
 
-    // State for handling modal display
-    const [showModal, setShowModal] = useState(false);
+  return (
+    <div className="seller-account-page">
+      <h2>Seller Account</h2>
 
-    // Function to toggle modal visibility
-    // const toggleModal = () => {
-    //     setShowModal(!showModal);
-    // };
-
-    // Function to handle logout
-    const handleLogout = () => {
-        setShowModal(true); // Show confirmation modal
-    };
-
-    // Function to confirm logout
-    const confirmLogout = () => {
-        // Perform logout logic here
-        console.log('Logging out...');
-        // Example: Redirect user to logout page or clear session
-        // After logout, you can redirect to a different route
-    };
-
-    // Function to cancel logout
-    const cancelLogout = () => {
-        setShowModal(false); // Hide confirmation modal
-    };
-
-    return (
-        <div className="seller-account">
-           <h2 style={{ marginLeft: '370px' }}>My Account</h2>
-
-
-            {/* Personal Information Section */}
-            <section className="account-section">
-                <h5>Personal Information</h5>
-                <div className="user-info-section">
-                    <p><strong>Name:</strong> {userData.name}</p>
-                    <p><strong>Email:</strong> {userData.email}</p>
-                    <p><strong>Address:</strong> {userData.address}</p>
-                    <p><strong>Phone Number:</strong> {userData.phoneNumber}</p>
-                </div>
-            </section>
-
-            {/* Brand Information Section */}
-            <section className="account-section">
-                <h5>Store Information</h5>
-                <div className="user-info-section">
-                    <p><strong>Store Name:</strong> {brandInfo.brandName}</p>
-                    <p><strong>Store Logo:</strong> <img src={brandInfo.brandLogo} alt="Brand Logo" /></p>
-                    <p><strong>Store About:</strong> {brandInfo.brandAbout}</p>
-                    <p><strong>Established Year:</strong> {brandInfo.establishedYear}</p>
-                </div>
-            </section>
-
-            {/* Other Information Section */}
-            <section className="account-section">
-                <h5>Other Information</h5>
-                <div className="user-info-section">
-                    <p><strong>Bank Account:</strong> {otherInfo.bankAccount}</p>
-                    <p><strong>Tax ID:</strong> {otherInfo.taxID}</p>
-                    <p><strong>GST No:</strong> {otherInfo.gstNo}</p>
-                </div>
-            </section>
-
-            {/* Logout Button */}
-            <button onClick={handleLogout}>Logout</button>
-
-            {/* Confirmation Modal */}
-            {showModal && (
-                <ConfirmationModal
-                    message="Are you sure you want to logout?"
-                    onConfirm={confirmLogout}
-                    onCancel={cancelLogout}
-                />
-            )}
+      <section className="account-section">
+        <h5>Personal Information</h5>
+        <div className="user-info-section">
+          <p><strong>Name:</strong> {sellerData.contactPerson || 'N/A'}</p>
+          <p><strong>Email:</strong> {sellerData.email || 'N/A'}</p>
+          <p><strong>Address:</strong> {sellerData.address || 'N/A'}</p>
+          <p><strong>Phone Number:</strong> {sellerData.phoneNumber || 'N/A'}</p>
         </div>
-    );
+      </section>
+
+      <section className="account-section">
+        <h5>Store Information</h5>
+        <div className="user-info-section">
+          <p><strong>Store Name:</strong> {sellerData.companyName || 'N/A'}</p>
+          <p><strong>Store Description:</strong> {sellerData.description || 'N/A'}</p>
+        </div>
+      </section>
+
+      {/* Add more sections as needed */}
+    </div>
+  );
 };
 
-export default SellerAccount;
+export default SellerAccountPage;

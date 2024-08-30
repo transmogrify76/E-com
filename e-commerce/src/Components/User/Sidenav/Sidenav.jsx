@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { FaHome, FaHeart, FaShoppingCart, FaBox, FaUser, FaAngleDoubleLeft,FaWallet, FaAngleDoubleRight } from 'react-icons/fa';
+import { FaHome, FaHeart, FaShoppingCart, FaBox, FaUser, FaAngleDoubleLeft,FaWallet, FaAngleDoubleRight,FaHeadset } from 'react-icons/fa';
 import './Sidenav.css'; // Import your CSS file for styling
 import { ShopContext } from '../Context/ShopContext';
 
@@ -54,6 +54,12 @@ const SideNav = () => {
                     <Link to="/Wallet" className={`nav-link ${location.pathname === '/Wallet' ? 'active' : ''}`} onClick={() => handleMenuItemClick('Wallet')}>
                         <FaWallet className="nav-icon" />
                         {isExpanded && <span>Wallet</span>}
+                    </Link>
+                </li>
+                <li className="nav-item">
+                    <Link to="/customerservice" className={`nav-link ${location.pathname === '/customerservice' ? 'active' : ''}`} onClick={() => handleMenuItemClick('CustomerService')}>
+                        <FaHeadset className="nav-icon" />
+                        {isExpanded && <span>Customer Service </span>}
                     </Link>
                 </li>
           <li className="nav-item">

@@ -1,91 +1,65 @@
 /* Accounts.css */
 
-/* Overall container styles */
-.my-account-container {
+/* General page styling */
+.user-account-page {
   max-width: 800px;
   margin: 0 auto;
-  padding: 30px;
-  background-color: #f9f9f9;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.user-account-page h2 {
+  font-size: 24px;
+  color: #2c3e50; /* Darker color for the heading */
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  margin-left: 290px;
+}
+/* Section styling */
+.account-section {
   border: 1px solid #ddd;
   border-radius: 8px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-  font-family: 'Roboto', sans-serif;
+  padding: 15px;
+  margin-bottom: 20px;
+  background-color: #f9f9f9;
 }
 
-/* Title styles */
-.my-account-title {
-  margin-top: 0;
-  padding-bottom: 10px;
-  border-bottom: 2px solid #ddd;
-  font-size: 1.8em;
-  color: #333;
-}
-
-/* Section container styles */
-.account-section {
-  margin-bottom: 30px;
-  background-color: #fff;
-  padding: 20px;
-  border: 1px solid #eee;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-}
-
-/* Section title styles */
 .account-section h5 {
-  margin-top: 0;
-  margin-bottom: 15px;
-  font-size: 1.3em;
+  font-size: 1.5rem;
+  color: #444;
+  margin-bottom: 10px;
+}
+
+.user-info-section {
+  font-size: 1rem;
   color: #555;
 }
 
-/* Content paragraph styles */
-.user-info-section p,
-.payment-info-section p,
-.activity-section p {
-  margin: 10px 0;
-  font-size: 1em;
+.user-info-section p {
+  margin: 5px 0;
+}
+
+.user-info-section strong {
+  color: #000;
+}
+
+/* Loading and Error States */
+p {
+  font-size: 1rem;
   color: #666;
 }
-h5{
+
+p.loading, p.error {
+  text-align: center;
+  font-size: 1.2rem;
   font-weight: bold;
-}
-/* Button styles */
-button {
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  padding: 12px 24px;
-  font-size: 1.1em;
-  cursor: pointer;
-  border-radius: 6px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.3s ease;
-}
-
-button:hover {
-  background-color: #0056b3;
-}
-
-/* Helpline number styles */
-.helpline-number {
   margin-top: 20px;
-  text-align: right;
-  font-size: 0.9em;
-  color: #888;
 }
 
-/* Responsive adjustments for smaller screens */
-@media (max-width: 600px) {
-  .my-account-container {
-    padding: 20px;
-  }
-  
-  .account-section {
-    padding: 15px;
-  }
-  
-  .my-account-title {
-    font-size: 1.5em;
-  }
+p.loading {
+  color: #007bff;
+}
+
+p.error {
+  color: #dc3545;
 }
