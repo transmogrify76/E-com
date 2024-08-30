@@ -69,6 +69,7 @@ const NewSeller = () => {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('accessToken')}` // Add Authorization header
         },
         body: JSON.stringify(payload),
       });
@@ -78,6 +79,9 @@ const NewSeller = () => {
       if (!response.ok) {
         throw new Error(data.message || 'Something went wrong');
       }
+
+      // Save seller ID in local storage for later use
+      localStorage.setItem('sellerId', data.id); // Save the seller ID from the response
 
       console.log('Seller updated successfully:', data);
       navigate('/seller-dashboard'); // Redirect to the seller dashboard after success
@@ -100,8 +104,8 @@ const NewSeller = () => {
 
   return (
     <div className="new-seller-form-container">
-     <h2 style={{ marginLeft: '330px' }}>New Seller Sign Up</h2>
-     <p>Username: {userUsername}</p>
+      <h2 style={{ marginLeft: '330px' }}>New Seller Sign Up</h2>
+      <p>Username: {userUsername}</p>
       <form className="new-seller-form" onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="companyName">Company Name</label>
@@ -116,7 +120,7 @@ const NewSeller = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="companyDescription">Company Description</label>
+          <label htmlFor="description">Company Description</label>
           <input
             type="text"
             className="form-control"

@@ -10,6 +10,15 @@
     color: #333; /* Dark grey color for the main heading */
     margin-bottom: 20px;
   }
+  /* ProductManagement.css */
+.product-image {
+  max-width: 100px; /* Adjust size as needed */
+  max-height: 100px;
+  object-fit: cover; /* Maintain aspect ratio and cover the container */
+  display: block; /* Ensure images are block-level for proper layout */
+  margin: 0 auto; /* Center images if desired */
+}
+
   
   .error-message {
     color: red;

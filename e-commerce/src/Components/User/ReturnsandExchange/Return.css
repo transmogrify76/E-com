@@ -1,0 +1,52 @@
+/* Return.css */
+
+.returns-exchanges {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .returns-exchanges h2 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .returns-exchanges p {
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    text-align: justify;
+  }
+  
+  .returns-exchanges a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .returns-exchanges a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 600px) {
+    .returns-exchanges {
+      padding: 15px;
+    }
+    
+    .returns-exchanges h2 {
+      font-size: 1.5rem;
+    }
+  
+    .returns-exchanges p {
+      font-size: 0.9rem;
+    }
+  }
+  
