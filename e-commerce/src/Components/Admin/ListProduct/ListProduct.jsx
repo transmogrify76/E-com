@@ -16,6 +16,12 @@ const ListProduct = () => {
         image: ''
     });
 
+    // Convert buffer to base64
+    const bufferToBase64 = (buffer) => {
+        const binary = String.fromCharCode(...new Uint8Array(buffer));
+        return `data:image/jpeg;base64,${window.btoa(binary)}`;
+    };
+
     // Fetch all products from the API
     const fetchAllProducts = async () => {
         try {
@@ -32,8 +38,17 @@ const ListProduct = () => {
             }
 
             const data = await response.json();
-            setProducts(data);
-            setFilteredProducts(data);
+
+            // Convert nested image buffers to base64 strings
+            const productsWithImages = data.map(product => ({
+                ...product,
+                image: product.images && product.images.length > 0 && product.images[0].data && product.images[0].data.data
+                    ? bufferToBase64(product.images[0].data.data)
+                    : '' // Default to empty string if no image data is available
+            }));
+
+            setProducts(productsWithImages);
+            setFilteredProducts(productsWithImages);
         } catch (error) {
             console.error("Error fetching products:", error);
             setError("Failed to fetch products");
@@ -57,7 +72,6 @@ const ListProduct = () => {
                 throw new Error('Failed to remove product');
             }
 
-            // Update the product list by filtering out the removed product
             setProducts(products.filter(product => product.id !== id));
             setFilteredProducts(filteredProducts.filter(product => product.id !== id));
         } catch (error) {
@@ -104,15 +118,18 @@ const ListProduct = () => {
             }
 
             const updatedProduct = await response.json();
+            const updatedProductWithImage = {
+                ...updatedProduct,
+                image: updatedProduct.image ? bufferToBase64(updatedProduct.image.data) : ''
+            };
 
-            // Update the product list with the updated product
-            setProducts(products.map(product => 
-                product.id === editingProduct.id ? updatedProduct : product
+            setProducts(products.map(product =>
+                product.id === editingProduct.id ? updatedProductWithImage : product
             ));
-            setFilteredProducts(filteredProducts.map(product => 
-                product.id === editingProduct.id ? updatedProduct : product
+            setFilteredProducts(filteredProducts.map(product =>
+                product.id === editingProduct.id ? updatedProductWithImage : product
             ));
-            setEditingProduct(null); // Close the form
+            setEditingProduct(null);
             setFormData({
                 name: '',
                 description: '',
@@ -138,21 +155,21 @@ const ListProduct = () => {
 
     useEffect(() => {
         fetchAllProducts();
-    }, []); // Empty dependency array ensures this runs once on mount
+    }, []);
 
     return (
         <div className='list-product'>
             <div className="header">
                 <h1>Admin Panel - Product List</h1>
-                <input 
-                    type="text" 
-                    placeholder="Search by Product ID" 
-                    value={searchId} 
-                    onChange={handleSearch} 
+                <input
+                    type="text"
+                    placeholder="Search by Product ID"
+                    value={searchId}
+                    onChange={handleSearch}
                     className="search-input"
                 />
             </div>
-            
+
             {error && <p className="error-message">{error}</p>}
             {loading ? (
                 <p>Loading...</p>
@@ -164,40 +181,31 @@ const ListProduct = () => {
                             <form onSubmit={handleSubmit}>
                                 <label>
                                     Name:
-                                    <input 
-                                        type="text" 
-                                        name="name" 
-                                        value={formData.name} 
-                                        onChange={handleInputChange} 
+                                    <input
+                                        type="text"
+                                        name="name"
+                                        value={formData.name}
+                                        onChange={handleInputChange}
                                     />
                                 </label>
                                 <label>
                                     Description:
-                                    <input 
-                                        type="text" 
-                                        name="description" 
-                                        value={formData.description} 
-                                        onChange={handleInputChange} 
+                                    <input
+                                        type="text"
+                                        name="description"
+                                        value={formData.description}
+                                        onChange={handleInputChange}
                                     />
                                 </label>
                                 <label>
                                     Price (₹):
-                                    <input 
-                                        type="number" 
-                                        name="price" 
-                                        value={formData.price} 
-                                        onChange={handleInputChange} 
+                                    <input
+                                        type="number"
+                                        name="price"
+                                        value={formData.price}
+                                        onChange={handleInputChange}
                                     />
                                 </label>
-                                {/* <label>
-                                    Image URL:
-                                    <input 
-                                        type="text" 
-                                        name="image" 
-                                        value={formData.image} 
-                                        onChange={handleInputChange} 
-                                    />
-                                </label> */}
                                 <button type="submit">Update</button>
                                 <button type="button" onClick={() => setEditingProduct(null)}>Cancel</button>
                             </form>
@@ -221,19 +229,23 @@ const ListProduct = () => {
                                     <tr key={product.id}>
                                         <td>{product.id}</td>
                                         <td>
-                                            <img src={product.image} alt={product.image} className="product-image" />
+                                            {product.image ? (
+                                                <img src={product.image} alt={product.name} className="product-image" />
+                                            ) : (
+                                                <p>No Image Available</p>
+                                            )}
                                         </td>
                                         <td>{product.name}</td>
                                         <td>{product.description}</td>
                                         <td>₹{product.price}</td>
                                         <td>
-                                            <button 
+                                            <button
                                                 className="edit-button"
                                                 onClick={() => handleEditClick(product)}
                                             >
                                                 <FaEdit /> Edit
                                             </button>
-                                            <button 
+                                            <button
                                                 className="delete-button"
                                                 onClick={() => removeProduct(product.id)}
                                             >
