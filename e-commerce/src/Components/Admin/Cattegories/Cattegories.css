@@ -1,110 +1,127 @@
+/* General styles for the admin panel container */
 .admin-panel-container {
-  padding: 30px;
   font-family: Arial, sans-serif;
-  background-color: #f8f9fa; /* Light background color for the whole panel */
-  border-radius: 8px;
-  max-width: 1200px;
-  margin: 30px auto;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
- /* Subtle shadow for the panel */
-}
-
-h2 {
-  margin-bottom: 20px;
-  color: #343a40; /* Dark grey for the heading */
-  font-size: 24px;
-  font-weight: 600;
-  margin-left: 500px;
-}
-
-.category-management, .subcategory-management {
-  background-color: #ffffff; /* White background for the input sections */
   padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: #f8f9fa;
+}
+
+/* Header styles */
+h2 {
+  color: #343a40;
+  margin-bottom: 20px;
+}
+
+/* Category and subcategory management sections */
+.category-management, .subcategory-management {
   margin-bottom: 30px;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-h3 {
+.category-management h3, .subcategory-management h3 {
+  color: #495057;
   margin-bottom: 15px;
-  color: #495057; /* Slightly lighter grey for subheadings */
-  font-size: 20px;
-  font-weight: 500;
 }
 
+/* Input and button styles */
 input[type="text"], select {
   padding: 10px;
   margin-right: 10px;
   border: 1px solid #ced4da;
   border-radius: 4px;
   font-size: 16px;
-  width: 250px; /* Fixed width for better alignment */
+  width: 200px;
 }
 
 button {
   padding: 10px 20px;
   border: none;
-  background-color: #007bff; /* Primary blue color */
-  color: #ffffff;
-  cursor: pointer;
   border-radius: 4px;
+  cursor: pointer;
   font-size: 16px;
-  transition: background-color 0.3s, box-shadow 0.3s; /* Smooth transition for hover effects */
+}
+
+button.btn-primary {
+  background-color: #007bff;
+  color: #fff;
+}
+
+button.btn-edit {
+  background-color: #ffc107;
+  color: #fff;
+}
+
+button.btn-delete {
+  background-color: #dc3545;
+  color: #fff;
 }
 
 button:hover {
-  background-color: #0056b3; /* Darker blue on hover */
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+  opacity: 0.9;
 }
 
-.category {
-  background-color: #ffffff;
-  border: 1px solid #e9ecef;
-  padding: 20px;
+/* Category and subcategory card styles */
+.category-card, .subcategory-card {
   margin-bottom: 20px;
+  padding: 20px;
+  background-color: #ffffff;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Light shadow for categories */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.category-header {
+.category-header, .subcategory-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #e9ecef;
-  padding-bottom: 10px;
-  margin-bottom: 10px;
+  justify-content: space-between;
 }
 
-.icon-button {
-  background: none;
-  border: none;
-  color: #dc3545; /* Red color for the trash icon */
-  cursor: pointer;
-  font-size: 18px;
-  transition: color 0.3s; /* Smooth transition for hover effect */
+.category-header h4, .subcategory-header span {
+  margin: 0;
+  color: #343a40;
 }
 
-.icon-button:hover {
-  color: #c82333; /* Darker red for hover effect */
-}
-
-.subcategories {
-  padding-left: 20px;
-}
-
-.subcategory {
+.category-actions, .subcategory-actions {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 8px 0;
-  border-bottom: 1px solid #e9ecef; /* Separator line for subcategories */
 }
 
-.subcategory:last-child {
-  border-bottom: none; /* Remove bottom border for the last item */
+.category-actions button, .subcategory-actions button {
+  margin-left: 10px;
 }
 
-.subcategory span {
-  font-size: 16px;
-  color: #495057; /* Dark grey for text */
+/* Specific styling for the delete button */
+.btn-delete {
+  background-color: #dc3545; /* Red background for delete button */
+  color: #fff; /* White text color */
+  border: 1px solid #dc3545; /* Matching border color */
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.btn-delete:hover {
+  background-color: #c82333; /* Darker red for hover effect */
+  border-color: #c82333; /* Matching border color on hover */
+}
+
+.subcategory-list {
+  margin-top: 20px;
+}
+
+/* Ensuring mobile responsiveness */
+@media (max-width: 768px) {
+  .category-management, .subcategory-management {
+    padding: 15px;
+  }
+
+  input[type="text"], select, button {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  button {
+    width: 100%;
+  }
 }
