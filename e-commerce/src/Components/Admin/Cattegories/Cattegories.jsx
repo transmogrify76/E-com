@@ -16,6 +16,7 @@ const AdminPanel = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
+        // Fetch only top-level categories from the backend
         const response = await axios.get('http://localhost:5000/categories');
         setCategories(response.data);
       } catch (error) {
@@ -51,7 +52,14 @@ const AdminPanel = () => {
         parentCategoryName: selectedCategory,
       });
 
-      setCategories([...categories, response.data]);
+      // Add the new subcategory to the categories state
+      setCategories(prevCategories => 
+        prevCategories.map(category => 
+          category.name === selectedCategory 
+            ? { ...category, subcategories: [...(category.subcategories || []), response.data] } 
+            : category
+        )
+      );
       setNewSubcategoryName('');
     } catch (error) {
       console.error('Error adding subcategory:', error);
@@ -84,9 +92,12 @@ const AdminPanel = () => {
         name: updatedSubcategoryName,
       });
 
-      setCategories(categories.map(subcategory =>
-        subcategory.name === editingSubcategory ? { ...subcategory, name: updatedSubcategoryName } : subcategory
-      ));
+      setCategories(categories.map(category => ({
+        ...category,
+        subcategories: category.subcategories?.map(subcategory =>
+          subcategory.name === editingSubcategory ? { ...subcategory, name: updatedSubcategoryName } : subcategory
+        )
+      })));
       setEditingSubcategory(null);
       setUpdatedSubcategoryName('');
     } catch (error) {
@@ -106,14 +117,17 @@ const AdminPanel = () => {
   const handleDeleteSubcategory = async (name) => {
     try {
       await axios.delete(`http://localhost:5000/categories/subcategory/${name}`);
-      setCategories(categories.filter(subcategory => subcategory.name !== name));
+      setCategories(categories.map(category => ({
+        ...category,
+        subcategories: category.subcategories?.filter(subcategory => subcategory.name !== name)
+      })));
     } catch (error) {
       console.error('Error deleting subcategory:', error);
     }
   };
 
   const renderCategories = () => {
-    return categories.filter(category => !category.parent).map(category => (
+    return categories.filter(category => !category.parentId).map(category => (
       <div key={category.id} className="category-card" style={styles.categoryCard}>
         <div className="category-header" style={styles.header}>
           {editingCategory === category.id ? (
@@ -144,7 +158,7 @@ const AdminPanel = () => {
           </div>
         </div>
         <div className="subcategory-list" style={styles.subcategoryList}>
-          {categories.filter(subcategory => subcategory.parent === category.id).map(subcategory => (
+          {category.subcategories && category.subcategories.map(subcategory => (
             <div key={subcategory.id} className="subcategory-card" style={styles.subcategoryCard}>
               <div className="subcategory-header" style={styles.subcategoryHeader}>
                 {editingSubcategory === subcategory.name ? (
@@ -197,9 +211,13 @@ const AdminPanel = () => {
       </div>
       <div className="subcategory-management" style={styles.managementSection}>
         <h3 style={styles.sectionHeader}>Add Subcategory</h3>
-        <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)} style={styles.select}>
+        <select 
+          value={selectedCategory} 
+          onChange={(e) => setSelectedCategory(e.target.value)} 
+          style={styles.select}
+        >
           <option value="">Select Category</option>
-          {categories.filter(category => !category.parent).map(category => (
+          {categories.filter(category => !category.parentId).map(category => (
             <option key={category.id} value={category.name}>{category.name}</option>
           ))}
         </select>
@@ -210,7 +228,13 @@ const AdminPanel = () => {
           onChange={(e) => setNewSubcategoryName(e.target.value)}
           style={styles.input}
         />
-        <button onClick={handleAddSubcategory} className="btn btn-primary" style={styles.primaryButton}>Add Subcategory</button>
+        <button 
+          onClick={handleAddSubcategory} 
+          className="btn btn-primary" 
+          style={styles.primaryButton}
+        >
+          Add Subcategory
+        </button>
       </div>
       <h3 style={styles.sectionHeader}>Category Hierarchy</h3>
       {renderCategories()}
@@ -231,87 +255,85 @@ const styles = {
     marginBottom: '20px',
   },
   managementSection: {
-    marginBottom: '30px',
-    padding: '20px',
-    backgroundColor: '#ffffff',
-    borderRadius: '8px',
-    boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+    marginBottom: '20px',
   },
   sectionHeader: {
-    color: '#495057',
-    marginBottom: '15px',
+    fontSize: '20px',
+    marginBottom: '10px',
   },
   input: {
-    padding: '8px',
-    marginRight: '10px',
-    border: '1px solid #ccc',
-    borderRadius: '4px',
+    padding: '10px',
     fontSize: '16px',
-    width: '200px',
+    marginRight: '10px',
+    borderRadius: '4px',
+    border: '1px solid #ced4da',
   },
   select: {
-    padding: '8px',
-    marginRight: '10px',
-    border: '1px solid #ccc',
-    borderRadius: '4px',
+    padding: '10px',
     fontSize: '16px',
-    width: '200px',
+    marginRight: '10px',
+    borderRadius: '4px',
+    border: '1px solid #ced4da',
+    backgroundColor: '#fff',
   },
   primaryButton: {
-    padding: '8px 16px',
+    padding: '10px 20px',
+    fontSize: '16px',
+    color: '#fff',
+    backgroundColor: '#007bff',
     border: 'none',
     borderRadius: '4px',
-    backgroundColor: '#007bff',
-    color: '#fff',
     cursor: 'pointer',
-    fontSize: '16px',
   },
   editButton: {
-    padding: '8px 16px',
-    border: 'none',
-    borderRadius: '4px',
-    backgroundColor: '#ffc107',
-    color: '#fff',
-    cursor: 'pointer',
+    padding: '10px',
     fontSize: '16px',
+    color: '#007bff',
+    backgroundColor: '#fff',
+    border: '1px solid #007bff',
+    borderRadius: '4px',
+    cursor: 'pointer',
   },
   deleteButton: {
-    padding: '8px 16px',
-    border: 'none',
-    borderRadius: '4px',
-    backgroundColor: '#dc3545',
-    color: '#fff',
-    cursor: 'pointer',
+    padding: '10px',
     fontSize: '16px',
-  },
-  card: {
-    marginBottom: '20px',
-    padding: '20px',
-    borderRadius: '8px',
-    boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+    color: '#dc3545',
+    backgroundColor: '#fff',
+    border: '1px solid #dc3545',
+    borderRadius: '4px',
+    cursor: 'pointer',
   },
   categoryCard: {
-    backgroundColor: '#e9ecef', // Light gray background for categories
-  },
-  subcategoryCard: {
-    backgroundColor: '#ffffff', // White background for subcategories
+    padding: '15px',
+    marginBottom: '10px',
+    backgroundColor: '#fff',
+    border: '1px solid #dee2e6',
+    borderRadius: '4px',
+    boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
   },
   header: {
     display: 'flex',
-    alignItems: 'center',
     justifyContent: 'space-between',
+    alignItems: 'center',
   },
   actions: {
     display: 'flex',
-    alignItems: 'center',
+    gap: '10px',
   },
   subcategoryList: {
-    marginTop: '20px',
+    marginTop: '10px',
+  },
+  subcategoryCard: {
+    padding: '10px',
+    marginBottom: '5px',
+    backgroundColor: '#f8f9fa',
+    border: '1px solid #ced4da',
+    borderRadius: '4px',
   },
   subcategoryHeader: {
     display: 'flex',
-    alignItems: 'center',
     justifyContent: 'space-between',
+    alignItems: 'center',
   },
 };
 
