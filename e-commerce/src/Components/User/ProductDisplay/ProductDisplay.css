@@ -1,8 +1,8 @@
-
+/* 
      .productdisplay {
       display: flex;
-      margin: 0 auto; /* Center align horizontally */
-      max-width: 1200px; /* Limit maximum width */
+      margin: 0 auto; 
+      max-width: 1200px; 
       padding: 20px;
   }
   
@@ -15,12 +15,12 @@
   .productdisplay-main-img {
       width: 586px;
       height: 700px;
-      object-fit: cover; /* Maintain aspect ratio and cover container */
+      object-fit: cover; 
   }
   
   .productdisplay-right {
       flex: 1;
-      /* Add space between image and right content */
+     
       display: flex;
       flex-direction: column;
       width: 110%;
@@ -74,7 +74,7 @@
   .productdisplay-right-sizes {
       display: flex;
       gap: 20px;
-      flex-wrap: wrap; /* Ensure sizes wrap on smaller screens */
+      flex-wrap: wrap; 
   }
   
   .productdisplay-right-sizes div {
@@ -99,7 +99,7 @@
 
 
   .productdisplay-quantity {
-      margin-top: auto; /* Push quantity to the bottom */
+      margin-top: auto; 
       display: flex;
       align-items: center;
   }
@@ -107,8 +107,8 @@
   .quantity-dropdown {
       padding: 10px;
       font-size: 16px;
-      width: 80px; /* Adjust width of input field */
-      text-align: center; /* Center-align text within input */
+      width: 80px; 
+      text-align: center; 
   }
   
   .quantity-button {
@@ -127,7 +127,7 @@
   
   .productdisplay-right button {
       padding: 20px 40px;
-      width: 60%; /* Full width */
+      width: 60%; 
       font-size: 16px;
       font-weight: 600;
       color: white;
@@ -143,27 +143,15 @@
       background-color: #e62e2e;
   }
   
-  /* .addToWishlistButton,
-  .removeFromWishlistButton {
-      background-color: pink; 
-      color: white;
-      border: none;
-      padding: 20px 40px;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      outline: none;
-      transition: background-color 0.3s;
-      height: 60px;
-  } */
+  
   
   .addToWishlistButton:hover,
   .removeFromWishlistButton:hover {
-      background-color: #0056b3; /* Button color on hover */
+      background-color: #0056b3; 
   }
   
   .removeFromWishlistButton {
-      background-color: #dc3545; /* Button color for 'REMOVE FROM WISHLIST' */
+      background-color: #dc3545; 
   }
   .pincode-validation {
     margin-bottom: 20px;
@@ -183,7 +171,7 @@
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    width: 150px; /* Adjust width to be more compact */
+    width: 150px; 
 }
 
 .pincode-validation button {
@@ -205,4 +193,244 @@
     margin-top: 10px;
     font-size: 16px;
     color: #333;
+} 
+  */
+/* ProductDisplay.css */
+
+.productdisplay {
+    display: flex;
+    margin: 0 auto;
+    max-width: 1200px;
+    padding: 20px;
+}
+
+.productdisplay-left {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.productdisplay-main-img {
+    width: 586px;
+    height: 700px;
+    object-fit: cover;
+}
+
+.productdisplay-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    width: 110%;
+    padding-left: 40px;
+}
+
+.productdisplay-right h1 {
+    color: #3d3d3d;
+    font-size: 40px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.productdisplay-right-stars {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 16px;
+    color: #1c1c1c;
+    margin-bottom: 20px;
+}
+
+.productdisplay-right-prices {
+    display: flex;
+    gap: 30px;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.productdisplay-right-price-old {
+    text-decoration: line-through;
+    color: #818181;
+}
+
+.productdisplay-right-price-new {
+    color: #ff4141;
+}
+
+.productdisplay-right-description {
+    margin-bottom: 20px;
+}
+
+.productdisplay-right-size {
+    color: #656565;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.productdisplay-right-sizes {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.productdisplay-right-sizes div {
+    padding: 12px 24px;
+    background: #fbfbfb;
+    border: 1px solid #ebebeb;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+}
+
+.productdisplay-right-sizes div:hover {
+    background: #f0f0f0;
+    border-color: #ccc;
+}
+
+.size-option.selected {
+    background-color: #333;
+    color: #fff;
+    border-color: #333;
+}
+
+.productdisplay-right-color {
+    margin-top: 20px;
+}
+
+.productdisplay-right-color h1 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #656565;
+    margin-bottom: 10px;
+}
+
+.productdisplay-right-colors {
+    display: flex;
+    gap: 10px;
+}
+
+.color-option {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.color-option.selected {
+    border: 2px solid #007bff;
+}
+
+.color-option:hover {
+    border: 2px solid #0056b3;
+}
+
+.productdisplay-quantity {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+}
+
+.quantity-dropdown {
+    padding: 10px;
+    font-size: 16px;
+    width: 80px;
+    text-align: center;
+}
+
+.quantity-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.quantity-button:hover {
+    background-color: #0056b3;
+}
+
+.productdisplay-right button {
+    padding: 20px 40px;
+    width: 60%;
+    font-size: 16px;
+    font-weight: 600;
+    color: white;
+    background: #ff4141;
+    margin-bottom: 20px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.productdisplay-right button:hover {
+    background-color: #e62e2e;
+}
+
+.addToWishlistButton:hover,
+.removeFromWishlistButton:hover {
+    background-color: #0056b3;
+}
+
+.removeFromWishlistButton {
+    background-color: #dc3545;
+}
+
+.pincode-validation {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.pincode-validation h1 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #656565;
+}
+
+.pincode-validation input {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 150px;
+}
+
+.pincode-validation button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.pincode-validation button:hover {
+    background-color: #0056b3;
+}
+
+.pincode-validation p {
+    margin-top: 10px;
+    font-size: 16px;
+    color: #333;
+}
+/* Add these styles to ProductDisplay.css if needed */
+
+.review-submitted-message {
+    color: #28a745;
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 20px;
 }

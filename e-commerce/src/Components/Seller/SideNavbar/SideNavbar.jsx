@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { FaHome, FaUpload, FaBoxOpen, FaClipboardList, FaTruck, FaChartLine, FaCog,FaUser,FaMoneyBillWave, FaListUl} from 'react-icons/fa';
+import { FaHome, FaUpload, FaBoxOpen, FaClipboardList, FaChartLine, FaCog,FaUser,FaMoneyBillWave, FaListUl, FaStar} from 'react-icons/fa';
 import { MdExpandLess, MdExpandMore } from 'react-icons/md';
 
 const SideNavbar = () => {
@@ -41,9 +41,15 @@ const SideNavbar = () => {
                     </Link>
                 </li>
                 <li className="nav-item">
+                    <Link to="/return" className={`nav-link ${location.pathname === '/return' ? 'active' : ''}`} onClick={() => handleMenuItemClick('Return')}>
+                        < FaStar className="nav-icon" />
+                        {isExpanded && <span>Returns</span>}
+                    </Link>
+                </li>
+                <li className="nav-item">
                     <Link to="/ExistingProduct" className={`nav-link ${location.pathname === '/ExistingProduct' ? 'active' : ''}`} onClick={() => handleMenuItemClick('ExistingProducts')}>
                         <FaBoxOpen className="nav-icon" />
-                        {isExpanded && <span>Inventory Overview</span>}
+                        {isExpanded && <span>Inventory </span>}
                     </Link>
                 </li>
                 <li className="nav-item">
@@ -58,12 +64,12 @@ const SideNavbar = () => {
                         {isExpanded && <span>Manage Orders</span>}
                     </Link>
                 </li>
-                <li className="nav-item">
+                {/* <li className="nav-item">
                     <Link to="/Dispatch" className={`nav-link ${location.pathname === '/Dispatch' ? 'active' : ''}`} onClick={() => handleMenuItemClick('Dispatch')}>
                         <FaTruck className="nav-icon" />
                         {isExpanded && <span>Dispatch</span>}
                     </Link>
-                </li>
+                </li> */}
                 <li className="nav-item">
                     <Link to="/RevenueGenerate" className={`nav-link ${location.pathname === '/RevenueGenerate' ? 'active' : ''}`} onClick={() => handleMenuItemClick('RevenueGeneration')}>
                         <FaChartLine className="nav-icon" />

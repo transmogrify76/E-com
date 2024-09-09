@@ -2,7 +2,8 @@ import React from 'react';
 import ContactUs from '../Contact/Contact';
 import FAQs from '../FAQ/FAQ';
 import ReturnsAndExchanges from '../ReturnsandExchange/Return';
-import './CustomerServicePage.css'; // Make sure to create a CSS file for styling
+import './CustomerServicePage.css'; 
+import CustomerReview from '../CustomerReview/CustomerReview';// Make sure to create a CSS file for styling
 
 const CustomerServicePage = () => {
   return (
@@ -10,6 +11,7 @@ const CustomerServicePage = () => {
       <ContactUs />
       <FAQs />
       <ReturnsAndExchanges />
+      <CustomerReview/>
     </div>
   );
 }

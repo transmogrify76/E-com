@@ -153,7 +153,7 @@ const Users = () => {
                 <td>{user.phoneNumber}</td>
                 <td className="actions" style={{ display: 'flex', gap: '8px' }}>
                   <button onClick={() => handleViewUserDetails(user)} className="action-button view">View</button>
-                  <button onClick={() => handleEditUser(user)} className="action-button edit">Edit</button>
+                  {/* <button onClick={() => handleEditUser(user)} className="action-button edit">Edit</button> */}
                   <button onClick={() => handleDeleteUser(user.id)} className="action-button delete">Delete</button>
                 </td>
               </tr>
