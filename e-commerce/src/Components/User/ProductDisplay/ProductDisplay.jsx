@@ -122,7 +122,7 @@ const ProductDisplay = ({ product }) => {
                 {/* Size Chart Option */}
                 <div className="size-chart-option">
                     <button className="size-chart-button" onClick={toggleSizeChart}>
-                        View Size Chart
+                     Size Chart
                     </button>
                 </div>
 
@@ -195,6 +195,7 @@ const ProductDisplay = ({ product }) => {
                             <thead>
                                 <tr>
                                     <th>Product Label</th>
+                                    
                                     <th>S</th>
                                     <th>M</th>
                                     <th>L</th>
