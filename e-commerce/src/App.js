@@ -66,6 +66,7 @@ import NotificationsPage from './Components/Seller/Notification/Notification';
 import NotificationAdd from './Components/Admin/NotificationAdmin/NotiAd';
 import Termsandcondition from './Components/User/Termsandconditions/Terms';
 import CustomerServicePage from './Components/User/CustomerService/CustomerService';
+import Category from './Components/User/Category/Category';
 import './App.css';
 
 // ScrollHandler Component
@@ -115,7 +116,7 @@ function AppContent() {
       '/newcollections', '/checkout', '/payment', '/NewSeller', '/admin-dashboard',
       '/list-product', '/add-product', '/categories', '/order', '/users', '/sellers',
       '/transactions', '/delivery', '/adaccount', '/adsettings', '/inventory',
-      '/shipments', '/invoice', '/refunds', '/resetpassword', '/Wallet', '/NewBank', '/notificationadmin','/term','/customerservice'
+      '/shipments', '/invoice', '/refunds', '/resetpassword', '/Wallet', '/NewBank', '/notificationadmin','/term','/customerservice','/category'
     ];
     return !pathsWithoutSideNavbar.includes(location.pathname) && !location.pathname.startsWith('/product/') && !location.pathname.startsWith('/invoice/') && !location.pathname.startsWith('/refunds/');
   };
@@ -127,7 +128,7 @@ function AppContent() {
       '/newcollections', '/checkout', '/payment', '/NewSeller', '/admin-dashboard',
       '/list-product', '/add-product', '/categories', '/order', '/users', '/sellers',
       '/transactions', '/delivery', '/adaccount', '/adsettings', '/inventory',
-      '/shipments', '/resetpassword', '/Wallet', '/NewBank', '/notificationadmin','/term','/customerservice'
+      '/shipments', '/resetpassword', '/Wallet', '/NewBank', '/notificationadmin','/term','/customerservice','/category'
     ];
     return !pathsWithoutSellerNavbar.includes(location.pathname) && !location.pathname.startsWith('/product/');
   };
@@ -138,7 +139,7 @@ function AppContent() {
       '/mens', '/women', '/orders', '/account', '/kids', '/popular', '/shop',
       '/newcollections', '/checkout', '/payment', '/NewSeller', '/seller-dashboard',
       '/ProductUpload', '/ExistingProduct', '/Dispatch', '/RevenueGenerate',
-      '/Orderr', '/Settings', '/Wallet', '/NewBank', '/resetpassword', '/Pricing', '/notifications','/term','/customerservice','/SellerAccount','/productmanagement'
+      '/Orderr', '/Settings', '/Wallet', '/NewBank', '/resetpassword', '/Pricing', '/notifications','/term','/customerservice','/SellerAccount','/productmanagement','/category'
     ];
     return !pathsWithoutAdminNavbar.includes(location.pathname) && !location.pathname.startsWith('/product/');
   };
@@ -150,7 +151,7 @@ function AppContent() {
       '/newcollections', '/checkout', '/payment', '/NewSeller', '/seller-dashboard',
       '/ProductUpload', '/ExistingProduct', '/Dispatch', '/RevenueGenerate',
       '/Orderr', '/Settings', '/Wallet', '/SellerAccount',
-      '/NewBank', '/resetpassword', '/Pricing', '/productmanagement', '/notifications','/term','/customerservice'
+      '/NewBank', '/resetpassword', '/Pricing', '/productmanagement', '/notifications','/term','/customerservice','/category'
     ];
     return !pathsWithoutAdminSidebar.includes(location.pathname) && !location.pathname.startsWith('/product/') && !location.pathname.startsWith('/OrderIndividual/') && !location.pathname.startsWith('/ShippingDetails/') && !location.pathname.startsWith('/Dispatch/');
   };
@@ -159,7 +160,7 @@ function AppContent() {
     const pathsWithNavbar = [
       '/', '/dashboard', '/cart', '/wishlist', '/mens', '/women', '/orders',
       '/account', '/kids', '/popular', '/shop', '/newcollections', '/productdisplay',
-      '/product/:productId', '/checkout', '/payment', '/NewSeller', '/Wallet', '/NewBank','/term','/customerservice'
+      '/product/:productId', '/checkout', '/payment', '/NewSeller', '/Wallet', '/NewBank','/term','/customerservice','/category'
     ];
 
     return pathsWithNavbar.includes(location.pathname) || location.pathname.startsWith('/product/');
@@ -243,6 +244,7 @@ function AppContent() {
         <Route path="/notificationadmin" element={<NotificationAdd />} />
         <Route path="/term" element={<Termsandcondition/>} />
         <Route path="/customerservice" element={<CustomerServicePage/>} />
+        <Route path="/category" element={<Category/>} />
         <Route path="/ShippingDetails/:orderId" element={<ShippingDetails />} />
       </Routes>
       {shouldShowFooter() && <Footer />}
