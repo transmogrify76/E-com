@@ -338,7 +338,8 @@
 //     );
 // };
 
-// export default ProductDisplay;
+
+
 import React, { useState, useContext, useEffect } from 'react';
 import './ProductDisplay.css';
 import { ShopContext } from '../Context/ShopContext';
@@ -355,12 +356,10 @@ const ProductDisplay = ({ product }) => {
     const [estimatedDelivery, setEstimatedDelivery] = useState('');
     const [reviewSubmitted, setReviewSubmitted] = useState(false);
     const [canReview, setCanReview] = useState(false); // Track if user can review
+    const [showSizeChart, setShowSizeChart] = useState(false); // Modal visibility state
 
-    // Example function to check if the user can review
-    // In a real application, this data should be fetched from an API or user context
     useEffect(() => {
         const fetchReviewEligibility = async () => {
-            // Replace with your actual API call or logic to determine review eligibility
             const userPurchaseStatus = await checkUserPurchaseStatus(product.id);
             setCanReview(userPurchaseStatus === 'delivered');
         };
@@ -369,9 +368,6 @@ const ProductDisplay = ({ product }) => {
     }, [product.id]);
 
     const checkUserPurchaseStatus = async (productId) => {
-        // Mock API call or logic to get purchase status
-        // This should be replaced with your actual API call
-        // Example response: { purchaseStatus: 'delivered' }
         return 'delivered'; // This should be based on actual data
     };
 
@@ -418,7 +414,10 @@ const ProductDisplay = ({ product }) => {
 
     const handleReviewSubmit = (review) => {
         setReviewSubmitted(true);
-        // Handle review submission if needed, e.g., update local state or trigger a refresh
+    };
+
+    const toggleSizeChart = () => {
+        setShowSizeChart(!showSizeChart);
     };
 
     return (
@@ -460,6 +459,13 @@ const ProductDisplay = ({ product }) => {
                             </div>
                         ))}
                     </div>
+                </div>
+
+                {/* Size Chart Option */}
+                <div className="size-chart-option">
+                    <button className="size-chart-button" onClick={toggleSizeChart}>
+                        Size Chart
+                    </button>
                 </div>
 
                 <div className="productdisplay-right-color">
@@ -521,8 +527,100 @@ const ProductDisplay = ({ product }) => {
                 )}
                 {reviewSubmitted && <p className="review-submitted-message">Thank you for your review!</p>}
             </div>
+
+            {/* Size Chart Modal */}
+            {/* Size Chart and Size Converter Modal */}
+            {showSizeChart && (
+                <div className="size-chart-modal">
+                    <div className="size-chart-content">
+                        <h2>Size Chart</h2>
+                        <table className="size-chart-table">
+                            <thead>
+                                <tr>
+                                    <th>Product Label</th>
+                                    <th>S</th>
+                                    <th>M</th>
+                                    <th>L</th>
+                                    <th>XL</th>
+                                    <th>XXL</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Chest</td>
+                                    <td>87 - 92 cm</td>
+                                    <td>93 - 100 cm</td>
+                                    <td>101 - 108 cm</td>
+                                    <td>109 - 118 cm</td>
+                                    <td>119 - 130 cm</td>
+                                </tr>
+                                <tr>
+                                    <td>Waist</td>
+                                    <td>75 - 80 cm</td>
+                                    <td>81 - 88 cm</td>
+                                    <td>89 - 96 cm</td>
+                                    <td>97 - 106 cm</td>
+                                    <td>107 - 119 cm</td>
+                                </tr>
+                                <tr>
+                                    <td>Hip</td>
+                                    <td>86 - 91 cm</td>
+                                    <td>92 - 99 cm</td>
+                                    <td>100 - 107 cm</td>
+                                    <td>108 - 116 cm</td>
+                                    <td>117 - 125 cm</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        {/* Size Converter */}
+                        <h2>Size Converter</h2>
+                        <table className="size-converter-table">
+                            <thead>
+                                <tr>
+                                    <th>Region</th>
+                                    <th>Small</th>
+                                    <th>Medium</th>
+                                    <th>Large</th>
+                                    <th>XL</th>
+                                    <th>XXL</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>US</td>
+                                    <td>4</td>
+                                    <td>6</td>
+                                    <td>8</td>
+                                    <td>10</td>
+                                    <td>12</td>
+                                </tr>
+                                <tr>
+                                    <td>UK</td>
+                                    <td>8</td>
+                                    <td>10</td>
+                                    <td>12</td>
+                                    <td>14</td>
+                                    <td>16</td>
+                                </tr>
+                                <tr>
+                                    <td>India</td>
+                                    <td>36</td>
+                                    <td>38</td>
+                                    <td>40</td>
+                                    <td>42</td>
+                                    <td>44</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <button className="close-modal-button" onClick={toggleSizeChart}>
+                            Close
+                        </button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
-
 export default ProductDisplay;
+
