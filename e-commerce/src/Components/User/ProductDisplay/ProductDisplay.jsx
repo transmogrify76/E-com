@@ -122,7 +122,7 @@ const ProductDisplay = ({ product }) => {
                 {/* Size Chart Option */}
                 <div className="size-chart-option">
                     <button className="size-chart-button" onClick={toggleSizeChart}>
-                        View Size Chart
+                        Size Chart
                     </button>
                 </div>
 
@@ -187,6 +187,7 @@ const ProductDisplay = ({ product }) => {
             </div>
 
             {/* Size Chart Modal */}
+            {/* Size Chart and Size Converter Modal */}
             {showSizeChart && (
                 <div className="size-chart-modal">
                     <div className="size-chart-content">
@@ -200,39 +201,73 @@ const ProductDisplay = ({ product }) => {
                                     <th>L</th>
                                     <th>XL</th>
                                     <th>XXL</th>
-                                    
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>Chest</td>
-                                    
                                     <td>87 - 92 cm</td>
                                     <td>93 - 100 cm</td>
                                     <td>101 - 108 cm</td>
                                     <td>109 - 118 cm</td>
                                     <td>119 - 130 cm</td>
-                                    
                                 </tr>
                                 <tr>
                                     <td>Waist</td>
-                                    
                                     <td>75 - 80 cm</td>
                                     <td>81 - 88 cm</td>
                                     <td>89 - 96 cm</td>
                                     <td>97 - 106 cm</td>
                                     <td>107 - 119 cm</td>
-                                    
                                 </tr>
                                 <tr>
                                     <td>Hip</td>
-                                    
                                     <td>86 - 91 cm</td>
                                     <td>92 - 99 cm</td>
                                     <td>100 - 107 cm</td>
                                     <td>108 - 116 cm</td>
                                     <td>117 - 125 cm</td>
-                                    
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        {/* Size Converter */}
+                        <h2>Size Converter</h2>
+                        <table className="size-converter-table">
+                            <thead>
+                                <tr>
+                                    <th>Region</th>
+                                    <th>Small</th>
+                                    <th>Medium</th>
+                                    <th>Large</th>
+                                    <th>XL</th>
+                                    <th>XXL</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>US</td>
+                                    <td>4</td>
+                                    <td>6</td>
+                                    <td>8</td>
+                                    <td>10</td>
+                                    <td>12</td>
+                                </tr>
+                                <tr>
+                                    <td>UK</td>
+                                    <td>8</td>
+                                    <td>10</td>
+                                    <td>12</td>
+                                    <td>14</td>
+                                    <td>16</td>
+                                </tr>
+                                <tr>
+                                    <td>India</td>
+                                    <td>36</td>
+                                    <td>38</td>
+                                    <td>40</td>
+                                    <td>42</td>
+                                    <td>44</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -245,5 +280,4 @@ const ProductDisplay = ({ product }) => {
         </div>
     );
 };
-
 export default ProductDisplay;
