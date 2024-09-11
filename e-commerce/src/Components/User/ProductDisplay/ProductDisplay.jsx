@@ -4,6 +4,7 @@ import { ShopContext } from '../Context/ShopContext';
 import star_icon from '../../Assests/Ecommerce_Frontend_Assets/Assets/star_icon.png';
 import star_dull_icon from '../../Assests/Ecommerce_Frontend_Assets/Assets/star_dull_icon.png';
 import CustomerReview from '../CustomerReview/CustomerReview';
+import body_measure_image from '../../Assests/Ecommerce_Frontend_Assets/Assets/body_measure_image.png'; // Add your body measurement image here
 
 const ProductDisplay = ({ product }) => {
     const { addToCart, addToWishlist, wishlistItems, removeFromWishlist } = useContext(ShopContext);
@@ -13,8 +14,8 @@ const ProductDisplay = ({ product }) => {
     const [pincode, setPincode] = useState('');
     const [estimatedDelivery, setEstimatedDelivery] = useState('');
     const [reviewSubmitted, setReviewSubmitted] = useState(false);
-    const [canReview, setCanReview] = useState(false); // Track if user can review
-    const [showSizeChart, setShowSizeChart] = useState(false); // Modal visibility state
+    const [canReview, setCanReview] = useState(false);
+    const [showSizeChart, setShowSizeChart] = useState(false);
 
     useEffect(() => {
         const fetchReviewEligibility = async () => {
@@ -176,7 +177,6 @@ const ProductDisplay = ({ product }) => {
                     <span>Tags: </span> {Array.isArray(product.tags) ? product.tags.join(', ') : product.tags}
                 </p>
 
-                {/* Conditionally render the CustomerReview component */}
                 {canReview && (
                     <CustomerReview
                         productId={product.id}
@@ -187,7 +187,6 @@ const ProductDisplay = ({ product }) => {
             </div>
 
             {/* Size Chart Modal */}
-            {/* Size Chart and Size Converter Modal */}
             {showSizeChart && (
                 <div className="size-chart-modal">
                     <div className="size-chart-content">
@@ -236,48 +235,45 @@ const ProductDisplay = ({ product }) => {
                         <table className="size-converter-table">
                             <thead>
                                 <tr>
-                                    <th>Region</th>
-                                    <th>Small</th>
-                                    <th>Medium</th>
-                                    <th>Large</th>
-                                    <th>XL</th>
-                                    <th>XXL</th>
+                                    <th>EU</th>
+                                    <th>US</th>
+                                    <th>UK</th>
+                                    <th>FR</th>
+                                    <th>IT</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>US</td>
-                                    <td>4</td>
-                                    <td>6</td>
-                                    <td>8</td>
-                                    <td>10</td>
-                                    <td>12</td>
-                                </tr>
-                                <tr>
-                                    <td>UK</td>
-                                    <td>8</td>
-                                    <td>10</td>
-                                    <td>12</td>
-                                    <td>14</td>
-                                    <td>16</td>
-                                </tr>
-                                <tr>
-                                    <td>India</td>
-                                    <td>36</td>
-                                    <td>38</td>
-                                    <td>40</td>
-                                    <td>42</td>
-                                    <td>44</td>
-                                </tr>
+                                <tr><td>XS</td><td>XS</td><td>XS</td><td>XS</td><td>XS</td></tr>
+                                <tr><td>S</td><td>S</td><td>S</td><td>S</td><td>S</td></tr>
+                                <tr><td>M</td><td>M</td><td>M</td><td>M</td><td>M</td></tr>
+                                <tr><td>L</td><td>L</td><td>L</td><td>L</td><td>L</td></tr>
+                                <tr><td>XL</td><td>XL</td><td>XL</td><td>XL</td><td>XL</td></tr>
                             </tbody>
                         </table>
-                        <button className="close-modal-button" onClick={toggleSizeChart}>
+
+                        {/* How to Measure */}
+                        <div className="how-to-measure">
+                            <h2>How to Measure</h2>
+                            <p><strong>Follow these instructions to measure your size accurately:</strong></p>
+                            <ul>
+                                <li>1. Chest: around the widest part.</li>
+                                <li>2. Waist: around the narrowest part.</li>
+                                <li>3. Hip: around the widest part, keeping the feet close together Hold the tape vertically to measure.</li>
+                                <li>4. Inseam: from the crotch to the floor.</li>
+                                <li>5. Height: from the top of the head to the floor, keeping a straight posture.</li>
+
+                            </ul>
+                            <img src={body_measure_image} alt="Body Measurement Instructions" />
+                        </div>
+
+                        <button className="close-size-chart" onClick={toggleSizeChart}>
                             Close
                         </button>
                     </div>
                 </div>
-            )}
+                )}
         </div>
     );
 };
+
 export default ProductDisplay;
