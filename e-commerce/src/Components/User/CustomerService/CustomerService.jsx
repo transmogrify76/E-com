@@ -11,7 +11,7 @@ const CustomerServicePage = () => {
       <ContactUs />
       <FAQs />
       <ReturnsAndExchanges />
-      <CustomerReview/>
+    
     </div>
   );
 }
