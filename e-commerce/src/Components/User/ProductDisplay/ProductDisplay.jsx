@@ -126,7 +126,6 @@ const ProductDisplay = ({ product }) => {
                         Size Chart
                     </button>
                 </div>
-
                 <div className="productdisplay-right-color">
                     <h1>Select color</h1>
                     <div className="productdisplay-right-colors">
@@ -266,12 +265,16 @@ const ProductDisplay = ({ product }) => {
                             <img src={body_measure_image} alt="Body Measurement Instructions" />
                         </div>
 
+                        <div className="how-to-measure">
+                            <p style={{ color: 'red' }}><strong>NOT THE RIGHT SIZE OR COLOR?</strong></p>
+                            <p><strong>No problem, we offer free size exchanges and we have a free return service.</strong></p>
+                        </div>
                         <button className="close-size-chart" onClick={toggleSizeChart}>
                             Close
                         </button>
                     </div>
                 </div>
-                )}
+            )}
         </div>
     );
 };
