@@ -6,6 +6,7 @@ import star_dull_icon from '../../Assests/Ecommerce_Frontend_Assets/Assets/star_
 import CustomerReview from '../CustomerReview/CustomerReview';
 import body_measure_image from '../../Assests/Ecommerce_Frontend_Assets/Assets/body_measure_image.png'; // Add your body measurement image here
 
+
 const ProductDisplay = ({ product }) => {
     const { addToCart, addToWishlist, wishlistItems, removeFromWishlist } = useContext(ShopContext);
     const [quantity, setQuantity] = useState(1);
@@ -13,13 +14,9 @@ const ProductDisplay = ({ product }) => {
     const [selectedColor, setSelectedColor] = useState('');
     const [pincode, setPincode] = useState('');
     const [estimatedDelivery, setEstimatedDelivery] = useState('');
-<<<<<<< Updated upstream
     const [reviewSubmitted, setReviewSubmitted] = useState(false);
     const [canReview, setCanReview] = useState(false);
     const [showSizeChart, setShowSizeChart] = useState(false);
-=======
-    const [isSizeChartOpen, setIsSizeChartOpen] = useState(false); // State for size chart modal
->>>>>>> Stashed changes
 
     useEffect(() => {
         const fetchReviewEligibility = async () => {
@@ -75,21 +72,12 @@ const ProductDisplay = ({ product }) => {
         }
     };
 
-<<<<<<< Updated upstream
     const handleReviewSubmit = (review) => {
         setReviewSubmitted(true);
     };
 
     const toggleSizeChart = () => {
         setShowSizeChart(!showSizeChart);
-=======
-    const openSizeChart = () => {
-        setIsSizeChartOpen(true);
-    };
-
-    const closeSizeChart = () => {
-        setIsSizeChartOpen(false);
->>>>>>> Stashed changes
     };
 
     return (
@@ -131,9 +119,6 @@ const ProductDisplay = ({ product }) => {
                             </div>
                         ))}
                     </div>
-                    <button className="size-chart-button" onClick={openSizeChart}>
-                        Size Chart
-                    </button>
                 </div>
 
                 {/* Size Chart Option */}
@@ -170,6 +155,8 @@ const ProductDisplay = ({ product }) => {
                     <button onClick={validatePincode}>Check Delivery Date</button>
                     {estimatedDelivery && <p>{estimatedDelivery}</p>}
                 </div>
+
+                {/* new promo code goes here */}
                 <button className="addToCartButton" onClick={handleAddToCart}>
                     ADD TO CART
                 </button>
@@ -192,7 +179,6 @@ const ProductDisplay = ({ product }) => {
                     <span>Tags: </span> {Array.isArray(product.tags) ? product.tags.join(', ') : product.tags}
                 </p>
 
-<<<<<<< Updated upstream
                 {canReview && (
                     <CustomerReview
                         productId={product.id}
@@ -200,63 +186,9 @@ const ProductDisplay = ({ product }) => {
                     />
                 )}
                 {reviewSubmitted && <p className="review-submitted-message">Thank you for your review!</p>}
-=======
-                {isSizeChartOpen && (
-                    <div className="size-chart-modal">
-                        <div className="size-chart-content">
-                            <span className="close-button" onClick={closeSizeChart}>&times;</span>
-                            <h2>Size Chart</h2>
-                            <div className="size-chart-details">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>Size</th>
-                                            <th>Chest</th>
-                                            <th>Waist</th>
-                                            <th>Hip</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>Small</td>
-                                            <td>34-36"</td>
-                                            <td>28-30"</td>
-                                            <td>34-36"</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Medium</td>
-                                            <td>38-40"</td>
-                                            <td>32-34"</td>
-                                            <td>38-40"</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Large</td>
-                                            <td>42-44"</td>
-                                            <td>36-38"</td>
-                                            <td>42-44"</td>
-                                        </tr>
-                                        <tr>
-                                            <td>XL</td>
-                                            <td>46-48"</td>
-                                            <td>40-42"</td>
-                                            <td>46-48"</td>
-                                        </tr>
-                                        <tr>
-                                            <td>XXL</td>
-                                            <td>50-52"</td>
-                                            <td>44-46"</td>
-                                            <td>50-52"</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                )}
->>>>>>> Stashed changes
             </div>
 
-            {/* Size Chart Modal */}
+            {/* Size Chart Modal*/}
             {showSizeChart && (
                 <div className="size-chart-modal">
                     <div className="size-chart-content">
@@ -321,7 +253,7 @@ const ProductDisplay = ({ product }) => {
                             </tbody>
                         </table>
 
-                        {/* How to Measure */}
+                        {/* How to Measure  */}
                         <div className="how-to-measure">
                             <h2>How to Measure</h2>
                             <p><strong>Follow these instructions to measure your size accurately:</strong></p>

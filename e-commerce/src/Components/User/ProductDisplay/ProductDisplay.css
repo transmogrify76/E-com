@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 /* Existing ProductDisplay CSS */
 
 .productdisplay {
@@ -8,17 +7,6 @@
     padding: 20px;
 }
 
-=======
-/* Product Display Container */
-.productdisplay {
-    display: flex;
-    margin: 0 auto; /* Center align horizontally */
-    max-width: 1200px; /* Limit maximum width */
-    padding: 20px;
-}
-
-/* Left Side (Image) */
->>>>>>> Stashed changes
 .productdisplay-left {
     display: flex;
     flex-direction: column;
@@ -28,21 +16,11 @@
 .productdisplay-main-img {
     width: 586px;
     height: 700px;
-<<<<<<< Updated upstream
     object-fit: cover;
 }
 
 .productdisplay-right {
     flex: 1;
-=======
-    object-fit: cover; /* Maintain aspect ratio and cover container */
-}
-
-/* Right Side (Details) */
-.productdisplay-right {
-    flex: 1;
-    /* Add space between image and right content */
->>>>>>> Stashed changes
     display: flex;
     flex-direction: column;
     width: 110%;
@@ -95,11 +73,7 @@
 .productdisplay-right-sizes {
     display: flex;
     gap: 20px;
-<<<<<<< Updated upstream
     flex-wrap: wrap;
-=======
-    flex-wrap: wrap; /* Ensure sizes wrap on smaller screens */
->>>>>>> Stashed changes
 }
 
 .productdisplay-right-sizes div {
@@ -122,7 +96,6 @@
     border-color: #333;
 }
 
-<<<<<<< Updated upstream
 .productdisplay-right-color {
     margin-top: 20px;
 }
@@ -163,29 +136,6 @@
 
 .productdisplay-quantity {
     margin-top: auto;
-=======
-/* Size Chart Button */
-.size-chart-button {
-    padding: 12px 24px;
-    background: #fbfbfb;
-    border: 1px solid #ebebeb;
-    border-radius: 3px;
-    cursor: pointer;
-    font-size: 16px;
-    text-align: center;
-    color: #656565;
-    transition: background-color 0.3s, border-color 0.3s, color 0.3s;
-}
-
-.size-chart-button:hover {
-    background: #f0f0f0;
-    border-color: #ccc;
-}
-
-/* Quantity Section */
-.productdisplay-quantity {
-    margin-top: auto; /* Push quantity to the bottom */
->>>>>>> Stashed changes
     display: flex;
     align-items: center;
 }
@@ -193,13 +143,8 @@
 .quantity-dropdown {
     padding: 10px;
     font-size: 16px;
-<<<<<<< Updated upstream
     width: 80px;
     text-align: center;
-=======
-    width: 80px; /* Adjust width of input field */
-    text-align: center; /* Center-align text within input */
->>>>>>> Stashed changes
 }
 
 .quantity-button {
@@ -216,16 +161,9 @@
     background-color: #0056b3;
 }
 
-<<<<<<< Updated upstream
 .productdisplay-right button {
     padding: 20px 40px;
     width: 60%;
-=======
-/* Buttons */
-.productdisplay-right button {
-    padding: 20px 40px;
-    width: 60%; /* Full width */
->>>>>>> Stashed changes
     font-size: 16px;
     font-weight: 600;
     color: white;
@@ -243,7 +181,6 @@
 
 .addToWishlistButton:hover,
 .removeFromWishlistButton:hover {
-<<<<<<< Updated upstream
     background-color: #0056b3;
 }
 
@@ -251,16 +188,6 @@
     background-color: #dc3545;
 }
 
-=======
-    background-color: #0056b3; /* Button color on hover */
-}
-
-.removeFromWishlistButton {
-    background-color: #dc3545; /* Button color for 'REMOVE FROM WISHLIST' */
-}
-
-/* Pincode Validation Section */
->>>>>>> Stashed changes
 .pincode-validation {
     margin-bottom: 20px;
     display: flex;
@@ -303,7 +230,6 @@
     color: #333;
 }
 
-<<<<<<< Updated upstream
 /* Modal and Size Chart Styles */
 
 .size-chart-button {
@@ -453,49 +379,3 @@
 .additional-info p:first-of-type {
     font-weight: bold;
 }
-=======
-/* Size Chart Modal Styles */
-.size-chart-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-}
-
-.size-chart-content {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    width: 80%;
-    max-width: 600px;
-    position: relative;
-}
-
-.close-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 24px;
-    cursor: pointer;
-}
-
-.size-chart-details table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.size-chart-details th, .size-chart-details td {
-    border: 1px solid #ddd;
-    padding: 8px;
-}
-
-.size-chart-details th {
-    background-color: #f4f4f4;
-}
->>>>>>> Stashed changes
