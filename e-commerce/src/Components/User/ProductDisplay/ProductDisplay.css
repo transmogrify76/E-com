@@ -1,203 +1,7 @@
-/* 
-     .productdisplay {
-      display: flex;
-      margin: 0 auto; 
-      max-width: 1200px; 
-      padding: 20px;
-  }
-  
-  .productdisplay-left {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-  }
-  
-  .productdisplay-main-img {
-      width: 586px;
-      height: 700px;
-      object-fit: cover; 
-  }
-  
-  .productdisplay-right {
-      flex: 1;
-     
-      display: flex;
-      flex-direction: column;
-      width: 110%;
-      padding-left: 40px;
-     
-  }
-  
-  .productdisplay-right h1 {
-      color: #3d3d3d;
-      font-size: 40px;
-      font-weight: 700;
-      margin-bottom: 20px;
-  }
-  
-  .productdisplay-right-stars {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      font-size: 16px;
-      color: #1c1c1c;
-      margin-bottom: 20px;
-  }
-  
-  .productdisplay-right-prices {
-      display: flex;
-      gap: 30px;
-      font-size: 24px;
-      margin-bottom: 20px;
-  }
-  
-  .productdisplay-right-price-old {
-      text-decoration: line-through;
-      color: #818181;
-  }
-  
-  .productdisplay-right-price-new {
-      color: #ff4141;
-  }
-  
-  .productdisplay-right-description {
-      margin-bottom: 20px;
-  }
-  
-  .productdisplay-right-size {
-      color: #656565;
-      font-size: 20px;
-      font-weight: 600;
-      margin-bottom: 20px;
-  }
-  
-  .productdisplay-right-sizes {
-      display: flex;
-      gap: 20px;
-      flex-wrap: wrap; 
-  }
-  
-  .productdisplay-right-sizes div {
-      padding: 12px 24px;
-      background: #fbfbfb;
-      border: 1px solid #ebebeb;
-      border-radius: 3px;
-      cursor: pointer;
-      transition: background-color 0.3s, border-color 0.3s, color 0.3s;
-  }
-  
-  .productdisplay-right-sizes div:hover {
-      background: #f0f0f0;
-      border-color: #ccc;
-  }
-  
-  .size-option.selected {
-    background-color: #333;
-    color: #fff;
-    border-color: #333;
-}
-
-
-  .productdisplay-quantity {
-      margin-top: auto; 
-      display: flex;
-      align-items: center;
-  }
-  
-  .quantity-dropdown {
-      padding: 10px;
-      font-size: 16px;
-      width: 80px; 
-      text-align: center; 
-  }
-  
-  .quantity-button {
-      background-color: #007bff;
-      color: white;
-      border: none;
-      padding: 10px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-  }
-  
-  .quantity-button:hover {
-      background-color: #0056b3;
-  }
-  
-  .productdisplay-right button {
-      padding: 20px 40px;
-      width: 60%; 
-      font-size: 16px;
-      font-weight: 600;
-      color: white;
-      background: #ff4141;
-      margin-bottom: 20px;
-      border: none;
-      outline: none;
-      cursor: pointer;
-      transition: background-color 0.3s;
-  }
-  
-  .productdisplay-right button:hover {
-      background-color: #e62e2e;
-  }
-  
-  
-  
-  .addToWishlistButton:hover,
-  .removeFromWishlistButton:hover {
-      background-color: #0056b3; 
-  }
-  
-  .removeFromWishlistButton {
-      background-color: #dc3545; 
-  }
-  .pincode-validation {
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.pincode-validation h1 {
-    font-size: 20px;
-    font-weight: 600;
-    color: #656565;
-}
-
-.pincode-validation input {
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 150px; 
-}
-
-.pincode-validation button {
-    padding: 10px 20px;
-    font-size: 16px;
-    color: white;
-    background-color: #007bff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.pincode-validation button:hover {
-    background-color: #0056b3;
-}
-
-.pincode-validation p {
-    margin-top: 10px;
-    font-size: 16px;
-    color: #333;
-} 
-  */
+/* Existing ProductDisplay CSS */
 
 .productdisplay {
-    display: flex;
+    display: flex; 
     margin: 0 auto;
     max-width: 1200px;
     padding: 20px;
@@ -459,7 +263,7 @@
     padding: 20px;
     border-radius: 10px;
     width: 80%;
-    max-width: 600px;
+    max-width: 800px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
     overflow-x: auto;
 }
@@ -479,6 +283,24 @@
 .size-chart-table th {
     background-color: #f4f4f4;
 }
+
+//New code add//
+.size-converter-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.size-converter-table th, .size-converter-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+.size-converter-table th {
+    background-color: #f4f4f4;
+}
+//new code end here//
 
 .close-modal-button {
     background-color: #007bff;
@@ -544,3 +366,16 @@
     background-color: #0056b3;
 }
 
+.additional-info {
+    margin-top: 20px;
+    padding: 10px;
+    border-top: 1px solid #ddd;
+}
+
+.additional-info p {
+    margin: 5px 0;
+}
+
+.additional-info p:first-of-type {
+    font-weight: bold;
+}

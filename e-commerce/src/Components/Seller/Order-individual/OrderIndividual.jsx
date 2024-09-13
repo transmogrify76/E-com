@@ -1,6 +1,6 @@
-// src/Components/OrderIndividual/OrderIndividual.jsx
-import React from 'react';
-import { useParams } from 'react-router-dom';
+
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import './OrderIndividual.css'; // Import the CSS file
 
 const dummyOrderDetails = {
@@ -14,68 +14,99 @@ const dummyOrderDetails = {
     shippingAddress: '123 Main St, Springfield, IL, 62704',
     estimatedDelivery: '2023-01-10',
     orderNotes: 'Please handle with care.',
-    trackingNumber: 'TRACK123456',
+    trackingNumber: '',
     items: [
       { id: '101', name: 'Item 1', quantity: 2, size: 'M', stock: 50, price: 300, discount: 10, refund: 0 },
       { id: '102', name: 'Item 2', quantity: 1, size: 'L', stock: 30, price: 550, discount: 0, refund: 0 }
     ]
   },
-  2: { 
-    id: 2, 
-    purchaseDate: '2023-01-02 10:45 AM', 
-    customerName: 'xyz', 
-    total: 700, 
-    status: 'Shipped', 
-    payment: 'PayPal',
-    shippingAddress: '456 Elm St, Springfield, IL, 62704',
-    estimatedDelivery: '2023-01-12',
-    orderNotes: '',
-    trackingNumber: 'TRACK654321',
-    items: [
-      { id: '103', name: 'Item 3', quantity: 1, size: 'S', stock: 20, price: 400, discount: 5, refund: 0 },
-      { id: '104', name: 'Item 4', quantity: 2, size: 'M', stock: 10, price: 300, discount: 0, refund: 0 }
-    ]
-  },
-  3: { 
-    id: 3, 
-    purchaseDate: '2023-01-03 04:15 PM', 
-    customerName: 'pqr', 
-    total: 400, 
-    status: 'Cancelled', 
-    payment: 'Bank Transfer',
-    shippingAddress: '789 Oak St, Springfield, IL, 62704',
-    estimatedDelivery: '2023-01-15',
-    orderNotes: 'Refund requested.',
-    trackingNumber: '',
-    items: [
-      { id: '105', name: 'Item 5', quantity: 1, size: 'L', stock: 0, price: 400, discount: 0, refund: 50 }
-    ]
-  },
-  4: { 
-    id: 4, 
-    purchaseDate: '2023-01-04 11:00 AM', 
-    customerName: 'def', 
-    total: 1200, 
-    status: 'Delivered', 
-    payment: 'Credit Card',
-    shippingAddress: '101 Pine St, Springfield, IL, 62704',
-    estimatedDelivery: '2023-01-08',
-    orderNotes: 'Leave at the front door.',
-    trackingNumber: 'TRACK789012',
-    items: [
-      { id: '106', name: 'Item 6', quantity: 1, size: 'XL', stock: 25, price: 600, discount: 0, refund: 0 },
-      { id: '107', name: 'Item 7', quantity: 2, size: 'L', stock: 15, price: 600, discount: 0, refund: 0 }
-    ]
-  },
+  // other dummy orders...
 };
 
 const formatCurrency = (amount) => {
   return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(amount);
 };
 
+const generateTrackingNumber = () => {
+  return `TRACK${Math.floor(Math.random() * 1000000)}`; // Simple tracking number generator
+};
+
 const OrderIndividual = () => {
   const { orderId } = useParams();
-  const orderDetails = dummyOrderDetails[orderId];
+  const navigate = useNavigate();
+  const [shippingRequest, setShippingRequest] = useState(false);
+  const [shippingDetails, setShippingDetails] = useState({
+    productId: '',
+    productName: '',
+    quantity: '',
+    size: '',
+    stockPrice: '',
+    refundPolicy: '',
+    pickupAddress: '',
+    deliveryAddress: '',
+    landmark: '',
+    country: '',
+    state: '',
+    city: '',
+    pin: '',
+    productWeight: '',
+    courier: '',
+    trackingId: '',
+  });
+  const [selectedCourier, setSelectedCourier] = useState('');
+  const [generatedTrackingNumber, setGeneratedTrackingNumber] = useState('');
+
+  const [orderDetails, setOrderDetails] = useState(dummyOrderDetails[orderId]);
+
+  useEffect(() => {
+    // Fetch the actual order details from an API or update the state
+    // Assuming dummy data for now
+    setOrderDetails(dummyOrderDetails[orderId]);
+  }, [orderId]);
+
+  const couriers = ['DHL', 'FedEx', 'UPS', 'India Post']; // List of courier partners
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setShippingDetails({
+      ...shippingDetails,
+      [name]: value
+    });
+  };
+
+  const handleCourierSelection = (e) => {
+    setSelectedCourier(e.target.value);
+  };
+
+  const handleConfirmSelection = () => {
+    const trackingNumber = generateTrackingNumber();
+    setGeneratedTrackingNumber(trackingNumber);
+    setShippingDetails({
+      ...shippingDetails,
+      courier: selectedCourier,
+      trackingId: trackingNumber
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Update the order status to 'Shipped' and submit shipping details
+    const updatedOrderDetails = {
+      ...orderDetails,
+      status: 'Shipped',
+      trackingNumber: generatedTrackingNumber
+    };
+
+    // Simulate an API call to update the order
+    // e.g., fetch(`/api/orders/${orderId}`, { method: 'PATCH', body: JSON.stringify(updatedOrderDetails) });
+
+    // Update local state
+    setOrderDetails(updatedOrderDetails);
+    setShippingRequest(true);
+
+    // Redirect to Orderr page
+    navigate('/Orderr');
+  };
 
   if (!orderDetails) {
     return <p>No order details found for order ID {orderId}</p>;
@@ -93,6 +124,189 @@ const OrderIndividual = () => {
       <p><strong>Estimated Delivery:</strong> {orderDetails.estimatedDelivery}</p>
       <p><strong>Order Notes:</strong> {orderDetails.orderNotes}</p>
       <p><strong>Tracking Number:</strong> {orderDetails.trackingNumber || 'N/A'}</p>
+
+      {orderDetails.status === 'Pending' && (
+        <>
+          {!shippingRequest ? (
+            <div>
+              <h2>Create Shipping Request</h2>
+              <form onSubmit={handleSubmit}>
+                <fieldset>
+                  <legend>Product Details</legend>
+                  <label>
+                    Product ID:
+                    <input
+                      type="text"
+                      name="productId"
+                      value={shippingDetails.productId}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </label>
+                  <label>
+                    Product Name:
+                    <input
+                      type="text"
+                      name="productName"
+                      value={shippingDetails.productName}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </label>
+                  <label>
+                    Quantity:
+                    <input
+                      type="number"
+                      name="quantity"
+                      value={shippingDetails.quantity}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </label>
+                  <label>
+                    Size:
+                    <input
+                      type="text"
+                      name="size"
+                      value={shippingDetails.size}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </label>
+                  <label>
+                    Stock Price:
+                    <input
+                      type="text"
+                      name="stockPrice"
+                      value={shippingDetails.stockPrice}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </label>
+                  <label>
+                    Refund Policy:
+                    <input
+                      type="text"
+                      name="refundPolicy"
+                      value={shippingDetails.refundPolicy}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </label>
+                </fieldset>
+                <fieldset>
+                  <legend>Address Details</legend>
+                  <label>
+                    Pickup Address:
+                    <input
+                      type="text"
+                      name="pickupAddress"
+                      value={shippingDetails.pickupAddress}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </label>
+                  <label>
+                    Delivery Address:
+                    <input
+                      type="text"
+                      name="deliveryAddress"
+                      value={shippingDetails.deliveryAddress}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </label>
+                  <label>
+                    Landmark:
+                    <input
+                      type="text"
+                      name="landmark"
+                      value={shippingDetails.landmark}
+                      onChange={handleInputChange}
+                    />
+                  </label>
+                  <label>
+                    Country:
+                    <input
+                      type="text"
+                      name="country"
+                      value={shippingDetails.country}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </label>
+                  <label>
+                    State:
+                    <input
+                      type="text"
+                      name="state"
+                      value={shippingDetails.state}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </label>
+                  <label>
+                    City:
+                    <input
+                      type="text"
+                      name="city"
+                      value={shippingDetails.city}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </label>
+                  <label>
+                    PIN:
+                    <input
+                      type="text"
+                      name="pin"
+                      value={shippingDetails.pin}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </label>
+                </fieldset>
+                <fieldset>
+                  <legend>Courier Details</legend>
+                  <label>
+                    Courier Partner:
+                    <select value={selectedCourier} onChange={handleCourierSelection} required>
+                      <option value="">Select a courier</option>
+                      {couriers.map((courier, index) => (
+                        <option key={index} value={courier}>{courier}</option>
+                      ))}
+                    </select>
+                  </label>
+                  <button type="button" onClick={handleConfirmSelection}>Confirm Selection</button>
+                  <label>
+                    Product Weight:
+                    <input
+                      type="text"
+                      name="productWeight"
+                      value={shippingDetails.productWeight}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </label>
+                  <label>
+                    Tracking ID:
+                    <input
+                      type="text"
+                      name="trackingId"
+                      value={generatedTrackingNumber}
+                      readOnly
+                    />
+                  </label>
+                </fieldset>
+                <button type="submit">Submit Shipping Request</button>
+              </form>
+            </div>
+          ) : (
+            <p>Shipping request has been created for this order.</p>
+          )}
+        </>
+      )}
+
       <h2>Items:</h2>
       <table>
         <thead>
