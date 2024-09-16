@@ -1,103 +1,149 @@
-.dress-category-section {
-    padding: 20px;
-    background-color: #f5f5f5;
-  }
-  
-  .section-title {
-    font-size: 2em;
-    margin-bottom: 20px;
-    text-align: center;
-    color: #333;
-    margin-left: 500px;
-  }
-  
-  .category-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-  }
-  
-  .category-card {
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 15px;
-    width: 300px;
-    text-align: center;
-    transition: transform 0.3s ease;
-  }
-  
-  .category-card:hover {
-    transform: scale(1.02);
-  }
-  
-  .category-header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 15px;
-  }
-  
-  .category-icon {
-    font-size: 2.5em; 
-    margin-right: 10px;
-    color: #007bff; 
-  }
-  
-  .category-title {
-    font-size: 1.6em;
-    color: #007bff;
-  }
-  
-  .subcategory-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .subcategory-item {
-    font-size: 1.1em;
-    color: #555;
-    padding: 5px 0;
-    border-bottom: 1px solid #eee;
-    transition: color 0.3s ease;
-  }
-  
-  .subcategory-item:hover {
-    color: #007bff;
-  }
-  
-  .subcategory-item:last-child {
-    border-bottom: none;
-  }
-   
+/* Category.css */
 
-   .search-section {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-  }
-  
-  .search-input {
-    width: 300px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    margin-right: 10px;
-  }
-  
-  .search-button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .search-button:hover {
-    background-color: #0056b3;
-  }
-  
+/* Common styling for the dress category section */
+.dress-category-section {
+  display: flex;
+  padding: 20px;
+  text-align: center;
+}
+
+/* Section title styling */
+.section-title {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Ensuring category list displays in column format */
+.category-list {
+  display: flex;
+  flex-direction: column;
+  overflow: visible; /* Ensure overflow is not hidden */
+  max-height: none;  /* Remove any height restrictions */
+  width: 100%;  /* Make sure the container has enough width */
+  height: auto; /* Ensure the container expands to fit all items */
+  justify-content: center;
+  align-items: center;
+}
+
+/* Styling for category container */
+.category-container {
+  display: flex;
+  flex-wrap: wrap; /* Ensures the categories wrap to a new line if needed */
+  justify-content: space-between;
+}
+
+/* Category item styling */
+.category-item {
+  flex: 1 1 auto; /* Ensure each item can grow and shrink */
+  margin: 10px;
+}
+
+/* Department list set to display items in column */
+.department-list {
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  align-items: center; /* Center align the list */
+  gap: 20px; /* Space between items */
+  width: 250px; /* Set width for department list */
+  overflow-y: auto; /* Allow vertical scrolling if needed */
+  margin-right: 20px; /* Space between department list and subcategories */
+}
+
+/* Department card styling with fixed width and height */
+.department-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 200px; /* Set fixed width */
+  height: 200px; /* Set fixed height */
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  text-align: center;
+  box-sizing: border-box; /* Ensures padding is included in width/height */
+}
+
+/* Hover effect for department card */
+.department-card:hover {
+  transform: scale(1.05);
+}
+
+/* Department header with icon and text */
+.department-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center horizontally */
+}
+
+.department-icon {
+  font-size: 3rem;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+/* Styling for department title */
+.department-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Active department card styling */
+.department-card.active {
+  background-color: #f5f5f5;
+  transform: scale(1.05);
+}
+
+/* Active state with border */
+.active {
+  border: 2px solid #f90;
+}
+
+/* Subcategory section */
+.subcategory-section {
+  margin-top: 20px;
+  flex-grow: 1; /* Allow subcategory section to take remaining space */
+}
+
+/* Subcategory title styling */
+.subcategory-title {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+/* Subcategory list styling */
+.subcategory-list {
+  list-style: none;
+  padding: 0;
+}
+
+/* Subcategory item styling */
+.subcategory-item {
+  padding: 10px;
+  cursor: pointer;
+  margin: 5px 0;
+  transition: background-color 0.3s ease;
+}
+
+/* Hover effect for subcategory item */
+.subcategory-item:hover {
+  color: #f90;
+  text-decoration: underline;
+}
+
+/* Product list styling */
+.products {
+  list-style: none;
+  padding: 0;
+}
+
+.product-item {
+  margin: 5px 0;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
