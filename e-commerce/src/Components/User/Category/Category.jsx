@@ -3,9 +3,9 @@ import React, { useState, useEffect } from 'react';
 import './Category.css'; // Import the CSS file for styling
 import {
   FaDesktop, FaHome, FaPaintBrush, FaCar, FaBaby, FaHeartbeat, FaToolbox, FaGamepad, FaVideo,
-  FaMale, FaFemale, FaChild, FaLaptop, FaTv, FaCat, FaHiking, FaCouch, FaIndustry, FaSuitcase, FaPlug
-} from 'react-icons/fa';
- // Import relevant icons from react-icons
+  FaMale, FaFemale, FaChild, FaLaptop, FaTv, FaCat, FaHiking, FaCouch, FaIndustry, FaSuitcase, FaPlug, FaTshirt
+}  from 'react-icons/fa';
+// Import relevant icons from react-icons
 
 const DressCategorySection = () => {
   const [departments, setDepartments] = useState([]);
@@ -16,11 +16,11 @@ const DressCategorySection = () => {
   useEffect(() => {
     // Mock departments data
     setDepartments([
-      'Electronics', 'Computers', 'Smart Home', 'Arts & Crafts', 'Automotive', 'Baby',
-      'Beauty and Personal Care', "Women's Fashion", "Men's Fashion", "Girls Fashion", "Boys Fashion",
-      'Health and Household', 'Home and Kitchen', 'Industrial and Scientific', 'Luggage',
-      'Movies & Television', 'Pet Supplies', 'Software', 'Sports and Outdoors', 'Tools & Home Improvement',
-      'Toys and Games', 'Video Games'
+     'Electronics', 'Computers', 'Smart Home', 'Arts & Crafts', 'Automotive', 'Baby',
+      'Beauty and Personal Care', 'Fashion', 'Health and Household', 'Home and Kitchen',
+      'Industrial and Scientific', 'Luggage', 'Movies & Television', 'Pet Supplies', 
+      'Software', 'Sports and Outdoors', 'Tools & Home Improvement', 'Toys and Games', 
+      'Video Games'
     ]);
   }, []);
 
@@ -84,40 +84,13 @@ const DressCategorySection = () => {
       'Foot, Hand & Nail Care'
     ],
 
-    'Women Fashion': [
-      'Clothing',
-      'Shoes',
-      'Jewelry',
-      'Watches',
-      'Handbags',
-      'Accessories'
-    ],
+    'Fashion': [
+      'Men', 
+      'Women', 
+      'Kids', 
+      'Girls'
+    ],  // New Fashion subcategories
 
-    'Men Fashion': [
-      'Clothing',
-      'Shoes',
-      'Watches',
-      'Accessories'
-    ],
-
-
-    'Girls Fashion': [
-      'Clothing',
-      'Shoes',
-      'Jewelry',
-      'Watches',
-      'Accessories',
-      'School Uniforms'
-    ],
-
-    'Boys Fashion': [
-      'Clothing',
-      'Shoes',
-      'Jewelry',
-      'Watches',
-      'Accessories',
-      'School Uniforms'
-    ],
 
     'Health and Household': [
       'Baby & Child Care',
@@ -161,7 +134,7 @@ const DressCategorySection = () => {
     'Pet supplies': [
       'Dogs',
       'Cats',
-      'Fish & Aquatic Pets',
+      'Fish & Aquatic Pet',
       'Birds',
       'Horses'
     ],
@@ -204,9 +177,24 @@ const DressCategorySection = () => {
       'Xbox 360'
     ],
 
-    'Women\'s Fashion': ['Clothing', 'Shoes', 'Jewelry', 'Watches', 'Handbags', 'Accessories'],
-    'Men\'s Fashion': ['Clothing', 'Shoes', 'Accessories'],
-    'Kids\' Fashion': ['Clothing', 'Shoes']
+    'Women Fashion':[
+      'Clothing', 
+      'Shoes', 
+      'Jewelry', 
+      'Watches', 
+      'Handbags', 
+      'Accessories'
+    ],
+
+    'Men\'s Fashion': [
+      'Clothing', 
+      'Shoes', 
+      'Accessories'
+    ],
+    'Kids Fashion': [
+      'Clothing', 
+      'Shoes'
+    ]
   };
 
   const handleDepartmentClick = (department) => {
@@ -266,13 +254,15 @@ const DepartmentCard = ({ department, onDepartmentClick, selectedDepartment }) =
         return <FaBaby className="department-icon" />;
       case 'Beauty and Personal Care':
         return <FaHeartbeat className="department-icon" />; // Beauty icon (can also use a different one)
+        case 'Fashion':
+      return <FaTshirt className="department-icon" />;
       case "Women's Fashion":
         return <FaFemale className="department-icon" />;
       case "Men's Fashion":
         return <FaMale className="department-icon" />;
-      case "Girls' Fashion":
+      case "Girls Fashion":
         return <FaChild className="department-icon" />; // Girls Fashion
-      case "Boys' Fashion":
+      case "Boys Fashion":
         return <FaChild className="department-icon" />; // Boys Fashion
       case 'Health and Household':
         return <FaHeartbeat className="department-icon" />;
@@ -284,7 +274,7 @@ const DepartmentCard = ({ department, onDepartmentClick, selectedDepartment }) =
         return <FaSuitcase className="department-icon" />;  // Luggage
       case 'Movies & Television':
         return <FaTv className="department-icon" />;  // Movies & TV
-      case 'Pet supplies':
+        case 'Pet Supplies': // Use capital 'S'
         return <FaCat className="department-icon" />;  // Pet Supplies
       case 'Software':
         return <FaLaptop className="department-icon" />;  // Software
