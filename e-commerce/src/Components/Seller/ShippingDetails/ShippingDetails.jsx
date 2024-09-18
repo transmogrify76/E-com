@@ -17,54 +17,12 @@ const dummyShippingDetails = {
     ],
     deliveryStatus: 'On Time',
   },
-  2: { 
-    id: 2, 
-    carrier: 'FedEx', 
-    trackingNumber: '123456789012', 
-    estimatedDelivery: '2023-01-06', 
-    address: '456 Elm St, Shelbyville', 
-    contact: 'Jane Smith',
-    statusUpdates: [
-      { date: '2023-01-02', event: 'Package received by FedEx' },
-      { date: '2023-01-03', event: 'In transit to sorting facility' },
-      { date: '2023-01-04', event: 'Out for delivery' },
-    ],
-    deliveryStatus: 'On Time',
-  },
-  3: { 
-    id: 3, 
-    carrier: 'DHL', 
-    trackingNumber: '987654321098', 
-    estimatedDelivery: '2023-01-07', 
-    address: '789 Oak St, Capital City', 
-    contact: 'Bob Johnson',
-    statusUpdates: [
-      { date: '2023-01-03', event: 'Package received by DHL' },
-      { date: '2023-01-04', event: 'In transit to sorting facility' },
-      { date: '2023-01-05', event: 'Out for delivery' },
-    ],
-    deliveryStatus: 'Delayed',
-  },
-  4: { 
-    id: 4, 
-    carrier: 'USPS', 
-    trackingNumber: '998877665544', 
-    estimatedDelivery: '2023-01-08', 
-    address: '101 Maple St, Ogdenville', 
-    contact: 'Alice Williams',
-    statusUpdates: [
-      { date: '2023-01-04', event: 'Package received by USPS' },
-      { date: '2023-01-05', event: 'In transit to sorting facility' },
-      { date: '2023-01-06', event: 'Out for delivery' },
-    ],
-    deliveryStatus: 'On Time',
-  },
+  // Other orders...
 };
 
 const ShippingDetails = () => {
   const { orderId } = useParams();
   const shippingDetails = dummyShippingDetails[orderId];
-
   const [notes, setNotes] = useState('');
 
   if (!shippingDetails) {
@@ -78,7 +36,7 @@ const ShippingDetails = () => {
   return (
     <div className="shipping-details-container">
       <div className="shipping-info">
-        <h1>Shipping Details for Order ID: {orderId}</h1>
+        <h1>Dispatch Details for Order ID: {orderId}</h1>
         <p><strong>Carrier:</strong> {shippingDetails.carrier}</p>
         <p><strong>Tracking Number:</strong> {shippingDetails.trackingNumber}</p>
         <p><strong>Estimated Delivery:</strong> {shippingDetails.estimatedDelivery}</p>
@@ -87,8 +45,8 @@ const ShippingDetails = () => {
         <p><strong>Delivery Status:</strong> {shippingDetails.deliveryStatus}</p>
 
         <div className="status-updates">
-        <h2 style={{ marginLeft: '200px' }}>Status Updates</h2>
-         <ul>
+          <h2>Status Updates</h2>
+          <ul>
             {shippingDetails.statusUpdates.map((update, index) => (
               <li key={index}>
                 <p><strong>Date:</strong> {update.date}</p>
@@ -123,11 +81,14 @@ const ShippingDetails = () => {
           />
         </div>
 
-        <Link to={`/Dispatch/${orderId}`}>
-          <button className="dispatch-button">
-            Go to Dispatch Page
-          </button>
-        </Link>
+        <div className="actions">
+          <Link to={`/Dispatch/${orderId}`}>
+            <button className="dispatch-button">
+              Go to Shipping Page 
+            </button>
+          </Link>
+          
+        </div>
       </div>
     </div>
   );

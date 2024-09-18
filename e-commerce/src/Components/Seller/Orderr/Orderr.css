@@ -1,77 +1,77 @@
 .order-container {
     padding: 20px;
-    background-color: #f8f9fa; /* Light background for the order page */
+    background-color: #f8f9fa; 
 }
 
 h1 {
-    color: #333; /* Dark color for the heading */
+    color: #333; 
 }
 
 .order-controls {
-    margin-bottom: 20px; /* Space below controls */
+    margin-bottom: 20px; 
 }
 
 input[type="text"] {
-    width: auto; /* Adjust width of search input */
+    width: auto; 
 }
 
 .order-table {
     width: 70%;
     border-collapse: collapse;
-    margin-left: 200px; /* Collapse table borders */
+    margin-left: 200px; 
 }
 
 .order-table th, .order-table td {
     padding: 10px;
-    border: 1px solid #ccc; /* Light gray border */
-    text-align: left; /* Align text to the left */
+    border: 1px solid #ccc; 
+    text-align: left; 
 }
 
 .order-table th {
-    background-color: #007bff; /* Header background color */
-    color: white; /* White text color */
+    background-color: #007bff; 
+    color: white; 
 }
 
 .order-table tbody tr:nth-child(even) {
-    background-color: #f2f2f2; /* Light gray for even rows */
+    background-color: #f2f2f2; 
 }
 
 .order-table tbody tr:hover {
-    background-color: #e7f3ff; /* Light blue on hover */
+    background-color: #e7f3ff; 
 }
 
 .btn-info {
-    background-color: #17a2b8; /* Info button color */
+    background-color: #17a2b8; 
     border: none;
 }
 
 .btn-info:hover {
-    background-color: #138496; /* Darker shade on hover */
+    background-color: #138496; 
 }
 
 .btn-warning {
-    background-color: #ffc107; /* Warning button color */
+    background-color: #ffc107; 
     border: none;
 }
 
 .btn-warning:hover {
-    background-color: #e0a800; /* Darker shade on hover */
+    background-color: #e0a800; 
 }
 
 .btn-success {
-    background-color: #28a745; /* Success button color */
+    background-color: #28a745; 
     border: none;
 }
 
 .btn-success:hover {
-    background-color: #218838; /* Darker shade on hover */
+    background-color: #218838; 
 }
 
 .btn-secondary {
-    background-color: #6c757d; /* Secondary button color */
+    background-color: #6c757d; 
     border: none;
 }
 
 .btn-secondary:hover {
-    background-color: #5a6268; /* Darker shade on hover */
+    background-color: #5a6268; 
 }
