@@ -68,6 +68,8 @@ import Termsandcondition from './Components/User/Termsandconditions/Terms';
 import CustomerServicePage from './Components/User/CustomerService/CustomerService';
 import Category from './Components/User/Category/Category';
 import Returns from './Components/Seller/Returns/Returns';
+// import AddProductDetails from './Components/Admin/AddProductDetails/AddProductDetails';
+import AddProductDetails from './Components/Seller/AddProductDetails/AddProductDetails';
 import './App.css';
 
 // ScrollHandler Component
@@ -152,9 +154,9 @@ function AppContent() {
       '/newcollections', '/checkout', '/payment', '/NewSeller', '/seller-dashboard',
       '/ProductUpload', '/ExistingProduct', '/Dispatch', '/RevenueGenerate',
       '/Orderr', '/Settings', '/Wallet', '/SellerAccount',
-      '/NewBank', '/resetpassword', '/Pricing', '/productmanagement', '/notifications','/term','/customerservice','/category','/return'
+      '/NewBank', '/resetpassword', '/Pricing', '/productmanagement', '/notifications','/term','/customerservice','/category','/return','./add-product-details'
     ];
-    return !pathsWithoutAdminSidebar.includes(location.pathname) && !location.pathname.startsWith('/product/') && !location.pathname.startsWith('/OrderIndividual/') && !location.pathname.startsWith('/ShippingDetails/') && !location.pathname.startsWith('/Dispatch/');
+    return !pathsWithoutAdminSidebar.includes(location.pathname) && !location.pathname.startsWith('/product/') && !location.pathname.startsWith('/OrderIndividual/') && !location.pathname.startsWith('/ShippingDetails/') && !location.pathname.startsWith('/Dispatch/')  && !location.pathname.startsWith('/add-product-details');
   };
 
   const shouldShowNavbar = () => {
@@ -248,6 +250,7 @@ function AppContent() {
         <Route path="/category" element={<Category/>} />
         <Route path="/return" element={<Returns/>} />
         <Route path="/ShippingDetails/:orderId" element={<ShippingDetails />} />
+        <Route path="/add-product-details" element={<AddProductDetails />} />
       </Routes>
       {shouldShowFooter() && <Footer />}
     </div>

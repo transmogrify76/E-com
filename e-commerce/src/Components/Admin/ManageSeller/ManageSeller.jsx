@@ -139,7 +139,7 @@ const AdminPanelSeller = () => {
                 />
             </div>
             <table>
-                <thead>
+            <thead >
                     <tr>
                         <th>ID</th>
                         <th>Name</th>
