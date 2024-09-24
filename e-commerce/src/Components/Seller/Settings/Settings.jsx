@@ -76,8 +76,8 @@ const SettingsPage = () => {
                             Name:
                             <input 
                                 type="text" 
-                                name="contactPerson" 
-                                value={formData.contactPerson || ''} 
+                                name="name" 
+                                value={formData.name || ''} 
                                 onChange={handleChange} 
                                 disabled={!isEditing} 
                             />
@@ -133,6 +133,15 @@ const SettingsPage = () => {
                             <textarea 
                                 name="description" 
                                 value={formData.description || ''} 
+                                onChange={handleChange} 
+                                disabled={!isEditing}
+                            ></textarea>
+                        </label>
+                        <label>
+                           Contact Person:
+                            <textarea 
+                                name="contactPerson" 
+                                value={formData.contactPerson || ''} 
                                 onChange={handleChange} 
                                 disabled={!isEditing}
                             ></textarea>

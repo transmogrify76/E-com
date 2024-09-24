@@ -1,35 +1,37 @@
-// src/components/NotificationsPage.js
-import React, { useState } from 'react';
-import './Notification.css';
+import React, { useState, useEffect } from 'react';
+import './Notification.css'; // Ensure you have the correct CSS file
 
-const NotificationsPage = () => {
-    const [notifications, setNotifications] = useState([
-        { id: 1, message: 'Your product listing "Wireless Headphones" has been approved.', createdAt: '2024-08-20', read: false },
-        { id: 2, message: 'You have received a new order from customer John Doe.', createdAt: '2024-08-21', read: true },
-        { id: 3, message: 'The price of your listed item "Smartwatch" has been updated to ₹299.', createdAt: '2024-08-22', read: false },
-        { id: 4, message: 'New review left on your product "4K TV".', createdAt: '2024-08-23', read: false },
-        { id: 5, message: 'You have a new message from the support team regarding your account.', createdAt: '2024-08-24', read: true },
-    ]);
+const SellerNotifications = ({ sellerId }) => {
+    const [notifications, setNotifications] = useState([]);
+    const [error, setError] = useState(null);
 
-    const markAsRead = (id) => {
-        setNotifications(notifications.map(notification =>
-            notification.id === id ? { ...notification, read: true } : notification
-        ));
-    };
+    useEffect(() => {
+        const fetchNotifications = async () => {
+            if (!sellerId) return; // Don't fetch if there's no seller ID
+            try {
+                const response = await fetch(`http://localhost:5000/notifications/${sellerId}`);
+                if (!response.ok) throw new Error('Failed to fetch notifications');
+                const data = await response.json();
+                setNotifications(data);
+            } catch (error) {
+                console.error('Error fetching notifications:', error);
+                setError('Failed to load notifications. Please try again later.');
+            }
+        };
+
+        fetchNotifications();
+    }, [sellerId]); // Fetch notifications whenever sellerId changes
 
     return (
-        <div className="notifications-page">
-            <h1>Notifications</h1>
+        <div className="seller-notifications">
+            <h2>Notifications for Seller ID: {sellerId}</h2>
+            {error && <p className="error-message">{error}</p>}
             {notifications.length === 0 ? (
-                <p>No notifications</p>
+                <p>No notifications available for this seller.</p>
             ) : (
                 <ul className="notification-list">
                     {notifications.map(notification => (
-                        <li 
-                            key={notification.id}
-                            className={notification.read ? 'notification read' : 'notification unread'}
-                            onClick={() => markAsRead(notification.id)}
-                        >
+                        <li key={notification.id}>
                             <p>{notification.message}</p>
                             <small>{new Date(notification.createdAt).toLocaleDateString()}</small>
                         </li>
@@ -40,4 +42,4 @@ const NotificationsPage = () => {
     );
 };
 
-export default NotificationsPage;
+export default SellerNotifications;

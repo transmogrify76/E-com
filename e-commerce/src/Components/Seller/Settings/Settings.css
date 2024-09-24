@@ -60,10 +60,10 @@ button:hover {
   background-color: #0056b3; /* Darker shade on hover */
 }
 
-button[type="button"] {
-  background-color: #6c757d; /* Secondary button color */
+/* button[type="button"] {
+  background-color: #6c757d; 
 }
 
 button[type="button"]:hover {
-  background-color: #5a6268; /* Darker shade for secondary button on hover */
-}
+  background-color: #5a6268; 
+} */
