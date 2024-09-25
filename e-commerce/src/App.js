@@ -251,6 +251,7 @@ function AppContent() {
         <Route path="/return" element={<Returns/>} />
         <Route path="/ShippingDetails/:orderId" element={<ShippingDetails />} />
         <Route path="/add-product-details" element={<AddProductDetails />} />
+        <Route path="/notifications/seller/:sellerId" element={<NotificationsPage />} />
       </Routes>
       {shouldShowFooter() && <Footer />}
     </div>

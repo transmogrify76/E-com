@@ -1,39 +1,41 @@
 import React, { useState, useEffect } from 'react';
-import './Notification.css'; // Ensure you have the correct CSS file
 
-const SellerNotifications = ({ sellerId }) => {
+const SellerNotifications = () => {
     const [notifications, setNotifications] = useState([]);
     const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchNotifications = async () => {
-            if (!sellerId) return; // Don't fetch if there's no seller ID
+            const sellerId = localStorage.getItem('sellerId'); // Assuming seller ID is stored in local storage
+            if (!sellerId) {
+                setError('No seller ID provided. Please log in.');
+                return;
+            }
             try {
-                const response = await fetch(`http://localhost:5000/notifications/${sellerId}`);
+                const response = await fetch(`http://localhost:5000/notifications/seller/${sellerId}`);
                 if (!response.ok) throw new Error('Failed to fetch notifications');
                 const data = await response.json();
                 setNotifications(data);
             } catch (error) {
-                console.error('Error fetching notifications:', error);
-                setError('Failed to load notifications. Please try again later.');
+                setError(error.message);
             }
         };
 
         fetchNotifications();
-    }, [sellerId]); // Fetch notifications whenever sellerId changes
+    }, []);
 
     return (
-        <div className="seller-notifications">
-            <h2>Notifications for Seller ID: {sellerId}</h2>
-            {error && <p className="error-message">{error}</p>}
+        <div>
+            <h2>My Notifications</h2>
+            {error && <p>{error}</p>}
             {notifications.length === 0 ? (
-                <p>No notifications available for this seller.</p>
+                <p>No notifications available.</p>
             ) : (
-                <ul className="notification-list">
+                <ul>
                     {notifications.map(notification => (
                         <li key={notification.id}>
                             <p>{notification.message}</p>
-                            <small>{new Date(notification.createdAt).toLocaleDateString()}</small>
+                            <small>{new Date(notification.createdAt).toLocaleString()}</small>
                         </li>
                     ))}
                 </ul>
