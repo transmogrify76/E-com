@@ -1,136 +1,207 @@
-
-/* ListProduct.css */
-
-/* Container for the product list */
 .list-product {
+    padding: 20px;
     font-family: Arial, sans-serif;
-    margin: 20px;
+    color: #333;
+    max-width: 1200px; /* Limit the overall width */
+    margin: 0 auto; /* Center the content */
 }
 
-/* Header styling */
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.upload-section {
     margin-bottom: 20px;
-    margin-left: 500px;
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+    margin-bottom: 15px;
 }
 
 .header h1 {
+    margin: 0;
     font-size: 24px;
-    color: #333;
+}
+
+.help-icons {
+    display: flex;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.help-icons a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.banner {
+    background-color: #e9ecef;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 15px 0;
+    text-align: center;
+}
+
+.overview {
+    margin: 20px 0;
+}
+
+.overview h2 {
+    font-size: 20px;
+}
+
+.overview-box {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.upload-buttons {
+    margin: 15px 0;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.upload-buttons button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.upload-buttons .bulk-upload-button {
+    background-color: #007bff;
+    color: white;
+}
+
+.upload-buttons .single-upload-button {
+    background-color: #28a745;
+    color: white;
+}
+
+.upload-buttons button:hover {
+    opacity: 0.9;
+}
+
+.statuses {
+    margin: 10px 0;
+}
+
+.status-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.status-buttons button {
+    padding: 10px;
+    border: 1px solid #007bff;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #007bff;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.status-buttons button:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+.search-bar {
+    margin-bottom: 20px;
+    text-align: center;
 }
 
 .search-input {
-    padding: 8px;
-    font-size: 16px;
+    padding: 10px;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 5px;
+    width: 300px;
 }
 
-/* Error message styling */
-.error-message {
-    color: red;
-    margin-bottom: 10px;
-}
-
-/* Table styling */
 .product-table {
-    width: 80%;
+    width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
-    margin-left: 200px;
 }
 
 .product-table th,
 .product-table td {
-    padding: 12px;
     border: 1px solid #ddd;
+    padding: 12px;
     text-align: left;
 }
 
 .product-table th {
-    background-color: maroon;
-    color: white;
+    background-color: maroon; /* Changed header color to maroon */
+    color: white; /* Text color for better contrast */
+    font-weight: bold;
 }
 
 .product-table tr:nth-child(even) {
     background-color: #f9f9f9;
 }
 
-.product-table img.product-image {
-    max-width: 100px;
-    height: auto;
+.product-table tr:hover {
+    background-color: #f1f1f1;
 }
 
-/* Buttons and form styling */
-.edit-button, .delete-button {
-    background-color: #f0f0f0;
+.product-table button {
+    padding: 5px 10px;
     border: none;
-    padding: 8px 12px;
-    margin: 0 4px;
-    border-radius: 4px;
+    border-radius: 5px;
     cursor: pointer;
-    font-size: 16px;
+    transition: background-color 0.3s;
 }
 
-.edit-button {
-    background-color: #4caf50;
+.product-table button:hover {
+    background-color: #f44336; /* Red for delete */
     color: white;
-}
-
-.delete-button {
-    background-color: #f44336;
-    color: white;
-}
-
-.edit-button:hover, .delete-button:hover {
-    opacity: 0.8;
 }
 
 .edit-form {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-    width: 50%;
-    margin-left: 400px;
+    margin: 20px 0;
 }
 
 .edit-form h2 {
-    margin-bottom: 20px;
-   
+    margin-bottom: 10px;
 }
 
 .edit-form label {
     display: block;
-    margin-bottom: 10px;
+    margin: 5px 0;
 }
 
-.edit-form input[type="text"], .edit-form input[type="number"], .edit-form input[type="file"] {
-    width: calc(100% - 22px);
+.edit-form input {
+    width: 100%;
     padding: 10px;
-    font-size: 16px;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 5px;
+    margin-bottom: 10px;
 }
 
 .edit-form button {
     padding: 10px 15px;
-    font-size: 16px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-right: 10px;
-}
-
-.edit-form button[type="submit"] {
-    background-color: #4caf50;
+    background-color: #007bff;
     color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-.edit-form button[type="button"] {
-    background-color: #ccc;
-    color: black;
+.edit-form button:hover {
+    background-color: #0056b3;
+}
+
+.error-message {
+    color: red;
+    text-align: center;
+    margin-top: 10px;
 }
