@@ -5,7 +5,7 @@ import './Settings.css'; // Your CSS styles
 
 const SettingsPage = () => {
     const navigate = useNavigate();
-    const [sellerData, setSellerData] = useState({});
+    const [SellerData, setSellerData] = useState({});
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [formData, setFormData] = useState({});
