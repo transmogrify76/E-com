@@ -37,6 +37,9 @@
 .status-updates {
   margin-top: 20px;
 }
+.status-updates h2{
+  margin-left: 200px;
+}
 
 .status-updates ul {
   list-style-type: none;

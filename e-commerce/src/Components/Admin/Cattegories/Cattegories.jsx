@@ -8,15 +8,18 @@ const AdminPanel = () => {
   const [newCategoryName, setNewCategoryName] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [newSubcategoryName, setNewSubcategoryName] = useState('');
+  const [selectedSubcategory, setSelectedSubcategory] = useState('');
+  const [newNestedSubcategoryName, setNewNestedSubcategoryName] = useState('');
   const [editingCategory, setEditingCategory] = useState(null);
   const [editingSubcategory, setEditingSubcategory] = useState(null);
+  const [editingNestedSubcategory, setEditingNestedSubcategory] = useState(null);
   const [updatedCategoryName, setUpdatedCategoryName] = useState('');
   const [updatedSubcategoryName, setUpdatedSubcategoryName] = useState('');
+  const [updatedNestedSubcategoryName, setUpdatedNestedSubcategoryName] = useState('');
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        // Fetch only top-level categories from the backend
         const response = await axios.get('http://localhost:5000/categories');
         setCategories(response.data);
       } catch (error) {
@@ -52,17 +55,41 @@ const AdminPanel = () => {
         parentCategoryName: selectedCategory,
       });
 
-      // Add the new subcategory to the categories state
-      setCategories(prevCategories => 
-        prevCategories.map(category => 
-          category.name === selectedCategory 
-            ? { ...category, subcategories: [...(category.subcategories || []), response.data] } 
+      setCategories(prevCategories =>
+        prevCategories.map(category =>
+          category.name === selectedCategory
+            ? { ...category, subcategories: [...(category.subcategories || []), response.data] }
             : category
         )
       );
       setNewSubcategoryName('');
     } catch (error) {
       console.error('Error adding subcategory:', error);
+    }
+  };
+
+  const handleAddNestedSubcategory = async () => {
+    if (!selectedSubcategory || !newNestedSubcategoryName) return;
+
+    try {
+      const response = await axios.post('http://localhost:5000/categories/subcategory/nested', {
+        name: newNestedSubcategoryName,
+        parentSubcategoryName: selectedSubcategory,
+      });
+
+      setCategories(prevCategories =>
+        prevCategories.map(category => ({
+          ...category,
+          subcategories: category.subcategories?.map(subcategory =>
+            subcategory.name === selectedSubcategory
+              ? { ...subcategory, subcategories: [...(subcategory.subcategories || []), response.data] }
+              : subcategory
+          )
+        }))
+      );
+      setNewNestedSubcategoryName('');
+    } catch (error) {
+      console.error('Error adding nested subcategory:', error);
     }
   };
 
@@ -105,6 +132,30 @@ const AdminPanel = () => {
     }
   };
 
+  const handleUpdateNestedSubcategory = async () => {
+    if (!editingNestedSubcategory || !updatedNestedSubcategoryName) return;
+
+    try {
+      await axios.patch(`http://localhost:5000/categories/subcategory/nested/${editingNestedSubcategory}`, {
+        name: updatedNestedSubcategoryName,
+      });
+
+      setCategories(categories.map(category => ({
+        ...category,
+        subcategories: category.subcategories?.map(subcategory => ({
+          ...subcategory,
+          subcategories: subcategory.subcategories?.map(nestedSubcategory =>
+            nestedSubcategory.name === editingNestedSubcategory ? { ...nestedSubcategory, name: updatedNestedSubcategoryName } : nestedSubcategory
+          )
+        }))
+      })));
+      setEditingNestedSubcategory(null);
+      setUpdatedNestedSubcategoryName('');
+    } catch (error) {
+      console.error('Error updating nested subcategory:', error);
+    }
+  };
+
   const handleDeleteCategory = async (id) => {
     try {
       await axios.delete(`http://localhost:5000/categories/${id}`);
@@ -123,6 +174,21 @@ const AdminPanel = () => {
       })));
     } catch (error) {
       console.error('Error deleting subcategory:', error);
+    }
+  };
+
+  const handleDeleteNestedSubcategory = async (name) => {
+    try {
+      await axios.delete(`http://localhost:5000/categories/subcategory/nested/${name}`);
+      setCategories(categories.map(category => ({
+        ...category,
+        subcategories: category.subcategories?.map(subcategory => ({
+          ...subcategory,
+          subcategories: subcategory.subcategories?.filter(nestedSubcategory => nestedSubcategory.name !== name)
+        }))
+      })));
+    } catch (error) {
+      console.error('Error deleting nested subcategory:', error);
     }
   };
 
@@ -188,6 +254,40 @@ const AdminPanel = () => {
                   </button>
                 </div>
               </div>
+              <div className="nested-subcategory-list" style={styles.nestedSubcategoryList}>
+                {subcategory.subcategories && subcategory.subcategories.map(nestedSubcategory => (
+                  <div key={nestedSubcategory.id} className="nested-subcategory-card" style={styles.nestedSubcategoryCard}>
+                    <div className="nested-subcategory-header" style={styles.nestedSubcategoryHeader}>
+                      {editingNestedSubcategory === nestedSubcategory.name ? (
+                        <input
+                          type="text"
+                          value={updatedNestedSubcategoryName}
+                          onChange={(e) => setUpdatedNestedSubcategoryName(e.target.value)}
+                          placeholder="Update nested subcategory name"
+                          style={styles.input}
+                        />
+                      ) : (
+                        <span>{nestedSubcategory.name}</span>
+                      )}
+                      <div className="nested-subcategory-actions" style={styles.actions}>
+                        {editingNestedSubcategory === nestedSubcategory.name ? (
+                          <button onClick={handleUpdateNestedSubcategory} className="btn btn-primary" style={styles.primaryButton}>Save</button>
+                        ) : (
+                          <button onClick={() => {
+                            setEditingNestedSubcategory(nestedSubcategory.name);
+                            setUpdatedNestedSubcategoryName(nestedSubcategory.name);
+                          }} className="btn btn-edit" style={styles.editButton}>
+                            <FaEdit />
+                          </button>
+                        )}
+                        <button onClick={() => handleDeleteNestedSubcategory(nestedSubcategory.name)} className="btn btn-delete" style={styles.deleteButton}>
+                          <FaTrash />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           ))}
         </div>
@@ -234,6 +334,35 @@ const AdminPanel = () => {
           style={styles.primaryButton}
         >
           Add Subcategory
+        </button>
+      </div>
+      <div className="nested-subcategory-management" style={styles.managementSection}>
+        <h3 style={styles.sectionHeader}>Add Nested Subcategory</h3>
+        <select 
+          value={selectedSubcategory} 
+          onChange={(e) => setSelectedSubcategory(e.target.value)} 
+          style={styles.select}
+        >
+          <option value="">Select Subcategory</option>
+          {categories
+            .flatMap(category => category.subcategories || [])
+            .map(subcategory => (
+              <option key={subcategory.id} value={subcategory.name}>{subcategory.name}</option>
+            ))}
+        </select>
+        <input
+          type="text"
+          placeholder="Enter nested subcategory name"
+          value={newNestedSubcategoryName}
+          onChange={(e) => setNewNestedSubcategoryName(e.target.value)}
+          style={styles.input}
+        />
+        <button 
+          onClick={handleAddNestedSubcategory} 
+          className="btn btn-primary" 
+          style={styles.primaryButton}
+        >
+          Add Nested Subcategory
         </button>
       </div>
       <h3 style={styles.sectionHeader}>Category Hierarchy</h3>
@@ -331,6 +460,21 @@ const styles = {
     borderRadius: '4px',
   },
   subcategoryHeader: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  nestedSubcategoryList: {
+    marginTop: '10px',
+  },
+  nestedSubcategoryCard: {
+    padding: '10px',
+    marginBottom: '5px',
+    backgroundColor: '#e9ecef',
+    border: '1px solid #ced4da',
+    borderRadius: '4px',
+  },
+  nestedSubcategoryHeader: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',

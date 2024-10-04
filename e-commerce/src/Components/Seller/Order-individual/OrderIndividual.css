@@ -1,6 +1,6 @@
-/* src/Components/OrderIndividual/OrderIndividual.css */
 
-.order-individual-container {
+
+/* .order-individual-container {
   max-width: 1000px;
   margin: 0 auto;
   padding: 20px;
@@ -56,4 +56,126 @@
 
 .order-items-table tr:hover {
   background-color: #e9e9e9;
+} */
+/* OrderIndividual.css */
+
+/* Overall Container */
+.order-individual-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background-color: #f4f6f9; /* Light gray-blue background for the container */
+  color: #2c3e50; /* Dark text color for readability */
+  border-radius: 8px; /* Rounded corners for the container */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+/* Headings */
+h1 {
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: #34495e; /* Darker color for headings */
+}
+
+h2 {
+  font-size: 22px;
+  margin: 20px 0 10px;
+  color: #2980b9; /* Blue color for section headings */
+}
+
+/* Paragraphs and Emphasis */
+p {
+  font-size: 16px;
+  margin: 10px 0;
+}
+
+strong {
+  font-weight: bold;
+  color: #34495e; /* Slightly lighter dark color for emphasis */
+}
+
+/* Table Styles */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: #ffffff; /* White background for the table */
+  border-radius: 8px; /* Rounded corners for the table */
+  overflow: hidden; /* To ensure borders are rounded */
+}
+
+table, th, td {
+  border: 1px solid #e0e0e0; /* Light gray border color */
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+}
+
+th {
+  background-color: #3498db; /* Primary blue background for table headers */
+  color: #ffffff; /* White text color for headers */
+}
+
+td {
+  background-color: #f9f9f9; /* Light gray background for table rows */
+}
+
+/* Form Elements */
+input[type="text"], input[type="number"], select {
+  width: 100%;
+  padding: 10px;
+  margin: 4px 0 12px;
+  border: 1px solid #bdc3c7; /* Light gray border color */
+  border-radius: 4px;
+  background-color: #ffffff; /* White background for form elements */
+  color: #2c3e50; /* Dark text color for form elements */
+}
+
+button {
+  background-color: #3498db; /* Primary blue color for buttons */
+  color: #ffffff; /* White text color */
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:hover {
+  background-color: #2980b9; /* Darker blue on hover */
+}
+
+/* Fieldsets and Legends */
+fieldset {
+  border: 1px solid #bdc3c7; /* Light gray border color for fieldsets */
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+  background-color: #ffffff; /* White background for fieldsets */
+}
+
+legend {
+  font-weight: bold;
+  padding: 0 10px;
+  color: #3498db; /* Blue color for legend text */
+}
+
+/* Labels */
+label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+/* Textarea */
+textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #bdc3c7;
+  border-radius: 4px;
+  background-color: #ffffff;
+  color: #2c3e50;
+  resize: vertical;
 }

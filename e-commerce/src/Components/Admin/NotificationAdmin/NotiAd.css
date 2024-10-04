@@ -1,65 +1,85 @@
-/* Container for the notifications page */
-.admin-notifications {
-    padding: 20px;
-    background-color: #f5f5f5;
-    min-height: 100vh;
-    font-family: Arial, sans-serif;
-    width: 80%;
-    margin-left: 200px;
+
+.notifications-page {
+    width: 90%; /* Responsive width */
+    max-width: 600px; /* Maximum width for larger screens */
+    padding: 40px;
+    background-color: #f8f9fa; /* Light background color */
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-left: 500px;
 }
 
-/* Title of the notifications page */
-.admin-notifications h1 {
+h1 {
     font-size: 24px;
-    color: #333;
+    color: #343a40; /* Darker text color */
     margin-bottom: 20px;
 }
 
-/* List container */
+input[type="text"], select {
+    width: 100%; /* Full width */
+    padding: 12px;
+    margin: 10px 0; /* Space between elements */
+    border: 1px solid #ced4da; /* Light border */
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+input[type="text"]:focus, select:focus {
+    border-color: #80bdff; /* Focus border color */
+    outline: none; /* Remove outline */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.25); /* Focus shadow */
+}
+
+button {
+    background-color: #007bff; /* Primary button color */
+    color: white; /* Button text color */
+    border: none;
+    border-radius: 4px;
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer; /* Pointer on hover */
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+}
+
 .notification-list {
-    list-style-type: none;
+    list-style-type: none; /* Remove default list styles */
     padding: 0;
-    margin: 0;
+    margin-top: 20px; /* Space above notifications */
 }
 
-/* Individual notification item */
-.notification-item {
+.notification-list li {
+    background-color: #ffffff; /* White background for notifications */
+    border: 1px solid #e9ecef; /* Light border */
+    border-radius: 4px;
     padding: 15px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    transition: background-color 0.3s, border-color 0.3s;
+    margin-bottom: 10px; /* Space between notifications */
+    display: flex;
+    justify-content: space-between; /* Space between message and button */
+    align-items: center; /* Center items vertically */
 }
 
-/* Style for unread notifications */
-.notification-item.unread {
-    border-left: 5px solid #007bff;
-    background-color: #e7f0ff;
+.notification-list li p {
+    margin: 0; /* Remove default margin */
+    flex-grow: 1; /* Allow message to grow */
 }
 
-/* Style for read notifications */
-.notification-item.read {
-    background-color: #f0f0f0;
-    border-left: 5px solid #d6d6d6;
+.notification-list li small {
+    color: #6c757d; /* Gray color for date */
 }
 
-/* Hover effect for notification items */
-.notification-item:hover {
-    background-color: #f1f1f1;
-    border-color: #ccc;
+.notification-list li button {
+    background-color: #dc3545; /* Danger color for delete button */
+    padding: 5px 10px; /* Smaller padding for delete button */
 }
 
-/* Date and time in the notification */
-.notification-item small {
-    display: block;
-    color: #777;
-    margin-top: 5px;
+.notification-list li button:hover {
+    background-color: #c82333; /* Darker shade on hover */
 }
 
-/* No notifications message */
-.admin-notifications p {
-    font-size: 18px;
-    color: #666;
+.error-message {
+    color: #dc3545; /* Red color for error messages */
 }

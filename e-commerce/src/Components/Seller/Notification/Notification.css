@@ -1,61 +1,66 @@
-/* src/components/NotificationsPage.css */
-
-.notifications-page {
+.seller-notifications {
     padding: 20px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f4f4f4; /* Light gray background for the page */
-    color: #333; /* Dark text color for contrast */
-    border-radius: 8px; /* Rounded corners for a modern look */
-    max-width: 800px;
-    margin: 0 auto; /* Centering the content */
+    background-color: #f8f9fa; /* Light background */
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    max-width: 600px; /* Maximum width */
+    margin: 20px auto; /* Center on the page */
+    font-family: 'Arial', sans-serif; /* Modern font */
 }
 
-.notifications-page h1 {
-    margin-bottom: 20px;
-    font-size: 26px;
-    color: #2d3748; /* Darker color for the heading */
-    font-weight: 600; /* Slightly bold for emphasis */
-}
-
-.notification-list {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
-
-.notification {
-    padding: 15px;
+h2 {
+    font-size: 28px; /* Larger heading */
+    color: #343a40; /* Darker text color */
     margin-bottom: 15px;
-    border-radius: 6px;
-    border: 1px solid #e2e8f0; /* Light gray border */
-    cursor: pointer;
-    background-color: #fff; /* White background for each notification */
-    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition effects */
+    text-align: center; /* Center heading */
+    border-bottom: 2px solid #007bff; /* Underline effect */
+    padding-bottom: 10px; /* Space between text and underline */
 }
 
-.notification:hover {
-    background-color: #e2e8f0; /* Light gray background on hover */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow effect on hover */
+p {
+    font-size: 18px; /* Slightly larger for better readability */
+    text-align: center; /* Center message */
 }
 
-.notification.read {
-    opacity: 0.7; /* Dimmed background for read notifications */
+ul {
+    list-style-type: none; /* No default list styles */
+    padding: 0; /* No padding */
+    margin: 0; /* No margin */
 }
 
-.notification.unread {
-    font-weight: 500; /* Semi-bold for unread notifications */
-    border-left: 5px solid #38a169; /* Green left border for unread notifications */
+ul li {
+    border-radius: 6px; /* Slightly more rounded corners */
+    padding: 15px;
+    margin-bottom: 15px; /* Space between notifications */
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    transition: box-shadow 0.2s; /* Smooth shadow effect */
 }
 
-.notification p {
-    margin: 0;
-    font-size: 16px;
-    color: #4a5568; /* Darker gray for notification message text */
+.notification-message {
+    background-color: #d1e7dd; /* Light green for messages */
+    color: #0f5132; /* Dark green text */
+    padding: 10px; /* Padding for message */
+    border-radius: 4px; /* Rounded corners */
+    margin-bottom: 5px; /* Space below message */
 }
 
-.notification small {
-    display: block;
-    margin-top: 5px;
-    font-size: 14px;
-    color: #a0aec0; /* Light gray color for the date */
+.notification-date {
+    background-color: #f8d7da; /* Light red for date */
+    color: #721c24; /* Dark red text */
+    padding: 5px; /* Padding for date */
+    border-radius: 4px; /* Rounded corners */
+    text-align: right; /* Align date to the right */
+    font-size: 14px; /* Smaller font for date */
+}
+
+ul li:hover {
+    box-shadow: 0 2px 15px rgba(0, 123, 255, 0.2); /* Shadow on hover */
+}
+
+.error-message {
+    color: #dc3545; /* Red for error messages */
+    text-align: center; /* Center the error message */
+    margin-top: 10px;
+    font-weight: bold; /* Bold for emphasis */
 }

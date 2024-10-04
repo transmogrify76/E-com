@@ -27,17 +27,18 @@ const Sidebar = () => {
             </Link>
           </li>
           <li className="nav-item">
+            <Link to="/list-product" className={`nav-link ${location.pathname === '/list-product' ? 'active' : ''}`}>
+              <FaShoppingCart className="nav-icon" />
+              {isExpanded && <span>Catalog Uploads</span>}
+            </Link>
+          </li>
+          <li className="nav-item">
             <Link to="/add-product" className={`nav-link ${location.pathname === '/add-product' ? 'active' : ''}`}>
               <FaBoxOpen className="nav-icon" />
               {isExpanded && <span>Add Product</span>}
             </Link>
           </li>
-          <li className="nav-item">
-            <Link to="/list-product" className={`nav-link ${location.pathname === '/list-product' ? 'active' : ''}`}>
-              <FaShoppingCart className="nav-icon" />
-              {isExpanded && <span>Product List</span>}
-            </Link>
-          </li>
+         
           <li className="nav-item">
             <Link to="/categories" className={`nav-link ${location.pathname === '/categories' ? 'active' : ''}`}>
               <FaFolder className="nav-icon" />

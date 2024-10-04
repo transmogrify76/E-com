@@ -1,4 +1,3 @@
-// Users.js
 import React, { useState, useEffect } from 'react';
 import './Users.css';
 
@@ -15,7 +14,7 @@ const Users = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await fetch('http://localhost:5000/user/users');
+        const response = await fetch('http://localhost:5000/user/all'); // Updated API endpoint
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
@@ -55,10 +54,7 @@ const Users = () => {
     setSelectedUser(null);
   };
 
-  const handleEditUser = (user) => {
-    setEditUser({ ...user });
-    setOpenEditDialog(true);
-  };
+  
 
   const handleCloseEditDialog = () => {
     setOpenEditDialog(false);
@@ -124,7 +120,7 @@ const Users = () => {
           onChange={handleSearch}
           style={{
             padding: '10px',
-            width: '200px',  // Set the width to be smaller
+            width: '200px',
             border: '1px solid #ccc',
             borderRadius: '4px',
             fontSize: '16px',
@@ -153,7 +149,6 @@ const Users = () => {
                 <td>{user.phoneNumber}</td>
                 <td className="actions" style={{ display: 'flex', gap: '8px' }}>
                   <button onClick={() => handleViewUserDetails(user)} className="action-button view">View</button>
-                  {/* <button onClick={() => handleEditUser(user)} className="action-button edit">Edit</button> */}
                   <button onClick={() => handleDeleteUser(user.id)} className="action-button delete">Delete</button>
                 </td>
               </tr>
@@ -193,13 +188,13 @@ const Users = () => {
                 onChange={(e) => setEditUser({ ...editUser, name: e.target.value })}
                 style={{
                   display: 'block',
-                  width: 'calc(100% - 20px)', // Adjust width according to the container
+                  width: 'calc(100% - 20px)',
                   padding: '8px',
                   border: '1px solid #ccc',
                   borderRadius: '4px',
                   marginTop: '5px',
                   fontSize: '16px',
-                  boxSizing: 'border-box' // Ensures padding and border are included in the width
+                  boxSizing: 'border-box'
                 }}
               />
             </label>
@@ -211,13 +206,13 @@ const Users = () => {
                 onChange={(e) => setEditUser({ ...editUser, email: e.target.value })}
                 style={{
                   display: 'block',
-                  width: 'calc(100% - 20px)', // Adjust width according to the container
+                  width: 'calc(100% - 20px)',
                   padding: '8px',
                   border: '1px solid #ccc',
                   borderRadius: '4px',
                   marginTop: '5px',
                   fontSize: '16px',
-                  boxSizing: 'border-box' // Ensures padding and border are included in the width
+                  boxSizing: 'border-box'
                 }}
               />
             </label>
@@ -229,13 +224,13 @@ const Users = () => {
                 onChange={(e) => setEditUser({ ...editUser, phoneNumber: e.target.value })}
                 style={{
                   display: 'block',
-                  width: 'calc(100% - 20px)', // Adjust width according to the container
+                  width: 'calc(100% - 20px)',
                   padding: '8px',
                   border: '1px solid #ccc',
                   borderRadius: '4px',
                   marginTop: '5px',
                   fontSize: '16px',
-                  boxSizing: 'border-box' // Ensures padding and border are included in the width
+                  boxSizing: 'border-box'
                 }}
               />
             </label>
@@ -249,5 +244,3 @@ const Users = () => {
 };
 
 export default Users;
-
-

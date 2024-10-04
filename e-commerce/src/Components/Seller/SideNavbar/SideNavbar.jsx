@@ -30,7 +30,7 @@ const SideNavbar = () => {
                 <li className="nav-item">
                     <Link to="/ProductUpload" className={`nav-link ${location.pathname === '/ProductUpload' ? 'active' : ''}`} onClick={() => handleMenuItemClick('ProductUpload')}>
                         <FaUpload className="nav-icon" />
-                        {isExpanded && <span>Product Upload</span>}
+                        {isExpanded && <span>Catalog Upload</span>}
                     </Link>
                 </li>
                

@@ -275,5 +275,5 @@ const ProductDisplay = ({ product }) => {
         </div>
     );
 };
-
 export default ProductDisplay;
+
