@@ -1,215 +1,158 @@
-/* 
-.admin-panel-container {
-  font-family: Arial, sans-serif;
-  padding: 20px;
-  max-width: 1200px;
+.categories-container {
+  max-width: 800px;
   margin: 0 auto;
-  background-color: #f8f9fa;
+  padding: 20px;
+  font-family: Arial, sans-serif;
 }
 
+h1 {
+  text-align: center;
+  color: #333;
+}
 
-h2 {
-  color: #343a40;
+.input-group {
+  display: flex;
+  justify-content: center;
   margin-bottom: 20px;
 }
 
-
-.category-management, .subcategory-management {
-  margin-bottom: 30px;
-  padding: 20px;
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.category-management h3, .subcategory-management h3 {
-  color: #495057;
-  margin-bottom: 15px;
-}
-
-
-input[type="text"], select {
+.input-group input {
   padding: 10px;
   margin-right: 10px;
-  border: 1px solid #ced4da;
+  border: 1px solid #ccc;
   border-radius: 4px;
-  font-size: 16px;
-  width: 200px;
+  flex: 1;
 }
 
-button {
-  padding: 10px 20px;
+.input-group button {
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 16px;
+  transition: background-color 0.3s;
 }
 
-button.btn-primary {
-  background-color: #007bff;
-  color: #fff;
+.input-group button:hover {
+  background-color: #0056b3;
 }
 
-button.btn-edit {
-  background-color: #ffc107;
-  color: #fff;
-}
-
-button.btn-delete {
-  background-color: #dc3545;
-  color: #fff;
-}
-
-button:hover {
-  opacity: 0.9;
-}
-
-
-.category-card, .subcategory-card {
-  margin-bottom: 20px;
-  padding: 20px;
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.category-header, .subcategory-header {
+.parent-categories {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
 }
 
-.category-header h4, .subcategory-header span {
-  margin: 0;
-  color: #343a40;
-}
-
-.category-actions, .subcategory-actions {
-  display: flex;
-  align-items: center;
-}
-
-.category-actions button, .subcategory-actions button {
-  margin-left: 10px;
-}
-
-
-.btn-delete {
-  background-color: #dc3545; 
-  color: #fff; 
-  border: 1px solid #dc3545; 
-  transition: background-color 0.3s, border-color 0.3s;
-}
-
-.btn-delete:hover {
-  background-color: #c82333; 
-  border-color: #c82333; 
-}
-
-.subcategory-list {
-  margin-top: 20px;
-}
-
-
-@media (max-width: 768px) {
-  .category-management, .subcategory-management {
-    padding: 15px;
-  }
-
-  input[type="text"], select, button {
-    width: 100%;
-    margin-bottom: 10px;
-  }
-
-  button {
-    width: 100%;
-  }
-} */
-/* Categories.css */
-/* .admin-panel-container {
-  font-family: Arial, sans-serif;
-  padding: 20px;
-  max-width: 1200px;
-  margin: 0 auto;
-  background-color: #f8f9fa;
-}
-
-.headerText {
-  color: #343a40;
-  margin-bottom: 20px;
-}
-
-.managementSection {
-  margin-bottom: 20px;
-}
-
-.sectionHeader {
-  font-size: 20px;
-  margin-bottom: 10px;
-}
-
-.input, .select {
-  padding: 10px;
-  font-size: 16px;
-  margin-right: 10px;
-  border-radius: 4px;
-  border: 1px solid #ced4da;
-}
-
-.primaryButton {
-  padding: 10px 20px;
-  font-size: 16px;
-  color: #fff;
-  background-color: #007bff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.editButton {
-  padding: 10px;
-  font-size: 16px;
-  color: #007bff;
-  background-color: #fff;
-  border: 1px solid #007bff;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.deleteButton {
-  padding: 10px;
-  font-size: 16px;
-  color: #dc3545;
-  background-color: #fff;
-  border: 1px solid #dc3545;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.categoryCard, .subcategoryCard, .nestedSubcategoryCard {
+.category-item {
+  position: relative;
   padding: 15px;
-  margin-bottom: 10px;
-  background-color: #fff;
-  border: 1px solid #dee2e6;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.subcategoryCard {
   background-color: #f8f9fa;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  transition: background-color 0.3s;
+  cursor: pointer;
 }
 
-.nestedSubcategoryCard {
-  background-color: #e9ecef;
+.category-item:hover {
+  background-color: #e2e6ea;
 }
 
-.header, .subcategoryHeader, .nestedSubcategoryHeader {
+.subcategories-dropdown {
+  display: flex; /* Use flex to position items side by side */
+  flex-wrap: wrap; /* Allow wrapping of items */
+  position: absolute; /* Position relative to the parent */
+  left: 100%; /* Position to the right of the parent */
+  top: 0; /* Align to the top of the parent */
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  min-width: 300px; /* Minimum width for dropdown */
+  padding: 10px; /* Add padding */
+}
+
+.category-item:hover .subcategories-dropdown {
+  display: flex; /* Show on hover */
+}
+
+.subcategory-item {
+  padding: 10px;
+  margin-right: 10px; /* Space between subcategories */
+  border: 1px solid #f0f0f0; /* Border for subcategories */
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #f8f9fa;
+  transition: background-color 0.3s;
+}
+
+.subcategory-item:hover {
+  background-color: #e2e6ea; /* Change background on hover */
+}
+
+/* Styles for nested subcategories */
+.nested-subcategories-dropdown {
+  display: none; /* Hide by default */
+  position: absolute; /* Positioning relative to the parent */
+  left: 100%; /* Position to the right of the subcategory */
+  top: 0; /* Align to the top of the subcategory */
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  min-width: 200px; /* Minimum width for nested dropdown */
+}
+
+.subcategory-item:hover .nested-subcategories-dropdown {
+  display: flex; /* Show when hovered */
+  flex-direction: column; /* Stack nested subcategories vertically */
+  padding: 10px; /* Padding inside nested dropdown */
+}
+
+/* Styles for each nested subcategory item */
+.nested-subcategory-item {
+  padding: 8px 12px; /* Padding for nested items */
+  background-color: #f0f0f0; /* Background color for nested items */
+  margin-bottom: 5px; /* Space between nested items */
+  border-radius: 4px; /* Rounded corners */
+}
+
+.subcategory-item.selected {
+  background-color: #cce5ff; /* Highlight color for selected subcategory */
+}
+
+.nested-subcategories-dropdown {
+  display: block; /* Ensure it displays when selected or hovered */
+  margin-top: 5px; /* Add some spacing */
+}
+.delete-button {
+  background: none;
+  border: none;
+  color: #dc3545; /* Bootstrap danger color */
+  cursor: pointer;
+  margin-left: 10px; /* Add some space between category name and delete icon */
+  font-size: 1.2em; /* Adjust size as needed */
+}
+
+.delete-button:hover {
+  color: #c82333; /* Darker shade on hover */
+}
+
+/* Ensure the subcategory item has some space around it */
+.subcategory-item {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: space-between; /* Align name and delete button */
+  padding: 10px;
+  margin-right: 10px;
+  border: 1px solid #f0f0f0;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #f8f9fa;
+  transition: background-color 0.3s;
 }
 
-.actions {
-  display: flex;
-  gap: 10px;
-} */
+.subcategory-item:hover {
+  background-color: #e2e6ea;
+}
