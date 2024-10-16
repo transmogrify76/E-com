@@ -1,299 +1,161 @@
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import './Settings.css'; // Your CSS styles
 
-// Settings.jsx
-import React, { useState } from 'react';
-import './Settings.css';
+const SettingsPage = () => {
+    const navigate = useNavigate();
+    const [SellerData, setSellerData] = useState({});
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [formData, setFormData] = useState({});
+    const [isEditing, setIsEditing] = useState(false);
 
-const Settings = () => {
-  // State for Account Settings
-  const [accountSettings, setAccountSettings] = useState({
-    username: '',
-    password: '',
-    enable2FA: false,
-    emailNotifications: false,
-    smsNotifications: false,
-  });
+    useEffect(() => {
+        const fetchSellerData = async () => {
+            const sellerId = localStorage.getItem('sellerId');
+            const accessToken = localStorage.getItem('accessToken');
 
-  // State for Store Information
-  const [storeInformation, setStoreInformation] = useState({
-    storeName: '',
-    storeLogo: null,
-    storeAddress: '',
-    storeEmail: '',
-    storePhone: '',
-    aboutUs: '',
-  });
+            if (!sellerId || !accessToken) {
+                navigate('/login');
+                return;
+            }
 
-  // State for Payment Settings
-  const [paymentSettings, setPaymentSettings] = useState({
-    paymentGateway: 'paypal',
-    bankAccount: '',
-    currency: 'usd',
-  });
+            try {
+                const response = await axios.get(`http://localhost:5000/user/sellers/${sellerId}`, {
+                    headers: { Authorization: `Bearer ${accessToken}` }
+                });
+                setSellerData(response.data);
+                setFormData(response.data); // Set form data to fetched data
+                setLoading(false);
+            } catch (err) {
+                setError(err.response?.data?.message || 'Error fetching seller data');
+                setLoading(false);
+            }
+        };
 
-  // Handle form submission for Account Settings
-  const handleAccountSubmit = (e) => {
-    e.preventDefault();
-    console.log('Account Settings submitted');
-    console.log('Account Settings:', accountSettings);
-    // Add logic to save account settings
-  };
+        fetchSellerData();
+    }, [navigate]);
 
-  // Handle form submission for Store Information
-  const handleStoreSubmit = (e) => {
-    e.preventDefault();
-    console.log('Store Information submitted');
-    console.log('Store Information:', storeInformation);
-    // Add logic to save store information
-  };
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+    };
 
-  // Handle form submission for Payment Settings
-  const handlePaymentSubmit = (e) => {
-    e.preventDefault();
-    console.log('Payment Settings submitted');
-    console.log('Payment Settings:', paymentSettings);
-    // Add logic to save payment settings
-  };
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const sellerId = localStorage.getItem('sellerId');
+        const accessToken = localStorage.getItem('accessToken');
 
-  // Handle change for Account Settings
-  const handleAccountChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setAccountSettings((prevSettings) => ({
-      ...prevSettings,
-      [name]: type === 'checkbox' ? checked : value,
-    }));
-  };
+        try {
+            await axios.patch(`http://localhost:5000/user/update`, {
+                ...formData,
+                id: sellerId // Ensure id is included in the payload
+            }, {
+                headers: { Authorization: `Bearer ${accessToken}` }
+            });
+            setSellerData(formData); // Update displayed data
+            setIsEditing(false); // Exit editing mode
+        } catch (err) {
+            setError(err.response?.data?.message || 'Error updating seller data');
+        }
+    };
 
-  // Handle change for Store Information
-  const handleStoreChange = (e) => {
-    const { name, value, files } = e.target;
-    setStoreInformation((prevInfo) => ({
-      ...prevInfo,
-      [name]: files ? files[0] : value,
-    }));
-  };
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error: {error}</p>;
 
-  // Handle change for Payment Settings
-  const handlePaymentChange = (e) => {
-    const { name, value } = e.target;
-    setPaymentSettings((prevSettings) => ({
-      ...prevSettings,
-      [name]: value,
-    }));
-  };
+    return (
+        <div className="settings-page">
+            <h2>Settings</h2>
 
-  return (
-    <div className="app-container-settings">
-      {/* Account Settings Card */}
-      <div className="settings-card">
-        <h2 className="settings-heading">Account Settings</h2>
-        <div className="settings-content">
-          <form className="settings-form" onSubmit={handleAccountSubmit}>
+            <form onSubmit={handleSubmit} className="settings-form">
+                <section className="settings-section">
+                    <h5>Personal Information</h5>
+                    <div className="user-info-section">
+                        <label>
+                            Name:
+                            <input 
+                                type="text" 
+                                name="name" 
+                                value={formData.name || ''} 
+                                onChange={handleChange} 
+                                disabled={!isEditing} 
+                            />
+                        </label>
+                        <label>
+                            Email:
+                            <input 
+                                type="email" 
+                                name="email" 
+                                value={formData.email || ''} 
+                                onChange={handleChange} 
+                                disabled={!isEditing} 
+                            />
+                        </label>
+                        <label>
+                            Address:
+                            <input 
+                                type="text" 
+                                name="address" 
+                                value={formData.address || ''} 
+                                onChange={handleChange} 
+                                disabled={!isEditing} 
+                            />
+                        </label>
+                        <label>
+                            Phone Number:
+                            <input 
+                                type="tel" 
+                                name="phoneNumber" 
+                                value={formData.phoneNumber || ''} 
+                                onChange={handleChange} 
+                                disabled={!isEditing} 
+                            />
+                        </label>
+                    </div>
+                </section>
 
-            <div className="form-group">
-              <label htmlFor="username">Username:</label>
-              <input
-                type="text"
-                id="username"
-                name="username"
-                value={accountSettings.username}
-                onChange={handleAccountChange}
-                required
-              />
-            </div>
+                <section className="settings-section">
+                    <h5>Store Information</h5>
+                    <div className="user-info-section">
+                        <label>
+                            Store Name:
+                            <input 
+                                type="text" 
+                                name="companyName" 
+                                value={formData.companyName || ''} 
+                                onChange={handleChange} 
+                                disabled={!isEditing} 
+                            />
+                        </label>
+                        <label>
+                            Store Description:
+                            <textarea 
+                                name="description" 
+                                value={formData.description || ''} 
+                                onChange={handleChange} 
+                                disabled={!isEditing}
+                            ></textarea>
+                        </label>
+                        <label>
+                           Contact Person:
+                            <textarea 
+                                name="contactPerson" 
+                                value={formData.contactPerson || ''} 
+                                onChange={handleChange} 
+                                disabled={!isEditing}
+                            ></textarea>
+                        </label>
+                    </div>
+                </section>
 
-            <div className="form-group">
-              <label htmlFor="password">Password:</label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                value={accountSettings.password}
-                onChange={handleAccountChange}
-                required
-              />
-            </div>
-
-            <div className="form-group">
-              <label>
-                <input
-                  type="checkbox"
-                  name="enable2FA"
-                  checked={accountSettings.enable2FA}
-                  onChange={handleAccountChange}
-                />{' '}
-                Enable Two-Factor Authentication
-              </label>
-            </div>
-
-          
-              <label>
-                <input
-                  type="checkbox"
-                  name="emailNotifications"
-                  checked={accountSettings.emailNotifications}
-                  onChange={handleAccountChange}
-                />{' '}
-                Email Notifications 
-              </label>
-         
-
-            
-              <label>
-                <input
-                  type="checkbox"
-                  name="smsNotifications"
-                  checked={accountSettings.smsNotifications}
-                  onChange={handleAccountChange}
-                />{' '}
-                SMS Notifications
-              </label>
-          
-
-           
-
-          </form>
+                <button type="button" onClick={() => setIsEditing(!isEditing)}>
+                    {isEditing ? 'Cancel' : 'Edit'}
+                </button>
+                {isEditing && <button type="submit">Save Changes</button>}
+            </form>
         </div>
-      </div>
-
-      {/* Store Information Card */}
-      <div className="settings-card">
-        <h2 className="settings-heading">Store Information</h2>
-        <div className="settings-content">
-          <form className="settings-form" onSubmit={handleStoreSubmit}>
-
-            <div className="form-group">
-              <label htmlFor="store-name">Store Name:</label>
-              <input
-                type="text"
-                id="store-name"
-                name="storeName"
-                value={storeInformation.storeName}
-                onChange={handleStoreChange}
-                required
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="store-logo">Upload Logo:</label>
-              <input
-                type="file"
-                id="store-logo"
-                name="storeLogo"
-                onChange={handleStoreChange}
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="store-address">Store Address:</label>
-              <textarea
-                id="store-address"
-                name="storeAddress"
-                value={storeInformation.storeAddress}
-                onChange={handleStoreChange}
-                rows="4"
-                required
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="store-email">Store Email:</label>
-              <input
-                type="email"
-                id="store-email"
-                name="storeEmail"
-                value={storeInformation.storeEmail}
-                onChange={handleStoreChange}
-                required
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="store-phone">Store Phone Number:</label>
-              <input
-                type="tel"
-                id="store-phone"
-                name="storePhone"
-                value={storeInformation.storePhone}
-                onChange={handleStoreChange}
-                required
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="about-us">About Us:</label>
-              <textarea
-                id="about-us"
-                name="aboutUs"
-                value={storeInformation.aboutUs}
-                onChange={handleStoreChange}
-                rows="6"
-                required
-              />
-            </div>
-
-           
-
-          </form>
-        </div>
-      </div>
-
-      {/* Payment Settings Card */}
-      <div className="settings-card">
-        <h2 className="settings-heading">Payment Settings</h2>
-        <div className="settings-content">
-          <form className="settings-form" onSubmit={handlePaymentSubmit}>
-
-            <div className="form-group">
-              <label htmlFor="payment-gateway">Payment Gateway:</label>
-              <select
-                id="payment-gateway"
-                name="paymentGateway"
-                value={paymentSettings.paymentGateway}
-                onChange={handlePaymentChange}
-                required
-              >
-                <option value="paypal">PayPal</option>
-                <option value="stripe">Stripe</option>
-                <option value="square">Square</option>
-              </select>
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="bank-account">Bank Account Details:</label>
-              <textarea
-                id="bank-account"
-                name="bankAccount"
-                value={paymentSettings.bankAccount}
-                onChange={handlePaymentChange}
-                rows="4"
-                required
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="currency">Currency:</label>
-              <select
-                id="currency"
-                name="currency"
-                value={paymentSettings.currency}
-                onChange={handlePaymentChange}
-                required
-              >
-                <option value="usd">USD</option>
-                <option value="eur">EUR</option>
-                <option value="gbp">GBP</option>
-              </select>
-            </div>
-
-            <button type="submit" className="btn-savee">
-              Save  Settings
-            </button>
-
-          </form>
-        </div>
-      </div>
-    </div>
-  );
+    );
 };
 
-export default Settings;
+export default SettingsPage;

@@ -1,0 +1,335 @@
+
+.page-container {
+    display: flex;
+    width: 350mm; 
+    height: 400mm; 
+    padding: 10mm;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+    background-color: white;
+    margin-left: 400px;
+}
+
+.left-side h1 {
+    font-size: 20px;
+    color: #333;
+    margin: 0;
+}
+
+
+.right-side {
+    flex: 2;
+    padding-left: 10mm;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10mm;
+}
+
+
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
+
+.youtube-logo {
+    width: 24px; 
+    height: 24px; 
+    background-image: url('../../../Components/Assests/youtubelogo.png'); 
+    background-size: contain; 
+    background-repeat: no-repeat; 
+    background-position: center;
+    display: inline-block; 
+    margin-right: 10px; 
+}
+
+.how-it-works {
+    margin: 0;
+    font-size: 16px;
+    color: #333;
+}
+
+
+.search-container {
+    display: flex;
+    align-items: center;
+}
+
+
+.search-input {
+    padding: 5px;
+    font-size: 14px;
+    margin-right: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 200px; 
+}
+
+
+.search-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.search-button:hover {
+    background-color: #0056b3;
+}
+
+
+.message-box {
+    background-color: #FFA500; 
+    border-radius: 12px;
+    padding: 20px; 
+    margin: 20px 0;
+    width: 100%;
+    max-width: 1000px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    box-sizing: border-box;
+}
+
+
+.message-box p {
+    margin: 10px 0; 
+    color: black; 
+    font-size: 16px; 
+}
+
+
+.message-box p.message-box-title {
+    font-size: 24px;
+    font-weight: bold; 
+}
+
+
+.open-partner-button {
+    background-color: #fff; 
+    color: blue; 
+    border: none;
+    border-radius: 6px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 10px; 
+}
+
+.open-partner-button:hover {
+    background-color: blue; 
+    color: white; 
+}
+
+
+.tabs {
+    display: flex;
+    margin-bottom: 10mm;
+    margin-right: 500px;
+}
+
+.tab-button {
+    padding: 5px 10px;
+    background-color: #f4f4f4;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-right: 5px;
+    cursor: pointer;
+    font-size: 12px;
+    position: relative;
+}
+
+.tab-button.active {
+    background-color: #007bff;
+    color: white;
+}
+
+
+.summary-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10mm;
+}
+
+
+.sort-dropdown-container {
+    display: flex;
+    align-items: center;
+}
+
+.sort-dropdown-container select {
+    margin-left: 10px;
+    padding: 5px;
+    font-size: 14px;
+}
+
+
+.view-trend-button {
+    background-color: white;
+    color: blue;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: 900px;
+    margin-bottom: 10px;
+}
+
+.view-trend-button:hover {
+    background-color: #0056b3;
+}
+
+
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+
+  .popup-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 400px;
+    max-width: 90%;
+    position: relative;
+  }
+  
+  
+  .popup-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #333;
+  }
+  
+  
+  .popup-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px; 
+  }
+  
+  
+  .popup-button {
+    background-color: white;
+    color: #007bff; 
+    border: 1px solid #ddd; 
+    border-radius: 4px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 14px;
+    flex: 1; 
+    margin: 0 5px; 
+    text-align: center;
+  }
+  
+  .popup-button:hover {
+    background-color: #f1f1f1; 
+  }
+  
+.Sort{
+    margin-left: 900px;
+} 
+
+
+/* Return Tracking Page Styles */
+.return-tracking-page {
+    padding: 20px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+  }
+  
+  .return-tracking-buttons {
+    margin-bottom: 20px;
+  }
+  
+  .tracking-button {
+    padding: 10px 20px;
+    margin-right: 10px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .tracking-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .filters {
+    margin-bottom: 20px;
+  }
+  
+  .filter-section {
+    margin-bottom: 20px;
+  }
+  
+  .filter-section h4 {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+  
+  .filter-select {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 100%;
+  }
+  
+  .filter-type-button {
+    padding: 10px 20px;
+    margin-right: 10px;
+    border: none;
+    background-color: #6c757d;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .filter-type-button:hover {
+    background-color: #5a6268;
+  }
+  
+  .clear-filters-button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #dc3545;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .clear-filters-button:hover {
+    background-color: #c82333;
+  }
+  
+  .results {
+    margin-top: 20px;
+  }
+  
+ 

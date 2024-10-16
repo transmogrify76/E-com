@@ -56,7 +56,7 @@ const SellerAccountPage = () => {
       <section className="account-section">
         <h5>Personal Information</h5>
         <div className="user-info-section">
-          <p><strong>Name:</strong> {sellerData.contactPerson || 'N/A'}</p>
+          <p><strong>Name:</strong> {sellerData.name || 'N/A'}</p>
           <p><strong>Email:</strong> {sellerData.email || 'N/A'}</p>
           <p><strong>Address:</strong> {sellerData.address || 'N/A'}</p>
           <p><strong>Phone Number:</strong> {sellerData.phoneNumber || 'N/A'}</p>
@@ -68,6 +68,7 @@ const SellerAccountPage = () => {
         <div className="user-info-section">
           <p><strong>Store Name:</strong> {sellerData.companyName || 'N/A'}</p>
           <p><strong>Store Description:</strong> {sellerData.description || 'N/A'}</p>
+          <p><strong>contact Person :</strong> {sellerData.contactPerson || 'N/A'}</p>
         </div>
       </section>
 

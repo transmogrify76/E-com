@@ -1,6 +1,6 @@
 import React from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom'; // Import useNavigate for programmatic navigation
-import './Dispatch.css'; // Import CSS file for styling
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import './Dispatch.css';
 
 const dummyShippingDetails = {
     1: { 
@@ -18,27 +18,12 @@ const dummyShippingDetails = {
         deliveryStatus: 'On Time',
         deliveryInstructions: 'Leave package at the front porch. Contact customer at 123-456-7890 if no one is home.',
     },
-    2: { 
-        id: 2, 
-        carrier: 'FedEx', 
-        trackingNumber: '123456789012', 
-        estimatedDelivery: '2023-01-06', 
-        address: '456 Elm St, Shelbyville', 
-        contact: 'Jane Smith',
-        statusUpdates: [
-            { date: '2023-01-02', event: 'Package received by FedEx' },
-            { date: '2023-01-03', event: 'In transit to sorting facility' },
-            { date: '2023-01-04', event: 'Out for delivery' },
-        ],
-        deliveryStatus: 'On Time',
-        deliveryInstructions: 'Leave package at the side door. Contact customer if needed.',
-    },
-    // Add more dummy data as needed
+    // Other orders...
 };
 
 const DispatchPage = () => {
     const { orderId } = useParams();
-    const navigate = useNavigate(); // Hook for programmatic navigation
+    const navigate = useNavigate();
     const shippingDetails = dummyShippingDetails[orderId];
 
     if (!shippingDetails) {
@@ -46,14 +31,13 @@ const DispatchPage = () => {
     }
 
     const handleGenerateReport = () => {
-        // Function to generate report
         alert('Generating dispatch report...');
-        // Implement report generation logic here (e.g., exporting data as a PDF)
+        // Implement report generation logic here
     };
 
     return (
         <div className="dispatch-page">
-            <h1>Dispatch Details for Order ID: {orderId}</h1>
+            <h1>Shipping Details for Order ID: {orderId}</h1>
             <div className="section">
                 <h2>Shipping Information</h2>
                 <p><strong>Carrier:</strong> {shippingDetails.carrier}</p>

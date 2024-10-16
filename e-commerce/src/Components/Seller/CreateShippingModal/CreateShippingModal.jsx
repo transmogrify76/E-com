@@ -1,9 +1,11 @@
+
 import React, { useState } from 'react';
 import { Modal, Button, Form, Row, Col } from 'react-bootstrap';
 import './CreateShippingModal.css';
 
-const CreateShippingModal = ({ show, handleClose, handleCreateOrder }) => {
-    const [orderData, setOrderData] = useState({
+const CreateShippingModal = ({ show, handleClose, handleCreateShipping }) => {
+    // State to manage the form fields
+    const [shippingData, setShippingData] = useState({
         productId: '',
         productName: '',
         quantity: '',
@@ -18,24 +20,28 @@ const CreateShippingModal = ({ show, handleClose, handleCreateOrder }) => {
         city: '',
         pin: '',
         productWeight: '',
+        courier: '',
+        trackingId: '',
         status: 'Pending',
     });
 
+    // Handle input changes
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setOrderData({ ...orderData, [name]: value });
+        setShippingData({ ...shippingData, [name]: value });
     };
 
+    // Handle form submission
     const handleSubmit = (e) => {
         e.preventDefault();
-        handleCreateOrder(orderData);
+        handleCreateShipping(shippingData);
         handleClose();
     };
 
     return (
         <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false} className="create-shipping-modal">
             <Modal.Header closeButton>
-                <Modal.Title>Create New Shipping</Modal.Title>
+                <Modal.Title>Create Shipping Request</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
@@ -46,7 +52,7 @@ const CreateShippingModal = ({ show, handleClose, handleCreateOrder }) => {
                                 <Form.Control
                                     type="text"
                                     name="productId"
-                                    value={orderData.productId}
+                                    value={shippingData.productId}
                                     onChange={handleChange}
                                     placeholder="Enter product ID"
                                     required
@@ -59,7 +65,7 @@ const CreateShippingModal = ({ show, handleClose, handleCreateOrder }) => {
                                 <Form.Control
                                     type="text"
                                     name="productName"
-                                    value={orderData.productName}
+                                    value={shippingData.productName}
                                     onChange={handleChange}
                                     placeholder="Enter product Name"
                                     required
@@ -75,7 +81,7 @@ const CreateShippingModal = ({ show, handleClose, handleCreateOrder }) => {
                                 <Form.Control
                                     type="number"
                                     name="quantity"
-                                    value={orderData.quantity}
+                                    value={shippingData.quantity}
                                     onChange={handleChange}
                                     placeholder="Enter quantity"
                                     required
@@ -88,7 +94,7 @@ const CreateShippingModal = ({ show, handleClose, handleCreateOrder }) => {
                                 <Form.Control
                                     type="text"
                                     name="size"
-                                    value={orderData.size}
+                                    value={shippingData.size}
                                     onChange={handleChange}
                                     placeholder="Enter size"
                                     required
@@ -104,7 +110,7 @@ const CreateShippingModal = ({ show, handleClose, handleCreateOrder }) => {
                                 <Form.Control
                                     type="text"
                                     name="productWeight"
-                                    value={orderData.productWeight}
+                                    value={shippingData.productWeight}
                                     onChange={handleChange}
                                     placeholder="Enter product weight"
                                     required
@@ -117,7 +123,7 @@ const CreateShippingModal = ({ show, handleClose, handleCreateOrder }) => {
                                 <Form.Control
                                     type="number"
                                     name="stockPrice"
-                                    value={orderData.stockPrice}
+                                    value={shippingData.stockPrice}
                                     onChange={handleChange}
                                     placeholder="Enter stock price"
                                     required
@@ -132,7 +138,7 @@ const CreateShippingModal = ({ show, handleClose, handleCreateOrder }) => {
                             as="textarea"
                             rows={3}
                             name="refundPolicy"
-                            value={orderData.refundPolicy}
+                            value={shippingData.refundPolicy}
                             onChange={handleChange}
                             placeholder="Enter refund policy"
                             required
@@ -146,7 +152,7 @@ const CreateShippingModal = ({ show, handleClose, handleCreateOrder }) => {
                                 <Form.Control
                                     type="text"
                                     name="pickupAddress"
-                                    value={orderData.pickupAddress}
+                                    value={shippingData.pickupAddress}
                                     onChange={handleChange}
                                     placeholder="Enter pickup address"
                                     required
@@ -159,7 +165,7 @@ const CreateShippingModal = ({ show, handleClose, handleCreateOrder }) => {
                                 <Form.Control
                                     type="text"
                                     name="deliveryAddress"
-                                    value={orderData.deliveryAddress}
+                                    value={shippingData.deliveryAddress}
                                     onChange={handleChange}
                                     placeholder="Enter delivery address"
                                     required
@@ -175,7 +181,7 @@ const CreateShippingModal = ({ show, handleClose, handleCreateOrder }) => {
                                 <Form.Control
                                     type="text"
                                     name="landmark"
-                                    value={orderData.landmark}
+                                    value={shippingData.landmark}
                                     onChange={handleChange}
                                     placeholder="Enter landmark"
                                     required
@@ -188,7 +194,7 @@ const CreateShippingModal = ({ show, handleClose, handleCreateOrder }) => {
                                 <Form.Control
                                     type="text"
                                     name="country"
-                                    value={orderData.country}
+                                    value={shippingData.country}
                                     onChange={handleChange}
                                     placeholder="Enter country"
                                     required
@@ -204,7 +210,7 @@ const CreateShippingModal = ({ show, handleClose, handleCreateOrder }) => {
                                 <Form.Control
                                     type="text"
                                     name="state"
-                                    value={orderData.state}
+                                    value={shippingData.state}
                                     onChange={handleChange}
                                     placeholder="Enter state"
                                     required
@@ -217,7 +223,7 @@ const CreateShippingModal = ({ show, handleClose, handleCreateOrder }) => {
                                 <Form.Control
                                     type="text"
                                     name="city"
-                                    value={orderData.city}
+                                    value={shippingData.city}
                                     onChange={handleChange}
                                     placeholder="Enter city"
                                     required
@@ -231,12 +237,41 @@ const CreateShippingModal = ({ show, handleClose, handleCreateOrder }) => {
                         <Form.Control
                             type="text"
                             name="pin"
-                            value={orderData.pin}
+                            value={shippingData.pin}
                             onChange={handleChange}
                             placeholder="Enter pin code"
                             required
                         />
                     </Form.Group>
+
+                    <Row className="mb-3">
+                        <Col md={6}>
+                            <Form.Group controlId="courier">
+                                <Form.Label>Courier Partner</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    name="courier"
+                                    value={shippingData.courier}
+                                    onChange={handleChange}
+                                    placeholder="Enter courier partner"
+                                    required
+                                />
+                            </Form.Group>
+                        </Col>
+                        <Col md={6}>
+                            <Form.Group controlId="trackingId">
+                                <Form.Label>Tracking ID</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    name="trackingId"
+                                    value={shippingData.trackingId}
+                                    onChange={handleChange}
+                                    placeholder="Enter tracking ID"
+                                    required
+                                />
+                            </Form.Group>
+                        </Col>
+                    </Row>
 
                     <Button variant="primary" type="submit">
                         Create Shipment

@@ -62,6 +62,7 @@ const SideNav = () => {
                         {isExpanded && <span>Wallet</span>}
                     </Link>
                 </li>
+                
                 <li className="nav-item">
                     <Link to="/customerservice" className={`nav-link ${location.pathname === '/customerservice' ? 'active' : ''}`} onClick={() => handleMenuItemClick('CustomerService')}>
                         <FaHeadset className="nav-icon" />

@@ -15,8 +15,8 @@
   }
   
   .form-control-dark {
-    background-color: #343a40; /* Dark background for search input */
-    color: #ffffff; /* White text color */
+    background-color: #343a40; 
+    color: #ffffff; 
   }
   
   .navbar-nav .nav-item .nav-link {
