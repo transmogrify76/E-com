@@ -5,10 +5,7 @@ import star_icon from '../../Assests/Ecommerce_Frontend_Assets/Assets/star_icon.
 import star_dull_icon from '../../Assests/Ecommerce_Frontend_Assets/Assets/star_dull_icon.png';
 import CustomerReview from '../CustomerReview/CustomerReview';
 import body_measure_image from '../../Assests/Ecommerce_Frontend_Assets/Assets/body_measure_image.png'; // Add your body measurement image here
-<<<<<<< HEAD
 
-=======
->>>>>>> 5a8d4c786c254c9c73dcf6ffd3b29c2692d0f1ae
 
 const ProductDisplay = ({ product }) => {
     const { addToCart, addToWishlist, wishlistItems, removeFromWishlist } = useContext(ShopContext);
@@ -130,10 +127,7 @@ const ProductDisplay = ({ product }) => {
                         Size Chart
                     </button>
                 </div>
-<<<<<<< HEAD
-=======
 
->>>>>>> 5a8d4c786c254c9c73dcf6ffd3b29c2692d0f1ae
                 <div className="productdisplay-right-color">
                     <h1>Select color</h1>
                     <div className="productdisplay-right-colors">
@@ -195,11 +189,8 @@ const ProductDisplay = ({ product }) => {
                 {reviewSubmitted && <p className="review-submitted-message">Thank you for your review!</p>}
             </div>
 
-<<<<<<< HEAD
             {/* Size Chart Modal*/}
-=======
             {/* Size Chart Modal */}
->>>>>>> 5a8d4c786c254c9c73dcf6ffd3b29c2692d0f1ae
             {showSizeChart && (
                 <div className="size-chart-modal">
                     <div className="size-chart-content">
@@ -264,11 +255,8 @@ const ProductDisplay = ({ product }) => {
                             </tbody>
                         </table>
 
-<<<<<<< HEAD
                         {/* How to Measure  */}
-=======
                         {/* How to Measure */}
->>>>>>> 5a8d4c786c254c9c73dcf6ffd3b29c2692d0f1ae
                         <div className="how-to-measure">
                             <h2>How to Measure</h2>
                             <p><strong>Follow these instructions to measure your size accurately:</strong></p>
@@ -283,23 +271,17 @@ const ProductDisplay = ({ product }) => {
                             <img src={body_measure_image} alt="Body Measurement Instructions" />
                         </div>
 
-<<<<<<< HEAD
                         <div className="how-to-measure">
                             <p style={{ color: 'red' }}><strong>NOT THE RIGHT SIZE OR COLOR?</strong></p>
                             <p><strong>No problem, we offer free size exchanges and we have a free return service.</strong></p>
                         </div>
-=======
->>>>>>> 5a8d4c786c254c9c73dcf6ffd3b29c2692d0f1ae
                         <button className="close-size-chart" onClick={toggleSizeChart}>
                             Close
                         </button>
                     </div>
                 </div>
-<<<<<<< HEAD
             )}
-=======
-                )}
->>>>>>> 5a8d4c786c254c9c73dcf6ffd3b29c2692d0f1ae
+                
         </div>
     );
 };
