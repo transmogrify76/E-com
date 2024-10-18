@@ -10,6 +10,7 @@ const AdminAccount = () => {
     const [error, setError] = useState(null);
     const [showModal, setShowModal] = useState(false);
 
+
     useEffect(() => {
         const fetchAdminData = async () => {
             setLoading(true);
@@ -207,7 +208,6 @@ const AdminAccount = () => {
                                     );
                                 })}
                             </div>
-                            
                         </section>
                     )}
 
