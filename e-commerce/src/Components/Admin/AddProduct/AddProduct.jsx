@@ -250,9 +250,10 @@
 
 // export default AddProduct;
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import './AddProduct.css';
 
 const ProductCatalogUploader = () => {
@@ -263,31 +264,57 @@ const ProductCatalogUploader = () => {
     const [uploadedImages, setUploadedImages] = useState([]);
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [uploadError, setUploadError] = useState('');
+    const [categories, setCategories] = useState([]);
+    const [subCategories, setSubCategories] = useState([]);
+    const [nestedSubCategories, setNestedSubCategories] = useState([]);
     const requiredResolution = { width: 800, height: 800 };
 
-    const categories = {
-        'men-apparel': {
-            subcategories: {
-                'Shirts': ['Casual', 'Formal'],
-                'Pants': ['Jeans', 'Trousers'],
-                'Shoes': ['Sneakers', 'Loafers']
-            },
-            image: 'path_to_men_apparel_image.jpg'
-        },
-        // ... other categories
-    };
+    // Fetching main categories
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/categories');
+                setCategories(response.data);
+            } catch (error) {
+                console.error('Error fetching categories', error);
+            }
+        };
+        fetchCategories();
+    }, []);
 
-    const handleMainCategoryChange = (e) => {
-        setMainCategory(e.target.value);
+    const handleMainCategoryChange = async (e) => {
+        const selectedCategory = e.target.value;
+        setMainCategory(selectedCategory);
         setSubCategory('');
         setNestedSubCategory('');
         setUploadedImages([]);
         setUploadError('');
+
+        // Fetch subcategories for the selected main category
+        try {
+            const response = await axios.get(`http://localhost:5000/categories/subcategories/${selectedCategory}`);
+            console.log('Fetched subcategories:', response.data); // Log the fetched data
+            setSubCategories(response.data.subcategories || []);
+        } catch (error) {
+            console.error('Error fetching subcategories', error);
+            setUploadError('Failed to load subcategories. Please try again.'); // Set error message
+        }
     };
 
-    const handleSubCategoryChange = (e) => {
-        setSubCategory(e.target.value);
+    const handleSubCategoryChange = async (e) => {
+        const selectedSubCategory = e.target.value;
+        setSubCategory(selectedSubCategory);
         setNestedSubCategory('');
+
+        // Fetch nested subcategories for the selected subcategory
+        try {
+            const response = await axios.get(`http://localhost:5000/categories/subcategories/${mainCategory}/${selectedSubCategory}`);
+            console.log('Fetched nested subcategories:', response.data); // Log the fetched data
+            setNestedSubCategories(response.data.nestedSubcategories || []);
+        } catch (error) {
+            console.error('Error fetching nested subcategories', error);
+            setUploadError('Failed to load nested subcategories. Please try again.'); // Set error message
+        }
     };
 
     const handleNestedSubCategoryChange = (e) => {
@@ -347,7 +374,6 @@ const ProductCatalogUploader = () => {
             return;
         }
 
-        // Navigate to add product details for the first image, for example
         navigate('/add-product-details', { state: { uploadedImages } });
         closeModal();
     };
@@ -365,8 +391,8 @@ const ProductCatalogUploader = () => {
                     <label htmlFor="main-category">1. Choose Main Category:</label>
                     <select id="main-category" value={mainCategory} onChange={handleMainCategoryChange}>
                         <option value="">-- Choose Category --</option>
-                        {Object.keys(categories).map(category => (
-                            <option key={category} value={category}>{category.replace('-', ' ')}</option>
+                        {categories.map(category => (
+                            <option key={category.name} value={category.name}>{category.name}</option>
                         ))}
                     </select>
                 </div>
@@ -378,8 +404,8 @@ const ProductCatalogUploader = () => {
                             <label htmlFor="sub-category">2. Select Subcategory:</label>
                             <select id="sub-category" value={subCategory} onChange={handleSubCategoryChange}>
                                 <option value="">-- Choose Subcategory --</option>
-                                {Object.keys(categories[mainCategory].subcategories).map(sub => (
-                                    <option key={sub} value={sub}>{sub}</option>
+                                {subCategories.map(sub => (
+                                    <option key={sub.name} value={sub.name}>{sub.name}</option>
                                 ))}
                             </select>
                         </>
@@ -393,20 +419,13 @@ const ProductCatalogUploader = () => {
                             <label htmlFor="nested-sub-category">3. Select Nested Subcategory:</label>
                             <select id="nested-sub-category" value={nestedSubCategory} onChange={handleNestedSubCategoryChange}>
                                 <option value="">-- Choose Nested Subcategory --</option>
-                                {categories[mainCategory].subcategories[subCategory].map(nested => (
-                                    <option key={nested} value={nested}>{nested}</option>
+                                {nestedSubCategories.map(nested => (
+                                    <option key={nested.name} value={nested.name}>{nested.name}</option>
                                 ))}
                             </select>
                         </>
                     )}
                 </div>
-
-                {/* Category Image Display */}
-                {mainCategory && (
-                    <div className="category-image">
-                        <img src={categories[mainCategory].image} alt={`${mainCategory} category`} />
-                    </div>
-                )}
 
                 {/* Image Upload Section */}
                 <div className="image-upload">
