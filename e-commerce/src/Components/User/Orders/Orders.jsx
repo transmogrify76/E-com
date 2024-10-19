@@ -11,7 +11,7 @@ const Orders = () => {
     ]
   };
 
-  // Check if userData.orders exists and has at least one order
+  // Check if userData.orders exists and has at least 
   if (!userData.orders || userData.orders.length === 0) {
     return (
       <div className="order-history-section">

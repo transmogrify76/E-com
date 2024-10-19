@@ -6,6 +6,7 @@ import star_dull_icon from '../../Assests/Ecommerce_Frontend_Assets/Assets/star_
 import CustomerReview from '../CustomerReview/CustomerReview';
 import body_measure_image from '../../Assests/Ecommerce_Frontend_Assets/Assets/body_measure_image.png'; // Add your body measurement image here
 
+
 const ProductDisplay = ({ product }) => {
     const { addToCart, addToWishlist, wishlistItems, removeFromWishlist } = useContext(ShopContext);
     const [quantity, setQuantity] = useState(1);
@@ -155,6 +156,8 @@ const ProductDisplay = ({ product }) => {
                     <button onClick={validatePincode}>Check Delivery Date</button>
                     {estimatedDelivery && <p>{estimatedDelivery}</p>}
                 </div>
+
+                {/* new promo code goes here */}
                 <button className="addToCartButton" onClick={handleAddToCart}>
                     ADD TO CART
                 </button>
@@ -186,6 +189,7 @@ const ProductDisplay = ({ product }) => {
                 {reviewSubmitted && <p className="review-submitted-message">Thank you for your review!</p>}
             </div>
 
+            {/* Size Chart Modal*/}
             {/* Size Chart Modal */}
             {showSizeChart && (
                 <div className="size-chart-modal">
@@ -251,6 +255,7 @@ const ProductDisplay = ({ product }) => {
                             </tbody>
                         </table>
 
+                        {/* How to Measure  */}
                         {/* How to Measure */}
                         <div className="how-to-measure">
                             <h2>How to Measure</h2>
@@ -266,14 +271,19 @@ const ProductDisplay = ({ product }) => {
                             <img src={body_measure_image} alt="Body Measurement Instructions" />
                         </div>
 
+                        <div className="how-to-measure">
+                            <p style={{ color: 'red' }}><strong>NOT THE RIGHT SIZE OR COLOR?</strong></p>
+                            <p><strong>No problem, we offer free size exchanges and we have a free return service.</strong></p>
+                        </div>
                         <button className="close-size-chart" onClick={toggleSizeChart}>
                             Close
                         </button>
                     </div>
                 </div>
-                )}
+            )}
+                
         </div>
     );
 };
-
 export default ProductDisplay;
+

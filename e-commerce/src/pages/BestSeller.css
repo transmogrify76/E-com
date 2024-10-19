@@ -1,0 +1,28 @@
+/* src/pages/BestSeller.css */
+.best-seller-page {
+    text-align: center;
+  }
+  
+  .best-seller-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+  }
+  
+  .best-seller-item {
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 5px;
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .best-seller-item:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .best-seller-item img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+  }
+  
