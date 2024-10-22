@@ -2,20 +2,21 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './ProductManagement.css';
 
-const ProductUpload = () => {
+const ProductManagement= () => {
     const [productName, setProductName] = useState('');
     const [price, setPrice] = useState(0);
     const [productImages, setProductImages] = useState([]);
     const [categories, setCategories] = useState([]);
     const [selectedCategoryIds, setSelectedCategoryIds] = useState([]);
     const [expandedCategoryIds, setExpandedCategoryIds] = useState(new Set());
-    const [showCategories, setShowCategories] = useState(false); // State to control category display
+    const [searchTerm, setSearchTerm] = useState('');
     const [productDetails, setProductDetails] = useState([]);
-    const [quantity, setQuantity] = useState(0);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const [sellerId, setSellerId] = useState(null);
+    const [quantity, setQuantity] = useState(0);
     const [generalInstructions] = useState('Please ensure that the product images are clear and of high quality. Specify any relevant details such as color, size, or other specifications.');
+    const [showCategories, setShowCategories] = useState(false);
 
     const accessToken = localStorage.getItem('accessToken');
 
@@ -88,11 +89,15 @@ const ProductUpload = () => {
         setProductDetails((prev) => prev.filter((_, i) => i !== index));
     };
 
+    const handleClearCategorySelection = () => {
+        setSelectedCategoryIds([]);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         
         if (!productName || price <= 0 || selectedCategoryIds.length === 0 || productImages.length === 0 || quantity <= 0) {
-            setError('All fields are required.');
+            setError('All fields are required. Please select at least one category.');
             return;
         }
 
@@ -144,11 +149,20 @@ const ProductUpload = () => {
         setProductDetails([]);
         setQuantity(0);
         setError('');
-        setShowCategories(false); // Reset the category display state
+        setSearchTerm('');
+        setExpandedCategoryIds(new Set());
+        setShowCategories(false);
     };
 
-    const renderCategories = (categories) => {
-        return categories.map(category => (
+    const filteredCategories = searchTerm
+        ? categories.filter(category =>
+            category.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            (category.children && category.children.some(sub => sub.name.toLowerCase().includes(searchTerm.toLowerCase())))
+        )
+        : categories;
+
+    const renderCategories = (categoryList) => {
+        return categoryList.map(category => (
             <div key={category.id} className="checkbox-container">
                 <input 
                     type="checkbox" 
@@ -204,7 +218,15 @@ const ProductUpload = () => {
                 multiple 
                 required 
             />
-            <h3>Categories</h3>
+
+            <h3>Search Categories</h3>
+            <input 
+                type="text" 
+                placeholder="Search categories..." 
+                value={searchTerm} 
+                onChange={(e) => setSearchTerm(e.target.value)} 
+            />
+
             <button 
                 type="button" 
                 className="toggle-button" 
@@ -214,11 +236,15 @@ const ProductUpload = () => {
             </button>
             {showCategories && (
                 <div className="categories-container">
-                    {renderCategories(categories)}
+                    <h3>Categories</h3>
+                    <button type="button" onClick={handleClearCategorySelection}>Clear All Selections</button>
+                    {renderCategories(filteredCategories)}
                 </div>
             )}
+
             <h3>General Instructions</h3>
             <p>{generalInstructions}</p>
+
             <h3>Product Details</h3>
             <div>
                 {productDetails.map((detail, index) => (
@@ -246,18 +272,13 @@ const ProductUpload = () => {
                 View Full Image Guidelines:<br />
                 Images with text/Watermark are not acceptable in primary images.<br />
                 Product image should not have any text.<br />
-                Please add solo product image without any props.
             </p>
 
-            <button 
-                type="submit" 
-                disabled={loading} 
-                className="submit-button"
-            >
+            <button type="submit" className="submit-button" disabled={loading}>
                 {loading ? 'Uploading...' : 'Upload Product'}
             </button>
         </form>
     );
 };
 
-export default ProductUpload;
+export default ProductManagement;
