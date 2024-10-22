@@ -293,8 +293,8 @@ const ProductCatalogUploader = () => {
         // Fetch subcategories for the selected main category
         try {
             const response = await axios.get(`http://localhost:5000/categories/subcategories/${selectedCategory}`);
-            console.log('Fetched subcategories:', response.data); // Log the fetched data
             setSubCategories(response.data.subcategories || []);
+            setNestedSubCategories([]); // Reset nested subcategories when main category changes
         } catch (error) {
             console.error('Error fetching subcategories', error);
             setUploadError('Failed to load subcategories. Please try again.'); // Set error message
@@ -309,7 +309,6 @@ const ProductCatalogUploader = () => {
         // Fetch nested subcategories for the selected subcategory
         try {
             const response = await axios.get(`http://localhost:5000/categories/subcategories/${mainCategory}/${selectedSubCategory}`);
-            console.log('Fetched nested subcategories:', response.data); // Log the fetched data
             setNestedSubCategories(response.data.nestedSubcategories || []);
         } catch (error) {
             console.error('Error fetching nested subcategories', error);
@@ -485,3 +484,4 @@ const ProductCatalogUploader = () => {
 };
 
 export default ProductCatalogUploader;
+
