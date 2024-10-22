@@ -1,219 +1,109 @@
-.product-management {
-    font-family: Arial, sans-serif;
-    padding: 20px;
-    background-color: #f4f4f4; /* Light grey background for the whole component */
-    border-radius: 8px; 
-    margin-left: 100px;/* Rounded corners for the component */
-  }
-  
-  h2 {
-    color: #333; /* Dark grey color for the main heading */
-    margin-bottom: 20px;
-  }
-  /* ProductManagement.css */
-.product-image {
-  max-width: 100px; /* Adjust size as needed */
-  max-height: 100px;
-  object-fit: cover; /* Maintain aspect ratio and cover the container */
-  display: block; /* Ensure images are block-level for proper layout */
-  margin: 0 auto; /* Center images if desired */
+h2, h3 {
+  color: #333;
 }
 
-  
-  .error-message {
-    color: red;
-    margin-bottom: 20px;
-  }
-  
-  .product-list {
-    background-color: #fff; /* White background for the product list section */
-    padding: 20px;
-    border-radius: 8px; /* Rounded corners for the list section */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow for the list section */
-  }
-  
-  .product-list h3 {
-    color: #333;
-    margin-bottom: 10px;
-  }
-  
-  .product-list table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  .product-list th, .product-list td {
-    border: 1px solid #ddd;
-    padding: 12px;
-    text-align: left;
-  }
-  
-  .product-list th {
-    background-color: #007bff; /* Blue background for table headers */
-    color: white;
-  }
-  
-  .product-list td {
-    background-color: #fff; /* White background for table cells */
-  }
-  
-  .product-list tr:nth-child(even) td {
-    background-color: #f9f9f9; /* Light grey for alternate rows */
-  }
-  
-  .product-list tr:hover td {
-    background-color: #f1f1f1; /* Slightly darker grey for row hover effect */
-  }
-  
-  .action-button {
-    padding: 8px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    margin-right: 5px;
-    transition: background-color 0.3s; /* Smooth transition for background color */
-  }
-  
-  .add-variant {
-    background-color: #28a745; /* Green background for Add Variant button */
-    color: white;
-  }
-  
-  .add-variant:hover {
-    background-color: #218838; /* Darker green on hover */
-  }
-  
-  .edit {
-    background-color: #ffc107; /* Yellow background for Edit button */
-    color: black;
-  }
-  
-  .edit:hover {
-    background-color: #e0a800; /* Darker yellow on hover */
-  }
-  
-  .delete {
-    background-color: #dc3545; /* Red background for Delete button */
-    color: white;
-  }
-  
-  .delete:hover {
-    background-color: #c82333; /* Darker red on hover */
-  }
-  
- .dialogg {
-  position: fixed;
-  top: 0;
-  left: 0;
+.product-upload-form {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Input fields */
+.input-field {
   width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.input-field:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Buttons */
+.toggle-button, .submit-button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.toggle-button:hover, .submit-button:hover {
+  background-color: #0056b3;
+}
+
+.submit-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Error message */
+.error {
+  color: red;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+/* Categories container */
+.categories-container {
+  margin: 10px 0;
+  padding: 10px;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+}
+
+/* Checkbox container */
+.checkbox-container {
   display: flex;
   align-items: center;
-  justify-content: center;
-  z-index: 1000; /* Ensure the dialog is above other content */
+  margin: 5px 0;
 }
 
-.dialogg-contentt {
-  background: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  width: 80%;
-  max-width: 600px; /* Set max-width to prevent it from being too wide */
-  max-height: 80vh; /* Limit height to viewport height */
-  overflow-y: auto; /* Enable vertical scrolling */
+.checkbox-label {
+  margin-left: 8px;
+  cursor: pointer;
 }
 
-.variant-formm {
+/* Product details section */
+.product-detail {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.product-detail input {
+  width: 45%;
+}
+
+.product-detail button {
+  background-color: red;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.product-detail button:hover {
+  background-color: darkred;
+}
+
+/* Image guidelines */
+h3 {
   margin-top: 20px;
 }
 
-.action-button {
-  margin: 5px;
+h3 + p {
+  margin-bottom: 20px;
 }
-
-  
-  .dialogg-contentt h3 {
-    color: #333;
-    margin-top: 0;
-  }
-  
-  .dialogg-contentt label {
-    display: block;
-    margin-bottom: 10px;
-  }
-  
-  .dialogg-contentt input, .dialogg-contentt textarea {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    margin-bottom: 10px;
-  }
-  
-  .dialogg-contentt button {
-    padding: 8px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    margin-right: 5px;
-    transition: background-color 0.3s;
-  }
-  
-  .save {
-    background-color: #007bff; /* Blue background for Save Changes button */
-    color: white;
-  }
-  
-  .save:hover {
-    background-color: #0056b3; /* Darker blue on hover */
-  }
-  
-  .cancel {
-    background-color: #6c757d; /* Grey background for Cancel button */
-    color: white;
-  }
-  
-  .cancel:hover {
-    background-color: #5a6268; /* Darker grey on hover */
-  }
-  
-  .variant-form {
-    margin-top: 20px;
-  }
-  
-  .variant-form label {
-    display: block;
-    margin-bottom: 10px;
-  }
-  
-  .variant-form input {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-  }
-  
-  .variant-form button {
-    padding: 8px 15px;
-    border: none;
-    border-radius: 4px;
-    background-color: #007bff; /* Blue background for Add Variant button */
-    color: white;
-    cursor: pointer;
-    font-size: 14px;
-    margin-top: 10px;
-    transition: background-color 0.3s;
-  }
-  
-  .variant-form button:hover {
-    background-color: #0056b3; /* Darker blue on hover */
-  }
-  
-  .no-data {
-    text-align: center;
-    font-style: italic;
-  }
-  
