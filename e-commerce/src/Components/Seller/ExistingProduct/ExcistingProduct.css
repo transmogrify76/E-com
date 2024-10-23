@@ -1,9 +1,7 @@
-/* ExcistingProduct.css */
-
-/* Page Container */
+/* 
 .page-container {
     display: flex;
-    width: 350mm; 
+    width: 320mm; 
     height: 400mm; 
     padding: 10mm;
     box-sizing: border-box;
@@ -11,16 +9,16 @@
     background-color: white;
 }
 
-/* Left Sidebar */
+
 .left-side {
-    width: 200px; /* Adjust width as needed */
+    width: 200px; 
     display: flex;
     flex-direction: column;
     padding-right: 10mm;
     box-sizing: border-box;
-    height: 100%; /* Full height */
-    overflow-y: auto; /* Scroll if needed */
-    border-right: 1px solid #ddd; /* Border for visual separation */
+    height: 100%; 
+    overflow-y: auto; 
+    border-right: 1px solid #ddd; 
 }
 
 .left-side h1 {
@@ -29,7 +27,7 @@
     margin: 0;
 }
 
-/* Tab Buttons */
+
 .tab-container {
     margin-top: 20px;
 }
@@ -44,8 +42,8 @@
     margin-bottom: 5px;
     text-align: left;
     color: rgb(36, 35, 37);
-    font-size: 14px; /* Ensure buttons are readable */
-    width: 100%; /* Ensure buttons take full width */
+    font-size: 14px; 
+    width: 100%; 
 }
 
 .tab-button.active {
@@ -53,7 +51,7 @@
     color: #fff;
 }
 
-/* Right Content Area */
+
 .right-side {
     flex: 1;
     padding-left: 10mm;
@@ -62,7 +60,7 @@
     flex-direction: column;
 }
 
-/* Header */
+
 .header {
     display: flex;
     flex-direction: column;
@@ -92,7 +90,7 @@
     color: #333;
 }
 
-/* Search and Buttons */
+
 .search-container {
     display: flex;
     align-items: center;
@@ -137,16 +135,16 @@
     background-color: #0056b3;
 }
 
-/* Category Filter */
+
 .category-filter {
     margin-top: 10px;
 }
 
-/* Stock Filter */
+
 .stock-filter {
     margin-top: 10px;
-    display: flex; /* Ensure buttons align properly */
-    gap: 5px; /* Add space between buttons */
+    display: flex; 
+    gap: 5px; 
 }
 
 .stock-filter-button {
@@ -162,7 +160,7 @@
     color: white;
 }
 
-/* Product List Table */
+
 .product-list {
     overflow-x: auto;
     margin-top: 10px;
@@ -191,7 +189,7 @@
     background-color: #f1f1f1;
 }
 
-/* Actions Buttons */
+
 .view-details-button {
     padding: 4px 8px;
     background-color: #007bff;
@@ -206,15 +204,15 @@
     background-color: #0056b3;
 }
 
-/* More Options Dropdown */
+
 .more-options {
-    position: absolute; /* Position relative to the button */
+    position: absolute; 
     background-color: white;
     border: 1px solid #ddd;
     border-radius: 4px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    z-index: 1000; /* Ensure it appears above other elements */
-    margin-top: 5px; /* Space from the button */
+    z-index: 1000; 
+    margin-top: 5px; 
 }
 
 .more-options button {
@@ -231,7 +229,7 @@
     background-color: #f0f0f0;
 }
 
-/* Modal Styles */
+
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -250,7 +248,7 @@
     border-radius: 4px;
     width: 400px;
     max-width: 90%;
-    position: relative; /* For positioning close button */
+    position: relative; 
 }
 
 .modal-content h2 {
@@ -295,7 +293,7 @@
     background-color: #c82333;
 }
 
-/* Close Button in Modal */
+
 .modal-close-button {
     position: absolute;
     top: 10px;
@@ -305,4 +303,171 @@
     cursor: pointer;
     font-size: 20px;
     color: #333;
+} */
+
+
+/* General Styles */
+
+
+.inventory-page {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Header Styles */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #eee;
+}
+
+.header h1 {
+    margin: 0;
+}
+
+.help-icons {
+    display: flex;
+    gap: 15px;
+}
+
+.help-icons a {
+    text-decoration: none;
+    color: #333;
+    font-size: 18px;
+}
+
+/* Search Bar Styles */
+.search {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.search input[type="text"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 200px;
+}
+
+.search select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.stock-filter {
+    display: flex;
+    gap: 10px;
+}
+
+.stock-filter button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+}
+
+.stock-filter button.active {
+    background-color: #0056b3;
+}
+
+/* Error Message Styles */
+.error {
+    color: red;
+    margin: 10px 0;
+}
+
+/* Table Styles */
+.product-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.product-table th, .product-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+.product-table th {
+    background-color: #4d0505;
+}
+
+/* Button Styles */
+button {
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #28a745;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+/* Edit Form Styles */
+.edit-form {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fafafa;
+}
+
+.edit-form input[type="text"],
+.edit-form input[type="number"],
+.edit-form textarea,
+.edit-form select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.edit-form button {
+    background-color: #007bff;
+}
+
+.edit-form button[type="button"] {
+    background-color: #dc3545; /* Red for cancel button */
+}
+
+.edit-form button[type="button"]:hover {
+    background-color: #c82333; /* Darker red */
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .search {
+        flex-direction: column;
+    }
+
+    .search input[type="text"],
+    .search select {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .stock-filter {
+        flex-direction: column;
+    }
 }
