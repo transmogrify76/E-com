@@ -11,6 +11,7 @@ const ProductUpload = () => {
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
     const [searchId, setSearchId] = useState('');
+    const [selectedCategory, setSelectedCategory] = useState(''); // New state for selected category
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [editingProduct, setEditingProduct] = useState(null);
     const [formData, setFormData] = useState({
@@ -95,25 +96,18 @@ const ProductUpload = () => {
         const value = event.target.value;
         setSearchId(value);
 
-        if (value) {
-            try {
-                const response = await fetch(`http://localhost:5000/products/${value}`);
-                if (!response.ok) throw new Error('Product not found');
-                const product = await response.json();
-                const productWithImage = {
-                    ...product,
-                    image: product.imageName ? `http://localhost:5000/products/images/${product.imageName}` : '',
-                    categories: product.categories?.map(cat => cat.name) || []
-                };
-                setFilteredProducts([productWithImage]);
-            } catch (error) {
-                console.error(error);
-                setError(`Failed to fetch product: ${error.message}`);
-                setFilteredProducts([]);
-            }
-        } else {
-            setFilteredProducts(products);
-        }
+        const filtered = products.filter(product => {
+            const matchesId = value ? product.id.toString().includes(value) : true;
+            const matchesCategory = selectedCategory ? product.categories.includes(selectedCategory) : true;
+            return matchesId && matchesCategory;
+        });
+
+        setFilteredProducts(filtered);
+    };
+
+    const handleCategoryChange = (event) => {
+        setSelectedCategory(event.target.value);
+        handleSearch({ target: { value: searchId } }); // Re-filter using current search ID
     };
 
     const handleInputChange = (event) => {
@@ -152,19 +146,19 @@ const ProductUpload = () => {
             const additionalQuantity = parseInt(parts[1], 10);
             return operator === '+' ? baseQuantity + additionalQuantity : baseQuantity - additionalQuantity;
         }
-        return parseInt(quantityString, 10) || 0; // Return the parsed integer or 0 if NaN
+        return parseInt(quantityString, 10) || 0;
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        const totalQuantity = calculateTotalQuantity(formData.quantity); // Calculate total quantity
+        const totalQuantity = calculateTotalQuantity(formData.quantity);
 
         const requestBody = {
             name: formData.name,
             productDetails: formData.productDetails,
             price: parseFloat(formData.price),
-            quantity: totalQuantity.toString(), // Send quantity as a string
+            quantity: totalQuantity.toString(),
             categories: formData.categories,
             images: formData.images
         };
@@ -214,10 +208,10 @@ const ProductUpload = () => {
             name: product.name,
             productDetails: product.productDetails || {},
             price: product.price,
-            quantity: String(product.quantity).replace('+', ''), // Ensure quantity is a string
+            quantity: String(product.quantity).replace('+', ''),
             discountPrice: product.discountPrice,
             categories: product.categories || [],
-            images: [] // Initialize images if needed
+            images: []
         });
     };
 
@@ -292,6 +286,7 @@ const ProductUpload = () => {
                         value={searchId}
                         onChange={handleSearch}
                     />
+                   
                 </div>
             </div>
 
@@ -348,10 +343,10 @@ const ProductUpload = () => {
                     />
                     <textarea
                         name="productDetails"
-                        value={JSON.stringify(formData.productDetails, null, 2)} // Pretty print JSON
+                        value={JSON.stringify(formData.productDetails, null, 2)}
                         onChange={handleInputChange}
                         placeholder="Product Details (JSON format)"
-                        rows={10} // Adjust rows for better visibility
+                        rows={10}
                     />
                     <input
                         type="number"
