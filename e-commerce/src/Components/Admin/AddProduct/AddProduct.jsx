@@ -294,21 +294,25 @@ const ProductCatalogUploader = () => {
         try {
             const response = await axios.get(`http://localhost:5000/categories/subcategories/${selectedCategory}`);
             setSubCategories(response.data.subcategories || []);
-            setNestedSubCategories([]); // Reset nested subcategories when main category changes
+            setNestedSubCategories([]); // Reset nested subcategories when main category changes 
         } catch (error) {
             console.error('Error fetching subcategories', error);
-            setUploadError('Failed to load subcategories. Please try again.'); // Set error message
+            setUploadError('Failed to load subcategories. Please try again.'); // Set error message 
         }
     };
 
     const handleSubCategoryChange = async (e) => {
         const selectedSubCategory = e.target.value;
         setSubCategory(selectedSubCategory);
-        setNestedSubCategory('');
+        setNestedSubCategory(''); // Reset nested subcategory when changing subcategory
+
+        console.log(`Selected Main Category: ${mainCategory}`);
+        console.log(`Selected Subcategory: ${selectedSubCategory}`);
 
         // Fetch nested subcategories for the selected subcategory
         try {
             const response = await axios.get(`http://localhost:5000/categories/subcategories/${mainCategory}/${selectedSubCategory}`);
+            console.log('Nested subcategories response:', response.data);
             setNestedSubCategories(response.data.nestedSubcategories || []);
         } catch (error) {
             console.error('Error fetching nested subcategories', error);
@@ -413,7 +417,7 @@ const ProductCatalogUploader = () => {
 
                 {/* Nested Subcategory Selection */}
                 <div className="category-section nested-sub-category-selection">
-                    {subCategory && (
+                    {subCategory && nestedSubCategories.length > 0 && (
                         <>
                             <label htmlFor="nested-sub-category">3. Select Nested Subcategory:</label>
                             <select id="nested-sub-category" value={nestedSubCategory} onChange={handleNestedSubCategoryChange}>
@@ -484,4 +488,5 @@ const ProductCatalogUploader = () => {
 };
 
 export default ProductCatalogUploader;
+
 
