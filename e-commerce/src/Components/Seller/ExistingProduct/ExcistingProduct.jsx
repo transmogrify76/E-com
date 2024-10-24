@@ -287,7 +287,7 @@ const InventoryPage = () => {
                             <th>Product ID</th>
                             <th>Name</th>
                             <th>Price</th>
-                            <th>Quantity</th>
+                            <th>Stock</th>
                             <th>Categories</th>
                             <th>Product Details</th>
                             <th>Actions</th>
@@ -371,3 +371,4 @@ const InventoryPage = () => {
 };
 
 export default InventoryPage;
+
