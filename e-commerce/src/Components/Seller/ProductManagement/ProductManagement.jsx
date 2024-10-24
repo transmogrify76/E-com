@@ -1,8 +1,13 @@
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useLocation } from 'react-router-dom';
 import './ProductManagement.css';
 
-const ProductManagement= () => {
+const ProductManagement = () => {
+    const location = useLocation();
+    const params = new URLSearchParams(location.search);
+
     const [productName, setProductName] = useState('');
     const [price, setPrice] = useState(0);
     const [productImages, setProductImages] = useState([]);
@@ -23,6 +28,7 @@ const ProductManagement= () => {
     useEffect(() => {
         fetchCategories();
         fetchSellerData();
+        loadProductData();
     }, []);
 
     const fetchCategories = async () => {
@@ -53,8 +59,25 @@ const ProductManagement= () => {
         }
     };
 
+    const loadProductData = () => {
+        const id = params.get('id');
+        const name = params.get('name');
+        const price = parseFloat(params.get('price')) || 0;
+        const quantity = parseInt(params.get('quantity')) || 0;
+        const categoryNames = params.get('categories') ? params.get('categories').split(',') : [];
+        const productDetails = params.get('productDetails') ? JSON.parse(params.get('productDetails')) : {};
+
+        setProductName(name);
+        setPrice(price);
+        setQuantity(quantity);
+        setSelectedCategoryIds(categoryNames.map(name => 
+            categories.find(cat => cat.name === name)?.id
+        ).filter(Boolean));
+        setProductDetails(Object.entries(productDetails).map(([key, value]) => ({ key, value })));
+    };
+
     const handleCategoryChange = (categoryId) => {
-        setSelectedCategoryIds((prev) => 
+        setSelectedCategoryIds((prev) =>
             prev.includes(categoryId) ? prev.filter(id => id !== categoryId) : [...prev, categoryId]
         );
     };
@@ -95,7 +118,7 @@ const ProductManagement= () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+
         if (!productName || price <= 0 || selectedCategoryIds.length === 0 || productImages.length === 0 || quantity <= 0) {
             setError('All fields are required. Please select at least one category.');
             return;
@@ -184,15 +207,14 @@ const ProductManagement= () => {
 
     return (
         <form onSubmit={handleSubmit} className="product-upload-form">
-            <h2>Upload Product</h2>
+            <h2>Manage Product</h2>
             {error && <p className="error">{error}</p>}
             <input 
                 className="input-field"
                 type="text" 
                 placeholder="Product Name" 
                 value={productName} 
-                onChange={(e) => setProductName(e.target.value)} 
-                required 
+                onChange={(e) => setProductName(e.target.value)} // Allow keyboard input
             />
             <input 
                 className="input-field"
