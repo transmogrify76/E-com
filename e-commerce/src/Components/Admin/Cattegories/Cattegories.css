@@ -1,15 +1,13 @@
-.categories-container {
+  .categories-container {
   max-width: 800px;
-  margin: 0 auto;
+  margin:  auto;
   padding: 20px;
   font-family: Arial, sans-serif;
 }
-
 h1 {
   text-align: center;
   color: #333;
 }
-
 .input-group {
   display: flex;
   justify-content: center;
@@ -72,7 +70,7 @@ h1 {
 }
 
 .subcategories-dropdown {
-  display: none; /* Initially hidden */
+  display: none; 
   position: absolute;
   left: 100%;
   top: 0;
@@ -86,15 +84,15 @@ h1 {
 }
 
 .category-item:hover .subcategories-dropdown {
-  display: flex; /* Show on hover */
-  flex-direction: column; /* Stack vertically */
+  display: flex; 
+  flex-direction: column; 
 }
 
 .subcategory-item {
   display: flex;
-  justify-content: space-between; /* Align name and buttons */
+  justify-content: space-between; 
   padding: 10px;
-  margin-bottom: 10px; /* Space between subcategories */
+  margin-bottom: 10px; 
   border: 1px solid #f0f0f0;
   border-radius: 4px;
   background-color: #f8f9fa;
@@ -102,33 +100,33 @@ h1 {
 }
 
 .subcategory-item:hover {
-  background-color: #e2e6ea; /* Change background on hover */
+  background-color: #e2e6ea; 
 }
 
 .delete-button {
   background: none;
   border: none;
-  color: #dc3545; /* Bootstrap danger color */
+  color: #dc3545; 
   cursor: pointer;
-  margin-left: 10px; /* Space between name and icon */
-  font-size: 1.2em; /* Adjust size as needed */
+  margin-left: 10px; 
+  font-size: 1.2em; 
 }
 
 .delete-button:hover {
-  color: #c82333; /* Darker shade on hover */
+  color: #c82333; 
 }
 
 .edit-button {
   background: none;
   border: none;
-  color: #007bff; /* Bootstrap primary color */
+  color: #007bff; 
   cursor: pointer;
-  margin-left: 10px; /* Space between delete and edit icons */
-  font-size: 1.2em; /* Adjust size as needed */
+  margin-left: 10px; 
+  font-size: 1.2em; 
 }
 
 .edit-button:hover {
-  color: #0056b3; /* Darker shade on hover */
+  color: #0056b3; 
 }
 
 .edit-category-form {
@@ -147,7 +145,7 @@ h1 {
 
 .edit-category-form button {
   padding: 10px 15px;
-  background-color: #28a745; /* Bootstrap success color */
+  background-color: #28a745; 
   color: white;
   border: none;
   border-radius: 4px;
@@ -156,11 +154,13 @@ h1 {
 }
 
 .edit-category-form button:hover {
-  background-color: #218838; /* Darker shade on hover */
+  background-color: #218838; 
 }
 
 .error {
-  color: #dc3545; /* Error color */
+  color: #dc3545; 
   text-align: center;
   margin-bottom: 20px;
-}
+} 
+  
+ 

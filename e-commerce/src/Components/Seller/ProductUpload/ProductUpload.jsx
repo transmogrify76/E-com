@@ -11,7 +11,7 @@ const ProductUpload = () => {
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
     const [searchId, setSearchId] = useState('');
-    const [selectedCategory, setSelectedCategory] = useState(''); // New state for selected category
+    const [selectedCategory, setSelectedCategory] = useState('');
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [editingProduct, setEditingProduct] = useState(null);
     const [formData, setFormData] = useState({
@@ -63,10 +63,18 @@ const ProductUpload = () => {
             if (!response.ok) throw new Error('Failed to fetch products');
             const data = await response.json();
 
-            const productsWithImages = data.map(product => ({
-                ...product,
-                image: product.imageName ? `http://localhost:5000/products/images/${product.imageName}` : '',
-                categories: product.categories?.map(cat => cat.name) || []
+            const productsWithImages = await Promise.all(data.map(async product => {
+                const imagesResponse = await fetch(`http://localhost:5000/products/images/product/${product.id}`);
+                const imagesData = await imagesResponse.json();
+
+                // Use the base64 string directly as the image source
+                const imageURLs = imagesData.map(img => img.base64);
+
+                return {
+                    ...product,
+                    images: imageURLs,
+                    categories: product.categories?.map(cat => cat.name) || []
+                };
             }));
 
             setProducts(productsWithImages);
@@ -83,7 +91,7 @@ const ProductUpload = () => {
 
     useEffect(() => {
         fetchSellerData();
-        fetchCategories(); 
+        fetchCategories();
     }, []);
 
     useEffect(() => {
@@ -107,7 +115,7 @@ const ProductUpload = () => {
 
     const handleCategoryChange = (event) => {
         setSelectedCategory(event.target.value);
-        handleSearch({ target: { value: searchId } }); // Re-filter using current search ID
+        handleSearch({ target: { value: searchId } });
     };
 
     const handleInputChange = (event) => {
@@ -177,7 +185,7 @@ const ProductUpload = () => {
             const updatedProduct = await response.json();
             const updatedProductWithImage = {
                 ...updatedProduct,
-                image: updatedProduct.imageName ? `http://localhost:5000/products/images/${updatedProduct.imageName}` : ''
+                images: updatedProduct.images ? updatedProduct.images.map(img => img.base64) : []
             };
 
             setProducts(products.map(product => product.id === editingProduct.id ? updatedProductWithImage : product));
@@ -286,7 +294,6 @@ const ProductUpload = () => {
                         value={searchId}
                         onChange={handleSearch}
                     />
-                   
                 </div>
             </div>
 
@@ -312,8 +319,10 @@ const ProductUpload = () => {
                                 <td>{product.id}</td>
                                 <td>{product.name}</td>
                                 <td>
-                                    {product.image ? (
-                                        <img src={product.image} alt={product.name} className="product-image" style={{ width: '50px', height: '50px' }} />
+                                    {product.images.length > 0 ? (
+                                        product.images.map((img, index) => (
+                                            <img key={index} src={img} alt={`${product.name} image ${index + 1}`} className="product-image" style={{ width: '50px', height: '50px', margin: '0 5px' }} />
+                                        ))
                                     ) : (
                                         <p>No Image Available</p>
                                     )}
@@ -384,4 +393,3 @@ const ProductUpload = () => {
 };
 
 export default ProductUpload;
-
