@@ -9,6 +9,8 @@ const AdminAccount = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [showModal, setShowModal] = useState(false);
+    const [siteSettingsLoaded, setSiteSettingsLoaded] = useState(false); // Track if site settings were loaded
+    const [operationalSettingsLoaded, setOperationalSettingsLoaded] = useState(false); // Track if operational settings were loaded
 
     useEffect(() => {
         const fetchAdminData = async () => {
@@ -38,36 +40,6 @@ const AdminAccount = () => {
                 const adminData = await adminResponse.json();
                 setAdminData(adminData);
 
-                // Fetch Site Settings
-                const siteResponse = await fetch(`http://localhost:5000/admin/settings/${adminId}`, {
-                    headers: {
-                        'Authorization': `Bearer ${accessToken}`,
-                        'Content-Type': 'application/json',
-                    },
-                });
-
-                if (!siteResponse.ok) {
-                    throw new Error('Failed to fetch site settings');
-                }
-
-                const siteData = await siteResponse.json();
-                setSiteSettings(siteData);
-
-                // Fetch Operational Settings
-                const operationalResponse = await fetch(`http://localhost:5000/admin/operational-settings/${adminId}`, {
-                    headers: {
-                        'Authorization': `Bearer ${accessToken}`,
-                        'Content-Type': 'application/json',
-                    },
-                });
-
-                if (!operationalResponse.ok) {
-                    throw new Error('Failed to fetch operational settings');
-                }
-
-                const operationalData = await operationalResponse.json();
-                setOperationalSettings(operationalData);
-
             } catch (error) {
                 setError(error.message);
             } finally {
@@ -77,6 +49,78 @@ const AdminAccount = () => {
 
         fetchAdminData();
     }, []);
+
+    const fetchSiteSettings = async () => {
+        const adminId = localStorage.getItem('userId');
+        const accessToken = localStorage.getItem('accessToken');
+
+        if (!adminId || !accessToken) return;
+
+        setSiteSettingsLoaded(true); // Set loading state to true
+
+        try {
+            const siteResponse = await fetch(`http://localhost:5000/admin/settings/${adminId}`, {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (!siteResponse.ok) {
+                // Instead of throwing an error, we just set the siteSettings to null
+                setSiteSettings(null);
+                return; // Exit the function without an error
+            }
+
+            const siteData = await siteResponse.json();
+            if (Object.keys(siteData).length === 0) {
+                setSiteSettings(null); // No data available
+            } else {
+                setSiteSettings(siteData);
+            }
+
+        } catch (error) {
+            // You can log the error if needed, but no need to show an error message
+            console.error("Error fetching site settings:", error);
+            setSiteSettings(null); // No data available in case of any error
+        }
+    };
+
+    const fetchOperationalSettings = async () => {
+        const adminId = localStorage.getItem('userId');
+        const accessToken = localStorage.getItem('accessToken');
+
+        if (!adminId || !accessToken) return;
+
+        setOperationalSettingsLoaded(true); // Set loading state to true
+
+        try {
+            const operationalResponse = await fetch(`http://localhost:5000/admin/operational-settings/${adminId}`, {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (!operationalResponse.ok) {
+                // Instead of throwing an error, we just set the operationalSettings to null
+                setOperationalSettings(null);
+                return; // Exit the function without an error
+            }
+
+            const operationalData = await operationalResponse.json();
+            if (Object.keys(operationalData).length === 0) {
+                setOperationalSettings(null); // No data available
+            } else {
+                setOperationalSettings(operationalData);
+            }
+
+        } catch (error) {
+            // You can log the error if needed, but no need to show an error message
+            console.error("Error fetching operational settings:", error);
+            setOperationalSettings(null); // No data available in case of any error
+        }
+    };
 
     const handleLogout = () => {
         setShowModal(true);
@@ -111,45 +155,58 @@ const AdminAccount = () => {
                         </div>
                     </section>
 
-                    {/* Site Settings Section */}
-                   {/* Site Settings Section */}
-{siteSettings && (
-    <section className="settings-section">
-        <h3>Site Settings</h3>
-        <div className="user-info-section">
-            {Object.entries(siteSettings).map(([key, value]) => {
-                // Exclude specific keys
-                if (key === 'id' || key === 'adminId') return null; // Add any other keys you want to exclude here
-                return (
-                    <p key={key}>
-                        <strong>{key.charAt(0).toUpperCase() + key.slice(1)}:</strong> {value}
-                    </p>
-                );
-            })}
-        </div>
-    </section>
-)}
+                    {/* Buttons to Fetch Site and Operational Settings */}
+                    <button className="button-spacing" onClick={fetchSiteSettings}>
+                        Load Site Settings
+                    </button>
+                    <button onClick={fetchOperationalSettings}>
+                        Load Operational Settings
+                    </button>
 
-{/* Operational Settings Section */}
-{operationalSettings && (
-    <section className="operational-section">
-        <h3>Operational Settings</h3>
-        <div className="user-info-section">
-            {Object.entries(operationalSettings).map(([key, value]) => {
-                // Exclude specific keys
-                if (key === 'id' || key === 'adminId') return null; // Add any other keys you want to exclude here
-                return (
-                    <p key={key}>
-                        <strong>{key.charAt(0).toUpperCase() + key.slice(1)}:</strong> {value}
-                    </p>
-                );
-            })}
-        </div>
-    </section>
-)}
+                    {/* Site Settings Section */}
+                    {siteSettingsLoaded ? (
+                        siteSettings ? (
+                            <section className="settings-section">
+                                <h3>Site Settings</h3>
+                                <div className="user-info-section">
+                                    {Object.entries(siteSettings).map(([key, value]) => {
+                                        if (key === 'id' || key === 'adminId') return null;
+                                        return (
+                                            <p key={key}>
+                                                <strong>{key.charAt(0).toUpperCase() + key.slice(1)}:</strong> {value}
+                                            </p>
+                                        );
+                                    })}
+                                </div>
+                            </section>
+                        ) : (
+                            <p>No site settings available.</p>
+                        )
+                    ) : null}
+
+                    {/* Operational Settings Section */}
+                    {operationalSettingsLoaded ? (
+                        operationalSettings ? (
+                            <section className="operational-section">
+                                <h3>Operational Settings</h3>
+                                <div className="user-info-section">
+                                    {Object.entries(operationalSettings).map(([key, value]) => {
+                                        if (key === 'id' || key === 'adminId') return null;
+                                        return (
+                                            <p key={key}>
+                                                <strong>{key.charAt(0).toUpperCase() + key.slice(1)}:</strong> {value}
+                                            </p>
+                                        );
+                                    })}
+                                </div>
+                            </section>
+                        ) : (
+                            <p>No operational settings available.</p>
+                        )
+                    ) : null}
 
                     {/* Logout Button */}
-                    <button onClick={handleLogout}>Logout</button>
+                    <button className="logout-button" onClick={handleLogout}>Logout</button>
                 </>
             ) : (
                 <p>No admin data available</p>
