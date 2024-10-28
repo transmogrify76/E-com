@@ -1,229 +1,166 @@
-
-// import React, { useState } from 'react';
-// import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
-// import './ProductUpload.css'; // Import CSS for styling
-
-// const ProductUpload = () => {
-//     const [productName, setProductName] = useState('');
-//     const [productPrice, setProductPrice] = useState('');
-//     const [productDescription, setProductDescription] = useState('');
-//     const [productImages, setProductImages] = useState([]);
-//     const [loading, setLoading] = useState(false);
-//     const [error, setError] = useState(null);
-//     const navigate = useNavigate(); // Initialize useNavigate
-
-//     const handleFileChange = (e) => {
-//         const files = Array.from(e.target.files);
-//         setProductImages(files);
-//     };
-
-//     const handleSubmit = async (e) => {
-//         e.preventDefault();
-//         setLoading(true);
-//         setError(null);
-
-//         const formData = new FormData();
-//         formData.append('name', productName);
-//         formData.append('price', productPrice);
-//         formData.append('description', productDescription);
-//         formData.append('userId', localStorage.getItem('userId'));
-
-//         productImages.forEach((file) => {
-//             formData.append('images', file);
-//         });
-
-//         try {
-//             const response = await fetch('http://localhost:5000/products/upload', {
-//                 method: 'POST',
-//                 headers: {
-//                     'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
-//                 },
-//                 body: formData,
-//             });
-
-//             if (!response.ok) {
-//                 const errorData = await response.json();
-//                 throw new Error(errorData.message || 'Failed to upload product');
-//             }
-
-//             const data = await response.json();
-//             console.log('Product upload successful:', data);
-
-//             // Redirect to the product list page or update the list
-//             navigate('/product-list');
-//         } catch (error) {
-//             console.error('Error uploading product:', error);
-//             setError(error.message);
-//         } finally {
-//             setLoading(false);
-//         }
-//     };
-
-//     return (
-//         <div className="product-upload-container">
-//             <h2>Upload a New Product</h2>
-//             <form onSubmit={handleSubmit} className="product-upload-form">
-//                 <div className="form-group">
-//                     <label htmlFor="productName">Product Name:</label>
-//                     <input
-//                         type="text"
-//                         id="productName"
-//                         value={productName}
-//                         onChange={(e) => setProductName(e.target.value)}
-//                         required
-//                     />
-//                 </div>
-                
-//                 <div className="form-group">
-//                     <label htmlFor="productPrice">Product Price (₹):</label>
-//                     <input
-//                         type="number"
-//                         id="productPrice"
-//                         value={productPrice}
-//                         onChange={(e) => setProductPrice(e.target.value)}
-//                         min="0"
-//                         step="0.01"
-//                         required
-//                     />
-//                 </div>
-                
-//                 <div className="form-group">
-//                     <label htmlFor="productDescription">Product Description:</label>
-//                     <textarea
-//                         id="productDescription"
-//                         value={productDescription}
-//                         onChange={(e) => setProductDescription(e.target.value)}
-//                         rows="4"
-//                         required
-//                     ></textarea>
-//                 </div>
-                
-//                 <div className="form-group">
-//                     <label htmlFor="productImage">Product Images:</label>
-//                     <input
-//                         type="file"
-//                         id="productImage"
-//                         onChange={handleFileChange}
-//                         accept=".jpg,.jpeg,.png"
-//                         multiple
-//                         required
-//                     />
-//                 </div>
-                
-//                 <button type="submit" className="upload-button" disabled={loading}>
-//                     {loading ? 'Uploading...' : 'Upload Product'}
-//                 </button>
-                
-//                 {error && <p className="error-message">{error}</p>}
-//             </form>
-//         </div>
-//     );
-// };
-
-// export default ProductUpload;
-
 import React, { useState, useEffect, useCallback } from 'react';
 import './ProductUpload.css';
 import { FaEdit, FaTrash, FaYoutube, FaHeadset } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const ProductUpload = () => {
     const navigate = useNavigate();
     const [products, setProducts] = useState([]);
+    const [categories, setCategories] = useState([]);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
     const [searchId, setSearchId] = useState('');
+    const [selectedCategory, setSelectedCategory] = useState(''); // New state for selected category
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [editingProduct, setEditingProduct] = useState(null);
     const [formData, setFormData] = useState({
         name: '',
-        description: '',
+        productDetails: {},
         price: '',
-        sellingPrice: '',
+        quantity: '',
         discountPrice: '',
-        category: '',
-        subCategory: ''
+        categories: [],
+        images: []
     });
     const [bulkUploads, setBulkUploads] = useState(0);
     const [singleUploads, setSingleUploads] = useState(0);
-    const [statuses, setStatuses] = useState({
-        all: 0,
-        actionRequired: 0,
-        qcInProgress: 0,
-        qcError: 0,
-        qcPass: 0,
-        draft: 0
-    });
+    const [sellerId, setSellerId] = useState(null);
 
-    const bufferToBase64 = (buffer) => {
-        if (!buffer) return '';
-        const binary = Array.from(new Uint8Array(buffer)).map(byte => String.fromCharCode(byte)).join('');
-        return `data:image/jpeg;base64,${window.btoa(binary)}`;
+    const fetchSellerData = async () => {
+        const storedSellerId = localStorage.getItem('sellerId');
+        if (!storedSellerId) {
+            window.location.href = '/login';
+            return;
+        }
+
+        const accessToken = localStorage.getItem('accessToken');
+        try {
+            const response = await axios.get(`http://localhost:5000/user/sellers/${storedSellerId}`, {
+                headers: { Authorization: `Bearer ${accessToken}` }
+            });
+            setSellerId(response.data.id);
+        } catch (err) {
+            console.error('Error fetching seller data:', err);
+            setError(err.response?.data?.message || 'Error fetching seller data');
+        }
     };
 
-    const fetchAllProducts = useCallback(async () => {
+    const fetchCategories = async () => {
         try {
-            const response = await fetch('http://localhost:5000/products');
+            const response = await axios.get('http://localhost:5000/categories');
+            setCategories(response.data);
+        } catch (error) {
+            console.error('Error fetching categories:', error);
+            setError('Failed to fetch categories');
+        }
+    };
+
+    const fetchProductsBySeller = useCallback(async () => {
+        if (!sellerId) return;
+        try {
+            const response = await fetch(`http://localhost:5000/products/seller/${sellerId}`);
             if (!response.ok) throw new Error('Failed to fetch products');
             const data = await response.json();
+
             const productsWithImages = data.map(product => ({
                 ...product,
-                image: bufferToBase64(product.images?.[0]?.data?.data),
-                category: product.category?.name || 'N/A',
-                subCategory: product.subCategory?.name || 'N/A'
+                image: product.imageName ? `http://localhost:5000/products/images/${product.imageName}` : '',
+                categories: product.categories?.map(cat => cat.name) || []
             }));
+
             setProducts(productsWithImages);
             setFilteredProducts(productsWithImages);
-
             setBulkUploads(productsWithImages.filter(product => product.uploadMethod === 'bulk').length);
             setSingleUploads(productsWithImages.filter(product => product.uploadMethod === 'single').length);
-            setStatuses({
-                all: productsWithImages.length,
-                actionRequired: productsWithImages.filter(product => product.status === 'actionRequired').length,
-                qcInProgress: productsWithImages.filter(product => product.status === 'qcInProgress').length,
-                qcError: productsWithImages.filter(product => product.status === 'qcError').length,
-                qcPass: productsWithImages.filter(product => product.status === 'qcPass').length,
-                draft: productsWithImages.filter(product => product.status === 'draft').length
-            });
         } catch (error) {
-            console.error(error);
+            console.error("Error fetching products:", error);
             setError(`Failed to fetch products: ${error.message}`);
         } finally {
             setLoading(false);
         }
+    }, [sellerId]);
+
+    useEffect(() => {
+        fetchSellerData();
+        fetchCategories(); 
     }, []);
 
     useEffect(() => {
-        fetchAllProducts();
-    }, [fetchAllProducts]);
-
-    const handleSearch = (event) => {
-        setSearchId(event.target.value);
-        if (event.target.value) {
-            setFilteredProducts(products.filter(product => product.id === parseInt(event.target.value, 10)));
-        } else {
-            setFilteredProducts(products);
+        if (sellerId) {
+            fetchProductsBySeller();
         }
+    }, [sellerId, fetchProductsBySeller]);
+
+    const handleSearch = async (event) => {
+        const value = event.target.value;
+        setSearchId(value);
+
+        const filtered = products.filter(product => {
+            const matchesId = value ? product.id.toString().includes(value) : true;
+            const matchesCategory = selectedCategory ? product.categories.includes(selectedCategory) : true;
+            return matchesId && matchesCategory;
+        });
+
+        setFilteredProducts(filtered);
+    };
+
+    const handleCategoryChange = (event) => {
+        setSelectedCategory(event.target.value);
+        handleSearch({ target: { value: searchId } }); // Re-filter using current search ID
     };
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
-        setFormData(prevState => ({
-            ...prevState,
-            [name]: value
-        }));
+
+        if (name === 'categories') {
+            const selectedOptions = Array.from(event.target.selectedOptions, option => option.value);
+            setFormData(prevState => ({
+                ...prevState,
+                categories: selectedOptions
+            }));
+        } else if (name === 'productDetails') {
+            try {
+                setFormData(prevState => ({
+                    ...prevState,
+                    productDetails: value ? JSON.parse(value) : {}
+                }));
+            } catch (e) {
+                console.error('Invalid JSON format', e);
+                setError('Invalid JSON format');
+            }
+        } else {
+            setFormData(prevState => ({
+                ...prevState,
+                [name]: value
+            }));
+        }
+    };
+
+    const calculateTotalQuantity = (quantityString) => {
+        const parts = quantityString.split(/[\+\-]/);
+        const operator = quantityString.includes('+') ? '+' : quantityString.includes('-') ? '-' : null;
+
+        if (parts.length === 2 && operator) {
+            const baseQuantity = parseInt(parts[0], 10);
+            const additionalQuantity = parseInt(parts[1], 10);
+            return operator === '+' ? baseQuantity + additionalQuantity : baseQuantity - additionalQuantity;
+        }
+        return parseInt(quantityString, 10) || 0;
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+
+        const totalQuantity = calculateTotalQuantity(formData.quantity);
+
         const requestBody = {
             name: formData.name,
-            description: formData.description,
-            price: formData.price,
-            sellingPrice: formData.sellingPrice,
-            discountPrice: formData.discountPrice,
-            category: formData.category,
-            subCategory: formData.subCategory
+            productDetails: formData.productDetails,
+            price: parseFloat(formData.price),
+            quantity: totalQuantity.toString(),
+            categories: formData.categories,
+            images: formData.images
         };
 
         try {
@@ -236,39 +173,45 @@ const ProductUpload = () => {
                 body: JSON.stringify(requestBody)
             });
             if (!response.ok) throw new Error(`Failed to update product: ${response.statusText}`);
+
             const updatedProduct = await response.json();
             const updatedProductWithImage = {
                 ...updatedProduct,
-                image: editingProduct.image
+                image: updatedProduct.imageName ? `http://localhost:5000/products/images/${updatedProduct.imageName}` : ''
             };
+
             setProducts(products.map(product => product.id === editingProduct.id ? updatedProductWithImage : product));
             setFilteredProducts(filteredProducts.map(product => product.id === editingProduct.id ? updatedProductWithImage : product));
             setEditingProduct(null);
-            setFormData({
-                name: '',
-                description: '',
-                price: '',
-                sellingPrice: '',
-                discountPrice: '',
-                category: '',
-                subCategory: ''
-            });
+            resetFormData();
         } catch (error) {
             console.error("Error updating product:", error);
             setError(`Failed to update product: ${error.message}`);
         }
     };
 
+    const resetFormData = () => {
+        setFormData({
+            name: '',
+            productDetails: {},
+            price: '',
+            quantity: '',
+            discountPrice: '',
+            categories: [],
+            images: []
+        });
+    };
+
     const handleEditClick = (product) => {
         setEditingProduct(product);
         setFormData({
             name: product.name,
-            description: product.description,
+            productDetails: product.productDetails || {},
             price: product.price,
-            sellingPrice: product.sellingPrice,
+            quantity: String(product.quantity).replace('+', ''),
             discountPrice: product.discountPrice,
-            category: product.category,
-            subCategory: product.subCategory
+            categories: product.categories || [],
+            images: []
         });
     };
 
@@ -281,7 +224,9 @@ const ProductUpload = () => {
                     'Content-Type': 'application/json',
                 }
             });
+
             if (!response.ok) throw new Error(`Failed to delete product: ${response.statusText}`);
+
             setProducts(products.filter(product => product.id !== id));
             setFilteredProducts(filteredProducts.filter(product => product.id !== id));
         } catch (error) {
@@ -291,11 +236,11 @@ const ProductUpload = () => {
     };
 
     const handleBulkUpload = () => {
-        navigate('/bulk-upload'); // Adjust the path accordingly
+        navigate('/bulk-upload');
     };
 
     const handleSingleUpload = () => {
-        navigate('/productmanagement'); // Adjust the path accordingly
+        navigate('/productmanagement');
     };
 
     return (
@@ -330,161 +275,113 @@ const ProductUpload = () => {
                 </div>
 
                 <div className="upload-buttons">
-                    <button className="bulk-upload-button" onClick={handleBulkUpload}>Add Catalog in Bulk</button>
-                    <button className="single-upload-button" onClick={handleSingleUpload}>Add Catalog in Single</button>
+                    <button className="bulk-upload" onClick={handleBulkUpload}>Bulk Upload</button>
+                    <button className="single-upload" onClick={handleSingleUpload}>Single Upload</button>
                 </div>
 
-                <div className="statuses">
-                    <h3>Product Statuses</h3>
-                    <div className="status-buttons">
-                        <button>{`All: ${statuses.all}`}</button>
-                        <button>{`Action Required: ${statuses.actionRequired}`}</button>
-                        <button>{`QC in Progress: ${statuses.qcInProgress}`}</button>
-                        <button>{`QC Error: ${statuses.qcError}`}</button>
-                        <button>{`QC Pass: ${statuses.qcPass}`}</button>
-                        <button>{`Draft: ${statuses.draft}`}</button>
-                    </div>
+                <div className="search">
+                    <input
+                        type="text"
+                        placeholder="Search by ID"
+                        value={searchId}
+                        onChange={handleSearch}
+                    />
+                   
                 </div>
             </div>
 
-            <div className="search-bar">
-                <input 
-                    type="text" 
-                    placeholder="Search by Product ID" 
-                    value={searchId} 
-                    onChange={handleSearch} 
-                    className="search-input"
-                />
-            </div>
-            
-            {error && <p className="error-message">{error}</p>}
+            {error && <div className="error">{error}</div>}
             {loading ? (
-                <p>Loading...</p>
+                <div>Loading...</div>
             ) : (
-                <>
-                    {editingProduct && (
-                        <div className="edit-form">
-                            <h2>Edit Product</h2>
-                            <form onSubmit={handleSubmit}>
-                                <label>
-                                    Name:
-                                    <input 
-                                        type="text" 
-                                        name="name" 
-                                        value={formData.name} 
-                                        onChange={handleInputChange} 
-                                        required 
-                                    />
-                                </label>
-                                <label>
-                                    Description:
-                                    <input 
-                                        type="text" 
-                                        name="description" 
-                                        value={formData.description} 
-                                        onChange={handleInputChange} 
-                                        required 
-                                    />
-                                </label>
-                                <label>
-                                    Price:
-                                    <input 
-                                        type="number" 
-                                        name="price" 
-                                        value={formData.price} 
-                                        onChange={handleInputChange} 
-                                        required 
-                                    />
-                                </label>
-                                <label>
-                                    Selling Price:
-                                    <input 
-                                        type="number" 
-                                        name="sellingPrice" 
-                                        value={formData.sellingPrice} 
-                                        onChange={handleInputChange} 
-                                        required 
-                                    />
-                                </label>
-                                <label>
-                                    Discount Price:
-                                    <input 
-                                        type="number" 
-                                        name="discountPrice" 
-                                        value={formData.discountPrice} 
-                                        onChange={handleInputChange} 
-                                        required 
-                                    />
-                                </label>
-                                <label>
-                                    Category:
-                                    <input 
-                                        type="text" 
-                                        name="category" 
-                                        value={formData.category} 
-                                        onChange={handleInputChange} 
-                                        required 
-                                    />
-                                </label>
-                                <label>
-                                    Sub-Category:
-                                    <input 
-                                        type="text" 
-                                        name="subCategory" 
-                                        value={formData.subCategory} 
-                                        onChange={handleInputChange} 
-                                        required 
-                                    />
-                                </label>
-                                <button type="submit">Update Product</button>
-                            </form>
-                        </div>
-                    )}
+                <table className="product-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Image</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Categories</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {filteredProducts.map(product => (
+                            <tr key={product.id}>
+                                <td>{product.id}</td>
+                                <td>{product.name}</td>
+                                <td>
+                                    {product.image ? (
+                                        <img src={product.image} alt={product.name} className="product-image" style={{ width: '50px', height: '50px' }} />
+                                    ) : (
+                                        <p>No Image Available</p>
+                                    )}
+                                </td>
+                                <td>{product.price}</td>
+                                <td>{product.quantity}</td>
+                                <td>{product.categories.join(', ')}</td>
+                                <td>
+                                    <button onClick={() => handleEditClick(product)}><FaEdit /></button>
+                                    <button onClick={() => removeProduct(product.id)}><FaTrash /></button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            )}
 
-<table className="product-table">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Price</th>
-            <th>Selling Price</th>
-            <th>Status</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        {filteredProducts.length > 0 ? (
-            filteredProducts.map(product => (
-                <tr key={product.id}>
-                    <td>{product.id}</td>
-                    <td>{product.name}</td>
-                    <td>{product.description}</td>
-                    <td>{product.price}</td>
-                    <td>{product.sellingPrice}</td>
-                    <td>{product.status}</td>
-                    <td>
-                        <button onClick={() => handleEditClick(product)}>
-                            <FaEdit /> Edit
-                        </button>
-                        <button onClick={() => removeProduct(product.id)}>
-                            <FaTrash /> Delete
-                        </button>
-                    </td>
-                </tr>
-            ))
-        ) : (
-            <tr>
-                <td colSpan="7">No products available.</td>
-            </tr>
-        )}
-    </tbody>
-</table>
-
-                </>
+            {editingProduct && (
+                <form onSubmit={handleSubmit} className="edit-form">
+                    <h3>Edit Product</h3>
+                    <input
+                        type="text"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        placeholder="Product Name"
+                    />
+                    <textarea
+                        name="productDetails"
+                        value={JSON.stringify(formData.productDetails, null, 2)}
+                        onChange={handleInputChange}
+                        placeholder="Product Details (JSON format)"
+                        rows={10}
+                    />
+                    <input
+                        type="number"
+                        name="price"
+                        value={formData.price}
+                        onChange={handleInputChange}
+                        placeholder="Price"
+                    />
+                    <input
+                        type="text"
+                        name="quantity"
+                        value={formData.quantity}
+                        onChange={handleInputChange}
+                        placeholder="Quantity (+/-)"
+                    />
+                    <select
+                        name="categories"
+                        value={formData.categories}
+                        onChange={handleInputChange}
+                        multiple
+                    >
+                        <option value="">Select Categories</option>
+                        {categories.map(category => (
+                            <option key={category.id} value={category.name} selected={formData.categories.includes(category.name)}>
+                                {category.name}
+                            </option>
+                        ))}
+                    </select>
+                    <button type="submit">Update Product</button>
+                    <button type="button" onClick={() => setEditingProduct(null)}>Cancel</button>
+                </form>
             )}
         </div>
     );
 };
 
 export default ProductUpload;
+

@@ -1,215 +1,166 @@
-/* 
-.admin-panel-container {
-  font-family: Arial, sans-serif;
-  padding: 20px;
-  max-width: 1200px;
+.categories-container {
+  max-width: 800px;
   margin: 0 auto;
-  background-color: #f8f9fa;
+  padding: 20px;
+  font-family: Arial, sans-serif;
 }
 
+h1 {
+  text-align: center;
+  color: #333;
+}
 
-h2 {
-  color: #343a40;
+.input-group {
+  display: flex;
+  justify-content: center;
   margin-bottom: 20px;
 }
 
-
-.category-management, .subcategory-management {
-  margin-bottom: 30px;
-  padding: 20px;
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.category-management h3, .subcategory-management h3 {
-  color: #495057;
-  margin-bottom: 15px;
-}
-
-
-input[type="text"], select {
+.input-group input {
   padding: 10px;
   margin-right: 10px;
-  border: 1px solid #ced4da;
+  border: 1px solid #ccc;
   border-radius: 4px;
-  font-size: 16px;
-  width: 200px;
+  flex: 1;
 }
 
-button {
-  padding: 10px 20px;
+.input-group button {
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 16px;
+  transition: background-color 0.3s;
 }
 
-button.btn-primary {
-  background-color: #007bff;
-  color: #fff;
+.input-group button:hover {
+  background-color: #0056b3;
 }
 
-button.btn-edit {
-  background-color: #ffc107;
-  color: #fff;
-}
-
-button.btn-delete {
-  background-color: #dc3545;
-  color: #fff;
-}
-
-button:hover {
-  opacity: 0.9;
-}
-
-
-.category-card, .subcategory-card {
+.search-group {
+  display: flex;
+  justify-content: center;
   margin-bottom: 20px;
-  padding: 20px;
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.category-header, .subcategory-header {
+.search-group input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  flex: 1;
+}
+
+.parent-categories {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
 }
 
-.category-header h4, .subcategory-header span {
-  margin: 0;
-  color: #343a40;
+.category-item {
+  position: relative;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  transition: background-color 0.3s;
+  cursor: pointer;
 }
 
-.category-actions, .subcategory-actions {
+.category-item:hover {
+  background-color: #e2e6ea;
+}
+
+.subcategories-dropdown {
+  display: none; /* Initially hidden */
+  position: absolute;
+  left: 100%;
+  top: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  min-width: 300px;
+  padding: 10px;
+}
+
+.category-item:hover .subcategories-dropdown {
+  display: flex; /* Show on hover */
+  flex-direction: column; /* Stack vertically */
+}
+
+.subcategory-item {
   display: flex;
-  align-items: center;
+  justify-content: space-between; /* Align name and buttons */
+  padding: 10px;
+  margin-bottom: 10px; /* Space between subcategories */
+  border: 1px solid #f0f0f0;
+  border-radius: 4px;
+  background-color: #f8f9fa;
+  transition: background-color 0.3s;
 }
 
-.category-actions button, .subcategory-actions button {
-  margin-left: 10px;
+.subcategory-item:hover {
+  background-color: #e2e6ea; /* Change background on hover */
 }
 
-
-.btn-delete {
-  background-color: #dc3545; 
-  color: #fff; 
-  border: 1px solid #dc3545; 
-  transition: background-color 0.3s, border-color 0.3s;
+.delete-button {
+  background: none;
+  border: none;
+  color: #dc3545; /* Bootstrap danger color */
+  cursor: pointer;
+  margin-left: 10px; /* Space between name and icon */
+  font-size: 1.2em; /* Adjust size as needed */
 }
 
-.btn-delete:hover {
-  background-color: #c82333; 
-  border-color: #c82333; 
+.delete-button:hover {
+  color: #c82333; /* Darker shade on hover */
 }
 
-.subcategory-list {
+.edit-button {
+  background: none;
+  border: none;
+  color: #007bff; /* Bootstrap primary color */
+  cursor: pointer;
+  margin-left: 10px; /* Space between delete and edit icons */
+  font-size: 1.2em; /* Adjust size as needed */
+}
+
+.edit-button:hover {
+  color: #0056b3; /* Darker shade on hover */
+}
+
+.edit-category-form {
+  display: flex;
+  justify-content: center;
   margin-top: 20px;
 }
 
-
-@media (max-width: 768px) {
-  .category-management, .subcategory-management {
-    padding: 15px;
-  }
-
-  input[type="text"], select, button {
-    width: 100%;
-    margin-bottom: 10px;
-  }
-
-  button {
-    width: 100%;
-  }
-} */
-/* Categories.css */
-/* .admin-panel-container {
-  font-family: Arial, sans-serif;
-  padding: 20px;
-  max-width: 1200px;
-  margin: 0 auto;
-  background-color: #f8f9fa;
-}
-
-.headerText {
-  color: #343a40;
-  margin-bottom: 20px;
-}
-
-.managementSection {
-  margin-bottom: 20px;
-}
-
-.sectionHeader {
-  font-size: 20px;
-  margin-bottom: 10px;
-}
-
-.input, .select {
+.edit-category-form input {
   padding: 10px;
-  font-size: 16px;
   margin-right: 10px;
+  border: 1px solid #ccc;
   border-radius: 4px;
-  border: 1px solid #ced4da;
+  flex: 1;
 }
 
-.primaryButton {
-  padding: 10px 20px;
-  font-size: 16px;
-  color: #fff;
-  background-color: #007bff;
+.edit-category-form button {
+  padding: 10px 15px;
+  background-color: #28a745; /* Bootstrap success color */
+  color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-.editButton {
-  padding: 10px;
-  font-size: 16px;
-  color: #007bff;
-  background-color: #fff;
-  border: 1px solid #007bff;
-  border-radius: 4px;
-  cursor: pointer;
+.edit-category-form button:hover {
+  background-color: #218838; /* Darker shade on hover */
 }
 
-.deleteButton {
-  padding: 10px;
-  font-size: 16px;
-  color: #dc3545;
-  background-color: #fff;
-  border: 1px solid #dc3545;
-  border-radius: 4px;
-  cursor: pointer;
+.error {
+  color: #dc3545; /* Error color */
+  text-align: center;
+  margin-bottom: 20px;
 }
-
-.categoryCard, .subcategoryCard, .nestedSubcategoryCard {
-  padding: 15px;
-  margin-bottom: 10px;
-  background-color: #fff;
-  border: 1px solid #dee2e6;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.subcategoryCard {
-  background-color: #f8f9fa;
-}
-
-.nestedSubcategoryCard {
-  background-color: #e9ecef;
-}
-
-.header, .subcategoryHeader, .nestedSubcategoryHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.actions {
-  display: flex;
-  gap: 10px;
-} */

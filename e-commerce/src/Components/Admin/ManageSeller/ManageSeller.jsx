@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FaEye, FaEdit, FaTrash } from 'react-icons/fa';
+import { FaEye,  FaTrash } from 'react-icons/fa';
 import './ManageSeller.css'; // Ensure you have the correct path to your CSS
 
 const AdminPanelSeller = () => {
@@ -65,10 +65,7 @@ const AdminPanelSeller = () => {
         setSelectedSeller(null);
     };
 
-    const handleEditSeller = (seller) => {
-        setEditSeller({ ...seller });
-        setOpenEditDialog(true);
-    };
+   
 
     const handleCloseEditDialog = () => {
         setOpenEditDialog(false);
@@ -106,7 +103,7 @@ const AdminPanelSeller = () => {
     const handleDeleteSeller = async (sellerId) => {
         if (window.confirm('Are you sure you want to delete this seller?')) {
             try {
-                const response = await fetch(`http://localhost:5000/user/sellers/${sellerId}`, {
+                const response = await fetch(`http://localhost:5000/user/${sellerId}`, {
                     method: 'DELETE',
                 });
 
@@ -139,7 +136,7 @@ const AdminPanelSeller = () => {
                 />
             </div>
             <table>
-            <thead >
+                <thead>
                     <tr>
                         <th>ID</th>
                         <th>Name</th>
@@ -161,9 +158,7 @@ const AdminPanelSeller = () => {
                                         <button className="button button-view" onClick={() => handleViewSellerDetails(seller.id)}>
                                             <FaEye /> View
                                         </button>
-                                        <button className="button button-edit" onClick={() => handleEditSeller(seller)}>
-                                            <FaEdit /> Edit
-                                        </button>
+                                       
                                         <button className="button button-delete" onClick={() => handleDeleteSeller(seller.id)}>
                                             <FaTrash /> Delete
                                         </button>

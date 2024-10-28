@@ -1,484 +1,381 @@
-import React, { useState, useEffect } from 'react';
+
+// import React, { useEffect, useState } from 'react';
+// import axios from 'axios';
+// import { AiOutlineDelete } from 'react-icons/ai'; // Importing the delete icon
+// import './Cattegories.css';
+
+// const Categories = () => {
+//     const [categories, setCategories] = useState([]);
+//     const [selectedParentCategory, setSelectedParentCategory] = useState('');
+//     const [categoryName, setCategoryName] = useState('');
+//     const [searchTerm, setSearchTerm] = useState('');
+//     const [error, setError] = useState('');
+//     const [loading, setLoading] = useState(true);
+//     const [hoveredCategoryId, setHoveredCategoryId] = useState(null);
+
+//     // Fetch all categories
+//     const fetchCategories = async () => {
+//         setLoading(true);
+//         try {
+//             const response = await axios.get('http://localhost:5000/categories');
+//             setCategories(response.data);
+//         } catch (error) {
+//             setError('Error fetching categories.');
+//             console.error('Error fetching categories:', error);
+//         } finally {
+//             setLoading(false);
+//         }
+//     };
+
+//     useEffect(() => {
+//         fetchCategories();
+//     }, []);
+
+//     // Handle adding a new category
+//     const handleAddCategory = async () => {
+//         if (!categoryName) {
+//             setError('Category name is required.');
+//             return;
+//         }
+//         try {
+//             const payload = {
+//                 name: categoryName,
+//                 parentCategoryNames: selectedParentCategory ? [selectedParentCategory] : []
+//             };
+//             await axios.post('http://localhost:5000/categories', payload);
+//             setCategoryName('');
+//             setSelectedParentCategory('');
+//             fetchCategories();
+//             setError('');
+//         } catch (error) {
+//             setError('Error adding category.');
+//             console.error('Error adding category:', error);
+//         }
+//     };
+
+//     // Handle deleting a category by name
+//     const handleDeleteCategoryByName = async (name) => {
+//         try {
+//             await axios.delete(`http://localhost:5000/categories/name/${name}`);
+//             fetchCategories();
+//             setError('');
+//         } catch (error) {
+//             setError('Error deleting category.');
+//             console.error('Error deleting category:', error);
+//         }
+//     };
+
+//     // Filter categories based on the search term
+//     const filteredCategories = searchTerm
+//         ? categories.filter(category =>
+//             category.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+//             category.childCategories.some(sub => sub.name.toLowerCase().includes(searchTerm.toLowerCase()))
+//         )
+//         : categories;
+
+//     return (
+//         <div className="categories-container">
+//             <h1>Categories Management</h1>
+//             {error && <p className="error">{error}</p>}
+
+//             {/* Select Parent Category */}
+//             <div className="input-group">
+//                 <select
+//                     value={selectedParentCategory}
+//                     onChange={(e) => setSelectedParentCategory(e.target.value)}
+//                 >
+//                     <option value="">Select Parent Category (Optional)</option>
+//                     {categories.filter(cat => cat.parentCategories.length === 0).map(category => (
+//                         <option key={category.id} value={category.name}>
+//                             {category.name}
+//                         </option>
+//                     ))}
+//                 </select>
+//             </div>
+
+//             {/* Add Category Name Form */}
+//             <div className="input-group">
+//                 <input
+//                     type="text"
+//                     placeholder="New Category Name"
+//                     value={categoryName}
+//                     onChange={(e) => setCategoryName(e.target.value)}
+//                 />
+//                 <button onClick={handleAddCategory}>Add Category</button>
+//             </div>
+
+//             {/* Search Functionality */}
+//             <div className="search-group">
+//                 <input
+//                     type="text"
+//                     placeholder="Search Categories..."
+//                     value={searchTerm}
+//                     onChange={(e) => setSearchTerm(e.target.value)}
+//                 />
+//             </div>
+
+//             <h2>Categories</h2>
+//             {loading ? (
+//                 <p>Loading categories...</p>
+//             ) : (
+//                 <div className="parent-categories">
+//                     {filteredCategories.length > 0 ? (
+//                         filteredCategories.map((category) => (
+//                             <div 
+//                                 key={category.id} 
+//                                 className="category-item"
+//                                 onMouseEnter={() => setHoveredCategoryId(category.id)}
+//                                 onMouseLeave={() => setHoveredCategoryId(null)}
+//                             >
+//                                 <div>
+//                                     {category.name}
+//                                     {/* Show delete icon only if searching for this category */}
+//                                     {searchTerm && (
+//                                         <button onClick={() => handleDeleteCategoryByName(category.name)} className="delete-button">
+//                                             <AiOutlineDelete />
+//                                         </button>
+//                                     )}
+//                                 </div>
+//                                 {hoveredCategoryId === category.id && category.childCategories.length > 0 && (
+//                                     <div className="subcategories-dropdown">
+//                                         {category.childCategories.map(subCategory => (
+//                                             <div key={subCategory.id} className="subcategory-item">
+//                                                 <div>
+//                                                     {subCategory.name}
+//                                                     {/* Show delete icon only if searching for this subcategory */}
+//                                                     {searchTerm && (
+//                                                         <button onClick={() => handleDeleteCategoryByName(subCategory.name)} className="delete-button">
+//                                                             <AiOutlineDelete />
+//                                                         </button>
+//                                                     )}
+//                                                 </div>
+//                                             </div>
+//                                         ))}
+//                                     </div>
+//                                 )}
+//                             </div>
+//                         ))
+//                     ) : (
+//                         <p>No categories found.</p>
+//                     )}
+//                 </div>
+//             )}
+//         </div>
+//     );
+// };
+
+// export default Categories;
+
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import './Cattegories.css'; // Ensure this file exists
-import { FaTrash, FaEdit } from 'react-icons/fa'; // Import the edit and trash icons
+import { AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai'; // Importing the delete and edit icons
+import './Cattegories.css';
 
-const AdminPanel = () => {
-  const [categories, setCategories] = useState([]);
-  const [newCategoryName, setNewCategoryName] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('');
-  const [newSubcategoryName, setNewSubcategoryName] = useState('');
-  const [selectedSubcategory, setSelectedSubcategory] = useState('');
-  const [newNestedSubcategoryName, setNewNestedSubcategoryName] = useState('');
-  const [editingCategory, setEditingCategory] = useState(null);
-  const [editingSubcategory, setEditingSubcategory] = useState(null);
-  const [editingNestedSubcategory, setEditingNestedSubcategory] = useState(null);
-  const [updatedCategoryName, setUpdatedCategoryName] = useState('');
-  const [updatedSubcategoryName, setUpdatedSubcategoryName] = useState('');
-  const [updatedNestedSubcategoryName, setUpdatedNestedSubcategoryName] = useState('');
+const Categories = () => {
+    const [categories, setCategories] = useState([]);
+    const [selectedParentCategory, setSelectedParentCategory] = useState('');
+    const [categoryName, setCategoryName] = useState('');
+    const [searchTerm, setSearchTerm] = useState('');
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(true);
+    const [hoveredCategoryId, setHoveredCategoryId] = useState(null);
+    const [editingCategory, setEditingCategory] = useState(null); // State for editing category
+    const [newCategoryName, setNewCategoryName] = useState(''); // State for new category name during editing
 
-  useEffect(() => {
+    // Fetch all categories
     const fetchCategories = async () => {
-      try {
-        const response = await axios.get('http://localhost:5000/categories');
-        setCategories(response.data);
-      } catch (error) {
-        console.error('Error fetching categories:', error);
-      }
+        setLoading(true);
+        try {
+            const response = await axios.get('http://localhost:5000/categories');
+            setCategories(response.data);
+        } catch (error) {
+            setError('Error fetching categories.');
+            console.error('Error fetching categories:', error);
+        } finally {
+            setLoading(false);
+        }
     };
 
-    fetchCategories();
-  }, []);
+    useEffect(() => {
+        fetchCategories();
+    }, []);
 
-  const handleAddCategory = async () => {
-    if (!newCategoryName) return;
+    // Handle adding a new category
+    const handleAddCategory = async () => {
+        if (!categoryName) {
+            setError('Category name is required.');
+            return;
+        }
+        try {
+            const payload = {
+                name: categoryName,
+                parentCategoryNames: selectedParentCategory ? [selectedParentCategory] : []
+            };
+            await axios.post('http://localhost:5000/categories', payload);
+            setCategoryName('');
+            setSelectedParentCategory('');
+            fetchCategories();
+            setError('');
+        } catch (error) {
+            setError('Error adding category.');
+            console.error('Error adding category:', error);
+        }
+    };
 
-    try {
-      const response = await axios.post('http://localhost:5000/categories', {
-        name: newCategoryName,
-        parentId: null,
-      });
+    // Handle deleting a category by name
+    const handleDeleteCategoryByName = async (name) => {
+        try {
+            await axios.delete(`http://localhost:5000/categories/name/${name}`);
+            fetchCategories();
+            setError('');
+        } catch (error) {
+            setError('Error deleting category.');
+            console.error('Error deleting category:', error);
+        }
+    };
 
-      setCategories([...categories, response.data]);
-      setNewCategoryName('');
-    } catch (error) {
-      console.error('Error adding category:', error);
-    }
-  };
+    // Handle setting the category name to search input
+    const handleCategoryClick = (name) => {
+        setSearchTerm(name);
+    };
 
-  const handleAddSubcategory = async () => {
-    if (!selectedCategory || !newSubcategoryName) return;
+    // Handle editing a category
+    const handleEditCategory = (category) => {
+        setEditingCategory(category);
+        setNewCategoryName(category.name); // Set the current name to the input
+    };
 
-    try {
-      const response = await axios.post('http://localhost:5000/categories/subcategory', {
-        name: newSubcategoryName,
-        parentCategoryName: selectedCategory,
-      });
+    // Handle updating a category name
+    const handleUpdateCategory = async () => {
+        if (!newCategoryName) {
+            setError('New category name is required.');
+            return;
+        }
+        try {
+            await axios.patch(`http://localhost:5000/categories/name/${editingCategory.name}`, { name: newCategoryName });
+            setEditingCategory(null); // Clear editing state
+            setNewCategoryName('');
+            fetchCategories();
+            setError('');
+        } catch (error) {
+            setError('Error updating category.');
+            console.error('Error updating category:', error);
+        }
+    };
 
-      setCategories(prevCategories =>
-        prevCategories.map(category =>
-          category.name === selectedCategory
-            ? { ...category, subcategories: [...(category.subcategories || []), response.data] }
-            : category
+    // Filter categories based on the search term
+    const filteredCategories = searchTerm
+        ? categories.filter(category =>
+            category.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            category.childCategories.some(sub => sub.name.toLowerCase().includes(searchTerm.toLowerCase()))
         )
-      );
-      setNewSubcategoryName('');
-    } catch (error) {
-      console.error('Error adding subcategory:', error);
-    }
-  };
+        : categories;
 
-  const handleAddNestedSubcategory = async () => {
-    if (!selectedSubcategory || !newNestedSubcategoryName) return;
+    return (
+        <div className="categories-container">
+            <h1>Categories Management</h1>
+            {error && <p className="error">{error}</p>}
 
-    try {
-      const response = await axios.post('http://localhost:5000/categories/subcategory/nested', {
-        name: newNestedSubcategoryName,
-        parentSubcategoryName: selectedSubcategory,
-      });
-
-      setCategories(prevCategories =>
-        prevCategories.map(category => ({
-          ...category,
-          subcategories: category.subcategories?.map(subcategory =>
-            subcategory.name === selectedSubcategory
-              ? { ...subcategory, subcategories: [...(subcategory.subcategories || []), response.data] }
-              : subcategory
-          )
-        }))
-      );
-      setNewNestedSubcategoryName('');
-    } catch (error) {
-      console.error('Error adding nested subcategory:', error);
-    }
-  };
-
-  const handleUpdateCategory = async () => {
-    if (!editingCategory || !updatedCategoryName) return;
-
-    try {
-      await axios.patch(`http://localhost:5000/categories/${editingCategory}`, {
-        name: updatedCategoryName,
-      });
-
-      setCategories(categories.map(category =>
-        category.id === editingCategory ? { ...category, name: updatedCategoryName } : category
-      ));
-      setEditingCategory(null);
-      setUpdatedCategoryName('');
-    } catch (error) {
-      console.error('Error updating category:', error);
-    }
-  };
-
-  const handleUpdateSubcategory = async () => {
-    if (!editingSubcategory || !updatedSubcategoryName) return;
-
-    try {
-      await axios.patch(`http://localhost:5000/categories/subcategory/${editingSubcategory}`, {
-        name: updatedSubcategoryName,
-      });
-
-      setCategories(categories.map(category => ({
-        ...category,
-        subcategories: category.subcategories?.map(subcategory =>
-          subcategory.name === editingSubcategory ? { ...subcategory, name: updatedSubcategoryName } : subcategory
-        )
-      })));
-      setEditingSubcategory(null);
-      setUpdatedSubcategoryName('');
-    } catch (error) {
-      console.error('Error updating subcategory:', error);
-    }
-  };
-
-  const handleUpdateNestedSubcategory = async () => {
-    if (!editingNestedSubcategory || !updatedNestedSubcategoryName) return;
-
-    try {
-      await axios.patch(`http://localhost:5000/categories/subcategory/nested/${editingNestedSubcategory}`, {
-        name: updatedNestedSubcategoryName,
-      });
-
-      setCategories(categories.map(category => ({
-        ...category,
-        subcategories: category.subcategories?.map(subcategory => ({
-          ...subcategory,
-          subcategories: subcategory.subcategories?.map(nestedSubcategory =>
-            nestedSubcategory.name === editingNestedSubcategory ? { ...nestedSubcategory, name: updatedNestedSubcategoryName } : nestedSubcategory
-          )
-        }))
-      })));
-      setEditingNestedSubcategory(null);
-      setUpdatedNestedSubcategoryName('');
-    } catch (error) {
-      console.error('Error updating nested subcategory:', error);
-    }
-  };
-
-  const handleDeleteCategory = async (id) => {
-    try {
-      await axios.delete(`http://localhost:5000/categories/${id}`);
-      setCategories(categories.filter(category => category.id !== id));
-    } catch (error) {
-      console.error('Error deleting category:', error);
-    }
-  };
-
-  const handleDeleteSubcategory = async (name) => {
-    try {
-      await axios.delete(`http://localhost:5000/categories/subcategory/${name}`);
-      setCategories(categories.map(category => ({
-        ...category,
-        subcategories: category.subcategories?.filter(subcategory => subcategory.name !== name)
-      })));
-    } catch (error) {
-      console.error('Error deleting subcategory:', error);
-    }
-  };
-
-  const handleDeleteNestedSubcategory = async (name) => {
-    try {
-      await axios.delete(`http://localhost:5000/categories/subcategory/nested/${name}`);
-      setCategories(categories.map(category => ({
-        ...category,
-        subcategories: category.subcategories?.map(subcategory => ({
-          ...subcategory,
-          subcategories: subcategory.subcategories?.filter(nestedSubcategory => nestedSubcategory.name !== name)
-        }))
-      })));
-    } catch (error) {
-      console.error('Error deleting nested subcategory:', error);
-    }
-  };
-
-  const renderCategories = () => {
-    return categories.filter(category => !category.parentId).map(category => (
-      <div key={category.id} className="category-card" style={styles.categoryCard}>
-        <div className="category-header" style={styles.header}>
-          {editingCategory === category.id ? (
-            <input
-              type="text"
-              value={updatedCategoryName}
-              onChange={(e) => setUpdatedCategoryName(e.target.value)}
-              placeholder="Update category name"
-              style={styles.input}
-            />
-          ) : (
-            <h4>{category.name}</h4>
-          )}
-          <div className="category-actions" style={styles.actions}>
-            {editingCategory === category.id ? (
-              <button onClick={handleUpdateCategory} className="btn btn-primary" style={styles.primaryButton}>Save</button>
-            ) : (
-              <button onClick={() => {
-                setEditingCategory(category.id);
-                setUpdatedCategoryName(category.name);
-              }} className="btn btn-edit" style={styles.editButton}>
-                <FaEdit />
-              </button>
-            )}
-            <button onClick={() => handleDeleteCategory(category.id)} className="btn btn-delete" style={styles.deleteButton}>
-              <FaTrash />
-            </button>
-          </div>
-        </div>
-        <div className="subcategory-list" style={styles.subcategoryList}>
-          {category.subcategories && category.subcategories.map(subcategory => (
-            <div key={subcategory.id} className="subcategory-card" style={styles.subcategoryCard}>
-              <div className="subcategory-header" style={styles.subcategoryHeader}>
-                {editingSubcategory === subcategory.name ? (
-                  <input
-                    type="text"
-                    value={updatedSubcategoryName}
-                    onChange={(e) => setUpdatedSubcategoryName(e.target.value)}
-                    placeholder="Update subcategory name"
-                    style={styles.input}
-                  />
-                ) : (
-                  <span>{subcategory.name}</span>
-                )}
-                <div className="subcategory-actions" style={styles.actions}>
-                  {editingSubcategory === subcategory.name ? (
-                    <button onClick={handleUpdateSubcategory} className="btn btn-primary" style={styles.primaryButton}>Save</button>
-                  ) : (
-                    <button onClick={() => {
-                      setEditingSubcategory(subcategory.name);
-                      setUpdatedSubcategoryName(subcategory.name);
-                    }} className="btn btn-edit" style={styles.editButton}>
-                      <FaEdit />
-                    </button>
-                  )}
-                  <button onClick={() => handleDeleteSubcategory(subcategory.name)} className="btn btn-delete" style={styles.deleteButton}>
-                    <FaTrash />
-                  </button>
-                </div>
-              </div>
-              <div className="nested-subcategory-list" style={styles.nestedSubcategoryList}>
-                {subcategory.subcategories && subcategory.subcategories.map(nestedSubcategory => (
-                  <div key={nestedSubcategory.id} className="nested-subcategory-card" style={styles.nestedSubcategoryCard}>
-                    <div className="nested-subcategory-header" style={styles.nestedSubcategoryHeader}>
-                      {editingNestedSubcategory === nestedSubcategory.name ? (
-                        <input
-                          type="text"
-                          value={updatedNestedSubcategoryName}
-                          onChange={(e) => setUpdatedNestedSubcategoryName(e.target.value)}
-                          placeholder="Update nested subcategory name"
-                          style={styles.input}
-                        />
-                      ) : (
-                        <span>{nestedSubcategory.name}</span>
-                      )}
-                      <div className="nested-subcategory-actions" style={styles.actions}>
-                        {editingNestedSubcategory === nestedSubcategory.name ? (
-                          <button onClick={handleUpdateNestedSubcategory} className="btn btn-primary" style={styles.primaryButton}>Save</button>
-                        ) : (
-                          <button onClick={() => {
-                            setEditingNestedSubcategory(nestedSubcategory.name);
-                            setUpdatedNestedSubcategoryName(nestedSubcategory.name);
-                          }} className="btn btn-edit" style={styles.editButton}>
-                            <FaEdit />
-                          </button>
-                        )}
-                        <button onClick={() => handleDeleteNestedSubcategory(nestedSubcategory.name)} className="btn btn-delete" style={styles.deleteButton}>
-                          <FaTrash />
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
+            {/* Select Parent Category */}
+            <div className="input-group">
+                <select
+                    value={selectedParentCategory}
+                    onChange={(e) => setSelectedParentCategory(e.target.value)}
+                >
+                    <option value="">Select Parent Category (Optional)</option>
+                    {categories.filter(cat => cat.parentCategories.length === 0).map(category => (
+                        <option key={category.id} value={category.name}>
+                            {category.name}
+                        </option>
+                    ))}
+                </select>
             </div>
-          ))}
+
+            {/* Add Category Name Form */}
+            <div className="input-group">
+                <input
+                    type="text"
+                    placeholder="New Category Name"
+                    value={categoryName}
+                    onChange={(e) => setCategoryName(e.target.value)}
+                />
+                <button onClick={handleAddCategory}>Add Category</button>
+            </div>
+
+            {/* Search Functionality */}
+            <div className="search-group">
+                <input
+                    type="text"
+                    placeholder="Search Categories..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                />
+            </div>
+
+            <h2>Categories</h2>
+            {loading ? (
+                <p>Loading categories...</p>
+            ) : (
+                <div className="parent-categories">
+                    {filteredCategories.length > 0 ? (
+                        filteredCategories.map((category) => (
+                            <div 
+                                key={category.id} 
+                                className="category-item"
+                                onMouseEnter={() => setHoveredCategoryId(category.id)}
+                                onMouseLeave={() => setHoveredCategoryId(null)}
+                            >
+                                <div>
+                                    <span onClick={() => handleCategoryClick(category.name)}>{category.name}</span>
+                                    {/* Show delete and edit icons */}
+                                    <button onClick={() => handleDeleteCategoryByName(category.name)} className="delete-button">
+                                        <AiOutlineDelete />
+                                    </button>
+                                    <button className="edit-button" onClick={() => handleEditCategory(category)}>
+                                        <AiOutlineEdit />
+                                    </button>
+                                </div>
+                                {hoveredCategoryId === category.id && category.childCategories.length > 0 && (
+                                    <div className="subcategories-dropdown">
+                                        {category.childCategories.map(subCategory => (
+                                            <div key={subCategory.id} className="subcategory-item">
+                                                <div>
+                                                    <span onClick={() => handleCategoryClick(subCategory.name)}>{subCategory.name}</span>
+                                                    {/* Show delete and edit icons for subcategories */}
+                                                    <button onClick={() => handleDeleteCategoryByName(subCategory.name)} className="delete-button">
+                                                        <AiOutlineDelete />
+                                                    </button>
+                                                    <button className="edit-button" onClick={() => handleEditCategory(subCategory)}>
+                                                        <AiOutlineEdit />
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        ))
+                    ) : (
+                        <p>No categories found.</p>
+                    )}
+                </div>
+            )}
+
+            {/* Edit Category Form */}
+            {editingCategory && (
+                <div className="edit-category-form">
+                    <input
+                        type="text"
+                        value={newCategoryName}
+                        onChange={(e) => setNewCategoryName(e.target.value)}
+                        placeholder="Edit Category Name"
+                    />
+                    <button onClick={handleUpdateCategory}>Update Category</button>
+                    <button onClick={() => setEditingCategory(null)}>Cancel</button>
+                </div>
+            )}
         </div>
-      </div>
-    ));
-  };
-
-  return (
-    <div className="admin-panel-container" style={styles.container}>
-      <h2 style={styles.headerText}>Category Management</h2>
-      <div className="category-management" style={styles.managementSection}>
-        <h3 style={styles.sectionHeader}>Add Category</h3>
-        <input
-          type="text"
-          placeholder="Enter category name"
-          value={newCategoryName}
-          onChange={(e) => setNewCategoryName(e.target.value)}
-          style={styles.input}
-        />
-        <button onClick={handleAddCategory} className="btn btn-primary" style={styles.primaryButton}>Add Category</button>
-      </div>
-      <div className="subcategory-management" style={styles.managementSection}>
-        <h3 style={styles.sectionHeader}>Add Subcategory</h3>
-        <select 
-          value={selectedCategory} 
-          onChange={(e) => setSelectedCategory(e.target.value)} 
-          style={styles.select}
-        >
-          <option value="">Select Category</option>
-          {categories.filter(category => !category.parentId).map(category => (
-            <option key={category.id} value={category.name}>{category.name}</option>
-          ))}
-        </select>
-        <input
-          type="text"
-          placeholder="Enter subcategory name"
-          value={newSubcategoryName}
-          onChange={(e) => setNewSubcategoryName(e.target.value)}
-          style={styles.input}
-        />
-        <button 
-          onClick={handleAddSubcategory} 
-          className="btn btn-primary" 
-          style={styles.primaryButton}
-        >
-          Add Subcategory
-        </button>
-      </div>
-      <div className="nested-subcategory-management" style={styles.managementSection}>
-        <h3 style={styles.sectionHeader}>Add Nested Subcategory</h3>
-        <select 
-          value={selectedSubcategory} 
-          onChange={(e) => setSelectedSubcategory(e.target.value)} 
-          style={styles.select}
-        >
-          <option value="">Select Subcategory</option>
-          {categories
-            .flatMap(category => category.subcategories || [])
-            .map(subcategory => (
-              <option key={subcategory.id} value={subcategory.name}>{subcategory.name}</option>
-            ))}
-        </select>
-        <input
-          type="text"
-          placeholder="Enter nested subcategory name"
-          value={newNestedSubcategoryName}
-          onChange={(e) => setNewNestedSubcategoryName(e.target.value)}
-          style={styles.input}
-        />
-        <button 
-          onClick={handleAddNestedSubcategory} 
-          className="btn btn-primary" 
-          style={styles.primaryButton}
-        >
-          Add Nested Subcategory
-        </button>
-      </div>
-      <h3 style={styles.sectionHeader}>Category Hierarchy</h3>
-      {renderCategories()}
-    </div>
-  );
+    );
 };
 
-const styles = {
-  container: {
-    fontFamily: 'Arial, sans-serif',
-    padding: '20px',
-    maxWidth: '1200px',
-    margin: '0 auto',
-    backgroundColor: '#f8f9fa',
-  },
-  headerText: {
-    color: '#343a40',
-    marginBottom: '20px',
-  },
-  managementSection: {
-    marginBottom: '20px',
-  },
-  sectionHeader: {
-    fontSize: '20px',
-    marginBottom: '10px',
-  },
-  input: {
-    padding: '10px',
-    fontSize: '16px',
-    marginRight: '10px',
-    borderRadius: '4px',
-    border: '1px solid #ced4da',
-  },
-  select: {
-    padding: '10px',
-    fontSize: '16px',
-    marginRight: '10px',
-    borderRadius: '4px',
-    border: '1px solid #ced4da',
-    backgroundColor: '#fff',
-  },
-  primaryButton: {
-    padding: '10px 20px',
-    fontSize: '16px',
-    color: '#fff',
-    backgroundColor: '#007bff',
-    border: 'none',
-    borderRadius: '4px',
-    cursor: 'pointer',
-  },
-  editButton: {
-    padding: '10px',
-    fontSize: '16px',
-    color: '#007bff',
-    backgroundColor: '#fff',
-    border: '1px solid #007bff',
-    borderRadius: '4px',
-    cursor: 'pointer',
-  },
-  deleteButton: {
-    padding: '10px',
-    fontSize: '16px',
-    color: '#dc3545',
-    backgroundColor: '#fff',
-    border: '1px solid #dc3545',
-    borderRadius: '4px',
-    cursor: 'pointer',
-  },
-  categoryCard: {
-    padding: '15px',
-    marginBottom: '10px',
-    backgroundColor: '#fff',
-    border: '1px solid #dee2e6',
-    borderRadius: '4px',
-    boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-  },
-  header: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  actions: {
-    display: 'flex',
-    gap: '10px',
-  },
-  subcategoryList: {
-    marginTop: '10px',
-  },
-  subcategoryCard: {
-    padding: '10px',
-    marginBottom: '5px',
-    backgroundColor: '#f8f9fa',
-    border: '1px solid #ced4da',
-    borderRadius: '4px',
-  },
-  subcategoryHeader: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  nestedSubcategoryList: {
-    marginTop: '10px',
-  },
-  nestedSubcategoryCard: {
-    padding: '10px',
-    marginBottom: '5px',
-    backgroundColor: '#e9ecef',
-    border: '1px solid #ced4da',
-    borderRadius: '4px',
-  },
-  nestedSubcategoryHeader: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-};
-
-export default AdminPanel;
+export default Categories;
