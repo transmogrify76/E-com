@@ -20,7 +20,7 @@
 //     useEffect(() => {
 //         const fetchCategories = async () => {
 //             try {
-//                 const response = await fetch('http://localhost:5000/categories');
+//                 const response = await fetch(/categories');
 //                 const data = await response.json();
 //                 console.log('Fetched categories:', data);
 //                 if (Array.isArray(data)) {
@@ -51,7 +51,7 @@
 //                 const categoryId = selectedCategoryObj.id;
 
 //                 // Fetch subcategories using the category ID
-//                 const response = await fetch(`http://localhost:5000/categories/${categoryId}/subcategories`);
+//                 const response = await fetch(`${process.env.BASE_URL}/categories/${categoryId}/subcategories`);
 
 //                 if (!response.ok) {
 //                     throw new Error(`HTTP error! Status: ${response.status}`);
@@ -105,7 +105,7 @@
 //         });
 
 //         try {
-//             const response = await fetch('http://localhost:5000/products/upload', {
+//             const response = await fetch(/products/upload', {
 //                 method: 'POST',
 //                 headers: {
 //                     'Authorization': `Bearer ${localStorage.getItem('accessToken')}`

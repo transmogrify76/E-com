@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Account.css'; // Import your CSS
+import './Account.css'; 
 
 const SellerAccountPage = () => {
   const navigate = useNavigate();
@@ -10,19 +10,19 @@ const SellerAccountPage = () => {
 
   useEffect(() => {
     const fetchSellerData = async () => {
-      const sellerId = localStorage.getItem('sellerId'); // Retrieve seller ID from local storage
-      const accessToken = localStorage.getItem('accessToken'); // Retrieve the token
+      const sellerId = localStorage.getItem('sellerId'); 
+      const accessToken = localStorage.getItem('accessToken'); 
 
       if (!sellerId || !accessToken) {
         console.error('Seller ID or access token not found');
-        navigate('/login'); // Redirect to login if no seller ID or token found
+        navigate('/login'); 
         return;
       }
 
       try {
-        const response = await fetch(`http://localhost:5000/user/sellers/${sellerId}`, {
+        const response = await fetch(`${process.env.REACT_APP_BASE_URL}/user/sellers/${sellerId}`, {
           headers: {
-            'Authorization': `Bearer ${accessToken}` // Pass token for authorization
+            'Authorization': `Bearer ${accessToken}` 
           }
         });
 
@@ -33,21 +33,19 @@ const SellerAccountPage = () => {
 
         const data = await response.json();
         setSellerData(data);
-        setLoading(false); // Data has been successfully fetched
-
+        setLoading(false); 
       } catch (error) {
         setError(error.message);
-        setLoading(false); // Data fetching has finished with an error
+        setLoading(false); 
         console.error('Error fetching seller data:', error);
       }
     };
 
     fetchSellerData();
   }, [navigate]);
+  if (loading) return <p>Loading...</p>; 
 
-  if (loading) return <p>Loading...</p>; // Show loading state while fetching
-
-  if (error) return <p>Error: {error}</p>; // Show error message if something goes wrong
+  if (error) return <p>Error: {error}</p>; 
 
   return (
     <div className="seller-account-page">
@@ -71,8 +69,6 @@ const SellerAccountPage = () => {
           <p><strong>contact Person :</strong> {sellerData.contactPerson || 'N/A'}</p>
         </div>
       </section>
-
-      {/* Add more sections as needed */}
     </div>
   );
 };

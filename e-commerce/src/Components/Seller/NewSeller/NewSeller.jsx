@@ -65,7 +65,7 @@ const NewSeller = () => {
     };
 
     try {
-      const response = await fetch('http://localhost:5000/user/update', {
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/user/update`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

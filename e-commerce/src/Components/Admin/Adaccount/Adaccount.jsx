@@ -24,7 +24,7 @@ const AdminAccount = () => {
 
             try {
                 // Fetch Admin Data
-                const adminResponse = await fetch(`http://localhost:5000/admin/${adminId}`, {
+                const adminResponse = await fetch(`${process.env.REACT_APP_BASE_URL}/admin/${adminId}`, {
                     headers: {
                         'Authorization': `Bearer ${accessToken}`,
                         'Content-Type': 'application/json',
@@ -39,7 +39,7 @@ const AdminAccount = () => {
                 setAdminData(adminData);
 
                 // Fetch Site Settings
-                const siteResponse = await fetch(`http://localhost:5000/admin/settings/${adminId}`, {
+                const siteResponse = await fetch(`${process.env.REACT_APP_BASE_URL}/admin/settings/${adminId}`, {
                     headers: {
                         'Authorization': `Bearer ${accessToken}`,
                         'Content-Type': 'application/json',
@@ -54,7 +54,7 @@ const AdminAccount = () => {
                 setSiteSettings(siteData);
 
                 // Fetch Operational Settings
-                const operationalResponse = await fetch(`http://localhost:5000/admin/operational-settings/${adminId}`, {
+                const operationalResponse = await fetch(`${process.env.REACT_APP_BASE_URL}/admin/operational-settings/${adminId}`, {
                     headers: {
                         'Authorization': `Bearer ${accessToken}`,
                         'Content-Type': 'application/json',

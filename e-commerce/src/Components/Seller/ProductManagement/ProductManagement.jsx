@@ -1,11 +1,13 @@
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './ProductManagement.css';
 
-const ProductManagement= () => {
+const ProductManagement = () => {
     const [productName, setProductName] = useState('');
     const [price, setPrice] = useState(0);
     const [productImages, setProductImages] = useState([]);
+    const [additionalImageInputs, setAdditionalImageInputs] = useState([]); // State for additional image inputs
     const [categories, setCategories] = useState([]);
     const [selectedCategoryIds, setSelectedCategoryIds] = useState([]);
     const [expandedCategoryIds, setExpandedCategoryIds] = useState(new Set());
@@ -13,8 +15,8 @@ const ProductManagement= () => {
     const [productDetails, setProductDetails] = useState([]);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
-    const [sellerId, setSellerId] = useState(null);                                       
-    const [quantity, setQuantity] = useState(0);             
+    const [sellerId, setSellerId] = useState(null);
+    const [quantity, setQuantity] = useState(0);
     const [generalInstructions] = useState('Please ensure that the product images are clear and of high quality. Specify any relevant details such as color, size, or other specifications.');
     const [showCategories, setShowCategories] = useState(false);
 
@@ -27,7 +29,7 @@ const ProductManagement= () => {
 
     const fetchCategories = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/categories');
+            const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/categories`);
             setCategories(response.data);
         } catch (error) {
             console.error('Error fetching categories:', error);
@@ -43,7 +45,7 @@ const ProductManagement= () => {
         }
 
         try {
-            const response = await axios.get(`http://localhost:5000/user/sellers/${storedSellerId}`, {
+            const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/user/sellers/${storedSellerId}`, {
                 headers: { Authorization: `Bearer ${accessToken}` }
             });
             setSellerId(response.data.id);
@@ -67,10 +69,19 @@ const ProductManagement= () => {
         });
     };
 
-    const handleImageChange = (e) => {
+    const handleImageChange = (e, index) => {
         const files = Array.from(e.target.files);
         const validFiles = files.filter(file => file.size <= 10 * 1024 * 1024); // Max 10 MB
-        setProductImages(validFiles);
+        setProductImages(prev => {
+            const newImages = [...prev];
+            newImages[index] = validFiles; // Set images for that specific index
+            return newImages;
+        });
+    };
+
+    const handleAddImageInput = () => {
+        setAdditionalImageInputs(prev => [...prev, {}]); // Add an empty object to represent a new image input
+        setProductImages(prev => [...prev, []]); // Also add an empty array for the new image
     };
 
     const handleDetailChange = (index, key, value) => {
@@ -96,7 +107,7 @@ const ProductManagement= () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         
-        if (!productName || price <= 0 || selectedCategoryIds.length === 0 || productImages.length === 0 || quantity <= 0) {
+        if (!productName || price <= 0 || selectedCategoryIds.length === 0 || productImages.flat().length === 0 || quantity <= 0) {
             setError('All fields are required. Please select at least one category.');
             return;
         }
@@ -112,7 +123,8 @@ const ProductManagement= () => {
         formData.append('sellerId', sellerId);
         formData.append('quantity', quantity);
 
-        productImages.forEach(image => {
+        // Append all images from productImages array
+        productImages.flat().forEach(image => {
             formData.append('images', image);
         });
 
@@ -125,7 +137,7 @@ const ProductManagement= () => {
 
         try {
             setLoading(true);
-            const response = await axios.post('http://localhost:5000/products/upload', formData, {
+            const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/products/upload`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     Authorization: `Bearer ${accessToken}`,
@@ -152,12 +164,13 @@ const ProductManagement= () => {
         setSearchTerm('');
         setExpandedCategoryIds(new Set());
         setShowCategories(false);
+        setAdditionalImageInputs([]); // Reset additional image inputs
     };
 
     const filteredCategories = searchTerm
         ? categories.filter(category =>
-            category.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            (category.children && category.children.some(sub => sub.name.toLowerCase().includes(searchTerm.toLowerCase())))
+            category.name.toLowerCase().startsWith(searchTerm.toLowerCase()) ||
+            (category.children && category.children.some(sub => sub.name.toLowerCase().startsWith(searchTerm.toLowerCase())))
         )
         : categories;
 
@@ -210,14 +223,37 @@ const ProductManagement= () => {
                 onChange={(e) => setQuantity(e.target.value ? parseInt(e.target.value) : 0)} 
                 required 
             />
+            
+            {/* Initial Image Upload */}
             <input 
                 className="input-field"
                 type="file" 
                 accept="image/*" 
-                onChange={handleImageChange} 
+                onChange={(e) => handleImageChange(e, 0)} 
                 multiple 
                 required 
             />
+
+            {/* Additional Image Inputs */}
+            {additionalImageInputs.map((_, index) => (
+                <div key={index} className="additional-image-input">
+                    <input 
+                        className="input-field"
+                        type="file" 
+                        accept="image/*" 
+                        onChange={(e) => handleImageChange(e, index + 1)} 
+                        multiple 
+                    />
+                </div>
+            ))}
+
+            <button 
+                type="button" 
+                className="add-image-button" 
+                onClick={handleAddImageInput}
+            >
+                + Add More Images
+            </button>
 
             <h3>Search Categories</h3>
             <input 
@@ -282,4 +318,3 @@ const ProductManagement= () => {
 };
 
 export default ProductManagement;
-

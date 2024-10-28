@@ -22,14 +22,14 @@ const Login = () => {
             let response;
             if (username === 'adminuser') {
                 // Admin login
-                response = await fetch('http://localhost:5000/admin', {
+                response = await fetch(`${process.env.REACT_APP_BASE_URL}/admin`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload),
                 });
             } else {
                 // Regular user login
-                response = await fetch('http://localhost:5000/login', {
+                response = await fetch(`${process.env.REACT_APP_BASE_URL}/login`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload),

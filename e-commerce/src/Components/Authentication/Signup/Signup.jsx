@@ -16,7 +16,7 @@ const Signup = () => {
   useEffect(() => {
     const fetchRoles = async () => {
       try {
-        const response = await fetch('http://localhost:5000/roles');
+        const response = await fetch(`${process.env.REACT_APP_BASE_URL}/roles`);
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
@@ -50,7 +50,7 @@ const Signup = () => {
       role: role === '1' ? 'Admin' : 'User',
     };
 
-    const endpoint = role === '1' ? 'http://localhost:5000/admin' : 'http://localhost:5000/user/register';
+    const endpoint = role === '1' ? `${process.env.REACT_APP_BASE_URL}/admin` : `${process.env.REACT_APP_BASE_URL}/user/register`;
 
     try {
       const response = await fetch(endpoint, {

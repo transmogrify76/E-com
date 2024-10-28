@@ -12,7 +12,7 @@ const ForgetPassword = () => {
     const handleResetPassword = async () => {
         try {
             // Make API call to request password reset
-            const response = await axios.post('http://localhost:5000/forgot-password', { email });
+            const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/forgot-password`, { email });
 
             // Log the full response for debugging
             console.log('Response:', response);

@@ -29,7 +29,7 @@
 //     // Fetch all products from the API
 //     const fetchAllProducts = async () => {
 //         try {
-//             const response = await fetch('http://localhost:5000/products', {
+//             const response = await fetch('${process.env.BASE_URL}/products', {
 //                 method: 'GET',
 //                 headers: {
 //                     'Accept': 'application/json',
@@ -101,7 +101,7 @@
 //         };
 
 //         try {
-//             const response = await fetch(`http://localhost:5000/products/${editingProduct.id}`, {
+//             const response = await fetch(`${process.env.BASE_URL}/products/${editingProduct.id}`, {
 //                 method: 'PATCH',
 //                 headers: {
 //                     'Accept': 'application/json',
@@ -162,7 +162,7 @@
 //     // Remove product from the list
 //     const removeProduct = async (id) => {
 //         try {
-//             const response = await fetch(`http://localhost:5000/products/${id}`, {
+//             const response = await fetch(`${process.env.BASE_URL}/products/${id}`, {
 //                 method: 'DELETE',
 //                 headers: {
 //                     'Accept': 'application/json',
@@ -384,7 +384,7 @@ const ListProduct = () => {
 
     const fetchAllProducts = useCallback(async () => {
         try {
-            const response = await fetch('http://localhost:5000/products');
+            const response = await fetch(`${process.env.REACT_APP_BASE_URL}/products`);
             if (!response.ok) throw new Error('Failed to fetch products');
             const data = await response.json();
             const productsWithImages = data.map(product => ({
@@ -448,7 +448,7 @@ const ListProduct = () => {
         };
 
         try {
-            const response = await fetch(`http://localhost:5000/products/${editingProduct.id}`, {
+            const response = await fetch(`${process.env.REACT_APP_BASE_URL}/products/${editingProduct.id}`, {
                 method: 'PATCH',
                 headers: {
                     'Accept': 'application/json',
@@ -495,7 +495,7 @@ const ListProduct = () => {
 
     const removeProduct = async (id) => {
         try {
-            const response = await fetch(`http://localhost:5000/products/${id}`, {
+            const response = await fetch(`${process.env.REACT_APP_BASE_URL}/products/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Accept': 'application/json',
