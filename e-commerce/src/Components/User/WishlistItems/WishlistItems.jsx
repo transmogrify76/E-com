@@ -1,11 +1,33 @@
-
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import axios from 'axios';
 import './WislistItems.css';
 import { ShopContext } from '../Context/ShopContext';
 
 const WishlistItems = () => {
-    const { all_product, wishlistItems, addToCart, removeFromWishlist } = useContext(ShopContext);
-    const [selectedSize, setSelectedSize] = useState({}); // Manage selected sizes
+    const { all_product, addToCart, removeFromWishlist } = useContext(ShopContext);
+    const [wishlistItems, setWishlistItems] = useState([]);
+    const [selectedSize, setSelectedSize] = useState({});
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchWishlistItems = async () => {
+            const userId = 1;
+            const accessToken = localStorage.getItem('accessToken');
+
+            try {
+                const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/wishlist`, {
+                    headers: { Authorization: `Bearer ${accessToken}` },
+                    params: { userId } // Assuming your API can take userId as a query parameter
+                });
+                setWishlistItems(response.data); // Assuming the response returns an array of product IDs
+            } catch (err) {
+                console.error('Error fetching wishlist items:', err);
+                setError(err.response?.data?.message || 'Error fetching wishlist items');
+            }
+        };
+
+        fetchWishlistItems();
+    }, []);
 
     const handleSizeChange = (itemId, size) => {
         setSelectedSize(prev => ({ ...prev, [itemId]: size }));
@@ -17,13 +39,31 @@ const WishlistItems = () => {
             alert('Please select a size before adding to cart.');
             return;
         }
-        addToCart(itemId, 1, size); // Add item to cart with selected size
+        addToCart(itemId, 1, size);
         alert('Item added to cart successfully!');
+    };
+
+    const handleRemoveFromWishlist = async (itemId) => {
+        const userId = 1; // Same as above, replace with the actual user ID
+        const accessToken = localStorage.getItem('accessToken');
+
+        try {
+            await axios.delete(`${process.env.REACT_APP_BASE_URL}/wishlist`, {
+                headers: { Authorization: `Bearer ${accessToken}` },
+                data: { userId, productId: itemId }
+            });
+            setWishlistItems(prev => prev.filter(id => id !== itemId)); // Update local state
+            alert('Item removed from wishlist successfully!');
+        } catch (err) {
+            console.error('Error removing item from wishlist:', err);
+            alert(err.response?.data?.message || 'Error removing item from wishlist');
+        }
     };
 
     return (
         <div className='wishlist-items'>
             <h2>Wishlist</h2>
+            {error && <p className="error">{error}</p>}
             <hr />
             {wishlistItems.length === 0 ? (
                 <p>Your wishlist is empty</p>
@@ -31,7 +71,6 @@ const WishlistItems = () => {
                 wishlistItems.map(id => {
                     const product = all_product.find(item => item.id === id);
 
-                    // Ensure product is found
                     if (!product) {
                         console.error(`Product with id ${id} is not found.`);
                         return <p key={id}>Product not found</p>;
@@ -65,7 +104,7 @@ const WishlistItems = () => {
                                     </button>
                                     <button
                                         className="wishlist-item-remove"
-                                        onClick={() => removeFromWishlist(id)}
+                                        onClick={() => handleRemoveFromWishlist(id)}
                                     >
                                         Remove
                                     </button>

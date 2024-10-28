@@ -38,7 +38,7 @@ const InventoryPage = () => {
 
         const accessToken = localStorage.getItem('accessToken');
         try {
-            const response = await axios.get(`http://localhost:5000/user/sellers/${storedSellerId}`, {
+            const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/user/sellers/${storedSellerId}`, {
                 headers: { Authorization: `Bearer ${accessToken}` }
             });
             setSellerId(response.data.id);
@@ -50,7 +50,7 @@ const InventoryPage = () => {
 
     const fetchCategories = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/categories');
+            const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/categories`);
             setCategories(response.data);
         } catch (error) {
             console.error('Error fetching categories:', error);
@@ -61,10 +61,10 @@ const InventoryPage = () => {
     const fetchProductsBySeller = useCallback(async () => {
         if (!sellerId) return;
         try {
-            const response = await axios.get(`http://localhost:5000/products/seller/${sellerId}`);
+            const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/products/seller/${sellerId}`);
             const productsWithImages = response.data.map(product => ({
                 ...product,
-                image: product.imageName ? `http://localhost:5000/products/images/${product.imageName}` : '',
+                image: product.imageName ? `${process.env.REACT_APP_BASE_URL}/products/images/${product.imageName}` : '',
                 categories: product.categories?.map(cat => cat.name) || []
             }));
 
@@ -159,10 +159,10 @@ const InventoryPage = () => {
         };
 
         try {
-            const response = await axios.patch(`http://localhost:5000/products/${editingProduct.id}`, requestBody);
+            const response = await axios.patch(`${process.env.REACT_APP_BASE_URL}/products/${editingProduct.id}`, requestBody);
             const updatedProduct = {
                 ...response.data,
-                image: response.data.imageName ? `http://localhost:5000/products/images/${response.data.imageName}` : ''
+                image: response.data.imageName ? `${process.env.REACT_APP_BASE_URL}/products/images/${response.data.imageName}` : ''
             };
 
             setProducts(products.map(product => product.id === editingProduct.id ? updatedProduct : product));
@@ -202,7 +202,7 @@ const InventoryPage = () => {
 
     const removeProduct = async (id) => {
         try {
-            await axios.delete(`http://localhost:5000/products/${id}`);
+            await axios.delete(`${process.env.REACT_APP_BASE_URL}/products/${id}`);
             setProducts(products.filter(product => product.id !== id));
             setFilteredProducts(filteredProducts.filter(product => product.id !== id));
         } catch (error) {

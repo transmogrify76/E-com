@@ -10,7 +10,7 @@ const DressCategorySection = () => {
 
   useEffect(() => {
     // Fetch categories
-    axios.get('http://localhost:5000/categories')
+    axios.get(`${process.env.REACT_APP_BASE_URL}/categories`)
       .then(response => {
         setCategories(response.data);
         setLoading(false);
@@ -23,7 +23,7 @@ const DressCategorySection = () => {
 
   // Fetch subcategories when categories are available
   const fetchSubcategories = (categoryId) => {
-    return axios.get(`http://localhost:5000/categories/${categoryId}/subcategories`)
+    return axios.get(`${process.env.REACT_APP_BASE_URL}/categories/${categoryId}/subcategories`)
       .then(response => response.data)
       .catch(err => {
         console.error(`Error fetching subcategories for category ${categoryId}:`, err.message);

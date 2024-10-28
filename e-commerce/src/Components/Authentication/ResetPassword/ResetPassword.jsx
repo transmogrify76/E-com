@@ -25,7 +25,7 @@ const ResetPassword = () => {
                 newPassword,
             };
 
-            const response = await axios.post('http://localhost:5000/reset-password', payload, {
+            const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/reset-password`, payload, {
                 headers: {
                     'Content-Type': 'application/json',
                 },

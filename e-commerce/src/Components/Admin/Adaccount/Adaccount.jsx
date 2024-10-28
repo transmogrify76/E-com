@@ -26,7 +26,7 @@ const AdminAccount = () => {
 
             try {
                 // Fetch Admin Data
-                const adminResponse = await fetch(`http://localhost:5000/admin/${adminId}`, {
+                const adminResponse = await fetch(`${process.env.REACT_APP_BASE_URL}/admin/${adminId}`, {
                     headers: {
                         'Authorization': `Bearer ${accessToken}`,
                         'Content-Type': 'application/json',
@@ -40,6 +40,13 @@ const AdminAccount = () => {
                 const adminData = await adminResponse.json();
                 setAdminData(adminData);
 
+                // Fetch Site Settings
+                const siteResponse = await fetch(`${process.env.REACT_APP_BASE_URL}/admin/settings/${adminId}`, {
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                        'Content-Type': 'application/json',
+                    },
+                });
             } catch (error) {
                 setError(error.message);
             } finally {
@@ -77,6 +84,14 @@ const AdminAccount = () => {
                 setSiteSettings(null); // No data available
             } else {
                 setSiteSettings(siteData);
+
+                // Fetch Operational Settings
+                const operationalResponse = await fetch(`${process.env.REACT_APP_BASE_URL}/admin/operational-settings/${adminId}`, {
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                        'Content-Type': 'application/json',
+                    },
+                });
             }
 
         } catch (error) {

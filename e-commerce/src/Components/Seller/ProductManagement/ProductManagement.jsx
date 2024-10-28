@@ -29,7 +29,7 @@ const ProductManagement = () => {
 
     const fetchCategories = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/categories');
+            const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/categories`);
             setCategories(response.data);
         } catch (error) {
             console.error('Error fetching categories:', error);
@@ -45,7 +45,7 @@ const ProductManagement = () => {
         }
 
         try {
-            const response = await axios.get(`http://localhost:5000/user/sellers/${storedSellerId}`, {
+            const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/user/sellers/${storedSellerId}`, {
                 headers: { Authorization: `Bearer ${accessToken}` }
             });
             setSellerId(response.data.id);
@@ -137,7 +137,7 @@ const ProductManagement = () => {
 
         try {
             setLoading(true);
-            const response = await axios.post('http://localhost:5000/products/upload', formData, {
+            const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/products/upload`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     Authorization: `Bearer ${accessToken}`,

@@ -134,7 +134,7 @@ export default CartItems;
 //         const fetchCartData = async () => {
 //             setLoading(true);
 //             try {
-//                 const response = await fetch(`http://localhost:5000/cart/${userId}`);
+//                 const response = await fetch(`${process.env.BASE_URL}/cart/${userId}`);
 //                 if (!response.ok) {
 //                     throw new Error(`HTTP error! Status: ${response.status}`);
 //                 }
@@ -156,7 +156,7 @@ export default CartItems;
 
 //     const handleRemoveFromCart = async (productId, size) => {
 //         try {
-//             const response = await fetch(`http://localhost:5000/cart/${userId}/${productId}`, {
+//             const response = await fetch(`${process.env.BASE_URL}/cart/${userId}/${productId}`, {
 //                 method: 'DELETE',
 //             });
 //             if (!response.ok) {

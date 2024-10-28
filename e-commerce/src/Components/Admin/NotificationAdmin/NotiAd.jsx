@@ -11,7 +11,7 @@ const NotificationAdmin = () => {
     useEffect(() => {
         const fetchSellers = async () => {
             try {
-                const response = await fetch('http://localhost:5000/user/sellers');
+                const response = await fetch(`${process.env.REACT_APP_BASE_URL}/user/sellers`);
                 if (!response.ok) throw new Error('Failed to fetch sellers');
                 const data = await response.json();
                 setSellers(data);
@@ -27,7 +27,7 @@ const NotificationAdmin = () => {
     useEffect(() => {
         const fetchNotifications = async () => {
             try {
-                const response = await fetch('http://localhost:5000/notifications');
+                const response = await fetch(`${process.env.REACT_APP_BASE_URL}/notifications`);
                 if (!response.ok) throw new Error('Failed to fetch notifications');
                 const data = await response.json();
                 setNotifications(data);
@@ -48,7 +48,7 @@ const NotificationAdmin = () => {
 
         try {
             const userId = parseInt(selectedUserId, 10);
-            const response = await fetch('http://localhost:5000/notifications/create', {
+            const response = await fetch(`${process.env.REACT_APP_BASE_URL}/notifications/create`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -74,7 +74,7 @@ const NotificationAdmin = () => {
     // Delete notification
     const deleteNotification = async (id) => {
         try {
-            const response = await fetch(`http://localhost:5000/notifications/${id}`, {
+            const response = await fetch(`${process.env.REACT_APP_BASE_URL}/notifications/${id}`, {
                 method: 'DELETE',
             });
 
