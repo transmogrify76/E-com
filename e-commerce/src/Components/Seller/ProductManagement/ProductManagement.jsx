@@ -13,8 +13,8 @@ const ProductManagement= () => {
     const [productDetails, setProductDetails] = useState([]);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
-    const [sellerId, setSellerId] = useState(null);
-    const [quantity, setQuantity] = useState(0);
+    const [sellerId, setSellerId] = useState(null);                                       
+    const [quantity, setQuantity] = useState(0);             
     const [generalInstructions] = useState('Please ensure that the product images are clear and of high quality. Specify any relevant details such as color, size, or other specifications.');
     const [showCategories, setShowCategories] = useState(false);
 
