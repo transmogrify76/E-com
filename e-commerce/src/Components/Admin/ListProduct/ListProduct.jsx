@@ -11,7 +11,6 @@ const ListProduct = () => {
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
     const [searchId, setSearchId] = useState('');
-    const [selectedCategory, setSelectedCategory] = useState('');
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState('');
     const [editingProduct, setEditingProduct] = useState(null);
