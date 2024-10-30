@@ -36,7 +36,7 @@ const ProductUpload = () => {
 
         const accessToken = localStorage.getItem('accessToken');
         try {
-            const response = await axios.get(`${process.env.REACT_APPP_BASE_URL}/user/sellers/${storedSellerId}`, {
+            const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/user/sellers/${storedSellerId}`, {
                 headers: { Authorization: `Bearer ${accessToken}` }
             });
             setSellerId(response.data.id);
