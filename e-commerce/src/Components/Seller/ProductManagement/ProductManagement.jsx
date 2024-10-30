@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './ProductManagement.css';
@@ -7,10 +6,10 @@ const ProductManagement = () => {
     const [productName, setProductName] = useState('');
     const [price, setPrice] = useState(0);
     const [productImages, setProductImages] = useState([]);
-    const [additionalImageInputs, setAdditionalImageInputs] = useState([]); // State for additional image inputs
+    const [additionalImageInputs, setAdditionalImageInputs] = useState([]);
     const [categories, setCategories] = useState([]);
-    const [selectedCategoryIds, setSelectedCategoryIds] = useState([]);
-    const [expandedCategoryIds, setExpandedCategoryIds] = useState(new Set());
+    const [selectedMainCategoryId, setSelectedMainCategoryId] = useState('');
+    const [selectedChildCategoryId, setSelectedChildCategoryId] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
     const [productDetails, setProductDetails] = useState([]);
     const [error, setError] = useState('');
@@ -55,18 +54,13 @@ const ProductManagement = () => {
         }
     };
 
-    const handleCategoryChange = (categoryId) => {
-        setSelectedCategoryIds((prev) => 
-            prev.includes(categoryId) ? prev.filter(id => id !== categoryId) : [...prev, categoryId]
-        );
+    const handleMainCategoryChange = (e) => {
+        setSelectedMainCategoryId(e.target.value);
+        setSelectedChildCategoryId(''); // Reset child selection when main category changes
     };
 
-    const handleToggleCategory = (categoryId) => {
-        setExpandedCategoryIds((prev) => {
-            const newSet = new Set(prev);
-            newSet.has(categoryId) ? newSet.delete(categoryId) : newSet.add(categoryId);
-            return newSet;
-        });
+    const handleChildCategoryChange = (e) => {
+        setSelectedChildCategoryId(e.target.value);
     };
 
     const handleImageChange = (e, index) => {
@@ -74,14 +68,14 @@ const ProductManagement = () => {
         const validFiles = files.filter(file => file.size <= 10 * 1024 * 1024); // Max 10 MB
         setProductImages(prev => {
             const newImages = [...prev];
-            newImages[index] = validFiles; // Set images for that specific index
+            newImages[index] = validFiles;
             return newImages;
         });
     };
 
     const handleAddImageInput = () => {
-        setAdditionalImageInputs(prev => [...prev, {}]); // Add an empty object to represent a new image input
-        setProductImages(prev => [...prev, []]); // Also add an empty array for the new image
+        setAdditionalImageInputs(prev => [...prev, {}]);
+        setProductImages(prev => [...prev, []]);
     };
 
     const handleDetailChange = (index, key, value) => {
@@ -100,15 +94,11 @@ const ProductManagement = () => {
         setProductDetails((prev) => prev.filter((_, i) => i !== index));
     };
 
-    const handleClearCategorySelection = () => {
-        setSelectedCategoryIds([]);
-    };
-
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
-        if (!productName || price <= 0 || selectedCategoryIds.length === 0 || productImages.flat().length === 0 || quantity <= 0) {
-            setError('All fields are required. Please select at least one category.');
+
+        if (!productName || price <= 0 || selectedMainCategoryId === '' || selectedChildCategoryId === '' || productImages.flat().length === 0 || quantity <= 0) {
+            setError('All fields are required. Please select a main category and a child category.');
             return;
         }
 
@@ -123,16 +113,16 @@ const ProductManagement = () => {
         formData.append('sellerId', sellerId);
         formData.append('quantity', quantity);
 
-        // Append all images from productImages array
         productImages.flat().forEach(image => {
             formData.append('images', image);
         });
 
-        const categoryNames = selectedCategoryIds.map(id => 
-            categories.find(cat => cat.id === id)?.name
-        ).filter(Boolean);
+        const selectedCategoryNames = [
+            categories.find(cat => cat.id === parseInt(selectedMainCategoryId))?.name,
+            categories.find(cat => cat.id === parseInt(selectedChildCategoryId))?.name
+        ].filter(Boolean);
         
-        formData.append('categories', JSON.stringify(categoryNames));
+        formData.append('categories', JSON.stringify(selectedCategoryNames));
         formData.append('productDetails', JSON.stringify(productDetails));
 
         try {
@@ -157,43 +147,21 @@ const ProductManagement = () => {
         setProductName('');
         setPrice(0);
         setProductImages([]);
-        setSelectedCategoryIds([]);
+        setSelectedMainCategoryId('');
+        setSelectedChildCategoryId('');
         setProductDetails([]);
         setQuantity(0);
         setError('');
         setSearchTerm('');
-        setExpandedCategoryIds(new Set());
-        setShowCategories(false);
-        setAdditionalImageInputs([]); // Reset additional image inputs
+        setAdditionalImageInputs([]);
     };
 
     const filteredCategories = searchTerm
         ? categories.filter(category =>
-            category.name.toLowerCase().startsWith(searchTerm.toLowerCase()) ||
-            (category.children && category.children.some(sub => sub.name.toLowerCase().startsWith(searchTerm.toLowerCase())))
+            category.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            (category.childCategories && category.childCategories.some(sub => sub.name.toLowerCase().includes(searchTerm.toLowerCase())))
         )
         : categories;
-
-    const renderCategories = (categoryList) => {
-        return categoryList.map(category => (
-            <div key={category.id} className="checkbox-container">
-                <input 
-                    type="checkbox" 
-                    id={`category-${category.id}`} 
-                    checked={selectedCategoryIds.includes(category.id)} 
-                    onChange={() => handleCategoryChange(category.id)} 
-                />
-                <label htmlFor={`category-${category.id}`} className="checkbox-label" onClick={() => handleToggleCategory(category.id)}>
-                    {category.name}
-                </label>
-                {category.children && category.children.length > 0 && expandedCategoryIds.has(category.id) && (
-                    <div className="subcategory-container">
-                        {renderCategories(category.children)}
-                    </div>
-                )}
-            </div>
-        ));
-    };
 
     return (
         <form onSubmit={handleSubmit} className="product-upload-form">
@@ -272,9 +240,25 @@ const ProductManagement = () => {
             </button>
             {showCategories && (
                 <div className="categories-container">
-                    <h3>Categories</h3>
-                    <button type="button" onClick={handleClearCategorySelection}>Clear All Selections</button>
-                    {renderCategories(filteredCategories)}
+                    <h3>Main Category</h3>
+                    <select onChange={handleMainCategoryChange} value={selectedMainCategoryId}>
+                        <option value="">Select Main Category</option>
+                        {filteredCategories.map(category => (
+                            <option key={category.id} value={category.id}>{category.name}</option>
+                        ))}
+                    </select>
+
+                    {selectedMainCategoryId && (
+                        <div>
+                            <h3>Subcategory</h3>
+                            <select onChange={handleChildCategoryChange} value={selectedChildCategoryId}>
+                                <option value="">Select Subcategory</option>
+                                {categories.find(cat => cat.id === parseInt(selectedMainCategoryId))?.childCategories.map(child => (
+                                    <option key={child.id} value={child.id}>{child.name}</option>
+                                ))}
+                            </select>
+                        </div>
+                    )}
                 </div>
             )}
 
@@ -318,3 +302,4 @@ const ProductManagement = () => {
 };
 
 export default ProductManagement;
+

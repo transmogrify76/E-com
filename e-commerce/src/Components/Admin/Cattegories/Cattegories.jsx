@@ -5,13 +5,14 @@ import './Cattegories.css';
 
 const Categories = () => {
     const [categories, setCategories] = useState([]);
-    const [selectedParentCategory, setSelectedParentCategory] = useState('');
+    const [selectedCategory, setSelectedCategory] = useState('');
     const [categoryName, setCategoryName] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(true);
     const [hoveredCategoryId, setHoveredCategoryId] = useState(null);
 
+    // Fetch all categories from the API
     const fetchCategories = async () => {
         setLoading(true);
         try {
@@ -29,19 +30,21 @@ const Categories = () => {
         fetchCategories();
     }, []);
 
+    // Handle adding a new category
     const handleAddCategory = async () => {
         if (!categoryName) {
             setError('Category name is required.');
             return;
         }
+
         try {
             const payload = {
                 name: categoryName,
-                parentCategoryNames: selectedParentCategory ? [selectedParentCategory] : []
+                parentCategoryNames: selectedCategory ? [selectedCategory] : []
             };
             await axios.post(`${process.env.REACT_APP_BASE_URL}/categories`, payload);
             setCategoryName('');
-            setSelectedParentCategory('');
+            setSelectedCategory('');
             fetchCategories();
             setError('');
         } catch (error) {
@@ -88,11 +91,11 @@ const Categories = () => {
 
             <div className="input-group">
                 <select
-                    value={selectedParentCategory}
-                    onChange={(e) => setSelectedParentCategory(e.target.value)}
+                    value={selectedCategory}
+                    onChange={(e) => setSelectedCategory(e.target.value)}
                 >
-                    <option value="">Select Parent Category (Optional)</option>
-                    {categories.filter(cat => cat.parentCategories.length === 0).map(category => (
+                    <option value="">Select Category</option>
+                    {categories.map(category => (
                         <option key={category.id} value={category.name}>
                             {category.name}
                         </option>
