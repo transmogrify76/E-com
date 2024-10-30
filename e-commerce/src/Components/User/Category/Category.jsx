@@ -11,7 +11,7 @@ const Categories = () => {
   const [selectedChildCategoryId, setSelectedChildCategoryId] = useState(null);
   const [products, setProducts] = useState([]);
 
-  
+
   const fetchCategories = async () => {
     setLoading(true);
     try {
@@ -130,7 +130,6 @@ const Categories = () => {
           )}
         </div>
       )}
-
       {products.length > 0 && (
         <div className="products-container">
           <h2>Products in Selected Category</h2>
