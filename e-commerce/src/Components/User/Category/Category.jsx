@@ -1,94 +1,140 @@
-import React, { useState, useEffect } from 'react';
+
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import './Category.css'; // Import the CSS file for styling
-import { FaMale, FaFemale, FaChild } from 'react-icons/fa'; // Import icons from react-icons
+import './Category.css';
 
-const DressCategorySection = () => {
-  const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+const Categories = () => {
+    const [categories, setCategories] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(true);
+    const [selectedCategoryId, setSelectedCategoryId] = useState(null);
+    const [selectedChildCategoryId, setSelectedChildCategoryId] = useState(null);
+    const [products, setProducts] = useState([]);
 
-  useEffect(() => {
-    // Fetch categories
-    axios.get(`${process.env.REACT_APP_BASE_URL}/categories`)
-      .then(response => {
-        setCategories(response.data);
-        setLoading(false);
-      })
-      .catch(err => {
-        setError(err.message);
-        setLoading(false);
-      });
-  }, []);
+    const fetchCategories = async () => {
+        setLoading(true);
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/categories`);
+            setCategories(response.data);
+        } catch (error) {
+            setError('Error fetching categories.');
+            console.error('Error fetching categories:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
-  // Fetch subcategories when categories are available
-  const fetchSubcategories = (categoryId) => {
-    return axios.get(`${process.env.REACT_APP_BASE_URL}/categories/${categoryId}/subcategories`)
-      .then(response => response.data)
-      .catch(err => {
-        console.error(`Error fetching subcategories for category ${categoryId}:`, err.message);
-        return [];
-      });
-  };
+    useEffect(() => {
+        fetchCategories();
+    }, []);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
+    const fetchProductsByCategoryId = async (categoryId) => {
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/products/category/${categoryId}`);
+            setProducts(response.data);
+        } catch (error) {
+            console.error('Error fetching products:', error);
+            setProducts([]);
+        }
+    };
 
-  return (
-    <div className="dress-category-section">
-      <h2 className="section-title">Categories</h2>
-      <div className="category-list">
-        {categories.map((category) => (
-          <CategoryCard
-            key={category.id}
-            category={category}
-            fetchSubcategories={fetchSubcategories}
-          />
-        ))}
-      </div>
-    </div>
-  );
+    const handleCategoryClick = (categoryId) => {
+        if (selectedCategoryId === categoryId) {
+            setSelectedCategoryId(null);
+            setProducts([]);
+        } else {
+            setSelectedCategoryId(categoryId);
+            setSelectedChildCategoryId(null); // Reset child category selection
+            fetchProductsByCategoryId(categoryId);
+        }
+    };
+
+    const handleChildCategoryClick = (childCategoryId) => {
+        if (selectedChildCategoryId === childCategoryId) {
+            setSelectedChildCategoryId(null);
+            setProducts([]);
+        } else {
+            setSelectedChildCategoryId(childCategoryId);
+            fetchProductsByCategoryId(childCategoryId);
+        }
+    };
+
+    const filteredCategories = searchTerm
+        ? categories.filter(category =>
+            category.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            category.childCategories.some(sub => sub.name.toLowerCase().includes(searchTerm.toLowerCase()))
+        )
+        : categories;
+
+    return (
+        <div className="categories-container">
+            <h1>Categories</h1>
+            {error && <p className="error">{error}</p>}
+
+            <div className="search-group">
+                <input
+                    type="text"
+                    placeholder="Search Categories..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                />
+            </div>
+
+            <h2>Categories</h2>
+            {loading ? (
+                <p>Loading categories...</p>
+            ) : (
+                <div className="parent-categories">
+                    {filteredCategories.length > 0 ? (
+                        filteredCategories.map((category) => (
+                            <div key={category.id} className="category-item">
+                                <div onClick={() => handleCategoryClick(category.id)}>
+                                    {category.name}
+                                </div>
+                                {selectedCategoryId === category.id && category.childCategories && category.childCategories.length > 0 && (
+                                    <div className="subcategories-dropdown">
+                                        {category.childCategories.map(subCategory => (
+                                            <div key={subCategory.id} className="subcategory-item">
+                                                <div onClick={() => handleChildCategoryClick(subCategory.id)}>
+                                                    {subCategory.name}
+                                                </div>
+                                                {selectedChildCategoryId === subCategory.id && subCategory.childCategories && subCategory.childCategories.length > 0 && (
+                                                    <div className="nested-subcategories">
+                                                        {subCategory.childCategories.map(nestedSubCategory => (
+                                                            <div key={nestedSubCategory.id} className="nested-subcategory-item">
+                                                                {nestedSubCategory.name}
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        ))
+                    ) : (
+                        <p>No categories found.</p>
+                    )}
+                </div>
+            )}
+
+            {products.length > 0 && (
+                <div className="products-container">
+                    <h2>Products in Selected Category</h2>
+                    <div className="products-list">
+                        {products.map(product => (
+                            <div key={product.id} className="product-item">
+                                <img src={`${process.env.REACT_APP_BASE_URL}/products/images/product/${product.imageId}`} alt={product.name} />
+                                <span>{product.name}</span>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
+        </div>
+    );
 };
 
-// CategoryCard Component
-const CategoryCard = ({ category, fetchSubcategories }) => {
-  const [subcategories, setSubcategories] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    fetchSubcategories(category.id)
-      .then(subcategories => {
-        setSubcategories(subcategories);
-        setLoading(false);
-      })
-      .catch(err => {
-        setError(err.message);
-        setLoading(false);
-      });
-  }, [category.id, fetchSubcategories]);
-
-  if (loading) return <div>Loading subcategories...</div>;
-  if (error) return <div>Error: {error}</div>;
-
-  return (
-    <div className="category-card">
-      <div className="category-header">
-        {category.name === 'Men' ? <FaMale className="category-icon" /> :
-         category.name === 'Women' ? <FaFemale className="category-icon" /> :
-         category.name === 'Kids' ? <FaChild className="category-icon" /> : null}
-        <h3 className="category-title">{category.name}</h3>
-      </div>
-      <ul className="subcategory-list">
-        {subcategories.map((subcategory) => (
-          <li key={subcategory.id} className="subcategory-item">
-            {subcategory.name}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-};
-
-export default DressCategorySection;
-
+export default Categories;
