@@ -1,130 +1,140 @@
-import React, { useState, useEffect } from 'react';
+
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { FaMale, FaFemale, FaChild } from 'react-icons/fa';
-import './Category.css'; // Import your CSS file
+import './Category.css';
 
-const DressCategorySection = () => {
-  const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+const Categories = () => {
+    const [categories, setCategories] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(true);
+    const [selectedCategoryId, setSelectedCategoryId] = useState(null);
+    const [selectedChildCategoryId, setSelectedChildCategoryId] = useState(null);
+    const [products, setProducts] = useState([]);
 
-  useEffect(() => {
-    // Fetch categories
-    axios.get(`${process.env.REACT_APP_BASE_URL}/categories`)
-      .then(response => {
-        console.log(response.data); // Check the structure and IDs here 
-        setCategories(response.data);
-        setLoading(false);
-      })
-      .catch(err => {
-        setError(err.message);
-        setLoading(false);
-      });
-  }, []);
+    const fetchCategories = async () => {
+        setLoading(true);
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/categories`);
+            setCategories(response.data);
+        } catch (error) {
+            setError('Error fetching categories.');
+            console.error('Error fetching categories:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
+    useEffect(() => {
+        fetchCategories();
+    }, []);
 
-  return (
-    <div className="dress-category-section">
-      <h2 className="section-title">Categories</h2>
-      <div className="category-list">
-        {categories.map(category => (
-          <CategoryCard key={category.id} category={category} />
-        ))}
-      </div>
-    </div>
-  );
+    const fetchProductsByCategoryId = async (categoryId) => {
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/products/category/${categoryId}`);
+            setProducts(response.data);
+        } catch (error) {
+            console.error('Error fetching products:', error);
+            setProducts([]);
+        }
+    };
+
+    const handleCategoryClick = (categoryId) => {
+        if (selectedCategoryId === categoryId) {
+            setSelectedCategoryId(null);
+            setProducts([]);
+        } else {
+            setSelectedCategoryId(categoryId);
+            setSelectedChildCategoryId(null); // Reset child category selection
+            fetchProductsByCategoryId(categoryId);
+        }
+    };
+
+    const handleChildCategoryClick = (childCategoryId) => {
+        if (selectedChildCategoryId === childCategoryId) {
+            setSelectedChildCategoryId(null);
+            setProducts([]);
+        } else {
+            setSelectedChildCategoryId(childCategoryId);
+            fetchProductsByCategoryId(childCategoryId);
+        }
+    };
+
+    const filteredCategories = searchTerm
+        ? categories.filter(category =>
+            category.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            category.childCategories.some(sub => sub.name.toLowerCase().includes(searchTerm.toLowerCase()))
+        )
+        : categories;
+
+    return (
+        <div className="categories-container">
+            <h1>Categories</h1>
+            {error && <p className="error">{error}</p>}
+
+            <div className="search-group">
+                <input
+                    type="text"
+                    placeholder="Search Categories..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                />
+            </div>
+
+            <h2>Categories</h2>
+            {loading ? (
+                <p>Loading categories...</p>
+            ) : (
+                <div className="parent-categories">
+                    {filteredCategories.length > 0 ? (
+                        filteredCategories.map((category) => (
+                            <div key={category.id} className="category-item">
+                                <div onClick={() => handleCategoryClick(category.id)}>
+                                    {category.name}
+                                </div>
+                                {selectedCategoryId === category.id && category.childCategories && category.childCategories.length > 0 && (
+                                    <div className="subcategories-dropdown">
+                                        {category.childCategories.map(subCategory => (
+                                            <div key={subCategory.id} className="subcategory-item">
+                                                <div onClick={() => handleChildCategoryClick(subCategory.id)}>
+                                                    {subCategory.name}
+                                                </div>
+                                                {selectedChildCategoryId === subCategory.id && subCategory.childCategories && subCategory.childCategories.length > 0 && (
+                                                    <div className="nested-subcategories">
+                                                        {subCategory.childCategories.map(nestedSubCategory => (
+                                                            <div key={nestedSubCategory.id} className="nested-subcategory-item">
+                                                                {nestedSubCategory.name}
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        ))
+                    ) : (
+                        <p>No categories found.</p>
+                    )}
+                </div>
+            )}
+
+            {products.length > 0 && (
+                <div className="products-container">
+                    <h2>Products in Selected Category</h2>
+                    <div className="products-list">
+                        {products.map(product => (
+                            <div key={product.id} className="product-item">
+                                <img src={`${process.env.REACT_APP_BASE_URL}/products/images/product/${product.imageId}`} alt={product.name} />
+                                <span>{product.name}</span>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
+        </div>
+    );
 };
 
-// CategoryCard Component
-const CategoryCard = ({ category }) => {
-  const [subcategories, setSubcategories] = useState([]);
-  const [loadingSubcategories, setLoadingSubcategories] = useState(false);
-  const [errorSubcategories, setErrorSubcategories] = useState(null);
-  const [showSubcategories, setShowSubcategories] = useState(false);
-  const [showNestedSubcategories, setShowNestedSubcategories] = useState(null);
-
-  const handleFetchSubcategories = () => {
-    if (!showSubcategories) {
-      setLoadingSubcategories(true);
-      axios.get(`${process.env.REACT_APP_BASE_URL}/categories/subcategories/name/${encodeURIComponent(category.name)}`)
-        .then(response => {
-          console.log(response.data); // Check for unique IDs
-          setSubcategories(response.data);
-          setLoadingSubcategories(false);
-          setShowSubcategories(true);
-        })
-        .catch(err => {
-          setErrorSubcategories(err.message);
-          setLoadingSubcategories(false);
-        });
-    } else {
-      setShowSubcategories(false);
-    }
-  };
-
-  const handleFetchNestedSubcategories = (subcategoryId) => {
-    if (showNestedSubcategories === subcategoryId) {
-      setShowNestedSubcategories(null);
-      return;
-    }
-
-    setLoadingSubcategories(true); // Set loading state for nested products
-
-    axios.get(`${process.env.REACT_APP_BASE_URL}/subcategories/${subcategoryId}/nested`)
-      .then(response => {
-        console.log(response.data); // Log nested products
-        setSubcategories(prev =>
-          prev.map(sub => sub.id === subcategoryId ? { ...sub, nestedProducts: response.data } : sub)
-        );
-        setShowNestedSubcategories(subcategoryId);
-      })
-      .catch(err => {
-        console.error(`Error fetching nested subcategories for subcategory ${subcategoryId}:`, err.message);
-      })
-      .finally(() => {
-        setLoadingSubcategories(false); // Clear loading state
-      });
-  };
-
-  return (
-    <div className="category-card">
-      <div className="category-header" onClick={handleFetchSubcategories}>
-        {category.name === 'Men' ? <FaMale className="category-icon" /> :
-         category.name === 'Women' ? <FaFemale className="category-icon" /> :
-         category.name === 'Kids' ? <FaChild className="category-icon" /> : null}
-        <h3 className="category-title">{category.name}</h3>
-      </div>
-      {loadingSubcategories && <div>Loading subcategories...</div>}
-      {errorSubcategories && <div>Error: {errorSubcategories}</div>}
-      {showSubcategories && (
-        <ul className="subcategory-list">
-          {subcategories.map((subcategory, index) => (
-            <li key={`${subcategory.id}-${index}`} className="subcategory-item">
-              <div onClick={() => handleFetchNestedSubcategories(subcategory.id)}>
-                <strong>{subcategory.name}</strong>
-              </div>
-              {showNestedSubcategories === subcategory.id && subcategory.nestedProducts && (
-                <ul className="nested-subcategory-list">
-                  {subcategory.nestedProducts.length > 0 ? (
-                    subcategory.nestedProducts.map((product, prodIndex) => (
-                      <li key={`${product.id}-${prodIndex}`} className="nested-subcategory-item">
-                        <img src={product.imageUrl} alt={product.name} />
-                        {product.name}
-                      </li>
-                    ))
-                  ) : (
-                    <li>No products available</li>
-                  )}
-                </ul>
-              )}
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
-  );
-};
-
-export default DressCategorySection;
+export default Categories;
