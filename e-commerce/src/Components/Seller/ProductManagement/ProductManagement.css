@@ -38,7 +38,8 @@
   text-align: center;
 }
 
-.toggle-button, .submit-button {
+.toggle-button,
+.submit-button {
   width: 100%;
   padding: 12px;
   margin-top: 15px;
@@ -51,10 +52,12 @@
   transition: background-color 0.3s;
 }
 
-.toggle-button:hover, .submit-button:hover {
+.toggle-button:hover,
+.submit-button:hover {
   background-color: #0056b3;
 }
 
+/* Categories Container */
 .categories-container {
   margin: 20px 0;
   padding: 15px;
@@ -63,6 +66,57 @@
   background-color: #f9f9f9;
 }
 
+.category-item {
+  position: relative;
+  padding: 10px;
+  cursor: pointer;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.category-item:hover {
+  background-color: #dcdcdc;
+}
+
+/* Child Category Menu for Cascading */
+.child-category-menu {
+  position: absolute;
+  top: 0;
+  left: 100%;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  min-width: 150px;
+  display: none;
+  z-index: 1;
+}
+
+.category-item:hover .child-category-menu {
+  display: block;
+}
+
+/* Select Button in Category Item */
+.select-button {
+  margin-left: 10px;
+  background-color: #87cefa;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  padding: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.select-button:hover {
+  background-color: #5fa3d0;
+}
+
+/* Checkbox Container for Additional Inputs */
 .checkbox-container {
   margin: 5px 0;
   display: flex;
@@ -75,10 +129,12 @@
   font-size: 16px;
 }
 
+/* Subcategory Indentation */
 .subcategory-container {
   padding-left: 20px;
 }
 
+/* Product Detail Fields */
 .product-detail {
   display: flex;
   align-items: center;
@@ -108,6 +164,7 @@
   background-color: darkred;
 }
 
+/* Headings */
 h3 {
   margin-top: 20px;
   margin-bottom: 10px;
@@ -121,6 +178,7 @@ h3 + p {
   color: #666;
 }
 
+/* Image Guidelines Text */
 .image-guidelines {
   margin-top: 10px;
   font-size: 14px;
