@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useCallback } from 'react';
 import './ExcistingProduct.css'; // Ensure this path is correct
 import { FaEdit, FaTrash, FaYoutube, FaHeadset, FaPlus, FaFilePdf } from 'react-icons/fa';
@@ -6,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable'; // Import the auto table plugin
-
 const InventoryPage = () => {
     const navigate = useNavigate();
     const [products, setProducts] = useState([]);
@@ -219,7 +217,7 @@ const InventoryPage = () => {
         const doc = new jsPDF();
         doc.setFontSize(16);
         doc.text("Product Inventory", 14, 22);
-        
+
         const tableColumn = ["Product ID", "Name", "Price", "Quantity", "Categories", "Product Details"];
         const tableRows = [];
 
@@ -370,5 +368,5 @@ const InventoryPage = () => {
     );
 };
 
+// best day in my life 
 export default InventoryPage;
-

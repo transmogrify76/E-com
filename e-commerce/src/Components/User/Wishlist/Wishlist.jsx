@@ -7,6 +7,7 @@ const Wishlist = () => {
   const [newProductId, setNewProductId] = useState('');
   const userId = 1; // Replace with dynamic user ID as needed 
 
+
   // Function to fetch wishlist items
   const fetchWishlist = async () => {
     try {
@@ -92,5 +93,6 @@ const Wishlist = () => {
     </div>
   );
 };
+
 
 export default Wishlist;

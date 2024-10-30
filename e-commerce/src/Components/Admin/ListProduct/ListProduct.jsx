@@ -199,7 +199,7 @@
 //                     className="search-input"
 //                 />
 //             </div>
-            
+
 //             {error && <p className="error-message">{error}</p>}
 //             {loading ? (
 //                 <p>Loading...</p>
@@ -342,7 +342,6 @@
 // };
 
 // export default ListProduct;
-
 import React, { useState, useEffect, useCallback } from 'react';
 import './ListProduct.css';
 import { FaEdit, FaTrash, FaYoutube, FaHeadset } from 'react-icons/fa';
@@ -353,7 +352,6 @@ const ListProduct = () => {
     const navigate = useNavigate();
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
-    const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
     const [searchId, setSearchId] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('');
@@ -387,7 +385,6 @@ const ListProduct = () => {
             setSellerId(response.data.id);
         } catch (err) {
             console.error('Error fetching seller data:', err);
-            setError(err.response?.data?.message || 'Error fetching seller data');
         }
     };
 
@@ -397,7 +394,6 @@ const ListProduct = () => {
             setCategories(response.data);
         } catch (error) {
             console.error('Error fetching categories:', error);
-            setError('Failed to fetch categories');
         }
     };
 
@@ -426,7 +422,6 @@ const ListProduct = () => {
             setSingleUploads(productsWithImages.filter(product => product.uploadMethod === 'single').length);
         } catch (error) {
             console.error("Error fetching products:", error);
-            setError(`Failed to fetch products: ${error.message}`);
         } finally {
             setLoading(false);
         }
@@ -443,7 +438,7 @@ const ListProduct = () => {
         }
     }, [sellerId, fetchProductsBySeller]);
 
-    const handleSearch = async (event) => {
+    const handleSearch = (event) => {
         const value = event.target.value;
         setSearchId(value);
 
@@ -478,7 +473,6 @@ const ListProduct = () => {
                 }));
             } catch (e) {
                 console.error('Invalid JSON format', e);
-                setError('Invalid JSON format');
             }
         } else {
             setFormData(prevState => ({
@@ -489,7 +483,7 @@ const ListProduct = () => {
     };
 
     const calculateTotalQuantity = (quantityString) => {
-        const parts = quantityString.split(/[\+\-]/);
+        const parts = quantityString.split(/[+]/); // Removed unnecessary escape characters
         const operator = quantityString.includes('+') ? '+' : quantityString.includes('-') ? '-' : null;
 
         if (parts.length === 2 && operator) {
@@ -537,7 +531,6 @@ const ListProduct = () => {
             resetFormData();
         } catch (error) {
             console.error("Error updating product:", error);
-            setError(`Failed to update product: ${error.message}`);
         }
     };
 
@@ -582,7 +575,6 @@ const ListProduct = () => {
             setFilteredProducts(filteredProducts.filter(product => product.id !== id));
         } catch (error) {
             console.error("Error removing product:", error);
-            setError(`Failed to remove product: ${error.message}`);
         }
     };
 
@@ -649,7 +641,6 @@ const ListProduct = () => {
                                 <th>Product Name</th>
                                 <th>Price</th>
                                 <th>Quantity</th>
-                                <th>Discount Price</th>
                                 <th>Actions</th>
                                 <th>Images</th>
                             </tr>
@@ -658,9 +649,8 @@ const ListProduct = () => {
                             {filteredProducts.map(product => (
                                 <tr key={product.id}>
                                     <td>{product.name}</td>
-                                    <td>${product.price}</td>
+                                    <td>{product.price}</td>
                                     <td>{product.quantity}</td>
-                                    <td>${product.discountPrice}</td>
                                     <td>
                                         <button onClick={() => handleEditClick(product)}>
                                             <FaEdit /> Edit
@@ -672,7 +662,7 @@ const ListProduct = () => {
                                     <td>
                                         {product.images.length > 0 ? (
                                             product.images.map((img, index) => (
-                                                <img key={index} src={img} alt={`${product.name} image`} className="product-image" style={{ width: '50px', height: '50px', margin: '0 5px' }} />
+                                                <img key={index} src={img} alt={product.name} className="product-image" style={{ width: '50px', height: '50px', margin: '0 5px' }} />
                                             ))
                                         ) : (
                                             <p>No Image Available</p>
@@ -693,7 +683,6 @@ const ListProduct = () => {
                         <textarea name="productDetails" value={JSON.stringify(formData.productDetails)} onChange={handleInputChange} placeholder="Product Details (JSON)" />
                         <input type="number" name="price" value={formData.price} onChange={handleInputChange} placeholder="Price" required />
                         <input type="text" name="quantity" value={formData.quantity} onChange={handleInputChange} placeholder="Quantity" required />
-                        <input type="number" name="discountPrice" value={formData.discountPrice} onChange={handleInputChange} placeholder="Discount Price" />
                         <select name="categories" multiple onChange={handleInputChange} value={formData.categories}>
                             {categories.map(category => (
                                 <option key={category.id} value={category.name}>{category.name}</option>
@@ -709,3 +698,6 @@ const ListProduct = () => {
 };
 
 export default ListProduct;
+
+
+

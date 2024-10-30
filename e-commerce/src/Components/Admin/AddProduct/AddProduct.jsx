@@ -247,18 +247,18 @@
 //         </div>
 //     );
 // };
-
 // export default AddProduct;
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './AddProduct.css';
 
+
 const AddProduct = () => {
     const [productName, setProductName] = useState('');
     const [price, setPrice] = useState(0);
     const [productImages, setProductImages] = useState([]);
-    const [additionalImageInputs, setAdditionalImageInputs] = useState([]); // State for additional image inputs
+    const [additionalImageInputs, setAdditionalImageInputs] = useState([]);
     const [categories, setCategories] = useState([]);
     const [selectedCategoryIds, setSelectedCategoryIds] = useState([]);
     const [expandedCategoryIds, setExpandedCategoryIds] = useState(new Set());
@@ -270,7 +270,6 @@ const AddProduct = () => {
     const [quantity, setQuantity] = useState(0);
     const [generalInstructions] = useState('Please ensure that the product images are clear and of high quality. Specify any relevant details such as color, size, or other specifications.');
     const [showCategories, setShowCategories] = useState(false);
-
     const accessToken = localStorage.getItem('accessToken');
 
     useEffect(() => {
@@ -299,7 +298,7 @@ const AddProduct = () => {
             const response = await axios.get(`http://localhost:5000/user/sellers/${storedSellerId}`, {
                 headers: { Authorization: `Bearer ${accessToken}` }
             });
-            setSellerId(response.data.id);
+            setSellerId(response.data.id); // Set seller ID
         } catch (err) {
             console.error('Error fetching seller data:', err);
             setError(err.response?.data?.message || 'Error fetching seller data');
@@ -322,17 +321,17 @@ const AddProduct = () => {
 
     const handleImageChange = (e, index) => {
         const files = Array.from(e.target.files);
-        const validFiles = files.filter(file => file.size <= 10 * 1024 * 1024); // Max 10 MB
+        const validFiles = files.filter(file => file.size <= 10 * 1024 * 1024);
         setProductImages(prev => {
             const newImages = [...prev];
-            newImages[index] = validFiles; // Set images for that specific index
+            newImages[index] = validFiles; // Set images for that specific index here
             return newImages;
         });
     };
 
     const handleAddImageInput = () => {
         setAdditionalImageInputs(prev => [...prev, {}]); // Add an empty object to represent a new image input
-        setProductImages(prev => [...prev, []]); // Also add an empty array for the new image
+        setProductImages(prev => [...prev, []]); // Also add an empty array for the new image,
     };
 
     const handleDetailChange = (index, key, value) => {
@@ -350,7 +349,6 @@ const AddProduct = () => {
     const handleRemoveDetailField = (index) => {
         setProductDetails((prev) => prev.filter((_, i) => i !== index));
     };
-
     const handleClearCategorySelection = () => {
         setSelectedCategoryIds([]);
     };
@@ -371,10 +369,9 @@ const AddProduct = () => {
         const formData = new FormData();
         formData.append('name', productName);
         formData.append('price', price);
-        formData.append('sellerId', sellerId);
+        formData.append('sellerId', sellerId); // Include seller ID here
         formData.append('quantity', quantity);
 
-        // Append all images from productImages array
         productImages.flat().forEach(image => {
             formData.append('images', image);
         });
@@ -415,7 +412,7 @@ const AddProduct = () => {
         setSearchTerm('');
         setExpandedCategoryIds(new Set());
         setShowCategories(false);
-        setAdditionalImageInputs([]); // Reset additional image inputs
+        setAdditionalImageInputs([]);
     };
 
     const filteredCategories = searchTerm
@@ -475,7 +472,6 @@ const AddProduct = () => {
                 required 
             />
             
-            {/* Initial Image Upload */}
             <input 
                 className="input-field"
                 type="file" 
@@ -485,7 +481,6 @@ const AddProduct = () => {
                 required 
             />
 
-            {/* Additional Image Inputs */}
             {additionalImageInputs.map((_, index) => (
                 <div key={index} className="additional-image-input">
                     <input 
@@ -504,8 +499,7 @@ const AddProduct = () => {
                 onClick={handleAddImageInput}
             >
                 + Add More Images
-            </button>
-
+            </button> 
             <h3>Search Categories</h3>
             <input 
                 type="text" 
@@ -538,7 +532,7 @@ const AddProduct = () => {
                     <div key={index} className="product-detail">
                         <input 
                             type="text" 
-                            placeholder="Detail Key" 
+                            placeholder="Detail Key"
                             value={detail.key} 
                             onChange={(e) => handleDetailChange(index, 'key', e.target.value)} 
                         />
