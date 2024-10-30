@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faUsers, faBoxOpen, faMoneyBillAlt,faUserFriends } from '@fortawesome/free-solid-svg-icons';
 import { Bar } from 'react-chartjs-2';
 import {
     Chart as ChartJS,
@@ -12,8 +10,6 @@ import {
     Legend,
 } from 'chart.js';
 import './AdminDashboard.css';
-
-// Register the necessary components
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const AdminDashboard = () => {
@@ -53,28 +49,22 @@ const AdminDashboard = () => {
                                 <div className="dashboard-widget users-widget">
                                     <h3>Total Users</h3>
                                     <div className="widget-content">
-                                        {/* <span className="widget-icon"><FontAwesomeIcon icon={faUsers} /></span> */}
                                         <span className="widget-data">500</span>
                                     </div>
                                 </div>
                                 <div className="dashboard-widget products-widget">
                                     <h3>Total Products</h3>
                                     <div className="widget-content">
-                                        {/* <span className="widget-icon"><FontAwesomeIcon icon={faBoxOpen} /></span> */}
                                         <span className="widget-data">200</span>
                                     </div>
                                 </div>
                                 <div className="dashboard-widget seller-widget">
                                     <h3>Total Sellers</h3>
-                                    <div className="widget-content">
-                                        {/* <span className="widget-icon"><FontAwesomeIcon icon={faUserFriends} /></span> */}
-                                        <span className="widget-data">300</span>
-                                    </div>
+                                    <div className="widget-content">                                    </div>
                                 </div>
                                 <div className="dashboard-widget sales-widget">
                                     <h3>Total Sales</h3>
                                     <div className="widget-content">
-                                        {/* <span className="widget-icon"><FontAwesomeIcon icon={faMoneyBillAlt} /></span> */}
                                         <span className="widget-data">₹1,500,000</span>
                                     </div>
                                 </div>

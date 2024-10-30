@@ -57,7 +57,7 @@ const Settings = () => {
         }
 
         try {
-            const response = await fetch(`http://localhost:5000/admin/settings/${adminId}`);
+            const response = await fetch(`${process.env.REACT_APP_BASE_URL}/admin/settings/${adminId}`);
             if (!response.ok) {
                 throw new Error('Failed to fetch settings');
             }
@@ -77,7 +77,7 @@ const Settings = () => {
         }
 
         try {
-            const response = await fetch(`http://localhost:5000/admin/operational-settings/${adminId}`);
+            const response = await fetch(`${process.env.REACT_APP_BASE_URL}/admin/operational-settings/${adminId}`);
             if (!response.ok) {
                 throw new Error('Failed to fetch operational settings');
             }
@@ -102,7 +102,7 @@ const Settings = () => {
         };
 
         try {
-            const postResponse = await fetch(`http://localhost:5000/admin/settings`, {
+            const postResponse = await fetch(`${process.env.REACT_APP_BASE_URL}/admin/settings`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -136,7 +136,7 @@ const Settings = () => {
         };
 
         try {
-            const patchResponse = await fetch(`http://localhost:5000/admin/settings/${adminId}`, {
+            const patchResponse = await fetch(`${process.env.REACT_APP_BASE_URL}/admin/settings/${adminId}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
@@ -173,7 +173,7 @@ const Settings = () => {
         };
 
         try {
-            const postResponse = await fetch(`http://localhost:5000/admin/operational-settings`, {
+            const postResponse = await fetch(`${process.env.REACT_APP_BASE_URL}/admin/operational-settings`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -211,7 +211,7 @@ const Settings = () => {
         };
 
         try {
-            const patchResponse = await fetch(`http://localhost:5000/admin/operational-settings/${adminId}`, {
+            const patchResponse = await fetch(`${process.env.REACT_APP_BASE_URL}/admin/operational-settings/${adminId}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',

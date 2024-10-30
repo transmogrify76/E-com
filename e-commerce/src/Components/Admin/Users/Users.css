@@ -40,7 +40,7 @@ h2 {
 }
 
 .user-table th {
-  background-color: #007bff; /* Blue */
+  background-color: #007bff; 
   color: #fff;
   font-weight: bold;
 }
@@ -60,11 +60,11 @@ h2 {
 /* Actions */
 .actions {
   display: flex;
-  gap: 5px; /* Reduced gap between buttons */
+  gap: 5px;
 }
 
 .action-button {
-  padding: 6px 10px; /* Slightly reduced padding */
+  padding: 6px 10px;
   border: none;
   border-radius: 4px;
   color: #fff;

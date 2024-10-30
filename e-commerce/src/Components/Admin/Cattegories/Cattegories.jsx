@@ -15,7 +15,7 @@ const Categories = () => {
     const fetchCategories = async () => {
         setLoading(true);
         try {
-            const response = await axios.get('http://localhost:5000/categories');
+            const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/categories`);
             setCategories(response.data);
         } catch (error) {
             setError('Error fetching categories.');
@@ -39,7 +39,7 @@ const Categories = () => {
                 name: categoryName,
                 parentCategoryNames: selectedParentCategory ? [selectedParentCategory] : []
             };
-            await axios.post('http://localhost:5000/categories', payload);
+            await axios.post(`${process.env.REACT_APP_BASE_URL}/categories`, payload);
             setCategoryName('');
             setSelectedParentCategory('');
             fetchCategories();
@@ -53,7 +53,7 @@ const Categories = () => {
     const handleDeleteCategoryByName = async (name) => {
         if (window.confirm(`Are you sure you want to delete "${name}"?`)) {
             try {
-                await axios.delete(`http://localhost:5000/categories/name/${name}`);
+                await axios.delete(`${process.env.REACT_APP_BASE_URL}/categories/name/${name}`);
                 fetchCategories();
                 setError('');
             } catch (error) {

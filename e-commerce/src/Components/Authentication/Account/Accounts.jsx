@@ -20,7 +20,7 @@ const UserAccountPage = () => {
       }
 
       try {
-        const response = await fetch(`http://localhost:5000/user/${userId}`, {
+        const response = await fetch(`${process.env.REACT_APP_BASE_URL}/user/${userId}`, {
           headers: {
             'Authorization': `Bearer ${accessToken}` // Pass token for authorization
           }

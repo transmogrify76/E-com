@@ -14,7 +14,7 @@ const Users = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await fetch('http://localhost:5000/user/all'); // Updated API endpoint
+        const response = await fetch(`${process.env.REACT_APP_BASE_URL}/user/all`); // Updated API endpoint
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
@@ -63,7 +63,7 @@ const Users = () => {
 
   const handleSaveEditUser = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/user/${editUser.id}`, {
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/user/${editUser.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -89,7 +89,7 @@ const Users = () => {
   const handleDeleteUser = async (userId) => {
     if (window.confirm('Are you sure you want to delete this user?')) {
       try {
-        const response = await fetch(`http://localhost:5000/user/${userId}`, {
+        const response = await fetch(`${process.env.REACT_APP_BASE_URL}/user/${userId}`, {
           method: 'DELETE',
         });
 

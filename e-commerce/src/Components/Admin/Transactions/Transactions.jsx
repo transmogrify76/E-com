@@ -6,7 +6,7 @@ const TransactionManagement = () => {
     const [transactions, setTransactions] = useState([]);
     const [loadingTransactions, setLoadingTransactions] = useState(true);
     const [filter, setFilter] = useState('');
-    const [statusFilter, setStatusFilter] = useState(''); // New state for status filter
+    const [statusFilter, setStatusFilter] = useState(''); 
 
     // Memoizing the dummy transaction data
     const dummyTransactions = useMemo(() => [
@@ -26,12 +26,12 @@ const TransactionManagement = () => {
         // Set transactions to dummy data
         setTransactions(dummyTransactions);
         setLoadingTransactions(false);
-    }, [dummyTransactions]); // Now this will not cause the warning
+    }, [dummyTransactions]); 
 
     const filteredTransactions = transactions.filter(transaction =>
         (transaction.customerName.toLowerCase().includes(filter.toLowerCase()) ||
             transaction.id.toLowerCase().includes(filter.toLowerCase())) &&
-        (statusFilter === '' || transaction.status === statusFilter) // Filter by status
+        (statusFilter === '' || transaction.status === statusFilter) 
     );
 
     const handleDelete = (transactionId) => {
@@ -42,7 +42,7 @@ const TransactionManagement = () => {
 
     const handleNotifyCustomer = (customerName) => {
         alert(`Notifying ${customerName} about the failed transaction.`);
-        // Logic to notify the customer goes here
+       
     };
 
     const handleViewDetails = (transaction) => {
@@ -88,7 +88,7 @@ const TransactionManagement = () => {
                             <th>Date</th>
                             <th>Payment Method</th>
                             <th>Status</th>
-                            <th>Reason for Failure</th> {/* Added column for failure reasons */}
+                            <th>Reason for Failure</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -102,7 +102,7 @@ const TransactionManagement = () => {
                                 <td>{new Date(transaction.date).toLocaleDateString()}</td>
                                 <td>{transaction.paymentMethod}</td>
                                 <td>{transaction.status}</td>
-                                <td>{transaction.reason || '-'}</td> {/* Show reason if available, otherwise show '-' */}
+                                <td>{transaction.reason || '-'}</td> 
                                 <td>
                                     <button onClick={() => handleViewDetails(transaction)}>View Details</button>
                                     <button onClick={() => handleDelete(transaction.id)}>Delete</button>
@@ -124,5 +124,4 @@ const TransactionManagement = () => {
     );
 };
 
-// Exporting the component for use
 export default TransactionManagement;

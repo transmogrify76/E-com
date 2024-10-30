@@ -22,7 +22,7 @@ const SettingsPage = () => {
             }
 
             try {
-                const response = await axios.get(`http://localhost:5000/user/sellers/${sellerId}`, {
+                const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/user/sellers/${sellerId}`, {
                     headers: { Authorization: `Bearer ${accessToken}` }
                 });
                 setSellerData(response.data);
@@ -48,7 +48,7 @@ const SettingsPage = () => {
         const accessToken = localStorage.getItem('accessToken');
 
         try {
-            await axios.patch(`http://localhost:5000/user/update`, {
+            await axios.patch(`${process.env.REACT_APP_BASE_URL}/user/update`, {
                 ...formData,
                 id: sellerId // Ensure id is included in the payload
             }, {

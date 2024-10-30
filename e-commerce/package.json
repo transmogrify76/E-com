@@ -3,12 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@nestjs/config": "^3.3.0",
     "@testing-library/react": "^13.4.0",
     "axios": "^1.7.2",
+<<<<<<< HEAD
     "chart.js": "^4.4.5",
+=======
+    "chart.js": "^4.4.3",
+    "dotenv": "^16.4.5",
+>>>>>>> ff3c0e8d13648cc99d984f6164089b06ad7efc34
     "jspdf": "^2.5.2",
     "jspdf-autotable": "^3.8.4",
     "jwt-decode": "^4.0.0",
+    "multer": "^1.4.5-lts.1",
     "react": "^18.3.1",
     "react-bootstrap": "^2.10.2",
     "react-chartjs-2": "^5.2.0",

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import WishlistItems from '../WishlistItems/WishlistItems';
 import './Wishlist.css';
 

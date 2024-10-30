@@ -36,7 +36,7 @@ const ProductUpload = () => {
 
         const accessToken = localStorage.getItem('accessToken');
         try {
-            const response = await axios.get(`http://localhost:5000/user/sellers/${storedSellerId}`, {
+            const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/user/sellers/${storedSellerId}`, {
                 headers: { Authorization: `Bearer ${accessToken}` }
             });
             setSellerId(response.data.id);
@@ -48,7 +48,7 @@ const ProductUpload = () => {
 
     const fetchCategories = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/categories');
+            const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/categories`);
             setCategories(response.data);
         } catch (error) {
             console.error('Error fetching categories:', error);
@@ -59,12 +59,12 @@ const ProductUpload = () => {
     const fetchProductsBySeller = useCallback(async () => {
         if (!sellerId) return;
         try {
-            const response = await fetch(`http://localhost:5000/products/seller/${sellerId}`);
+            const response = await fetch(`${process.env.REACT_APP_BASE_URL}/products/seller/${sellerId}`);
             if (!response.ok) throw new Error('Failed to fetch products');
             const data = await response.json();
 
             const productsWithImages = await Promise.all(data.map(async product => {
-                const imagesResponse = await fetch(`http://localhost:5000/products/images/product/${product.id}`);
+                const imagesResponse = await fetch(`${process.env.REACT_APP_BASE_URL}/products/images/product/${product.id}`);
                 const imagesData = await imagesResponse.json();
 
                 // Use the base64 string directly as the image source
@@ -172,7 +172,7 @@ const ProductUpload = () => {
         };
 
         try {
-            const response = await fetch(`http://localhost:5000/products/${editingProduct.id}`, {
+            const response = await fetch(`${process.env.REACT_APP_BASE_URL}/products/${editingProduct.id}`, {
                 method: 'PATCH',
                 headers: {
                     'Accept': 'application/json',
@@ -225,7 +225,7 @@ const ProductUpload = () => {
 
     const removeProduct = async (id) => {
         try {
-            const response = await fetch(`http://localhost:5000/products/${id}`, {
+            const response = await fetch(`${process.env.REACT_APP_BASE_URL}/products/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Accept': 'application/json',
