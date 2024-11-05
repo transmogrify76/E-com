@@ -3,11 +3,11 @@
     margin: 0 auto;
     padding: 20px;
     border-radius: 10px;
-    background-color: #f8f9fa; /* Light gray background */
+    background-color: #f8f9fa;
 }
 
 .info-section {
-    background-color: #e3f2fd; /* Light blue background */
+    background-color: #e3f2fd;
     padding: 15px;
     border-radius: 8px;
     margin-bottom: 20px;
@@ -15,43 +15,43 @@
 }
 
 .category-section {
-    margin-bottom: 20px; /* Space between categories */
+    margin-bottom: 20px;
 }
 
 label {
     display: block;
-    margin-bottom: 8px; /* Space below labels */
+    margin-bottom: 8px;
 }
 
 select,
 input[type="file"] {
     width: 100%;
     padding: 10px;
-    margin-top: 10px; /* Space above inputs */
-    border: 1px solid #ced4da; /* Light border */
+    margin-top: 10px;
+    border: 1px solid #ced4da;
     border-radius: 5px;
-    background-color: #f1f3f5; /* Light input background */
+    background-color: #f1f3f5;
 }
 
 .upload-button {
-    background-color: #007bff; /* Primary color */
+    background-color: #007bff;
     color: #fff;
     cursor: pointer;
     font-weight: bold;
-    padding: 12px; /* Consistent padding */
-    font-size: 16px; /* Consistent font size */
-    border: none; /* Remove border */
-    margin-top: 20px; /* Space above button */
-    transition: background-color 0.3s; /* Smooth transition */
+    padding: 12px;
+    font-size: 16px;
+    border: none;
+    margin-top: 20px;
+    transition: background-color 0.3s;
 }
 
 .upload-button:hover {
-    background-color: #0056b3; /* Darker shade on hover */
+    background-color: #0056b3;
 }
 
 .category-image {
     text-align: center;
-    margin: 20px 0; /* Gap around image */
+    margin: 20px 0;
 }
 
 .category-image img {
@@ -60,7 +60,7 @@ input[type="file"] {
 }
 
 .upload-guidelines {
-    background-color: #e8f5e9; /* Light green background */
+    background-color: #e8f5e9;
     padding: 15px;
     border-radius: 8px;
     margin-top: 20px;
@@ -68,7 +68,7 @@ input[type="file"] {
 
 .upload-guidelines h5 {
     margin-bottom: 10px;
-    color: #388e3c; /* Dark green color for headings */
+    color: #388e3c;
 }
 
 .upload-guidelines ul {
@@ -85,7 +85,7 @@ input[type="file"] {
 }
 
 .modal-button {
-    background-color: #007bff; /* Primary color */
+    background-color: #007bff;
     color: white;
     padding: 10px;
     border: none;
@@ -96,12 +96,107 @@ input[type="file"] {
 }
 
 .modal-button:hover {
-    background-color: #0056b3; /* Darker shade on hover */
+    background-color: #0056b3;
 }
-.upload-button{
-    margin-top: 90px;
-}
-.add-product-details-button{
-    margin-bottom: 400px;
 
+/* Product Upload Form */
+.product-upload-form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.input-field {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    background-color: #f1f3f5;
+}
+
+.add-image-button,
+.submit-button {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.clear-selection-button {
+    display: inline-block;
+    background-color: #f44336;
+    color: #fff;
+    padding: 8px 12px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.clear-selection-button:hover {
+    background-color: #d32f2f;
+}
+
+/* Cascading Category Menu Styles */
+.categories-container {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    overflow: visible; /* Allow subcategories to expand outside */
+}
+
+.checkbox-container {
+    position: relative;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.checkbox-container:hover {
+    background-color: #e3f2fd;
+}
+
+.subcategory-container {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    margin-left: 5px;
+    padding: 10px;
+    background-color: #ffffff;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    white-space: nowrap; /* Prevent text from wrapping */
+}
+
+.subcategory-container .checkbox-container {
+    margin: 5px 0;
+}
+
+.categories-container,
+.subcategory-container {
+    max-height: none; /* Remove height limits */
+    overflow: visible;
+}
+
+/* Expand container for unlimited height */
+.categories-container {
+    max-height: none;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .subcategory-container {
+        position: relative;
+        left: 0;
+        top: 0;
+        margin-top: 10px;
+        box-shadow: none;
+        padding-left: 20px;
+    }
 }
