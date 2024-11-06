@@ -1,10 +1,9 @@
-
 import React, { useState } from 'react';
 import { Modal, Button, Form, Row, Col } from 'react-bootstrap';
 import './CreateShippingModal.css';
 
 const CreateShippingModal = ({ show, handleClose, handleCreateShipping }) => {
-    // State to manage the form fields
+    // State to manage the form fields 
     const [shippingData, setShippingData] = useState({
         productId: '',
         productName: '',

@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import './RevenueGenerate.css'; // Make sure this path is correct
 import { Bar } from 'react-chartjs-2';
@@ -22,7 +21,10 @@ const RevenueGenerate = () => {
         { id: 3, month: 'March', revenue: 1800 },
         { id: 4, month: 'April', revenue: 1200 },
         { id: 5, month: 'May', revenue: 2000 },
-        { id: 6, month: 'June', revenue: 2500 }
+        { id: 6, month: 'June', revenue: 2500 },
+        { id: 7, month: 'July', revenue: 2500 },
+        { id: 8, month: 'August', revenue: 2500 },
+        { id: 9, month: 'Sept', revenue: 2500 },
     ]);
     const [newRevenue, setNewRevenue] = useState('');
 
