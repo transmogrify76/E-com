@@ -1,5 +1,6 @@
 .add-product {
     padding: 20px;
+<<<<<<< HEAD
     background-color: #f9f9f9;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -7,9 +8,20 @@
 
 .add-product h1 {
     color: #333;
+=======
+    border-radius: 10px;
+    background-color: #f8f9fa;
+}
+
+.info-section {
+    background-color: #e3f2fd;
+    padding: 15px;
+    border-radius: 8px;
+>>>>>>> cadeb0f749cf4a875f907c8382e7d83a41de9c64
     margin-bottom: 20px;
 }
 
+<<<<<<< HEAD
 .add-product form {
     display: flex;
     flex-direction: column;
@@ -30,6 +42,82 @@
     margin-top: 15px;
     background-color: #007bff;
     color: #fff;
+=======
+.category-section {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+select,
+input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    background-color: #f1f3f5;
+}
+
+.upload-button {
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+    font-weight: bold;
+    padding: 12px;
+    font-size: 16px;
+    border: none;
+    margin-top: 20px;
+    transition: background-color 0.3s;
+}
+
+.upload-button:hover {
+    background-color: #0056b3;
+}
+
+.category-image {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.category-image img {
+    max-width: 100%;
+    border-radius: 8px;
+}
+
+.upload-guidelines {
+    background-color: #e8f5e9;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.upload-guidelines h5 {
+    margin-bottom: 10px;
+    color: #388e3c;
+}
+
+.upload-guidelines ul {
+    padding-left: 20px;
+}
+
+/* Modal Styles */
+.modal {
+    padding: 20px;
+    border-radius: 8px;
+    background: white;
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.modal-button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+>>>>>>> cadeb0f749cf4a875f907c8382e7d83a41de9c64
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -37,6 +125,7 @@
     transition: background-color 0.3s;
 }
 
+<<<<<<< HEAD
 .add-product button:hover {
     background-color: #0056b3;
 }
@@ -45,4 +134,110 @@
     color: red;
     font-size: 14px;
     margin-top: 5px;
+=======
+.modal-button:hover {
+    background-color: #0056b3;
+}
+
+/* Product Upload Form */
+.product-upload-form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.input-field {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    background-color: #f1f3f5;
+}
+
+.add-image-button,
+.submit-button {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.clear-selection-button {
+    display: inline-block;
+    background-color: #f44336;
+    color: #fff;
+    padding: 8px 12px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.clear-selection-button:hover {
+    background-color: #d32f2f;
+}
+
+/* Cascading Category Menu Styles */
+.categories-container {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    overflow: visible; /* Allow subcategories to expand outside */
+}
+
+.checkbox-container {
+    position: relative;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.checkbox-container:hover {
+    background-color: #e3f2fd;
+}
+
+.subcategory-container {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    margin-left: 5px;
+    padding: 10px;
+    background-color: #ffffff;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    white-space: nowrap; /* Prevent text from wrapping */
+}
+
+.subcategory-container .checkbox-container {
+    margin: 5px 0;
+}
+
+.categories-container,
+.subcategory-container {
+    max-height: none; /* Remove height limits */
+    overflow: visible;
+}
+
+/* Expand container for unlimited height */
+.categories-container {
+    max-height: none;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .subcategory-container {
+        position: relative;
+        left: 0;
+        top: 0;
+        margin-top: 10px;
+        box-shadow: none;
+        padding-left: 20px;
+    }
+>>>>>>> cadeb0f749cf4a875f907c8382e7d83a41de9c64
 }

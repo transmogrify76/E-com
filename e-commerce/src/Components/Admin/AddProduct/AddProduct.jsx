@@ -1,33 +1,32 @@
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './AddProduct.css'; // Optional: Add your CSS for styling
+import './AddProduct.css';
 
 const AddProduct = () => {
     const [productName, setProductName] = useState('');
     const [price, setPrice] = useState(0);
     const [quantity, setQuantity] = useState(0);
     const [categories, setCategories] = useState([]);
-    const [selectedCategoryIds, setSelectedCategoryIds] = useState([]);
+    const [selectedCategoryNames, setSelectedCategoryNames] = useState([]);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
-    const [productImages, setProductImages] = useState([[]]); // Array of arrays for multiple image inputs
-    const [additionalImageInputs, setAdditionalImageInputs] = useState([]);              
+    const [productImages, setProductImages] = useState([[]]);
+    const [additionalImageInputs, setAdditionalImageInputs] = useState([]);
     const [productDetails, setProductDetails] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [showCategories, setShowCategories] = useState(false);
-    const [expandedCategoryIds, setExpandedCategoryIds] = useState(new Set());
-    
+    const [expandedCategories, setExpandedCategories] = useState({});
+
     const accessToken = localStorage.getItem('accessToken');
-    const adminId = localStorage.getItem('userId'); // Fetch admin user ID
+    const adminId = localStorage.getItem('userId');
 
     useEffect(() => {
-        fetchCategories();
+        fetchTopLevelCategories();
     }, []);
 
-    const fetchCategories = async () => {
+    const fetchTopLevelCategories = async () => {
         try {
-            const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/categories`);
+            const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/categories/top-level`);
             setCategories(response.data);
         } catch (error) {
             console.error('Error fetching categories:', error);
@@ -35,33 +34,55 @@ const AddProduct = () => {
         }
     };
 
-    const handleCategoryChange = (categoryId) => {
-        setSelectedCategoryIds((prev) => 
-            prev.includes(categoryId) ? prev.filter(id => id !== categoryId) : [...prev, categoryId]
+    const fetchChildCategoriesByName = async (categoryName) => {
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/categories/subcategories/name/${categoryName}`);
+            return response.data;
+        } catch (error) {
+            console.error(`Error fetching subcategories for category "${categoryName}":`, error);
+            return [];
+        }
+    };
+
+    const handleCategoryChange = (categoryName) => {
+        setSelectedCategoryNames((prev) =>
+            prev.includes(categoryName)
+                ? prev.filter((name) => name !== categoryName) // Unselect category
+                : [...prev, categoryName] // Select category
         );
     };
 
-    const handleToggleCategory = (categoryId) => {
-        setExpandedCategoryIds((prev) => {
-            const newSet = new Set(prev);
-            newSet.has(categoryId) ? newSet.delete(categoryId) : newSet.add(categoryId);
-            return newSet;
-        });
+    const handleToggleCategory = async (categoryName) => {
+        // Fetch and expand child categories only if they haven't been fetched before
+        if (!expandedCategories[categoryName]) {
+            const childCategories = await fetchChildCategoriesByName(categoryName);
+            setExpandedCategories((prev) => ({
+                ...prev,
+                [categoryName]: childCategories, // Store child categories by parent name
+            }));
+        } else {
+            // Toggle expansion without fetching if already expanded
+            setExpandedCategories((prev) => {
+                const updated = { ...prev };
+                delete updated[categoryName];
+                return updated;
+            });
+        }
     };
 
     const handleImageChange = (e, index) => {
         const files = Array.from(e.target.files);
-        const validFiles = files.filter(file => file.size <= 10 * 1024 * 1024); // Max 10 MB
-        setProductImages(prev => {
+        const validFiles = files.filter((file) => file.size <= 10 * 1024 * 1024);
+        setProductImages((prev) => {
             const newImages = [...prev];
-            newImages[index] = validFiles; // Set images for that specific index
+            newImages[index] = validFiles;
             return newImages;
         });
     };
 
     const handleAddImageInput = () => {
-        setAdditionalImageInputs(prev => [...prev, {}]); // Add an empty object to represent a new image input
-        setProductImages(prev => [...prev, []]); // Also add an empty array for the new image
+        setAdditionalImageInputs((prev) => [...prev, {}]);
+        setProductImages((prev) => [...prev, []]);
     };
 
     const handleDetailChange = (index, key, value) => {
@@ -81,13 +102,13 @@ const AddProduct = () => {
     };
 
     const handleClearCategorySelection = () => {
-        setSelectedCategoryIds([]);
+        setSelectedCategoryNames([]);
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
-        if (!productName || price <= 0 || selectedCategoryIds.length === 0 || productImages.flat().length === 0 || quantity <= 0) {
+
+        if (!productName || price <= 0 || selectedCategoryNames.length === 0 || productImages.flat().length === 0 || quantity <= 0) {
             setError('All fields are required. Please check your inputs.');
             return;
         }
@@ -103,16 +124,11 @@ const AddProduct = () => {
         formData.append('sellerId', adminId);
         formData.append('quantity', quantity);
 
-        // Append all images from productImages array
-        productImages.flat().forEach(image => {
+        productImages.flat().forEach((image) => {
             formData.append('images', image);
         });
 
-        const categoryNames = selectedCategoryIds.map(id => 
-            categories.find(cat => cat.id === id)?.name
-        ).filter(Boolean);
-        
-        formData.append('categories', JSON.stringify(categoryNames));
+        formData.append('categories', JSON.stringify(selectedCategoryNames));
         formData.append('productDetails', JSON.stringify(productDetails));
 
         try {
@@ -137,38 +153,35 @@ const AddProduct = () => {
         setProductName('');
         setPrice(0);
         setProductImages([[]]);
-        setSelectedCategoryIds([]);
+        setSelectedCategoryNames([]);
         setProductDetails([]);
         setQuantity(0);
         setError('');
         setSearchTerm('');
-        setExpandedCategoryIds(new Set());
+        setExpandedCategories({});
         setShowCategories(false);
-        setAdditionalImageInputs([]); // Reset additional image inputs
+        setAdditionalImageInputs([]);
     };
 
-    const filteredCategories = searchTerm
-        ? categories.filter(category =>
-            category.name.toLowerCase().startsWith(searchTerm.toLowerCase()) ||
-            (category.children && category.children.some(sub => sub.name.toLowerCase().startsWith(searchTerm.toLowerCase())))
-        )
-        : categories;
-
     const renderCategories = (categoryList) => {
-        return categoryList.map(category => (
-            <div key={category.id} className="checkbox-container">
-                <input 
-                    type="checkbox" 
-                    id={`category-${category.id}`} 
-                    checked={selectedCategoryIds.includes(category.id)} 
-                    onChange={() => handleCategoryChange(category.id)} 
+        return categoryList.map((categoryName) => (
+            <div key={categoryName} className="checkbox-container">
+                <input
+                    type="checkbox"
+                    id={`category-${categoryName}`}
+                    checked={selectedCategoryNames.includes(categoryName)}
+                    onChange={() => handleCategoryChange(categoryName)}
                 />
-                <label htmlFor={`category-${category.id}`} className="checkbox-label" onClick={() => handleToggleCategory(category.id)}>
-                    {category.name}
+                <label
+                    htmlFor={`category-${categoryName}`}
+                    className="checkbox-label"
+                    onMouseEnter={() => handleToggleCategory(categoryName)}
+                >
+                    {categoryName}
                 </label>
-                {category.children && category.children.length > 0 && expandedCategoryIds.has(category.id) && (
+                {expandedCategories[categoryName] && (
                     <div className="subcategory-container">
-                        {renderCategories(category.children)}
+                        {renderCategories(expandedCategories[categoryName])}
                     </div>
                 )}
             </div>
@@ -179,82 +192,82 @@ const AddProduct = () => {
         <form onSubmit={handleSubmit} className="product-upload-form">
             <h2>Upload Product</h2>
             {error && <p className="error">{error}</p>}
-            <input 
+            <input
                 className="input-field"
-                type="text" 
-                placeholder="Product Name" 
-                value={productName} 
-                onChange={(e) => setProductName(e.target.value)} 
-                required 
+                type="text"
+                placeholder="Product Name"
+                value={productName}
+                onChange={(e) => setProductName(e.target.value)}
+                required
             />
-            <input 
+            <input
                 className="input-field"
-                type="number" 
-                placeholder="Price" 
-                value={price > 0 ? price : ''} 
-                onChange={(e) => setPrice(e.target.value ? parseFloat(e.target.value) : 0)} 
-                required 
+                type="number"
+                placeholder="Price"
+                value={price > 0 ? price : ''}
+                onChange={(e) => setPrice(e.target.value ? parseFloat(e.target.value) : 0)}
+                required
             />
-            <input 
+            <input
                 className="input-field"
-                type="number" 
-                placeholder="Quantity" 
-                value={quantity > 0 ? quantity : ''} 
-                onChange={(e) => setQuantity(e.target.value ? parseInt(e.target.value, 10) : 0)} 
-                required 
-            />
-            
-            {/* Initial Image Upload */}
-            <input 
-                className="input-field"
-                type="file" 
-                accept="image/*" 
-                onChange={(e) => handleImageChange(e, 0)} 
-                multiple 
-                required 
+                type="number"
+                placeholder="Quantity"
+                value={quantity > 0 ? quantity : ''}
+                onChange={(e) => setQuantity(e.target.value ? parseInt(e.target.value, 10) : 0)}
+                required
             />
 
-            {/* Additional Image Inputs */}
+            <input
+                className="input-field"
+                type="file"
+                accept="image/*"
+                onChange={(e) => handleImageChange(e, 0)}
+                multiple
+                required
+            />
+
             {additionalImageInputs.map((_, index) => (
                 <div key={index} className="additional-image-input">
-                    <input 
+                    <input
                         className="input-field"
-                        type="file" 
-                        accept="image/*" 
-                        onChange={(e) => handleImageChange(e, index + 1)} 
-                        multiple 
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => handleImageChange(e, index + 1)}
+                        multiple
                     />
                 </div>
             ))}
 
-            <button 
-                type="button" 
-                className="add-image-button" 
+            <button
+                type="button"
+                className="add-image-button"
                 onClick={handleAddImageInput}
             >
                 + Add More Images
             </button>
 
             <h3>Search Categories</h3>
-            <input 
-                type="text" 
-                placeholder="Search categories..." 
-                value={searchTerm} 
-                onChange={(e) => setSearchTerm(e.target.value)} 
+            <input
+                type="text"
+                placeholder="Search categories..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
             />
 
-            <button 
-                type="button" 
-                className="toggle-button" 
-                onClick={() => setShowCategories(prev => !prev)}
+            <button
+                type="button"
+                className="toggle-button"
+                onClick={() => setShowCategories((prev) => !prev)}
             >
                 {showCategories ? 'Hide Categories' : 'Show Categories'}
             </button>
             {showCategories && (
                 <div className="categories-container">
                     <h3>Categories</h3>
-                    <button type="button" onClick={handleClearCategorySelection}>Clear All Selections</button>
-                    {renderCategories(filteredCategories)}
+                    <button type="button" onClick={handleClearCategorySelection} className="clear-selection-button">
+                        Clear All Selections
+                    </button>
+                    {renderCategories(categories)}
                 </div>
             )}
 
@@ -262,29 +275,23 @@ const AddProduct = () => {
             <div>
                 {productDetails.map((detail, index) => (
                     <div key={index} className="product-detail">
-                        <input 
-                            type="text" 
-                            placeholder="Detail Key" 
-                            value={detail.key} 
-                            onChange={(e) => handleDetailChange(index, 'key', e.target.value)} 
+                        <input
+                            type="text"
+                            placeholder="Detail Key"
+                            value={detail.key}
+                            onChange={(e) => handleDetailChange(index, 'key', e.target.value)}
                         />
-                        <input 
-                            type="text" 
-                            placeholder="Detail Value" 
-                            value={detail.value} 
-                            onChange={(e) => handleDetailChange(index, 'value', e.target.value)} 
+                        <input
+                            type="text"
+                            placeholder="Detail Value"
+                            value={detail.value}
+                            onChange={(e) => handleDetailChange(index, 'value', e.target.value)}
                         />
                         <button type="button" onClick={() => handleRemoveDetailField(index)}>Remove</button>
                     </div>
                 ))}
                 <button type="button" onClick={handleAddDetailField}>Add Product Detail</button>
             </div>
-            <h3>Image Guidelines</h3>
-            <p>
-                View Full Image Guidelines:<br />
-                Images with text/Watermark are not acceptable in primary images.<br />
-                Product image should not have any text.<br />
-            </p>
 
             <button type="submit" className="submit-button" disabled={loading}>
                 {loading ? 'Uploading...' : 'Upload Product'}
