@@ -5,40 +5,33 @@ import './ProductManagement.css';
 const ProductManagement = () => {
     const [productName, setProductName] = useState('');
     const [price, setPrice] = useState(0);
-    const [productImages, setProductImages] = useState([]);
-    const [additionalImageInputs, setAdditionalImageInputs] = useState([]);
+    const [quantity, setQuantity] = useState(0);
     const [categories, setCategories] = useState([]);
-    const [selectedMainCategoryId, setSelectedMainCategoryId] = useState('');
-    const [selectedChildCategoryId, setSelectedChildCategoryId] = useState('');
-    const [searchTerm, setSearchTerm] = useState('');
-    const [productDetails, setProductDetails] = useState([]);
+    const [selectedCategoryNames, setSelectedCategoryNames] = useState([]);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
-    const [sellerId, setSellerId] = useState(null);
-    const [quantity, setQuantity] = useState(0);
-    const [generalInstructions] = useState('Please ensure that the product images are clear and of high quality. Specify any relevant details such as color, size, or other specifications.');
+    const [productImages, setProductImages] = useState([[]]);
+    const [additionalImageInputs, setAdditionalImageInputs] = useState([]);
+    const [productDetails, setProductDetails] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
     const [showCategories, setShowCategories] = useState(false);
+    const [expandedCategories, setExpandedCategories] = useState({});
+    const [hoveredCategory, setHoveredCategory] = useState(null);
+    const [sellerId, setSellerId] = useState(null);
 
     const accessToken = localStorage.getItem('accessToken');
+    const adminId = localStorage.getItem('userId');
 
     useEffect(() => {
-        fetchCategories();
         fetchSellerData();
+        fetchTopLevelCategories();
     }, []);
 
-    const fetchCategories = async () => {
-        try {
-            const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/categories`);
-            setCategories(response.data);
-        } catch (error) {
-            console.error('Error fetching categories:', error);
-            setError('Failed to fetch categories. Please try again later.');
-        }
-    };
-
+    // Fetch seller data from API
     const fetchSellerData = async () => {
         const storedSellerId = localStorage.getItem('sellerId');
         if (!storedSellerId) {
+            // If no seller ID found, redirect to login
             window.location.href = '/login';
             return;
         }
@@ -54,19 +47,57 @@ const ProductManagement = () => {
         }
     };
 
-    const handleMainCategoryChange = (e) => {
-        setSelectedMainCategoryId(e.target.value);
-        setSelectedChildCategoryId(''); // Reset child selection when main category changes
+    // Fetch top-level categories when the component mounts
+    const fetchTopLevelCategories = async () => {
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/categories/top-level`);
+            setCategories(response.data);
+        } catch (error) {
+            console.error('Error fetching categories:', error);
+            setError('Failed to fetch categories. Please try again later.');
+        }
     };
 
-    const handleChildCategoryChange = (e) => {
-        setSelectedChildCategoryId(e.target.value);
+    const fetchChildCategoriesByName = async (categoryName) => {
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/categories/subcategories/name/${categoryName}`);
+            return response.data;
+        } catch (error) {
+            console.error(`Error fetching subcategories for category "${categoryName}":`, error);
+            return [];
+        }
+    };
+
+    const handleCategoryChange = (categoryName) => {
+        setSelectedCategoryNames((prev) =>
+            prev.includes(categoryName)
+                ? prev.filter((name) => name !== categoryName) // Unselect category
+                : [...prev, categoryName] // Select category
+        );
+    };
+
+    const handleToggleCategory = async (categoryName) => {
+        // If not expanded, fetch and set child categories, else toggle visibility
+        if (!expandedCategories[categoryName]) {
+            const childCategories = await fetchChildCategoriesByName(categoryName);
+            setExpandedCategories((prev) => ({
+                ...prev,
+                [categoryName]: childCategories, // Store child categories by parent name
+            }));
+        } else {
+            // Toggle expansion without fetching if already expanded
+            setExpandedCategories((prev) => {
+                const updated = { ...prev };
+                delete updated[categoryName];
+                return updated;
+            });
+        }
     };
 
     const handleImageChange = (e, index) => {
         const files = Array.from(e.target.files);
-        const validFiles = files.filter(file => file.size <= 10 * 1024 * 1024); // Max 10 MB
-        setProductImages(prev => {
+        const validFiles = files.filter((file) => file.size <= 10 * 1024 * 1024);
+        setProductImages((prev) => {
             const newImages = [...prev];
             newImages[index] = validFiles;
             return newImages;
@@ -74,8 +105,8 @@ const ProductManagement = () => {
     };
 
     const handleAddImageInput = () => {
-        setAdditionalImageInputs(prev => [...prev, {}]);
-        setProductImages(prev => [...prev, []]);
+        setAdditionalImageInputs((prev) => [...prev, {}]);
+        setProductImages((prev) => [...prev, []]);
     };
 
     const handleDetailChange = (index, key, value) => {
@@ -94,34 +125,33 @@ const ProductManagement = () => {
         setProductDetails((prev) => prev.filter((_, i) => i !== index));
     };
 
+    const handleClearCategorySelection = () => {
+        setSelectedCategoryNames([]);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!productName || price <= 0 || selectedMainCategoryId === '' || selectedChildCategoryId === '' || productImages.flat().length === 0 || quantity <= 0) {
-            setError('All fields are required. Please select a main category and a child category.');
+        if (!productName || price <= 0 || selectedCategoryNames.length === 0 || productImages.flat().length === 0 || quantity <= 0) {
+            setError('All fields are required. Please check your inputs.');
             return;
         }
 
-        if (!sellerId) {
-            setError('Invalid seller ID. Please log in again.');
+        if (!adminId) {
+            setError('No admin ID found. Please log in as an admin.');
             return;
         }
 
         const formData = new FormData();
         formData.append('name', productName);
         formData.append('price', price);
-        formData.append('sellerId', sellerId);
+        formData.append('sellerId', adminId);
         formData.append('quantity', quantity);
 
-        productImages.flat().forEach(image => {
+        productImages.flat().forEach((image) => {
             formData.append('images', image);
         });
 
-        const selectedCategoryNames = [
-            categories.find(cat => cat.id === parseInt(selectedMainCategoryId))?.name,
-            categories.find(cat => cat.id === parseInt(selectedChildCategoryId))?.name
-        ].filter(Boolean);
-        
         formData.append('categories', JSON.stringify(selectedCategoryNames));
         formData.append('productDetails', JSON.stringify(productDetails));
 
@@ -146,153 +176,159 @@ const ProductManagement = () => {
     const resetForm = () => {
         setProductName('');
         setPrice(0);
-        setProductImages([]);
-        setSelectedMainCategoryId('');
-        setSelectedChildCategoryId('');
+        setProductImages([[]]);
+        setSelectedCategoryNames([]);
         setProductDetails([]);
         setQuantity(0);
         setError('');
         setSearchTerm('');
+        setExpandedCategories({});
+        setShowCategories(false);
         setAdditionalImageInputs([]);
     };
 
-    const filteredCategories = searchTerm
-        ? categories.filter(category =>
-            category.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            (category.childCategories && category.childCategories.some(sub => sub.name.toLowerCase().includes(searchTerm.toLowerCase())))
-        )
-        : categories;
+    const renderCategories = (categoryList) => {
+        return categoryList.map((categoryName) => (
+            <div key={categoryName} className="checkbox-container">
+                <input
+                    type="checkbox"
+                    id={`category-${categoryName}`}
+                    checked={selectedCategoryNames.includes(categoryName)}
+                    onChange={() => handleCategoryChange(categoryName)}
+                />
+                <label
+                    htmlFor={`category-${categoryName}`}
+                    className="checkbox-label"
+                    onMouseEnter={() => setHoveredCategory(categoryName)} // Show subcategories on hover
+                    onMouseLeave={() => setHoveredCategory(null)} // Hide subcategories when mouse leaves
+                    onClick={() => handleToggleCategory(categoryName)} // Toggle subcategories on click
+                >
+                    {categoryName}
+                </label>
+                {expandedCategories[categoryName] && (
+                    <div
+                        className="subcategory-container"
+                        style={{
+                            display: expandedCategories[categoryName] ? 'block' : 'none', // Show only if expanded
+                        }}
+                    >
+                        {renderCategories(expandedCategories[categoryName])}
+                    </div>
+                )}
+                {/* Only show subcategories when hovered or clicked */}
+                {(hoveredCategory === categoryName || expandedCategories[categoryName]) && (
+                    <div className="subcategory-container">
+                        {expandedCategories[categoryName] && renderCategories(expandedCategories[categoryName])}
+                    </div>
+                )}
+            </div>
+        ));
+    };
 
     return (
         <form onSubmit={handleSubmit} className="product-upload-form">
             <h2>Upload Product</h2>
             {error && <p className="error">{error}</p>}
-            <input 
+            <input
                 className="input-field"
-                type="text" 
-                placeholder="Product Name" 
-                value={productName} 
-                onChange={(e) => setProductName(e.target.value)} 
-                required 
+                type="text"
+                placeholder="Product Name"
+                value={productName}
+                onChange={(e) => setProductName(e.target.value)}
+                required
             />
-            <input 
+            <input
                 className="input-field"
-                type="number" 
-                placeholder="Price" 
-                value={price > 0 ? price : ''} 
-                onChange={(e) => setPrice(e.target.value ? parseFloat(e.target.value) : 0)} 
-                required 
+                type="number"
+                placeholder="Price"
+                value={price > 0 ? price : ''}
+                onChange={(e) => setPrice(e.target.value ? parseFloat(e.target.value) : 0)}
+                required
             />
-            <input 
+            <input
                 className="input-field"
-                type="number" 
-                placeholder="Quantity" 
-                value={quantity > 0 ? quantity : ''} 
-                onChange={(e) => setQuantity(e.target.value ? parseInt(e.target.value) : 0)} 
-                required 
-            />
-            
-            {/* Initial Image Upload */}
-            <input 
-                className="input-field"
-                type="file" 
-                accept="image/*" 
-                onChange={(e) => handleImageChange(e, 0)} 
-                multiple 
-                required 
+                type="number"
+                placeholder="Quantity"
+                value={quantity > 0 ? quantity : ''}
+                onChange={(e) => setQuantity(e.target.value ? parseInt(e.target.value, 10) : 0)}
+                required
             />
 
-            {/* Additional Image Inputs */}
+            <input
+                className="input-field"
+                type="file"
+                accept="image/*"
+                onChange={(e) => handleImageChange(e, 0)}
+                multiple
+                required
+            />
+
             {additionalImageInputs.map((_, index) => (
                 <div key={index} className="additional-image-input">
-                    <input 
+                    <input
                         className="input-field"
-                        type="file" 
-                        accept="image/*" 
-                        onChange={(e) => handleImageChange(e, index + 1)} 
-                        multiple 
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => handleImageChange(e, index + 1)}
+                        multiple
                     />
                 </div>
             ))}
 
-            <button 
-                type="button" 
-                className="add-image-button" 
+            <button
+                type="button"
+                className="add-image-button"
                 onClick={handleAddImageInput}
             >
                 + Add More Images
             </button>
 
             <h3>Search Categories</h3>
-            <input 
-                type="text" 
-                placeholder="Search categories..." 
-                value={searchTerm} 
-                onChange={(e) => setSearchTerm(e.target.value)} 
+            <input
+                type="text"
+                placeholder="Search categories..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
             />
 
-            <button 
-                type="button" 
-                className="toggle-button" 
-                onClick={() => setShowCategories(prev => !prev)}
+            <button
+                type="button"
+                className="toggle-button"
+                onClick={() => setShowCategories((prev) => !prev)}
             >
                 {showCategories ? 'Hide Categories' : 'Show Categories'}
             </button>
             {showCategories && (
                 <div className="categories-container">
-                    <h3>Main Category</h3>
-                    <select onChange={handleMainCategoryChange} value={selectedMainCategoryId}>
-                        <option value="">Select Main Category</option>
-                        {filteredCategories.map(category => (
-                            <option key={category.id} value={category.id}>{category.name}</option>
-                        ))}
-                    </select>
-
-                    {selectedMainCategoryId && (
-                        <div>
-                            <h3>Subcategory</h3>
-                            <select onChange={handleChildCategoryChange} value={selectedChildCategoryId}>
-                                <option value="">Select Subcategory</option>
-                                {categories.find(cat => cat.id === parseInt(selectedMainCategoryId))?.childCategories.map(child => (
-                                    <option key={child.id} value={child.id}>{child.name}</option>
-                                ))}
-                            </select>
-                        </div>
-                    )}
+                    <h3>Categories</h3>
+                    <button type="button" onClick={handleClearCategorySelection} className="clear-selection-button">
+                        Clear All Selections
+                    </button>
+                    {renderCategories(categories)}
                 </div>
             )}
-
-            <h3>General Instructions</h3>
-            <p>{generalInstructions}</p>
 
             <h3>Product Details</h3>
             <div>
                 {productDetails.map((detail, index) => (
                     <div key={index} className="product-detail">
-                        <input 
-                            type="text" 
-                            placeholder="Detail Key" 
-                            value={detail.key} 
-                            onChange={(e) => handleDetailChange(index, 'key', e.target.value)} 
+                        <input
+                            type="text"
+                            placeholder="Detail Key"
+                            value={detail.key}
+                            onChange={(e) => handleDetailChange(index, 'key', e.target.value)}
                         />
-                        <input 
-                            type="text" 
-                            placeholder="Detail Value" 
-                            value={detail.value} 
-                            onChange={(e) => handleDetailChange(index, 'value', e.target.value)} 
+                        <input
+                            type="text"
+                            placeholder="Detail Value"
+                            value={detail.value}
+                            onChange={(e) => handleDetailChange(index, 'value', e.target.value)}
                         />
                         <button type="button" onClick={() => handleRemoveDetailField(index)}>Remove</button>
                     </div>
                 ))}
                 <button type="button" onClick={handleAddDetailField}>Add Product Detail</button>
             </div>
-
-            <h3>Image Guidelines</h3>
-            <p>
-                View Full Image Guidelines:<br />
-                Images with text/Watermark are not acceptable in primary images.<br />
-                Product image should not have any text.<br />
-            </p>
 
             <button type="submit" className="submit-button" disabled={loading}>
                 {loading ? 'Uploading...' : 'Upload Product'}
@@ -302,4 +338,3 @@ const ProductManagement = () => {
 };
 
 export default ProductManagement;
-

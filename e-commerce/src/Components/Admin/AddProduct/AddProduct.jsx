@@ -16,6 +16,7 @@ const AddProduct = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [showCategories, setShowCategories] = useState(false);
     const [expandedCategories, setExpandedCategories] = useState({});
+    const [hoveredCategory, setHoveredCategory] = useState(null); // Track the hovered category
 
     const accessToken = localStorage.getItem('accessToken');
     const adminId = localStorage.getItem('userId');
@@ -175,13 +176,26 @@ const AddProduct = () => {
                 <label
                     htmlFor={`category-${categoryName}`}
                     className="checkbox-label"
-                    onMouseEnter={() => handleToggleCategory(categoryName)}
+                    onMouseEnter={() => setHoveredCategory(categoryName)} // Show subcategories on hover
+                    onMouseLeave={() => setHoveredCategory(null)} // Hide subcategories when mouse leaves
+                    onClick={() => handleToggleCategory(categoryName)} // Toggle subcategories on click
                 >
                     {categoryName}
                 </label>
                 {expandedCategories[categoryName] && (
-                    <div className="subcategory-container">
+                    <div
+                        className="subcategory-container"
+                        style={{
+                            display: expandedCategories[categoryName] ? 'block' : 'none', // Show only if expanded
+                        }}
+                    >
                         {renderCategories(expandedCategories[categoryName])}
+                    </div>
+                )}
+                {/* Show subcategories if hovered or clicked */}
+                {(hoveredCategory === categoryName || expandedCategories[categoryName]) && (
+                    <div className="subcategory-container">
+                        {expandedCategories[categoryName] && renderCategories(expandedCategories[categoryName])}
                     </div>
                 )}
             </div>
@@ -301,3 +315,5 @@ const AddProduct = () => {
 };
 
 export default AddProduct;
+
+
