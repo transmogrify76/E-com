@@ -1,14 +1,5 @@
 .add-product {
     padding: 20px;
-<<<<<<< HEAD
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.add-product h1 {
-    color: #333;
-=======
     border-radius: 10px;
     background-color: #f8f9fa;
 }
@@ -17,32 +8,9 @@
     background-color: #e3f2fd;
     padding: 15px;
     border-radius: 8px;
->>>>>>> cadeb0f749cf4a875f907c8382e7d83a41de9c64
     margin-bottom: 20px;
 }
 
-<<<<<<< HEAD
-.add-product form {
-    display: flex;
-    flex-direction: column;
-}
-
-.add-product input,
-.add-product textarea,
-.add-product select {
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-}
-
-.add-product button {
-    padding: 10px;
-    margin-top: 15px;
-    background-color: #007bff;
-    color: #fff;
-=======
 .category-section {
     margin-bottom: 20px;
 }
@@ -117,7 +85,6 @@ input[type="file"] {
     background-color: #007bff;
     color: white;
     padding: 10px;
->>>>>>> cadeb0f749cf4a875f907c8382e7d83a41de9c64
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -125,16 +92,6 @@ input[type="file"] {
     transition: background-color 0.3s;
 }
 
-<<<<<<< HEAD
-.add-product button:hover {
-    background-color: #0056b3;
-}
-
-.error-message {
-    color: red;
-    font-size: 14px;
-    margin-top: 5px;
-=======
 .modal-button:hover {
     background-color: #0056b3;
 }
@@ -239,5 +196,4 @@ input[type="file"] {
         box-shadow: none;
         padding-left: 20px;
     }
->>>>>>> cadeb0f749cf4a875f907c8382e7d83a41de9c64
 }
