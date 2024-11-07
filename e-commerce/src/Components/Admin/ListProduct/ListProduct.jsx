@@ -11,8 +11,8 @@ const ListProduct = () => {
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
     const [searchId, setSearchId] = useState('');
-    const [filteredProducts, setFilteredProducts] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState('');
+    const [filteredProducts, setFilteredProducts] = useState([]);
     const [editingProduct, setEditingProduct] = useState(null);
     const [formData, setFormData] = useState({
         name: '',
@@ -21,18 +21,30 @@ const ListProduct = () => {
         quantity: '',
         discountPrice: '',
         categories: [],
-        images: [],
+        images: []
     });
     const [bulkUploads, setBulkUploads] = useState(0);
     const [singleUploads, setSingleUploads] = useState(0);
+    const [sellerId, setSellerId] = useState(null);
 
-    const accessToken = localStorage.getItem('accessToken');
-    const adminId = localStorage.getItem('userId');
+    const fetchSellerData = async () => {
+        const storedSellerId = localStorage.getItem('sellerId');
+        if (!storedSellerId || isNaN(storedSellerId)) {
+            window.location.href = '/login';
+            return;
+        }
 
-    useEffect(() => {
-        fetchCategories();
-        fetchProductsByAdmin();
-    }, []);
+        const accessToken = localStorage.getItem('accessToken');
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/user/sellers/${storedSellerId}`, {
+                headers: { Authorization: `Bearer ${accessToken}` }
+            });
+            setSellerId(response.data.id);
+        } catch (err) {
+            console.error('Error fetching seller data:', err);
+            setError(err.response?.data?.message || 'Error fetching seller data');
+        }
+    };
 
     const fetchCategories = async () => {
         try {
@@ -44,13 +56,17 @@ const ListProduct = () => {
         }
     };
 
-    const fetchProductsByAdmin = useCallback(async () => {
-        if (!adminId) return;
+    const fetchProductsBySeller = useCallback(async () => {
+        if (!sellerId) return;
         try {
-            const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/products/seller/${adminId}`);
-            const productsWithImages = await Promise.all(response.data.map(async product => {
+            const response = await fetch(`${process.env.REACT_APP_BASE_URL}/products/seller/${sellerId}`);
+            if (!response.ok) throw new Error('Failed to fetch products');
+            const data = await response.json();
+
+            const productsWithImages = await Promise.all(data.map(async product => {
                 const imagesResponse = await fetch(`${process.env.REACT_APP_BASE_URL}/products/images/product/${product.id}`);
                 const imagesData = await imagesResponse.json();
+
                 const imageURLs = imagesData.map(img => img.base64);
 
                 return {
@@ -70,9 +86,20 @@ const ListProduct = () => {
         } finally {
             setLoading(false);
         }
-    }, [adminId]);
+    }, [sellerId]);
 
-    const handleSearch = (event) => {
+    useEffect(() => {
+        fetchSellerData();
+        fetchCategories();
+    }, []);
+
+    useEffect(() => {
+        if (sellerId) {
+            fetchProductsBySeller();
+        }
+    }, [sellerId, fetchProductsBySeller]);
+
+    const handleSearch = async (event) => {
         const value = event.target.value;
         setSearchId(value);
 
@@ -97,13 +124,13 @@ const ListProduct = () => {
             const selectedOptions = Array.from(event.target.selectedOptions, option => option.value);
             setFormData(prevState => ({
                 ...prevState,
-                categories: selectedOptions,
+                categories: selectedOptions
             }));
         } else if (name === 'productDetails') {
             try {
                 setFormData(prevState => ({
                     ...prevState,
-                    productDetails: value ? JSON.parse(value) : {},
+                    productDetails: value ? JSON.parse(value) : {}
                 }));
             } catch (e) {
                 console.error('Invalid JSON format', e);
@@ -112,7 +139,7 @@ const ListProduct = () => {
         } else {
             setFormData(prevState => ({
                 ...prevState,
-                [name]: value,
+                [name]: value
             }));
         }
     };
@@ -132,15 +159,28 @@ const ListProduct = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
+        // Validate sellerId
+        if (isNaN(sellerId)) {
+            setError('Seller ID must be a valid number');
+            return;
+        }
+
+        // Validate form data fields
+        if (!formData.name || !formData.price || isNaN(formData.price) || !formData.quantity || formData.categories.length === 0) {
+            setError('Please fill in all required fields correctly');
+            return;
+        }
+
         const totalQuantity = calculateTotalQuantity(formData.quantity);
 
         const requestBody = {
+            sellerId: sellerId,  // Ensure sellerId is included and valid
             name: formData.name,
             productDetails: formData.productDetails,
             price: parseFloat(formData.price),
             quantity: totalQuantity.toString(),
             categories: formData.categories,
-            images: formData.images,
+            images: formData.images
         };
 
         try {
@@ -150,15 +190,14 @@ const ListProduct = () => {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(requestBody),
+                body: JSON.stringify(requestBody)
             });
-
             if (!response.ok) throw new Error(`Failed to update product: ${response.statusText}`);
 
             const updatedProduct = await response.json();
             const updatedProductWithImage = {
                 ...updatedProduct,
-                images: updatedProduct.images ? updatedProduct.images.map(img => img.base64) : [],
+                images: updatedProduct.images ? updatedProduct.images.map(img => img.base64) : []
             };
 
             setProducts(products.map(product => product.id === editingProduct.id ? updatedProductWithImage : product));
@@ -167,6 +206,7 @@ const ListProduct = () => {
             resetFormData();
         } catch (error) {
             console.error("Error updating product:", error);
+            setError(`Failed to update product: ${error.message}`);
         }
     };
 
@@ -178,7 +218,7 @@ const ListProduct = () => {
             quantity: '',
             discountPrice: '',
             categories: [],
-            images: [],
+            images: []
         });
     };
 
@@ -191,7 +231,7 @@ const ListProduct = () => {
             quantity: String(product.quantity).replace('+', ''),
             discountPrice: product.discountPrice,
             categories: product.categories || [],
-            images: [],
+            images: []
         });
     };
 
@@ -202,7 +242,7 @@ const ListProduct = () => {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
-                },
+                }
             });
 
             if (!response.ok) throw new Error(`Failed to delete product: ${response.statusText}`);
@@ -211,6 +251,7 @@ const ListProduct = () => {
             setFilteredProducts(filteredProducts.filter(product => product.id !== id));
         } catch (error) {
             console.error("Error removing product:", error);
+            setError(`Failed to remove product: ${error.message}`);
         }
     };
 
@@ -219,155 +260,147 @@ const ListProduct = () => {
     };
 
     const handleSingleUpload = () => {
-        navigate('/add-product');
+        navigate('/productmanagement');
     };
 
     return (
         <div className='list-product'>
             <div className="upload-section">
                 <div className="header">
-                    <h1>List Product</h1>
+                    <h1>Upload Catalog</h1>
                     <p>Learn how to upload catalogs</p>
                     <p>Need Help?</p>
                     <div className="help-icons">
                         <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer">
-                            <FaYoutube /> YouTube
+                            <FaYoutube />
                         </a>
-                        <a href="https://www.customerservice.com" target="_blank" rel="noopener noreferrer">
-                            <FaHeadset /> Customer Service
+                        <a href="https://help.example.com" target="_blank" rel="noopener noreferrer">
+                            <FaHeadset />
                         </a>
                     </div>
                 </div>
-
-                <div className="banner">
-                    <h2>Get up to 50% more orders + up to 10% lesser returns</h2>
-                    <p>Add/edit the catalogs and improve the quality. Plus, prevent catalogs from deactivations/low visibility. *T&C</p>
-                </div>
-
-                <div className="overview">
-                    <h2>Overview</h2>
-                    <p>Total Bulk Uploads: {bulkUploads}</p>
-                    <p>Total Single Uploads: {singleUploads}</p>
-                </div>
-
                 <div className="upload-buttons">
-                    <button className="bulk-upload" onClick={handleBulkUpload}>Bulk Upload</button>
-                    <button className="single-upload" onClick={handleSingleUpload}>Single Upload</button>
+                    <button className="upload-btn" onClick={handleSingleUpload}>Upload Single Product</button>
+                    <button className="upload-btn" onClick={handleBulkUpload}>Upload Bulk Products</button>
                 </div>
+            </div>
 
-                <div className="search">
-                    <input
-                        type="text"
-                        placeholder="Search by ID"
-                        value={searchId}
-                        onChange={handleSearch}
-                    />
-                    <select value={selectedCategory} onChange={handleCategoryChange}>
-                        <option value="">All Categories</option>
-                        {categories.map(category => (
-                            <option key={category.id} value={category.name}>{category.name}</option>
-                        ))}
-                    </select>
-                </div>
+            <div className="product-search">
+                <input
+                    type="text"
+                    value={searchId}
+                    onChange={handleSearch}
+                    placeholder="Search by ID"
+                />
+                <select value={selectedCategory} onChange={handleCategoryChange}>
+                    <option value="">All Categories</option>
+                    {categories.map(category => (
+                        <option key={category.id} value={category.name}>{category.name}</option>
+                    ))}
+                </select>
+            </div>
 
-                {error && <div className="error">{error}</div>}
-
-                <div className="product-list">
-                    {loading ? (
-                        <p>Loading...</p>
-                    ) : (
-                        <table>
-                            <thead >
-                                <tr >
-                                    <th style={{ backgroundColor: 'maroon', color: 'white' }}>ID</th>
-                                    <th style={{ backgroundColor: 'maroon', color: 'white' }}>Name</th>
-                                    <th style={{ backgroundColor: 'maroon', color: 'white' }}>Price</th>
-                                    <th style={{ backgroundColor: 'maroon', color: 'white' }}>Quantity</th>
-                                    <th style={{ backgroundColor: 'maroon', color: 'white' }}>Categories</th>
-                                    <th style={{ backgroundColor: 'maroon', color: 'white' }}>Images</th>
-                                    <th style={{ backgroundColor: 'maroon', color: 'white' }}> Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {filteredProducts.map(product => (
-                                    <tr key={product.id}>
-                                        <td>{product.id}</td>
-                                        <td>{product.name}</td>
-                                        <td>{product.price}</td>
-                                        <td>{product.quantity}</td>
-                                        <td>{product.categories.join(', ')}</td>
-                                        <td>
-                                            {product.images.length > 0 ? (
-                                                <img src={product.images[0]} alt={product.name} style={{ width: '50px' }} />
-                                            ) : (
-                                                <p>No Image</p>
-                                            )}
-                                        </td>
-                                        <td>
-                                            <button onClick={() => handleEditClick(product)}><FaEdit /></button>
-                                            <button onClick={() => removeProduct(product.id)}><FaTrash /></button>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    )}
-                </div>
-
-                {editingProduct && (
-                    <form onSubmit={handleSubmit} className="edit-form">
-                        <h3>Edit Product</h3>
-                        <input
-                            type="text"
-                            name="name"
-                            value={formData.name}
-                            onChange={handleInputChange}
-                            placeholder="Product Name"
-                        />
-                        <textarea
-                            name="productDetails"
-                            value={JSON.stringify(formData.productDetails, null, 2)}
-                            onChange={handleInputChange}
-                            placeholder="Product Details (JSON format)"
-                            rows={10}
-                        />
-                        <input
-                            type="number"
-                            name="price"
-                            value={formData.price}
-                            onChange={handleInputChange}
-                            placeholder="Price"
-                        />
-                        <input
-                            type="text"
-                            name="quantity"
-                            value={formData.quantity}
-                            onChange={handleInputChange}
-                            placeholder="Quantity (+/-)"
-                        />
-                        <select
-                            name="categories"
-                            value={formData.categories}
-                            onChange={handleInputChange}
-                            multiple
-                        >
-                            <option value="">Select Categories</option>
-                            {categories.map(category => (
-                                <option key={category.id} value={category.name} selected={formData.categories.includes(category.name)}>
-                                    {category.name}
-                                </option>
-                            ))}
-                        </select>
-                        <button type="submit">Update Product</button>
-                        <button type="button" onClick={() => setEditingProduct(null)}>Cancel</button>
-                    </form>
+            <div className="product-list">
+                {loading ? (
+                    <p>Loading products...</p>
+                ) : (
+                    filteredProducts.map(product => (
+                        <div key={product.id} className="product-card">
+                            <img src={product.images[0]} alt={product.name} />
+                            <div className="product-info">
+                                <h3>{product.name}</h3>
+                                <p>Price: {product.price}</p>
+                                <p>Quantity: {product.quantity}</p>
+                                <button onClick={() => handleEditClick(product)}>
+                                    <FaEdit /> Edit
+                                </button>
+                                <button onClick={() => removeProduct(product.id)}>
+                                    <FaTrash /> Delete
+                                </button>
+                            </div>
+                        </div>
+                    ))
                 )}
             </div>
+
+            {error && <div className="error-message">{error}</div>}
         </div>
     );
 };
 
 export default ListProduct;
+
+
+
+
+
+
+
+// In an eCommerce platform, Admin-side Product Management typically involves two main functionalities:
+
+// Upload Product: Admins can add new products to the platform.
+// List Products: Admins can view, manage, or update a list of all products in the system.
+// Since you've already implemented the seller-side product management (where the sellerId is correctly stored), implementing the admin-side features like UploadProduct and ListProduct follows a similar pattern, but there are a few differences, especially in terms of authorization and how the data is fetched or managed.
+
+// Let's go through the functionality of both the Admin's UploadProduct and Admin's ListProduct.
+
+// 1. Admin Upload Product (UploadProduct)
+// On the Admin side, when an admin uploads a product, it might involve adding a new product to the system without necessarily associating it with a seller (or associating it with a specific seller, depending on your business logic).
+
+// In this case:
+
+// Admins can create products without needing a sellerId (or they can assign a seller if your business model requires it).
+// Admins usually have higher privileges, such as adding products directly to the catalog.
+// Key Considerations for Admin Upload Product:
+// Product Information: Admins will need to input data like product name, description, price, and potentially the sellerId (if you're associating the product with a seller).
+// Authorization: Admins should be authenticated and authorized to upload products.
+// Validation: Admin-side logic might involve more stringent validation of data (such as checking for duplicate products, missing data, etc.).
+// Example of Admin Upload Product (Backend Code):
+// Assuming the Admin can upload products:
+
+// Example Request for Admin Product Upload (Frontend):
+// In the admin panel (React or similar frontend), you'd typically have an UploadProduct component that sends a POST request to the backend. Here's an example using axios:
+
+// In this case, the data (productData) would contain the product name, price, description, sellerId (optional or null for admin-managed products), and other necessary fields.
+
+// 2. Admin List Products (ListProduct)
+// The Admin's ListProduct functionality typically involves fetching a list of all products in the system, regardless of the seller. The admin will usually have the ability to view the entire catalog of products, and possibly perform actions like updating or deleting products.
+
+// Key Considerations for Admin List Product:
+// Fetching All Products: Admin can see all products, even if they are associated with specific sellers.
+// Filtering / Pagination: You may want to support filters for products (e.g., by category, price range, seller) or paginate large lists of products.
+// Product Actions: Admins can usually perform actions like editing, deleting, or disabling products from this list.
+// Example of Admin List Product (Backend Code):
+// You could have a route that fetches all products for the admin, possibly with pagination and filtering capabilities.
+
+
+// This would return all products in the database. Optionally, you can include seller information with the include field to return product-seller associations.
+
+// Example Request for Admin Product Listing (Frontend):
+// In the admin panel (React or similar frontend), you would have a component that sends a GET request to fetch the products.
+
+
+// Once the products are fetched, you would render them in the UI in a table, grid, or list format.
+
+// Admin Product Actions
+// In the admin view of the products, you may also want to provide actions to edit or delete a product:
+
+// Edit Product: Admins should be able to edit the details of a product, such as updating the name, price, description, etc. This would involve sending a PUT request to the backend.
+
+// Delete Product: Admins should be able to delete a product if needed. This would involve sending a DELETE request to the backend.
+
+
+// Summary:
+// Admin Upload Product: Admins can upload products, and the backend should handle this request by either associating the product with a seller or managing it as an independent product. You should authenticate and authorize the admin for this action.
+// Admin List Product: Admins can view all products in the system, possibly with filtering and pagination. The backend should provide a GET endpoint that returns all products.
+// Admin Product Actions: Admins can update or delete products using the relevant backend endpoints (PUT for update, DELETE for delete).
+// Authorization: Ensure admin actions are protected by authentication to prevent unauthorized access.
+// By implementing these endpoints and frontend components, you'll have the full admin product management flow in place. Let me know if you need further clarification or code examples!
+
+// here is the api for the above works
+// product:GEThttp://localhost:5000/products/ab5d286d-663d-4b6e-9d9a-cbe2fddf349f
+// POST:http://localhost:5000/products/upload
+// // DELETE:http://localhost:5000/products/1
 
 
 

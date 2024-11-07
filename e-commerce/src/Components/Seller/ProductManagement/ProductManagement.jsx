@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './ProductManagement.css';
 
+
 const ProductManagement = () => {
     const [productName, setProductName] = useState('');
     const [price, setPrice] = useState(0);
