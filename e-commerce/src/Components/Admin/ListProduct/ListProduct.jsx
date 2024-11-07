@@ -29,7 +29,7 @@ const ListProduct = () => {
 
     const fetchSellerData = async () => {
         const storedSellerId = localStorage.getItem('sellerId');
-        if (!storedSellerId || isNaN(storedSellerId)) {
+        if (!storedSellerId) {
             window.location.href = '/login';
             return;
         }
@@ -67,6 +67,7 @@ const ListProduct = () => {
                 const imagesResponse = await fetch(`${process.env.REACT_APP_BASE_URL}/products/images/product/${product.id}`);
                 const imagesData = await imagesResponse.json();
 
+                // Use the base64 string directly as the image source
                 const imageURLs = imagesData.map(img => img.base64);
 
                 return {
@@ -159,22 +160,9 @@ const ListProduct = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        // Validate sellerId
-        if (isNaN(sellerId)) {
-            setError('Seller ID must be a valid number');
-            return;
-        }
-
-        // Validate form data fields
-        if (!formData.name || !formData.price || isNaN(formData.price) || !formData.quantity || formData.categories.length === 0) {
-            setError('Please fill in all required fields correctly');
-            return;
-        }
-
         const totalQuantity = calculateTotalQuantity(formData.quantity);
 
         const requestBody = {
-            sellerId: sellerId,  // Ensure sellerId is included and valid
             name: formData.name,
             productDetails: formData.productDetails,
             price: parseFloat(formData.price),
@@ -272,64 +260,139 @@ const ListProduct = () => {
                     <p>Need Help?</p>
                     <div className="help-icons">
                         <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer">
-                            <FaYoutube />
+                            <FaYoutube /> YouTube
                         </a>
-                        <a href="https://help.example.com" target="_blank" rel="noopener noreferrer">
-                            <FaHeadset />
+                        <a href="https://www.customerservice.com" target="_blank" rel="noopener noreferrer">
+                            <FaHeadset /> Customer Service
                         </a>
                     </div>
                 </div>
+
+                <div className="banner">
+                    <h2>Get up to 50% more orders + up to 10% lesser returns</h2>
+                    <p>Add/edit the catalogs and improve the quality. Plus, prevent catalogs from deactivations/low visibility. *T&C</p>
+                </div>
+
+                <div className="overview">
+                    <h2>Overview</h2>
+                    <div className="overview-box">
+                        <p>Total Uploads Done: {products.length}</p>
+                        <p>Using Bulk Uploads: {bulkUploads}</p>
+                        <p>Using Single Uploads: {singleUploads}</p>
+                    </div>
+                </div>
+
                 <div className="upload-buttons">
-                    <button className="upload-btn" onClick={handleSingleUpload}>Upload Single Product</button>
-                    <button className="upload-btn" onClick={handleBulkUpload}>Upload Bulk Products</button>
+                    <button className="bulk-upload" onClick={handleBulkUpload}>Bulk Upload</button>
+                    <button className="single-upload" onClick={handleSingleUpload}>Single Upload</button>
+                </div>
+
+                <div className="search">
+                    <input
+                        type="text"
+                        placeholder="Search by ID"
+                        value={searchId}
+                        onChange={handleSearch}
+                    />
                 </div>
             </div>
 
-            <div className="product-search">
-                <input
-                    type="text"
-                    value={searchId}
-                    onChange={handleSearch}
-                    placeholder="Search by ID"
-                />
-                <select value={selectedCategory} onChange={handleCategoryChange}>
-                    <option value="">All Categories</option>
-                    {categories.map(category => (
-                        <option key={category.id} value={category.name}>{category.name}</option>
-                    ))}
-                </select>
-            </div>
+            {error && <div className="error">{error}</div>}
+            {loading ? (
+                <div>Loading...</div>
+            ) : (
+                <table className="product-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Image</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Categories</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {filteredProducts.map(product => (
+                            <tr key={product.id}>
+                                <td>{product.id}</td>
+                                <td>{product.name}</td>
+                                <td>
+                                    {product.images.length > 0 ? (
+                                        product.images.map((img, index) => (
+                                            <img key={index} src={img} alt={`${product.name} image ${index + 1}`} className="product-image" style={{ width: '50px', height: '50px', margin: '0 5px' }} />
+                                        ))
+                                    ) : (
+                                        <p>No Image Available</p>
+                                    )}
+                                </td>
+                                <td>{product.price}</td>
+                                <td>{product.quantity}</td>
+                                <td>{product.categories.join(', ')}</td>
+                                <td>
+                                    <button onClick={() => handleEditClick(product)}><FaEdit /></button>
+                                    <button onClick={() => removeProduct(product.id)}><FaTrash /></button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            )}
 
-            <div className="product-list">
-                {loading ? (
-                    <p>Loading products...</p>
-                ) : (
-                    filteredProducts.map(product => (
-                        <div key={product.id} className="product-card">
-                            <img src={product.images[0]} alt={product.name} />
-                            <div className="product-info">
-                                <h3>{product.name}</h3>
-                                <p>Price: {product.price}</p>
-                                <p>Quantity: {product.quantity}</p>
-                                <button onClick={() => handleEditClick(product)}>
-                                    <FaEdit /> Edit
-                                </button>
-                                <button onClick={() => removeProduct(product.id)}>
-                                    <FaTrash /> Delete
-                                </button>
-                            </div>
-                        </div>
-                    ))
-                )}
-            </div>
-
-            {error && <div className="error-message">{error}</div>}
+            {editingProduct && (
+                <form onSubmit={handleSubmit} className="edit-form">
+                    <h3>Edit Product</h3>
+                    <input
+                        type="text"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        placeholder="Product Name"
+                    />
+                    <textarea
+                        name="productDetails"
+                        value={JSON.stringify(formData.productDetails, null, 2)}
+                        onChange={handleInputChange}
+                        placeholder="Product Details (JSON format)"
+                        rows={10}
+                    />
+                    <input
+                        type="number"
+                        name="price"
+                        value={formData.price}
+                        onChange={handleInputChange}
+                        placeholder="Price"
+                    />
+                    <input
+                        type="text"
+                        name="quantity"
+                        value={formData.quantity}
+                        onChange={handleInputChange}
+                        placeholder="Quantity (+/-)"
+                    />
+                    <select
+                        name="categories"
+                        value={formData.categories}
+                        onChange={handleInputChange}
+                        multiple
+                    >
+                        <option value="">Select Categories</option>
+                        {categories.map(category => (
+                            <option key={category.id} value={category.name} selected={formData.categories.includes(category.name)}>
+                                {category.name}
+                            </option>
+                        ))}
+                    </select>
+                    <button type="submit">Update Product</button>
+                    <button type="button" onClick={() => setEditingProduct(null)}>Cancel</button>
+                </form>
+            )}
         </div>
     );
 };
 
 export default ListProduct;
-
 
 
 
