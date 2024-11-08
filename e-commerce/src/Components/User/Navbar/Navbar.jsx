@@ -14,7 +14,7 @@ function ENavbar() {
   const [searchTerm, setSearchTerm] = useState(''); // To handle search input
   const [searchResults, setSearchResults] = useState([]); // To store search results
   const [loading, setLoading] = useState(false); // To handle loading state
-  const [errorMessage, setErrorMessage] = useState(''); // To handle errors
+  const [errorMessage, setErrorMessage] = useState(''); // To handle errors 
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -24,10 +24,10 @@ function ENavbar() {
     if (searchTerm.length > 2) {
       const fetchSearchResults = async () => {
         setLoading(true);
-        setErrorMessage(''); // Reset error message
+        setErrorMessage(''); // Reset error message 
         
         try {
-          // Use process.env.REACT_APP_API_URL to get the base API URL
+          // Use process.env.REACT_APP_API_URL to get the base API URL 
           const response = await fetch(`${process.env.REACT_APP_API_URL}/products/search/name?term=${searchTerm}`);
 
           if (!response.ok) {
