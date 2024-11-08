@@ -317,6 +317,7 @@
     background-color: #0056b3;
 }
 
+
 @media screen and (max-width: 768px) {
     .size-chart-content {
         width: 90%;
@@ -379,3 +380,95 @@
 .additional-info p:first-of-type {
     font-weight: bold;
 }
+/* Customer Review Container */
+.customer-review {
+    margin-right: 200px;
+    width: 100%;
+}
+
+/* Customer Review Form Styles */
+.customer-review-container h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.customer-review-container textarea {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: vertical;
+    min-height: 150px;
+    margin-bottom: 20px;
+}
+
+.customer-review-container textarea:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.customer-review-container .review-rating {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.customer-review-container .review-rating span {
+    font-size: 18px;
+    color: #333;
+    margin-right: 10px;
+}
+
+.customer-review-container .review-rating button {
+    background-color: #ffbc00;
+    border: none;
+    padding: 10px;
+    font-size: 18px;
+    color: white;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
+}
+
+.customer-review-container .review-rating button:hover {
+    background-color: #e09b00;
+}
+
+/* Submit Button for Review */
+.customer-review-container button[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 24px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.customer-review-container button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* Thank You Message */
+.review-submitted-message {
+    font-size: 18px;
+    font-weight: 600;
+    color: #28a745;
+    text-align: center;
+    margin-top: 30px;
+    background-color: #eaf6e6;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.review-submitted-message p {
+    margin: 0;
+}
+
