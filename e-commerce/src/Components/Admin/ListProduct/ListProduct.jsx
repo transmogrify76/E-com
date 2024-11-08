@@ -4,6 +4,7 @@ import { FaEdit, FaTrash, FaYoutube, FaHeadset } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+
 const ListProduct = () => {
     const navigate = useNavigate();
     const [products, setProducts] = useState([]);
@@ -23,6 +24,7 @@ const ListProduct = () => {
         categories: [],
         images: []
     });
+
     const [bulkUploads, setBulkUploads] = useState(0);
     const [singleUploads, setSingleUploads] = useState(0);
     const [sellerId, setSellerId] = useState(null);
@@ -270,7 +272,7 @@ const ListProduct = () => {
 
                 <div className="banner">
                     <h2>Get up to 50% more orders + up to 10% lesser returns</h2>
-                    <p>Add/edit the catalogs and improve the quality. Plus, prevent catalogs from deactivations/low visibility. *T&C</p>
+                    <p>Add/edit the catalogs and improve the quality. Plus, prevent catalogs from deactivations/low visibility. *T&C </p>
                 </div>
 
                 <div className="overview">
@@ -396,11 +398,8 @@ export default ListProduct;
 
 
 
-
-
-
+//sir ask me to send an email for a project there employee need help so, list down the needs and send the email so give me an email
 // In an eCommerce platform, Admin-side Product Management typically involves two main functionalities:
-
 // Upload Product: Admins can add new products to the platform.
 // List Products: Admins can view, manage, or update a list of all products in the system.
 // Since you've already implemented the seller-side product management (where the sellerId is correctly stored), implementing the admin-side features like UploadProduct and ListProduct follows a similar pattern, but there are a few differences, especially in terms of authorization and how the data is fetched or managed.
@@ -453,7 +452,6 @@ export default ListProduct;
 // Delete Product: Admins should be able to delete a product if needed. This would involve sending a DELETE request to the backend.
 
 
-// Summary:
 // Admin Upload Product: Admins can upload products, and the backend should handle this request by either associating the product with a seller or managing it as an independent product. You should authenticate and authorize the admin for this action.
 // Admin List Product: Admins can view all products in the system, possibly with filtering and pagination. The backend should provide a GET endpoint that returns all products.
 // Admin Product Actions: Admins can update or delete products using the relevant backend endpoints (PUT for update, DELETE for delete).
@@ -463,7 +461,4 @@ export default ListProduct;
 // here is the api for the above works
 // product:GEThttp://localhost:5000/products/ab5d286d-663d-4b6e-9d9a-cbe2fddf349f
 // POST:http://localhost:5000/products/upload
-// // DELETE:http://localhost:5000/products/1
-
-
-
+// DELETE:http://localhost:5000/products
