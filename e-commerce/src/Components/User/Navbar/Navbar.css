@@ -1,4 +1,4 @@
- .navbar {
+.navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -11,7 +11,6 @@
   width: 100%; 
   z-index: 1000; 
 }
-  
 
 .nav-menu {
   list-style-type: none;
@@ -31,15 +30,18 @@
 }
 
 .headerSearch {
-  display: flex; 
+  display: flex;
   align-items: center;
+  position: relative;
+  margin-right: 20px;  /* Add some space between search bar and other elements */
 }
 
 .headerSearch input {
   padding: 10px;
   border: 1px solid #ccc; 
   border-radius: 5px; 
-  width: 200px; 
+  width: 250px;  /* Adjust width as needed */
+  margin-right: 10px; /* Space between input and button */
 }
 
 .btn-search {
@@ -48,15 +50,73 @@
   color: white;
   border: none; 
   border-radius: 5px; 
-  margin-left: 0px; 
   cursor: pointer;
-  margin-top: 50px;
-  
+  display: inline-flex; /* Ensure it's inline with the input field */
 }
 
-
 .btn-search:hover {
-  background-color: #0056b3; 
+  background-color: #0056b3;
+}
+
+.loading-text {
+  font-size: 14px;
+  color: #888;
+}
+
+.error-text {
+  font-size: 14px;
+  color: red;
+}
+
+.search-results {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  width: 100%;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 1000;
+  margin-top: 5px;
+}
+
+.search-item {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.search-item:hover {
+  background-color: #f1f1f1;
+}
+
+.search-item-content {
+  display: flex;
+  align-items: center;
+}
+
+.search-item-image {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  margin-right: 10px;
+}
+
+.search-item-name {
+  font-size: 14px;
+  color: #333;
+  max-width: 200px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.search-item-name:hover {
+  color: #007bff;
 }
 
 .nav-login-cart {
@@ -87,18 +147,24 @@
   transform: scale(1.1);
 }
 
-
-body {
-  padding-top: 70px; 
+.nav-cart-count {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: #ff4f64;
+  border-radius: 50%;
+  padding: 2px 8px;
+  color: white;
+  font-size: 12px;
 }
 
 .dropdown-content {
-  display: none; 
+  display: none;
   position: absolute;
-  top: 40px; 
+  top: 40px;
   right: 0;
   background-color: #fff;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
   padding: 10px;
   border-radius: 5px;
@@ -113,14 +179,13 @@ body {
 }
 
 .dropdown-content a:hover {
-  background-color: #f1f1f1; 
+  background-color: #f1f1f1;
 }
 
 .dropdown-container {
   position: relative;
   cursor: pointer;
 }
-
 
 .dropdown-container .dropdown-content {
   display: block;
@@ -129,5 +194,4 @@ body {
 .user-icon {
   height: 50px;
   margin-right: 50px;
-} 
- 
+}

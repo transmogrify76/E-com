@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import './OrderIndividual.css'; // Import the CSS file
@@ -17,9 +16,11 @@ const dummyOrderDetails = {
     trackingNumber: '',
     items: [
       { id: '101', name: 'Item 1', quantity: 2, size: 'M', stock: 50, price: 300, discount: 10, refund: 0 },
-      { id: '102', name: 'Item 2', quantity: 1, size: 'L', stock: 30, price: 550, discount: 0, refund: 0 }
+      { id: '102', name: 'Item 2', quantity: 1, size: 'L', stock: 30, price: 550, discount: 0, refund: 0 },
+      { id: '103', name: 'Item 3', quantity: 3, size: 's', stock: 310, price: 5510, discount: 10, refund: 0 }
     ]
   },
+
   // other dummy orders...
 };
 
