@@ -39,23 +39,23 @@
 .shopcategory-products {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px; /* Adjust the gap between items */
-    justify-content: space-between; /* Adjust the space between items */
+    gap: 20px; 
+    justify-content: space-between; 
 }
 
 .shopcategory-products .item {
-    flex: 1 1 calc(33.333% - 20px); /* 3 items per row with space adjustment */
-    box-sizing: border-box; /* Ensure padding and border are included in the width/height */
+    flex: 1 1 calc(33.333% - 20px);
+    box-sizing: border-box; 
 }
 
 @media (max-width: 768px) {
     .shopcategory-products .item {
-        flex: 1 1 calc(50% - 20px); /* 2 items per row on smaller screens */
+        flex: 1 1 calc(50% - 20px); 
     }
 }
 
 @media (max-width: 480px) {
     .shopcategory-products .item {
-        flex: 1 1 100%; /* 1 item per row on the smallest screens */
+        flex: 1 1 100%; 
     }
 }
