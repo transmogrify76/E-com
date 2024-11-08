@@ -8,20 +8,64 @@ export const ShopCat = (props) => {
     const { all_product } = useContext(ShopContext);
     const [sortCriteria, setSortCriteria] = useState('');
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [categoryProducts, setCategoryProducts] = useState([]); // State to store category products
+    const [loading, setLoading] = useState(true);
+    const [productImages, setProductImages] = useState({}); // Store Base64 images by product id
 
-    console.log("Category Prop: ", props.category);
-    console.log("All Products: ", all_product);
+    const category = props.category;
 
-    const handleSortChange = (event) => {
-        setSortCriteria(event.target.value);
-        setIsDropdownOpen(false); 
+    // Function to fetch products by category
+    const fetchProductsByCategory = async () => {
+        try {
+            const response = await fetch(`${process.env.REACT_APP_BASE_URL}/products/category/${category}`);
+            const data = await response.json();
+            if (Array.isArray(data)) {
+                // Fetch images for the products once products are fetched
+                await fetchProductImages(data);
+                setCategoryProducts(data); // Store fetched data in state
+            } else {
+                console.error("Expected an array of products, but got:", data);
+            }
+            setLoading(false);
+        } catch (error) {
+            console.error("Error fetching products by category:", error);
+            setLoading(false);
+        }
     };
 
-    const toggleDropdown = () => {
-        setIsDropdownOpen(!isDropdownOpen);
+    // Function to fetch images for each product (GET method)
+    const fetchProductImages = async (products) => {
+        let imagePromises = products.map(async (product) => {
+            try {
+                // Add a timestamp to the URL to avoid cache issues
+                const imageUrl = `${process.env.REACT_APP_BASE_URL}/products/images/product/${product.id}?t=${new Date().getTime()}`;
+                const response = await fetch(imageUrl);
+
+                if (response.ok) {
+                    const imagesData = await response.json();
+                    const imageBase64 = imagesData[0]?.base64; // Assuming the first image in the array
+
+                    if (imageBase64) {
+                        setProductImages(prevImages => ({
+                            ...prevImages,
+                            [product.id]: imageBase64 // Save Base64 image for this product
+                        }));
+                    } else {
+                        console.error(`No image found for product ${product.id}`);
+                    }
+                } else {
+                    console.error(`Failed to fetch image for product ${product.id}`);
+                }
+            } catch (error) {
+                console.error(`Error fetching image for product ${product.id}:`, error);
+            }
+        });
+        await Promise.all(imagePromises);
     };
 
+    // Sorting products
     const sortProducts = (products, criteria) => {
+        if (!Array.isArray(products)) return [];
         switch (criteria) {
             case 'price-asc':
                 return products.sort((a, b) => a.new_price - b.new_price);
@@ -36,20 +80,20 @@ export const ShopCat = (props) => {
         }
     };
 
-    
-    const filteredProducts = all_product.filter(item => {
-        console.log("Item Category:", item.category);
-        console.log("Props Category:", props.category);
-        return item.category.toLowerCase() === props.category.toLowerCase();
-    });
-
-    console.log("Filtered Products:", filteredProducts);
-
-    const filteredAndSortedProducts = sortProducts(filteredProducts, sortCriteria);
+    const filteredAndSortedProducts = sortProducts(categoryProducts, sortCriteria);
 
     useEffect(() => {
-        console.log("Filtered and Sorted Products: ", filteredAndSortedProducts);
-    }, [filteredAndSortedProducts]);
+        fetchProductsByCategory();
+    }, [category]);
+
+    const handleSortChange = (event) => {
+        setSortCriteria(event.target.value);
+        setIsDropdownOpen(false); 
+    };
+
+    const toggleDropdown = () => {
+        setIsDropdownOpen(!isDropdownOpen);
+    };
 
     return (
         <div className='shop-category'>
@@ -77,18 +121,26 @@ export const ShopCat = (props) => {
                     )}
                 </div>
             </div>
-            <div className="shopcategory-products">
-                {filteredAndSortedProducts.map((item, i) => (
-                    <Item
-                        key={i}
-                        id={item.id}
-                        name={item.name}
-                        image={item.image}
-                        new_price={item.new_price}
-                        old_price={item.old_price}
-                    />
-                ))}
-            </div>
+            {loading ? (
+                <div>Loading products...</div>
+            ) : (
+                <div className="shopcategory-products">
+                    {filteredAndSortedProducts.length > 0 ? (
+                        filteredAndSortedProducts.map((item, i) => (
+                            <Item
+                                key={i}
+                                id={item.id}
+                                name={item.name}
+                                image={productImages[item.id] ? productImages[item.id] : null} // Display Base64 image
+                                new_price={item.price}
+                                old_price={item.old_price}
+                            />
+                        ))
+                    ) : (
+                        <div>No products found in this category.</div>
+                    )}
+                </div>
+            )}
             <div className="shopcategory-loadmore">
                 Explore More
             </div>

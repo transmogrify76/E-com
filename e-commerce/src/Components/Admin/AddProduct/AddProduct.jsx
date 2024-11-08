@@ -17,6 +17,9 @@ const AddProduct = () => {
     const [quantity, setQuantity] = useState(0);
     const [generalInstructions] = useState('Please ensure that the product images are clear and of high quality. Specify any relevant details such as color, size, or other specifications.');
     const [showCategories, setShowCategories] = useState(false);
+    const [expandedCategories, setExpandedCategories] = useState({});
+    const [hoveredCategory, setHoveredCategory] = useState(null); // Track the hovered category
+
     const accessToken = localStorage.getItem('accessToken');
 
     useEffect(() => {
@@ -129,12 +132,43 @@ const AddProduct = () => {
         setAdditionalImageInputs([]);
     };
 
-    const filteredCategories = searchTerm
-        ? categories.filter(category =>
-            category.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            (category.childCategories && category.childCategories.some(sub => sub.name.toLowerCase().includes(searchTerm.toLowerCase())))
-        )
-        : categories;
+    const renderCategories = (categoryList) => {
+        return categoryList.map((categoryName) => (
+            <div key={categoryName} className="checkbox-container">
+                <input
+                    type="checkbox"
+                    id={`category-${categoryName}`}
+                    checked={selectedCategoryNames.includes(categoryName)}
+                    onChange={() => handleCategoryChange(categoryName)}
+                />
+                <label
+                    htmlFor={`category-${categoryName}`}
+                    className="checkbox-label"
+                    onMouseEnter={() => setHoveredCategory(categoryName)} // Show subcategories on hover
+                    onMouseLeave={() => setHoveredCategory(null)} // Hide subcategories when mouse leaves
+                    onClick={() => handleToggleCategory(categoryName)} // Toggle subcategories on click
+                >
+                    {categoryName}
+                </label>
+                {expandedCategories[categoryName] && (
+                    <div
+                        className="subcategory-container"
+                        style={{
+                            display: expandedCategories[categoryName] ? 'block' : 'none', // Show only if expanded
+                        }}
+                    >
+                        {renderCategories(expandedCategories[categoryName])}
+                    </div>
+                )}
+                {/* Show subcategories if hovered or clicked */}
+                {(hoveredCategory === categoryName || expandedCategories[categoryName]) && (
+                    <div className="subcategory-container">
+                        {expandedCategories[categoryName] && renderCategories(expandedCategories[categoryName])}
+                    </div>
+                )}
+            </div>
+        ));
+    };
 
     return (
         <form onSubmit={handleSubmit} className="product-upload-form">

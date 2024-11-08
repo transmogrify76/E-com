@@ -1,150 +1,138 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './Category.css';
+import './Category.css'; // Your separate CSS file for styling
 
-const Categories = () => {
-  const [categories, setCategories] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(true);
-  const [selectedCategoryId, setSelectedCategoryId] = useState(null);
-  const [selectedChildCategoryId, setSelectedChildCategoryId] = useState(null);
-  const [products, setProducts] = useState([]);
+const CategorySelection = () => {
+  const [categories, setCategories] = useState([]); // Store top-level categories
+  const [expandedCategories, setExpandedCategories] = useState({}); // Store expanded child categories
+  const [selectedCategoryNames, setSelectedCategoryNames] = useState([]); // Selected categories
+  const [hoveredCategory, setHoveredCategory] = useState(null); // Track hovered category for hover effect
+  const [searchTerm, setSearchTerm] = useState(''); // Search term for filtering categories
+  const [error, setError] = useState(''); // Error state for failed API calls
 
-
-  const fetchCategories = async () => {
-    setLoading(true);
-    try {
-      const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/categories`);
-      setCategories(response.data);
-    } catch (error) {
-      setError('Error fetching categories.');
-      console.error('Error fetching categories:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const fetchProductsByCategoryId = async (categoryId) => {
-    try {
-      const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/products/category/${categoryId}`);
-      setProducts(response.data);
-    } catch (error) {
-      console.error('Error fetching products:', error);
-      setProducts([]);
-    }
-  };
-
+  // Fetch top-level categories when the component mounts
   useEffect(() => {
-    fetchCategories();
+    fetchTopLevelCategories();
   }, []);
 
-  // Polling for product updates every 5 seconds
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (selectedCategoryId) {
-        fetchProductsByCategoryId(selectedCategoryId);
+  // Fetch top-level categories
+  const fetchTopLevelCategories = async () => {
+    try {
+      const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/categories/top-level`);
+      setCategories(response.data);
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+      setError('Failed to fetch categories. Please try again later.');
+    }
+  };
+
+  // Fetch child categories based on category name
+  const fetchChildCategoriesByName = async (categoryName) => {
+    try {
+      const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/categories/subcategories/name/${categoryName}`);
+      return response.data;
+    } catch (error) {
+      console.error(`Error fetching subcategories for category "${categoryName}":`, error);
+      return [];
+    }
+  };
+
+  // Handle category selection
+  const handleCategoryChange = (categoryName) => {
+    setSelectedCategoryNames((prev) =>
+      prev.includes(categoryName)
+        ? prev.filter((name) => name !== categoryName) // Unselect category
+        : [...prev, categoryName] // Select category
+    );
+  };
+
+  // Toggle category visibility to show child categories
+  const handleToggleCategory = async (categoryName) => {
+    if (!expandedCategories[categoryName]) {
+      const childCategories = await fetchChildCategoriesByName(categoryName);
+      setExpandedCategories((prev) => ({
+        ...prev,
+        [categoryName]: childCategories, // Store child categories by parent name
+      }));
+    } else {
+      setExpandedCategories((prev) => {
+        const updated = { ...prev };
+        delete updated[categoryName]; // Remove child categories if already expanded
+        return updated;
+      });
+    }
+  };
+
+  // Clear all category selections
+  const handleClearCategorySelection = () => {
+    setSelectedCategoryNames([]); // Clear the selected categories list
+  };
+
+  // Filter categories based on search term - both top-level and child categories
+  const filterCategories = (categories) => {
+    const lowercasedSearchTerm = searchTerm.toLowerCase();
+
+    return categories.filter((category) => {
+      // Check if category name matches search term
+      if (category.toLowerCase().includes(lowercasedSearchTerm)) {
+        return true;
       }
-    }, 5000); // Adjust the interval as needed
 
-    return () => clearInterval(interval);
-  }, [selectedCategoryId]);
+      // If the category has subcategories, check if any of the subcategories match the search term
+      if (expandedCategories[category]) {
+        const childMatch = expandedCategories[category].some((childCategory) =>
+          childCategory.toLowerCase().includes(lowercasedSearchTerm)
+        );
+        return childMatch;
+      }
 
-  const handleCategoryClick = (categoryId) => {
-    if (selectedCategoryId === categoryId) {
-      setSelectedCategoryId(null);
-      setProducts([]);
-    } else {
-      setSelectedCategoryId(categoryId);
-      setSelectedChildCategoryId(null); // Reset child category selection
-      fetchProductsByCategoryId(categoryId);
-    }
+      return false;
+    });
   };
 
-  const handleChildCategoryClick = (childCategoryId) => {
-    if (selectedChildCategoryId === childCategoryId) {
-      setSelectedChildCategoryId(null);
-      setProducts([]);
-    } else {
-      setSelectedChildCategoryId(childCategoryId);
-      fetchProductsByCategoryId(childCategoryId);
-    }
+  // Render categories and subcategories recursively
+  const renderCategories = (categoryList) => {
+    return categoryList.map((categoryName) => (
+      <div key={categoryName} className="category-item">
+        <div className="category-name">
+          <label
+            htmlFor={`category-${categoryName}`}
+            className="category-label"
+            onClick={() => handleToggleCategory(categoryName)} // Toggle subcategories on click
+          >
+            {categoryName}
+          </label>
+        </div>
+        {expandedCategories[categoryName] && (
+          <div className="subcategory-container">
+            {renderCategories(expandedCategories[categoryName])}
+          </div>
+        )}
+      </div>
+    ));
   };
-
-  const filteredCategories = searchTerm
-    ? categories.filter(category =>
-      category.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      category.childCategories.some(sub => sub.name.toLowerCase().includes(searchTerm.toLowerCase()))
-    )
-    : categories;
 
   return (
-    <div className="categories-container">
-      <h1>Categories</h1>
+    <div className="category-selection-container">
       {error && <p className="error">{error}</p>}
+      <h3>Search Categories</h3>
+      <input
+        type="text"
+        placeholder="Search categories..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        className="search-input"
+      />
 
-      <div className="search-group">
-        <input
-          type="text"
-          placeholder="Search Categories..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
+      
+
+      <div className="categories-list">
+        {renderCategories(filterCategories(categories))}
       </div>
-
-      <h2>Categories</h2>
-      {loading ? (
-        <p>Loading categories...</p>
-      ) : (
-        <div className="parent-categories">
-          {filteredCategories.length > 0 ? (
-            filteredCategories.map((category) => (
-              <div key={category.id} className="category-item">
-                <div onClick={() => handleCategoryClick(category.id)}>
-                  {category.name}
-                </div>
-                {selectedCategoryId === category.id && category.childCategories && category.childCategories.length > 0 && (
-                  <div className="subcategories-dropdown">
-                    {category.childCategories.map(subCategory => (
-                      <div key={subCategory.id} className="subcategory-item">
-                        <div onClick={() => handleChildCategoryClick(subCategory.id)}>
-                          {subCategory.name}
-                        </div>
-                        {selectedChildCategoryId === subCategory.id && subCategory.childCategories && subCategory.childCategories.length > 0 && (
-                          <div className="nested-subcategories">
-                            {subCategory.childCategories.map(nestedSubCategory => (
-                              <div key={nestedSubCategory.id} className="nested-subcategory-item">
-                                {nestedSubCategory.name}
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))
-          ) : (
-            <p>No categories found.</p>
-          )}
-        </div>
-      )}
-      {products.length > 0 && (
-        <div className="products-container">
-          <h2>Products in Selected Category</h2>
-          <div className="products-list">
-            {products.map(product => (
-              <div key={product.id} className="product-item">
-                <img src={`${process.env.REACT_APP_BASE_URL}/products/images/product/${product.imageId}`} alt={product.name} />
-                <span>{product.name}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
     </div>
   );
 };
 
-export default Categories;
+export default CategorySelection;
+
+
