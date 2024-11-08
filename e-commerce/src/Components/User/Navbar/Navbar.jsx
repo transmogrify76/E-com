@@ -7,7 +7,6 @@ import { Link } from 'react-router-dom';
 import { ShopContext } from '../Context/ShopContext';
 import { IoSearch } from "react-icons/io5";
 
-
 function ENavbar() {
   const [menu, setMenu] = useState("shop");
   const { getTotalCartItems } = useContext(ShopContext); // Use getTotalCartItems instead of getTotalCartAmounts
