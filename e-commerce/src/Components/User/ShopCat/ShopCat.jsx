@@ -4,6 +4,7 @@ import dropdown_icon from '../../Assests/Ecommerce_Frontend_Assets/Assets/dropdo
 import Item from '../../User/Item/Item.jsx';
 import { ShopContext } from '../Context/ShopContext.jsx';
 
+
 export const ShopCat = (props) => {
     const { all_product } = useContext(ShopContext);
     const [sortCriteria, setSortCriteria] = useState('');

@@ -20,9 +20,9 @@ function ENavbar() {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
-  // Effect to trigger API call whenever the search term changes
+  // Effect to trigger API call whenever the search term changes //
   useEffect(() => {
-    // Only call API if search term has more than 2 characters
+    // Only call API if search term has more than 2 characters //
     if (searchTerm.length > 2) {
       const fetchSearchResults = async () => {
         setLoading(true);
@@ -38,10 +38,10 @@ function ENavbar() {
             setSearchResults([]);
           } else {
             const data = await response.json();
-            setSearchResults(data); // Assuming the response is an array of products
+            setSearchResults(data); // Assuming the response is an array of products //
           }
         } catch (err) {
-          console.error("Error fetching data:", err); // Log detailed error for debugging
+          console.error("Error fetching data:", err); // Log detailed error for debugging //
           setErrorMessage('Error fetching search results');
         } finally {
           setLoading(false);
@@ -50,12 +50,12 @@ function ENavbar() {
 
       fetchSearchResults();
     } else {
-      setSearchResults([]); // Clear search results if search term is too short
+      setSearchResults([]); // Clear search results if search term is too short //
     }
-  }, [searchTerm]); // Effect runs when searchTerm changes
+  }, [searchTerm]); // Effect runs when searchTerm changes //
 
   const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value); // Update the search term as the user types
+    setSearchTerm(e.target.value); // Update the search term as the user types //
   };
 
   return (
