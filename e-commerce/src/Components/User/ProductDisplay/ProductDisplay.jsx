@@ -1,3 +1,4 @@
+
 import React, { useState, useContext, useEffect } from 'react';
 import './ProductDisplay.css';
 import { ShopContext } from '../Context/ShopContext';
@@ -6,7 +7,7 @@ import star_dull_icon from '../../Assests/Ecommerce_Frontend_Assets/Assets/star_
 import CustomerReview from '../CustomerReview/CustomerReview';
 import body_measure_image from '../../Assests/Ecommerce_Frontend_Assets/Assets/body_measure_image.png'; // Add your body measurement image here
 
-const ProductDisplay = ({ product }) => {
+const ProductDisplay = ({ product, image }) => {
     const { addToCart, addToWishlist, wishlistItems, removeFromWishlist } = useContext(ShopContext);
     const [quantity, setQuantity] = useState(1);
     const [selectedSize, setSelectedSize] = useState('');
@@ -83,7 +84,8 @@ const ProductDisplay = ({ product }) => {
         <div className="productdisplay">
             <div className="productdisplay-left">
                 <div className="productdisplay-img">
-                    <img className="productdisplay-main-img" src={product.image} alt={product.name} />
+                    {/* Ensure image is loaded either from base64 or a direct URL */}
+                    <img className="productdisplay-main-img" src={image || product.image} alt={product.name} />
                 </div>
             </div>
             <div className="productdisplay-right">
@@ -99,7 +101,7 @@ const ProductDisplay = ({ product }) => {
                     <p>(122)</p>
                 </div>
                 <div className="productdisplay-right-prices">
-                    <div className="productdisplay-right-price-old">₹ {product.old_price}</div>
+                    <div className="productdisplay-right-price-old">₹ {product.price}</div>
                     <div className="productdisplay-right-price-new">₹ {product.new_price}</div>
                 </div>
                 <div className="productdisplay-right-description">
@@ -261,7 +263,6 @@ const ProductDisplay = ({ product }) => {
                                 <li>3. Hip: around the widest part, keeping the feet close together Hold the tape vertically to measure.</li>
                                 <li>4. Inseam: from the crotch to the floor.</li>
                                 <li>5. Height: from the top of the head to the floor, keeping a straight posture.</li>
-
                             </ul>
                             <img src={body_measure_image} alt="Body Measurement Instructions" />
                         </div>
@@ -271,9 +272,11 @@ const ProductDisplay = ({ product }) => {
                         </button>
                     </div>
                 </div>
-                )}
+            )}
         </div>
     );
 };
+
 export default ProductDisplay;
+
 
