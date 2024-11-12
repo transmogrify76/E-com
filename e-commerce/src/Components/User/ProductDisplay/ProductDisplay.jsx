@@ -1,4 +1,3 @@
-
 import React, { useState, useContext, useEffect } from 'react';
 import './ProductDisplay.css';
 import { ShopContext } from '../Context/ShopContext';
@@ -22,6 +21,7 @@ const ProductDisplay = ({ product, image }) => {
     const [cartError, setCartError] = useState('');
     const [cartSuccessMessage, setCartSuccessMessage] = useState('');
     const [stockMessage, setStockMessage] = useState('');
+    const [description, setDescription] = useState(''); // State for product description
 
     const navigate = useNavigate();
     const userId = localStorage.getItem('userId');
@@ -37,6 +37,7 @@ const ProductDisplay = ({ product, image }) => {
 
         fetchReviewEligibility();
     }, [product.id]);
+
 
     const checkUserPurchaseStatus = async (productId) => {
         // Mock API request, replace with actual API call
@@ -144,11 +145,12 @@ const ProductDisplay = ({ product, image }) => {
         navigate('/checkout');
     };
 
-    const colors = product.productDetails
-        ? product.productDetails.filter((detail) => detail.key === 'color').map((detail) => detail.value)
+    // Ensure safe access to sizes and colors
+    const colors = Array.isArray(product.productDetails)
+        ? product.productDetails.filter(detail => detail.key === 'color').map(detail => detail.value)
         : [];
-    const sizes = product.productDetails
-        ? product.productDetails.filter((detail) => detail.key === 'size').map((detail) => detail.value)
+    const sizes = Array.isArray(product.productDetails)
+        ? product.productDetails.filter(detail => detail.key === 'size').map(detail => detail.value)
         : [];
 
     return (
@@ -172,13 +174,11 @@ const ProductDisplay = ({ product, image }) => {
                     <p>(122)</p>
                 </div>
                 <div className="productdisplay-right-prices">
-                    <div className="productdisplay-right-price-old">₹ {product.price}</div>
-                    <div className="productdisplay-right-price-new">₹ {product.new_price}</div>
+                    {/* <div className="productdisplay-right-price-old">₹ {product.price}</div> */}
+                    <div className="productdisplay-right-price-new">₹ {product.price}</div>
                 </div>
 
-                <div className="productdisplay-right-description">
-                    {product.description}
-                </div>
+                
 
                 <div className="productdisplay-right-size">
                     <h1>Select size</h1>
@@ -262,14 +262,15 @@ const ProductDisplay = ({ product, image }) => {
                 )}
 
                 {reviewSubmitted && <p className="review-submitted-message">Thank you for your review!</p>}
-           
-
+                
+                {/* Size chart modal */}
                 <div className="size-chart">
                     <button onClick={toggleSizeChart}>View Size Chart</button>
                     {showSizeChart && (
                         <div className="size-chart-modal">
                             <div className="size-chart-content">
                                 <h2>Size Chart</h2>
+                                {/* Table for Size Chart */} 
                                 <table className="size-chart-table">
                                     <thead>
                                         <tr>
@@ -353,5 +354,3 @@ const ProductDisplay = ({ product, image }) => {
 };
 
 export default ProductDisplay;
-
-
