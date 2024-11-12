@@ -1,70 +1,146 @@
 /* Wallet.css */
-.wallet-page {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh; /* Full height of the viewport */
-  background-color: #f4f4f9; /* Light background color */
-  padding: 20px;
+/* .wallet-page { */
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* align-items: center; */
+  /* justify-content: center; */
+  /* height: 100vh; Full height of the viewport */
+  /* background-color: #f4f4f9; Light background color */
+  /* padding: 20px; */
+/* } */
+
+/* wallet.css */
+/* wallet.css */
+
+/* General body styling */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f4f4;  /* Light background for contrast */
+  margin: 0;
+  padding: 0;
 }
 
-h2 {
+.wallet-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f4f4f4; /* Subtle light grey background */
+}
+
+/* Main container */
+.wallet-container {
+  background-color: #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  width: 100%;
+  max-width: 600px;
+  padding: 40px;
+  text-align: center;
+}
+
+/* Header section for balance */
+.wallet-header {
+  margin-bottom: 30px;
+}
+
+.wallet-header h2 {
   font-size: 24px;
-  margin-bottom: 20px;
   color: #333;
 }
 
-h3 {
-  font-size: 20px;
-  margin-bottom: 20px;
-  color: #555;
+.wallet-header h3 {
+  font-size: 32px;
+  color: #4CAF50; /* Green color to highlight balance */
+  font-weight: bold;
 }
 
-button {
-  padding: 10px 20px;
-  margin: 10px;
+/* Wallet actions section */
+.wallet-actions {
+  margin-bottom: 40px;
+}
+
+.wallet-actions h4 {
+  font-size: 18px;
+  color: #555;
+  margin-bottom: 15px;
+}
+
+/* Add fund buttons */
+.amount-buttons button {
+  width: 200px;
+  padding: 12px;
+  margin: 8px;
   border: none;
   border-radius: 5px;
-  background-color: #F37254; /* Matching Razorpay color */
+  background-color: #4CAF50;
   color: white;
   font-size: 16px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s ease;
 }
 
-button:hover {
-  background-color: #e25443; /* Darker shade for hover effect */
+.amount-buttons button:hover {
+  background-color: #45a049;
 }
 
-button:disabled {
-  background-color: #ccc; /* Gray out disabled button */
+.amount-buttons button:disabled {
+  background-color: #ccc;
   cursor: not-allowed;
 }
 
-.wallet-actions {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.wallet-actions button {
-  width: 200px;
-}
-
+/* Selected amount section */
 .selected-amount {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  margin-bottom: 40px;
+}
+
+.selected-amount h4 {
+  font-size: 18px;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.pay-now-button {
+  width: 220px;
+  padding: 14px;
+  background-color: #F37254;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.pay-now-button:hover {
+  background-color: #e25443;
+}
+
+.pay-now-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Transaction History (future) */
+.transaction-history {
   margin-top: 30px;
 }
 
-.selected-amount button {
-  width: 200px;
-  background-color: #4CAF50; /* Green color for Pay Now button */
-  margin-top: 10px;
+.transaction-history h4 {
+  font-size: 18px;
+  color: #555;
+  margin-bottom: 15px;
 }
 
-.selected-amount button:hover {
-  background-color: #45a049;
+.transaction-history ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.transaction-history li {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
 }
