@@ -19,6 +19,7 @@ const AddProduct = () => {
     const [showCategories, setShowCategories] = useState(false);
     const [expandedCategories, setExpandedCategories] = useState({});
     const [hoveredCategory, setHoveredCategory] = useState(null); // Track the hovered category
+    const [selectedCategoryNames, setSelectedCategoryNames] = useState([]); // Fixed: Track selected categories
 
     const accessToken = localStorage.getItem('accessToken');
 
@@ -138,8 +139,8 @@ const AddProduct = () => {
                 <input
                     type="checkbox"
                     id={`category-${categoryName}`}
-                    checked={selectedCategoryNames.includes(categoryName)}
-                    onChange={() => handleCategoryChange(categoryName)}
+                    checked={selectedCategoryNames.includes(categoryName)} // Fixed: Track selected categories
+                    onChange={() => handleCategoryChange(categoryName)} // Fixed: Use handleCategoryChange
                 />
                 <label
                     htmlFor={`category-${categoryName}`}
@@ -160,15 +161,32 @@ const AddProduct = () => {
                         {renderCategories(expandedCategories[categoryName])}
                     </div>
                 )}
-                {/* Show subcategories if hovered or clicked */}
-                {(hoveredCategory === categoryName || expandedCategories[categoryName]) && (
-                    <div className="subcategory-container">
-                        {expandedCategories[categoryName] && renderCategories(expandedCategories[categoryName])}
-                    </div>
-                )}
             </div>
         ));
     };
+
+    const handleCategoryChange = (categoryName) => {
+        setSelectedCategoryNames((prevSelectedCategories) => {
+            if (prevSelectedCategories.includes(categoryName)) {
+                // If category is already selected, remove it
+                return prevSelectedCategories.filter((category) => category !== categoryName);
+            } else {
+                // If category is not selected, add it
+                return [...prevSelectedCategories, categoryName];
+            }
+        });
+    };
+
+    const handleToggleCategory = (categoryName) => {
+        setExpandedCategories((prevExpandedCategories) => ({
+            ...prevExpandedCategories,
+            [categoryName]: !prevExpandedCategories[categoryName],
+        }));
+    };
+
+    const filteredCategories = categories.filter((category) =>
+        category.name.toLowerCase().includes(searchTerm.toLowerCase())
+    ); // Fixed: Filter categories based on searchTerm
 
     return (
         <form onSubmit={handleSubmit} className="product-upload-form">
@@ -302,4 +320,5 @@ const AddProduct = () => {
 };
 
 export default AddProduct;
+
 
