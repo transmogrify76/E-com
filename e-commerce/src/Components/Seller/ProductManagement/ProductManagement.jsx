@@ -5,7 +5,7 @@ import './ProductManagement.css';
 
 const ProductManagement = () => {
     const [productName, setProductName] = useState('');
-    const [description, setDescription] = useState('');  // Added description state
+    const [description, setDescription] = useState('');
     const [price, setPrice] = useState(0);
     const [quantity, setQuantity] = useState(0);
     const [categories, setCategories] = useState([]);
@@ -14,36 +14,34 @@ const ProductManagement = () => {
     const [loading, setLoading] = useState(false);
     const [productImages, setProductImages] = useState([[]]);
     const [additionalImageInputs, setAdditionalImageInputs] = useState([]);
-    const [productDetails, setProductDetails] = useState([]); // This remains an array of objects
+    const [productDetails, setProductDetails] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [showCategories, setShowCategories] = useState(false);
     const [expandedCategories, setExpandedCategories] = useState({});
     const [hoveredCategory, setHoveredCategory] = useState(null);
     const [sellerId, setSellerId] = useState(null);
-
     const accessToken = localStorage.getItem('accessToken');
-    const adminId = localStorage.getItem('userId');
+    const sellerIdFromStorage = localStorage.getItem('userId');
 
     useEffect(() => {
         fetchSellerData();
         fetchTopLevelCategories();
     }, []);
 
+    // Fetch seller data from API
     const fetchSellerData = async () => {
         const storedSellerId = localStorage.getItem('sellerId');
         if (!storedSellerId) {
             window.location.href = '/login';
             return;
         }
-
         try {
             const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/user/sellers/${storedSellerId}`, {
-                headers: { Authorization: `Bearer ${accessToken}` }
+                headers: { Authorization: `Bearer ${accessToken}` },
             });
             setSellerId(response.data.id);
         } catch (err) {
-            console.error('Error fetching seller data:', err);
-            setError(err.response?.data?.message || 'Error fetching seller data');
+            setError('Error fetching seller data.');
         }
     };
 
@@ -52,7 +50,6 @@ const ProductManagement = () => {
             const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/categories/top-level`);
             setCategories(response.data);
         } catch (error) {
-            console.error('Error fetching categories:', error);
             setError('Failed to fetch categories. Please try again later.');
         }
     };
@@ -129,21 +126,21 @@ const ProductManagement = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!productName || !description || price <= 0 || selectedCategoryNames.length === 0 || productImages.flat().length === 0 || quantity <= 0) {
+        if (!productName || price <= 0 || selectedCategoryNames.length === 0 || productImages.flat().length === 0 || quantity <= 0 || !description) {
             setError('All fields are required. Please check your inputs.');
             return;
         }
 
-        if (!adminId) {
-            setError('No admin ID found. Please log in as an admin.');
+        if (!sellerId) {
+            setError('No seller ID found. Please log in as an admin.');
             return;
         }
 
         const formData = new FormData();
         formData.append('name', productName);
-        formData.append('description', description); // Include description
+        formData.append('description', description);
         formData.append('price', price);
-        formData.append('sellerId', adminId);
+        formData.append('sellerId', sellerId);
         formData.append('quantity', quantity);
 
         productImages.flat().forEach((image) => {
@@ -151,14 +148,7 @@ const ProductManagement = () => {
         });
 
         formData.append('categories', JSON.stringify(selectedCategoryNames));
-
-        // Convert productDetails array to an object (key-value pairs)
-        const productDetailsObj = productDetails.reduce((acc, { key, value }) => {
-            if (key && value) acc[key] = value;
-            return acc;
-        }, {});
-
-        formData.append('productDetails', JSON.stringify(productDetailsObj));
+        formData.append('productDetails', JSON.stringify(productDetails));
 
         try {
             setLoading(true);
@@ -168,11 +158,9 @@ const ProductManagement = () => {
                     Authorization: `Bearer ${accessToken}`,
                 },
             });
-            console.log('Product uploaded successfully:', response.data);
             resetForm();
         } catch (error) {
-            console.error('Error uploading product:', error.response ? error.response.data : error.message);
-            setError(error.response?.data?.message || 'Error uploading product. Check console for more details.');
+            setError('Error uploading product. Please check console for more details.');
         } finally {
             setLoading(false);
         }
@@ -212,18 +200,8 @@ const ProductManagement = () => {
                     {categoryName}
                 </label>
                 {expandedCategories[categoryName] && (
-                    <div
-                        className="subcategory-container"
-                        style={{
-                            display: expandedCategories[categoryName] ? 'block' : 'none',
-                        }}
-                    >
-                        {renderCategories(expandedCategories[categoryName])}
-                    </div>
-                )}
-                {(hoveredCategory === categoryName || expandedCategories[categoryName]) && (
                     <div className="subcategory-container">
-                        {expandedCategories[categoryName] && renderCategories(expandedCategories[categoryName])}
+                        {renderCategories(expandedCategories[categoryName])}
                     </div>
                 )}
             </div>
@@ -265,7 +243,6 @@ const ProductManagement = () => {
                 onChange={(e) => setQuantity(e.target.value ? parseInt(e.target.value, 10) : 0)}
                 required
             />
-
             <input
                 className="input-field"
                 type="file"
@@ -274,7 +251,6 @@ const ProductManagement = () => {
                 multiple
                 required
             />
-
             {additionalImageInputs.map((_, index) => (
                 <div key={index} className="additional-image-input">
                     <input
@@ -286,62 +262,44 @@ const ProductManagement = () => {
                     />
                 </div>
             ))}
-
-            <button
-                type="button"
-                className="add-image-button"
-                onClick={handleAddImageInput}
-            >
+            <button type="button" className="add-image-button" onClick={handleAddImageInput}>
                 + Add More Images
             </button>
-
-            <h3>Search Categories</h3>
-            <input
-                type="text"
-                placeholder="Search categories..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-            />
-
-            <button
-                type="button"
-                className="toggle-button"
-                onClick={() => setShowCategories((prev) => !prev)}
-            >
-                {showCategories ? 'Hide Categories' : 'Show Categories'}
-            </button>
-            {showCategories && (
-                <div className="categories-container">
-                    <h3>Categories</h3>
-                    <button type="button" onClick={handleClearCategorySelection} className="clear-selection-button">
-                        Clear All Selections
-                    </button>
-                    {renderCategories(categories)}
+            <h3>Categories</h3>
+            <div className="category-selection">
+                <input
+                    type="text"
+                    placeholder="Search categories..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                />
+                <div className="category-list">
+                    {renderCategories(categories.filter((category) => category.toLowerCase().includes(searchTerm.toLowerCase())))}
                 </div>
-            )}
-
+            </div>
             <h3>Product Details</h3>
             <div>
                 {productDetails.map((detail, index) => (
                     <div key={index} className="product-detail">
                         <input
                             type="text"
-                            placeholder="Detail Key"
+                            placeholder="Detail Key (e.g., color)"
                             value={detail.key}
                             onChange={(e) => handleDetailChange(index, 'key', e.target.value)}
                         />
                         <input
                             type="text"
-                            placeholder="Detail Value"
+                            placeholder="Detail Value (e.g., red)"
                             value={detail.value}
                             onChange={(e) => handleDetailChange(index, 'value', e.target.value)}
                         />
-                        <button type="button" onClick={() => handleRemoveDetailField(index)}>Remove</button>
+                        <button type="button" onClick={() => handleRemoveDetailField(index)}>
+                            Remove
+                        </button>
                     </div>
                 ))}
                 <button type="button" onClick={handleAddDetailField}>Add Product Detail</button>
             </div>
-
             <button type="submit" className="submit-button" disabled={loading}>
                 {loading ? 'Uploading...' : 'Upload Product'}
             </button>
