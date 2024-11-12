@@ -11,8 +11,8 @@ const ProductUpload = () => {
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
     const [searchId, setSearchId] = useState('');
-    const [selectedCategory, setSelectedCategory] = useState('');
     const [filteredProducts, setFilteredProducts] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState('');
     const [editingProduct, setEditingProduct] = useState(null);
     const [formData, setFormData] = useState({
         name: '',
@@ -21,30 +21,18 @@ const ProductUpload = () => {
         quantity: '',
         discountPrice: '',
         categories: [],
-        images: []
+        images: [],
     });
     const [bulkUploads, setBulkUploads] = useState(0);
     const [singleUploads, setSingleUploads] = useState(0);
-    const [sellerId, setSellerId] = useState(null);
 
-    const fetchSellerData = async () => {
-        const storedSellerId = localStorage.getItem('sellerId');
-        if (!storedSellerId) {
-            window.location.href = '/login';
-            return;
-        }
+    const accessToken = localStorage.getItem('accessToken');
+    const sellerId = localStorage.getItem('userId'); // Changed to sellerId
 
-        const accessToken = localStorage.getItem('accessToken');
-        try {
-            const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/user/sellers/${storedSellerId}`, {
-                headers: { Authorization: `Bearer ${accessToken}` }
-            });
-            setSellerId(response.data.id);
-        } catch (err) {
-            console.error('Error fetching seller data:', err);
-            setError(err.response?.data?.message || 'Error fetching seller data');
-        }
-    };
+    useEffect(() => {
+        fetchCategories();
+        fetchProductsBySeller();
+    }, []);
 
     const fetchCategories = async () => {
         try {
@@ -59,15 +47,10 @@ const ProductUpload = () => {
     const fetchProductsBySeller = useCallback(async () => {
         if (!sellerId) return;
         try {
-            const response = await fetch(`${process.env.REACT_APP_BASE_URL}/products/seller/${sellerId}`);
-            if (!response.ok) throw new Error('Failed to fetch products');
-            const data = await response.json();
-
-            const productsWithImages = await Promise.all(data.map(async product => {
+            const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/products/seller/${sellerId}`); // Changed to use sellerId
+            const productsWithImages = await Promise.all(response.data.map(async product => {
                 const imagesResponse = await fetch(`${process.env.REACT_APP_BASE_URL}/products/images/product/${product.id}`);
                 const imagesData = await imagesResponse.json();
-
-                // Use the base64 string directly as the image source
                 const imageURLs = imagesData.map(img => img.base64);
 
                 return {
@@ -89,18 +72,7 @@ const ProductUpload = () => {
         }
     }, [sellerId]);
 
-    useEffect(() => {
-        fetchSellerData();
-        fetchCategories();
-    }, []);
-
-    useEffect(() => {
-        if (sellerId) {
-            fetchProductsBySeller();
-        }
-    }, [sellerId, fetchProductsBySeller]);
-
-    const handleSearch = async (event) => {
+    const handleSearch = (event) => {
         const value = event.target.value;
         setSearchId(value);
 
@@ -125,13 +97,13 @@ const ProductUpload = () => {
             const selectedOptions = Array.from(event.target.selectedOptions, option => option.value);
             setFormData(prevState => ({
                 ...prevState,
-                categories: selectedOptions
+                categories: selectedOptions,
             }));
         } else if (name === 'productDetails') {
             try {
                 setFormData(prevState => ({
                     ...prevState,
-                    productDetails: value ? JSON.parse(value) : {}
+                    productDetails: value ? JSON.parse(value) : {},
                 }));
             } catch (e) {
                 console.error('Invalid JSON format', e);
@@ -140,7 +112,7 @@ const ProductUpload = () => {
         } else {
             setFormData(prevState => ({
                 ...prevState,
-                [name]: value
+                [name]: value,
             }));
         }
     };
@@ -164,11 +136,12 @@ const ProductUpload = () => {
 
         const requestBody = {
             name: formData.name,
+            description: formData.description,
             productDetails: formData.productDetails,
             price: parseFloat(formData.price),
             quantity: totalQuantity.toString(),
             categories: formData.categories,
-            images: formData.images
+            images: formData.images,
         };
 
         try {
@@ -178,14 +151,15 @@ const ProductUpload = () => {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(requestBody)
+                body: JSON.stringify(requestBody),
             });
+
             if (!response.ok) throw new Error(`Failed to update product: ${response.statusText}`);
 
             const updatedProduct = await response.json();
             const updatedProductWithImage = {
                 ...updatedProduct,
-                images: updatedProduct.images ? updatedProduct.images.map(img => img.base64) : []
+                images: updatedProduct.images ? updatedProduct.images.map(img => img.base64) : [],
             };
 
             setProducts(products.map(product => product.id === editingProduct.id ? updatedProductWithImage : product));
@@ -206,7 +180,7 @@ const ProductUpload = () => {
             quantity: '',
             discountPrice: '',
             categories: [],
-            images: []
+            images: [],
         });
     };
 
@@ -214,12 +188,13 @@ const ProductUpload = () => {
         setEditingProduct(product);
         setFormData({
             name: product.name,
+            description: product.description,
             productDetails: product.productDetails || {},
             price: product.price,
             quantity: String(product.quantity).replace('+', ''),
             discountPrice: product.discountPrice,
             categories: product.categories || [],
-            images: []
+            images: [],
         });
     };
 
@@ -230,7 +205,7 @@ const ProductUpload = () => {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
-                }
+                },
             });
 
             if (!response.ok) throw new Error(`Failed to delete product: ${response.statusText}`);
@@ -248,7 +223,7 @@ const ProductUpload = () => {
     };
 
     const handleSingleUpload = () => {
-        navigate('/productmanagement');
+        navigate('/add-product');
     };
 
     return (
@@ -294,100 +269,116 @@ const ProductUpload = () => {
                         value={searchId}
                         onChange={handleSearch}
                     />
-                </div>
-            </div>
-
-            {error && <div className="error">{error}</div>}
-            {loading ? (
-                <div>Loading...</div>
-            ) : (
-                <table className="product-table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Image</th>
-                            <th>Price</th>
-                            <th>Quantity</th>
-                            <th>Categories</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {filteredProducts.map(product => (
-                            <tr key={product.id}>
-                                <td>{product.id}</td>
-                                <td>{product.name}</td>
-                                <td>
-                                    {product.images.length > 0 ? (
-                                        product.images.map((img, index) => (
-                                            <img key={index} src={img} alt={`${product.name} image ${index + 1}`} className="product-image" style={{ width: '50px', height: '50px', margin: '0 5px' }} />
-                                        ))
-                                    ) : (
-                                        <p>No Image Available</p>
-                                    )}
-                                </td>
-                                <td>{product.price}</td>
-                                <td>{product.quantity}</td>
-                                <td>{product.categories.join(', ')}</td>
-                                <td>
-                                    <button onClick={() => handleEditClick(product)}><FaEdit /></button>
-                                    <button onClick={() => removeProduct(product.id)}><FaTrash /></button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            )}
-
-            {editingProduct && (
-                <form onSubmit={handleSubmit} className="edit-form">
-                    <h3>Edit Product</h3>
-                    <input
-                        type="text"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleInputChange}
-                        placeholder="Product Name"
-                    />
-                    <textarea
-                        name="productDetails"
-                        value={JSON.stringify(formData.productDetails, null, 2)}
-                        onChange={handleInputChange}
-                        placeholder="Product Details (JSON format)"
-                        rows={10}
-                    />
-                    <input
-                        type="number"
-                        name="price"
-                        value={formData.price}
-                        onChange={handleInputChange}
-                        placeholder="Price"
-                    />
-                    <input
-                        type="text"
-                        name="quantity"
-                        value={formData.quantity}
-                        onChange={handleInputChange}
-                        placeholder="Quantity (+/-)"
-                    />
-                    <select
-                        name="categories"
-                        value={formData.categories}
-                        onChange={handleInputChange}
-                        multiple
-                    >
-                        <option value="">Select Categories</option>
+                    <select value={selectedCategory} onChange={handleCategoryChange}>
+                        <option value="">All Categories</option>
                         {categories.map(category => (
-                            <option key={category.id} value={category.name} selected={formData.categories.includes(category.name)}>
-                                {category.name}
-                            </option>
+                            <option key={category.id} value={category.name}>{category.name}</option>
                         ))}
                     </select>
-                    <button type="submit">Update Product</button>
-                    <button type="button" onClick={() => setEditingProduct(null)}>Cancel</button>
-                </form>
-            )}
+                </div>
+
+                {error && <div className="error">{error}</div>}
+
+                <div className="product-list">
+                    {loading ? (
+                        <p>Loading...</p>
+                    ) : (
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th style={{ backgroundColor: 'maroon', color: 'white' }}>ID</th>
+                                    <th style={{ backgroundColor: 'maroon', color: 'white' }}>Name</th>
+                                    <th style={{ backgroundColor: 'maroon', color: 'white' }}>Description</th>
+                                    <th style={{ backgroundColor: 'maroon', color: 'white' }}>Price</th>
+                                    <th style={{ backgroundColor: 'maroon', color: 'white' }}>Quantity</th>
+                                    <th style={{ backgroundColor: 'maroon', color: 'white' }}>Categories</th>
+                                    <th style={{ backgroundColor: 'maroon', color: 'white' }}>Images</th>
+                                    <th style={{ backgroundColor: 'maroon', color: 'white' }}>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {filteredProducts.map(product => (
+                                    <tr key={product.id}>
+                                        <td>{product.id}</td>
+                                        <td>{product.name}</td>
+                                        <td>{product.description}</td>
+                                        <td>{product.price}</td>
+                                        <td>{product.quantity}</td>
+                                        <td>{product.categories.join(', ')}</td>
+                                        <td>
+                                            {product.images.length > 0 ? (
+                                                <img src={product.images[0]} alt={product.name} style={{ width: '50px' }} />
+                                            ) : (
+                                                <p>No Image</p>
+                                            )}
+                                        </td>
+                                        <td>
+                                            <button onClick={() => handleEditClick(product)}><FaEdit /></button>
+                                            <button onClick={() => removeProduct(product.id)}><FaTrash /></button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    )}
+                </div>
+
+                {editingProduct && (
+                    <form onSubmit={handleSubmit} className="edit-form">
+                        <h3>Edit Product</h3>
+                        <input
+                            type="text"
+                            name="name"
+                            value={formData.name}
+                            onChange={handleInputChange}
+                            placeholder="Product Name"
+                        />
+                        <input
+                            type="text"
+                            name="description"
+                            value={formData.description}
+                            onChange={handleInputChange}
+                            placeholder="Product Description"
+                        />
+                        <textarea
+                            name="productDetails"
+                            value={JSON.stringify(formData.productDetails, null, 2)}
+                            onChange={handleInputChange}
+                            placeholder="Product Details (JSON format)"
+                            rows={10}
+                        />
+                        <input
+                            type="number"
+                            name="price"
+                            value={formData.price}
+                            onChange={handleInputChange}
+                            placeholder="Price"
+                        />
+                        <input
+                            type="text"
+                            name="quantity"
+                            value={formData.quantity}
+                            onChange={handleInputChange}
+                            placeholder="Quantity (+/-)"
+                        />
+                        <select
+                            name="categories"
+                            value={formData.categories}
+                            onChange={handleInputChange}
+                            multiple
+                        >
+                            <option value="">Select Categories</option>
+                            {categories.map(category => (
+                                <option key={category.id} value={category.name} selected={formData.categories.includes(category.name)}>
+                                    {category.name}
+                                </option>
+                            ))}
+                        </select>
+                        <button type="submit">Update Product</button>
+                        <button type="button" onClick={() => setEditingProduct(null)}>Cancel</button>
+                    </form>
+                )}
+            </div>
         </div>
     );
 };

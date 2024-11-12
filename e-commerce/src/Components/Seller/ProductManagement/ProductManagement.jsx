@@ -5,6 +5,7 @@ import './ProductManagement.css';
 
 const ProductManagement = () => {
     const [productName, setProductName] = useState('');
+    const [description, setDescription] = useState('');  // Added description state
     const [price, setPrice] = useState(0);
     const [quantity, setQuantity] = useState(0);
     const [categories, setCategories] = useState([]);
@@ -13,7 +14,7 @@ const ProductManagement = () => {
     const [loading, setLoading] = useState(false);
     const [productImages, setProductImages] = useState([[]]);
     const [additionalImageInputs, setAdditionalImageInputs] = useState([]);
-    const [productDetails, setProductDetails] = useState([]);
+    const [productDetails, setProductDetails] = useState([]); // This remains an array of objects
     const [searchTerm, setSearchTerm] = useState('');
     const [showCategories, setShowCategories] = useState(false);
     const [expandedCategories, setExpandedCategories] = useState({});
@@ -28,11 +29,9 @@ const ProductManagement = () => {
         fetchTopLevelCategories();
     }, []);
 
-    // Fetch seller data from API
     const fetchSellerData = async () => {
         const storedSellerId = localStorage.getItem('sellerId');
         if (!storedSellerId) {
-            // If no seller ID found, redirect to login
             window.location.href = '/login';
             return;
         }
@@ -48,7 +47,6 @@ const ProductManagement = () => {
         }
     };
 
-    // Fetch top-level categories when the component mounts
     const fetchTopLevelCategories = async () => {
         try {
             const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/categories/top-level`);
@@ -72,21 +70,19 @@ const ProductManagement = () => {
     const handleCategoryChange = (categoryName) => {
         setSelectedCategoryNames((prev) =>
             prev.includes(categoryName)
-                ? prev.filter((name) => name !== categoryName) // Unselect category
-                : [...prev, categoryName] // Select category
+                ? prev.filter((name) => name !== categoryName)
+                : [...prev, categoryName]
         );
     };
 
     const handleToggleCategory = async (categoryName) => {
-        // If not expanded, fetch and set child categories, else toggle visibility
         if (!expandedCategories[categoryName]) {
             const childCategories = await fetchChildCategoriesByName(categoryName);
             setExpandedCategories((prev) => ({
                 ...prev,
-                [categoryName]: childCategories, // Store child categories by parent name
+                [categoryName]: childCategories,
             }));
         } else {
-            // Toggle expansion without fetching if already expanded
             setExpandedCategories((prev) => {
                 const updated = { ...prev };
                 delete updated[categoryName];
@@ -133,7 +129,7 @@ const ProductManagement = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!productName || price <= 0 || selectedCategoryNames.length === 0 || productImages.flat().length === 0 || quantity <= 0) {
+        if (!productName || !description || price <= 0 || selectedCategoryNames.length === 0 || productImages.flat().length === 0 || quantity <= 0) {
             setError('All fields are required. Please check your inputs.');
             return;
         }
@@ -145,6 +141,7 @@ const ProductManagement = () => {
 
         const formData = new FormData();
         formData.append('name', productName);
+        formData.append('description', description); // Include description
         formData.append('price', price);
         formData.append('sellerId', adminId);
         formData.append('quantity', quantity);
@@ -154,7 +151,14 @@ const ProductManagement = () => {
         });
 
         formData.append('categories', JSON.stringify(selectedCategoryNames));
-        formData.append('productDetails', JSON.stringify(productDetails));
+
+        // Convert productDetails array to an object (key-value pairs)
+        const productDetailsObj = productDetails.reduce((acc, { key, value }) => {
+            if (key && value) acc[key] = value;
+            return acc;
+        }, {});
+
+        formData.append('productDetails', JSON.stringify(productDetailsObj));
 
         try {
             setLoading(true);
@@ -176,6 +180,7 @@ const ProductManagement = () => {
 
     const resetForm = () => {
         setProductName('');
+        setDescription('');
         setPrice(0);
         setProductImages([[]]);
         setSelectedCategoryNames([]);
@@ -200,9 +205,9 @@ const ProductManagement = () => {
                 <label
                     htmlFor={`category-${categoryName}`}
                     className="checkbox-label"
-                    onMouseEnter={() => setHoveredCategory(categoryName)} // Show subcategories on hover
-                    onMouseLeave={() => setHoveredCategory(null)} // Hide subcategories when mouse leaves
-                    onClick={() => handleToggleCategory(categoryName)} // Toggle subcategories on click
+                    onMouseEnter={() => setHoveredCategory(categoryName)}
+                    onMouseLeave={() => setHoveredCategory(null)}
+                    onClick={() => handleToggleCategory(categoryName)}
                 >
                     {categoryName}
                 </label>
@@ -210,13 +215,12 @@ const ProductManagement = () => {
                     <div
                         className="subcategory-container"
                         style={{
-                            display: expandedCategories[categoryName] ? 'block' : 'none', // Show only if expanded
+                            display: expandedCategories[categoryName] ? 'block' : 'none',
                         }}
                     >
                         {renderCategories(expandedCategories[categoryName])}
                     </div>
                 )}
-                {/* Only show subcategories when hovered or clicked */}
                 {(hoveredCategory === categoryName || expandedCategories[categoryName]) && (
                     <div className="subcategory-container">
                         {expandedCategories[categoryName] && renderCategories(expandedCategories[categoryName])}
@@ -236,6 +240,13 @@ const ProductManagement = () => {
                 placeholder="Product Name"
                 value={productName}
                 onChange={(e) => setProductName(e.target.value)}
+                required
+            />
+            <textarea
+                className="input-field"
+                placeholder="Product Description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
                 required
             />
             <input

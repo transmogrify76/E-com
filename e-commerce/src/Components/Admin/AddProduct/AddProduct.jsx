@@ -4,6 +4,7 @@ import './AddProduct.css';
 
 const AddProduct = () => {
     const [productName, setProductName] = useState('');
+    const [description, setDescription] = useState('');  // New state for description
     const [price, setPrice] = useState(0);
     const [productImages, setProductImages] = useState([]);
     const [additionalImageInputs, setAdditionalImageInputs] = useState([]);
@@ -80,13 +81,24 @@ const AddProduct = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+<<<<<<< HEAD
         if (!productName || price <= 0 || selectedMainCategoryId === '' || selectedChildCategoryId === '' || productImages.flat().length === 0 || quantity <= 0) {
             setError('All fields are required. Please select a main category and a child category.');
+=======
+        if (!productName || price <= 0 || selectedCategoryNames.length === 0 || productImages.flat().length === 0 || quantity <= 0 || !description) {
+            setError('All fields are required. Please check your inputs.');
+            return;
+        }
+
+        if (!adminId) {
+            setError('No admin ID found. Please log in as an admin.');
+>>>>>>> 61da9cc81f2f148a3854d5ff909f41593123840f
             return;
         }
 
         const formData = new FormData();
         formData.append('name', productName);
+        formData.append('description', description);  // Append the description
         formData.append('price', price);
         formData.append('quantity', quantity);
 
@@ -122,6 +134,7 @@ const AddProduct = () => {
 
     const resetForm = () => {
         setProductName('');
+        setDescription('');  // Reset description
         setPrice(0);
         setProductImages([]);
         setSelectedMainCategoryId('');
@@ -200,7 +213,19 @@ const AddProduct = () => {
                 onChange={(e) => setProductName(e.target.value)} 
                 required 
             />
+<<<<<<< HEAD
             <input 
+=======
+            <textarea
+                className="input-field"
+                placeholder="Product Description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}  // Update description
+                required
+            />
+
+            <input
+>>>>>>> 61da9cc81f2f148a3854d5ff909f41593123840f
                 className="input-field"
                 type="number" 
                 placeholder="Price" 
@@ -320,5 +345,3 @@ const AddProduct = () => {
 };
 
 export default AddProduct;
-
-

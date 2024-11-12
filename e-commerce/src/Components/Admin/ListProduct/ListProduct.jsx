@@ -166,6 +166,7 @@ const ListProduct = () => {
 
         const requestBody = {
             name: formData.name,
+            description:formData.description,
             productDetails: formData.productDetails,
             price: parseFloat(formData.price),
             quantity: totalQuantity.toString(),
@@ -216,6 +217,7 @@ const ListProduct = () => {
         setEditingProduct(product);
         setFormData({
             name: product.name,
+            description:product.description,
             productDetails: product.productDetails || {},
             price: product.price,
             quantity: String(product.quantity).replace('+', ''),
@@ -386,10 +388,117 @@ const ListProduct = () => {
                             </option>
                         ))}
                     </select>
+<<<<<<< HEAD
                     <button type="submit">Update Product</button>
                     <button type="button" onClick={() => setEditingProduct(null)}>Cancel</button>
                 </form>
             )}
+=======
+                </div>
+
+                {error && <div className="error">{error}</div>}
+
+                <div className="product-list">
+                    {loading ? (
+                        <p>Loading...</p>
+                    ) : (
+                        <table>
+                            <thead >
+                                <tr >
+                                    <th style={{ backgroundColor: 'maroon', color: 'white' }}>ID</th>
+                                    <th style={{ backgroundColor: 'maroon', color: 'white' }}>Name</th>
+                                    <th style={{ backgroundColor: 'maroon', color: 'white' }}>Description</th>
+                                    <th style={{ backgroundColor: 'maroon', color: 'white' }}>Price</th>
+                                    <th style={{ backgroundColor: 'maroon', color: 'white' }}>Quantity</th>
+                                    <th style={{ backgroundColor: 'maroon', color: 'white' }}>Categories</th>
+                                    <th style={{ backgroundColor: 'maroon', color: 'white' }}>Images</th>
+                                    <th style={{ backgroundColor: 'maroon', color: 'white' }}> Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {filteredProducts.map(product => (
+                                    <tr key={product.id}>
+                                        <td>{product.id}</td>
+                                        <td>{product.name}</td>
+                                        <td>{product.description}</td>
+                                        <td>{product.price}</td>
+                                        <td>{product.quantity}</td>
+                                        <td>{product.categories.join(', ')}</td>
+                                        <td>
+                                            {product.images.length > 0 ? (
+                                                <img src={product.images[0]} alt={product.name} style={{ width: '50px' }} />
+                                            ) : (
+                                                <p>No Image</p>
+                                            )}
+                                        </td>
+                                        <td>
+                                            <button onClick={() => handleEditClick(product)}><FaEdit /></button>
+                                            <button onClick={() => removeProduct(product.id)}><FaTrash /></button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    )}
+                </div>
+
+                {editingProduct && (
+                    <form onSubmit={handleSubmit} className="edit-form">
+                        <h3>Edit Product</h3>
+                        <input
+                            type="text"
+                            name="name"
+                            value={formData.name}
+                            onChange={handleInputChange}
+                            placeholder="Product Name"
+                        />
+                         <input
+                            type="text"
+                            name="description"
+                            value={formData.description}
+                            onChange={handleInputChange}
+                            placeholder="Product Description"
+                        />
+                        <textarea
+                            name="productDetails"
+                            value={JSON.stringify(formData.productDetails, null, 2)}
+                            onChange={handleInputChange}
+                            placeholder="Product Details (JSON format)"
+                            rows={10}
+                        />
+                        <input
+                            type="number"
+                            name="price"
+                            value={formData.price}
+                            onChange={handleInputChange}
+                            placeholder="Price"
+                        />
+                        <input
+                            type="text"
+                            name="quantity"
+                            value={formData.quantity}
+                            onChange={handleInputChange}
+                            placeholder="Quantity (+/-)"
+                        />
+                        <select
+                            name="categories"
+                            value={formData.categories}
+                            onChange={handleInputChange}
+                            multiple
+                        >
+                            <option value="">Select Categories</option>
+                            {categories.map(category => (
+                                <option key={category.id} value={category.name} selected={formData.categories.includes(category.name)}>
+                                    {category.name}
+                                </option>
+                            ))}
+                        </select>
+                        <button type="submit">Update Product</button>
+                        <button type="button" onClick={() => setEditingProduct(null)}>Cancel</button>
+                    </form>
+                )}
+            </div>
+>>>>>>> 61da9cc81f2f148a3854d5ff909f41593123840f
         </div>
     );
 };
