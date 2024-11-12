@@ -8,6 +8,7 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [sellerId,setsellerId]=useState('')
     const navigate = useNavigate();
 
     const handleLogin = async (e) => {
@@ -47,7 +48,7 @@ const Login = () => {
 
             // Store the access token in localStorage
             localStorage.setItem('accessToken', data.access_token); // Access token from the response
-
+            localStorage.setItem('sellerId',data.sellerId);
             // Decode the JWT token to extract user role and user ID
             const decodedToken = jwtDecode(data.access_token);
             const userId = decodedToken.sub; // Extract user ID from token (using sub field)

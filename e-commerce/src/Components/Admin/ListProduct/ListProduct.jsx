@@ -136,6 +136,7 @@ const ListProduct = () => {
 
         const requestBody = {
             name: formData.name,
+            description:formData.description,
             productDetails: formData.productDetails,
             price: parseFloat(formData.price),
             quantity: totalQuantity.toString(),
@@ -187,6 +188,7 @@ const ListProduct = () => {
         setEditingProduct(product);
         setFormData({
             name: product.name,
+            description:product.description,
             productDetails: product.productDetails || {},
             price: product.price,
             quantity: String(product.quantity).replace('+', ''),
@@ -286,6 +288,7 @@ const ListProduct = () => {
                                 <tr >
                                     <th style={{ backgroundColor: 'maroon', color: 'white' }}>ID</th>
                                     <th style={{ backgroundColor: 'maroon', color: 'white' }}>Name</th>
+                                    <th style={{ backgroundColor: 'maroon', color: 'white' }}>Description</th>
                                     <th style={{ backgroundColor: 'maroon', color: 'white' }}>Price</th>
                                     <th style={{ backgroundColor: 'maroon', color: 'white' }}>Quantity</th>
                                     <th style={{ backgroundColor: 'maroon', color: 'white' }}>Categories</th>
@@ -298,6 +301,7 @@ const ListProduct = () => {
                                     <tr key={product.id}>
                                         <td>{product.id}</td>
                                         <td>{product.name}</td>
+                                        <td>{product.description}</td>
                                         <td>{product.price}</td>
                                         <td>{product.quantity}</td>
                                         <td>{product.categories.join(', ')}</td>
@@ -328,6 +332,13 @@ const ListProduct = () => {
                             value={formData.name}
                             onChange={handleInputChange}
                             placeholder="Product Name"
+                        />
+                         <input
+                            type="text"
+                            name="description"
+                            value={formData.description}
+                            onChange={handleInputChange}
+                            placeholder="Product Description"
                         />
                         <textarea
                             name="productDetails"

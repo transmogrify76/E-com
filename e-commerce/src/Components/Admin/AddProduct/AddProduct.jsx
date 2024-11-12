@@ -4,6 +4,7 @@ import './AddProduct.css';
 
 const AddProduct = () => {
     const [productName, setProductName] = useState('');
+    const [description, setDescription] = useState('');  // New state for description
     const [price, setPrice] = useState(0);
     const [quantity, setQuantity] = useState(0);
     const [categories, setCategories] = useState([]);
@@ -109,7 +110,7 @@ const AddProduct = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!productName || price <= 0 || selectedCategoryNames.length === 0 || productImages.flat().length === 0 || quantity <= 0) {
+        if (!productName || price <= 0 || selectedCategoryNames.length === 0 || productImages.flat().length === 0 || quantity <= 0 || !description) {
             setError('All fields are required. Please check your inputs.');
             return;
         }
@@ -121,6 +122,7 @@ const AddProduct = () => {
 
         const formData = new FormData();
         formData.append('name', productName);
+        formData.append('description', description);  // Append the description
         formData.append('price', price);
         formData.append('sellerId', adminId);
         formData.append('quantity', quantity);
@@ -152,6 +154,7 @@ const AddProduct = () => {
 
     const resetForm = () => {
         setProductName('');
+        setDescription('');  // Reset description
         setPrice(0);
         setProductImages([[]]);
         setSelectedCategoryNames([]);
@@ -214,6 +217,14 @@ const AddProduct = () => {
                 onChange={(e) => setProductName(e.target.value)}
                 required
             />
+            <textarea
+                className="input-field"
+                placeholder="Product Description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}  // Update description
+                required
+            />
+
             <input
                 className="input-field"
                 type="number"
@@ -315,5 +326,3 @@ const AddProduct = () => {
 };
 
 export default AddProduct;
-
-
