@@ -1,51 +1,110 @@
+/* Orders.css */
 .order-history-section {
-    margin: 20px;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #f9f9f9;
-    margin-left:7%;
+  margin: 20px auto;
+  padding: 20px;
+  max-width: 1000px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.order-history-section h3 {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.order-history-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.order-history-table th,
+.order-history-table td {
+  padding: 12px;
+  text-align: center;
+  border: 1px solid #ddd;
+  font-size: 16px;
+}
+
+.order-history-table th {
+  background-color: #f2f2f2;
+  color: #555;
+}
+
+.order-history-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.order-history-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+.order-history-table td {
+  color: #333;
+}
+
+.order-history-table button {
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.order-history-table button:hover {
+  background-color: #0056b3;
+}
+
+.order-history-table p {
+  color: #007bff;
+  font-weight: bold;
+}
+
+/* Error or Loading Messages */
+.order-history-section p {
+  color: #ff0000;
+  text-align: center;
+  font-size: 16px;
+}
+
+.order-history-section .order-history-table td,
+.order-history-section .order-history-table th {
+  font-size: 14px;
+}
+
+.order-history-section .order-history-table th {
+  background-color: #f4f4f4;
+  text-align: center;
+}
+
+/* Responsive design for mobile */
+@media (max-width: 768px) {
+  .order-history-section {
+    padding: 15px;
+    margin: 15px;
   }
-  
-  .order-history-section h3 {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
-  }
-  
+
   .order-history-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
+    font-size: 14px;
   }
-  
+
+  .order-history-section h3 {
+    font-size: 20px;
+  }
+
   .order-history-table th, .order-history-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
+    padding: 10px;
   }
-  
-  .order-history-table th {
-    background-color: #f2f2f2;
+
+  .order-history-table button {
+    padding: 6px 12px;
+    font-size: 14px;
   }
-  
-  .order-history-table tbody tr:nth-child(even) {
-    background-color: #f9f9f9;
-  }
-  
-  .order-history-table tbody tr:hover {
-    background-color: #f1f1f1;
-  }
-  
-  .order-history-table td:first-child {
-    font-weight: bold;
-  }
-  
-  .order-history-table td:last-child {
-    text-align: right;
-  }
-  
-  .order-history-section p {
-    margin-top: 10px;
-    font-style: italic;
-  }
-  
+}

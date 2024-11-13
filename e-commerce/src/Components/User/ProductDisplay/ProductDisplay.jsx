@@ -7,6 +7,8 @@ import CustomerReview from '../CustomerReview/CustomerReview';
 import { useNavigate } from 'react-router-dom';
 import body_measure_image from '../../Assests/Ecommerce_Frontend_Assets/Assets/body_measure_image.png';
 
+
+
 const ProductDisplay = ({ product, image }) => {
     const { addToCart, addToWishlist, wishlistItems, removeFromWishlist } = useContext(ShopContext);
     const [quantity, setQuantity] = useState(1);
@@ -37,7 +39,6 @@ const ProductDisplay = ({ product, image }) => {
 
         fetchReviewEligibility();
     }, [product.id]);
-
 
     const checkUserPurchaseStatus = async (productId) => {
         // Mock API request, replace with actual API call
@@ -177,9 +178,7 @@ const ProductDisplay = ({ product, image }) => {
                     {/* <div className="productdisplay-right-price-old">₹ {product.price}</div> */}
                     <div className="productdisplay-right-price-new">₹ {product.price}</div>
                 </div>
-
                 
-
                 <div className="productdisplay-right-size">
                     <h1>Select size</h1>
                     <div className="productdisplay-right-sizes">
@@ -354,3 +353,5 @@ const ProductDisplay = ({ product, image }) => {
 };
 
 export default ProductDisplay;
+
+

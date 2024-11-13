@@ -81,10 +81,6 @@ const AddProduct = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-<<<<<<< HEAD
-        if (!productName || price <= 0 || selectedMainCategoryId === '' || selectedChildCategoryId === '' || productImages.flat().length === 0 || quantity <= 0) {
-            setError('All fields are required. Please select a main category and a child category.');
-=======
         if (!productName || price <= 0 || selectedCategoryNames.length === 0 || productImages.flat().length === 0 || quantity <= 0 || !description) {
             setError('All fields are required. Please check your inputs.');
             return;
@@ -92,7 +88,6 @@ const AddProduct = () => {
 
         if (!adminId) {
             setError('No admin ID found. Please log in as an admin.');
->>>>>>> 61da9cc81f2f148a3854d5ff909f41593123840f
             return;
         }
 
@@ -213,9 +208,6 @@ const AddProduct = () => {
                 onChange={(e) => setProductName(e.target.value)} 
                 required 
             />
-<<<<<<< HEAD
-            <input 
-=======
             <textarea
                 className="input-field"
                 placeholder="Product Description"
@@ -225,7 +217,6 @@ const AddProduct = () => {
             />
 
             <input
->>>>>>> 61da9cc81f2f148a3854d5ff909f41593123840f
                 className="input-field"
                 type="number" 
                 placeholder="Price" 
