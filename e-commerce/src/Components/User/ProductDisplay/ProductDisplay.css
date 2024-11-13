@@ -1,5 +1,4 @@
 /* Existing ProductDisplay CSS */
-
 .productdisplay {
     display: flex; 
     margin: 0 auto;
@@ -25,6 +24,7 @@
     flex-direction: column;
     width: 110%;
     padding-left: 40px;
+    padding-bottom: 40px; /* Added padding to prevent overlapping with description */
 }
 
 .productdisplay-right h1 {
@@ -231,7 +231,6 @@
 }
 
 /* Modal and Size Chart Styles */
-
 .size-chart-button {
     font-size: 16px;
     font-weight: 600;
@@ -318,53 +317,43 @@
 }
 
 
-@media screen and (max-width: 768px) {
-    .size-chart-content {
-        width: 90%;
-    }
-}
-
-.size-converter-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-
-.size-converter-table th,
-.size-converter-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: center;
-}
-
-.size-converter-table th {
-    background-color: #f2f2f2;
-}
-
-.size-converter-table tr:nth-child(even) {
+/* Custom Styling for Description Box */
+.description-box {
+    margin-top: 40px;  /* Ensure there's space above */
+    padding: 20px;
     background-color: #f9f9f9;
+    border-top: 2px solid #ddd;
+    border-radius: 5px;
 }
 
-.size-converter-table tr:hover {
-    background-color: #ddd;
+.description-box h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 15px;
 }
 
-.close-modal-button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
+.description-box p {
     font-size: 16px;
-    margin-top: 20px;
-    cursor: pointer;
-    border-radius: 4px;
+    color: #666;
+    margin: 10px 0;
 }
 
-.close-modal-button:hover {
-    background-color: #0056b3;
+.description-box ul {
+    padding-left: 20px;
+    margin-top: 10px;
+}
+
+.description-box ul li {
+    font-size: 16px;
+    color: #666;
+}
+
+/* Ensure the product display content has enough space */
+.productdisplay-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;  /* Distribute space properly */
+    padding-bottom: 60px; /* Additional padding at the bottom to make room for DescriptionBox */
 }
 
 .additional-info {
@@ -380,6 +369,7 @@
 .additional-info p:first-of-type {
     font-weight: bold;
 }
+
 /* Customer Review Container */
 .customer-review {
     margin-right: 200px;
@@ -471,4 +461,3 @@
 .review-submitted-message p {
     margin: 0;
 }
-

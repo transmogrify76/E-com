@@ -1,35 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import './DescriptionBox.css';
 
-
-const DescriptionBox = ({ productId }) => {
+const DescriptionBox = ({ productId, productDescription }) => {
     const [showReviews, setShowReviews] = useState(false);
-    const [loading, setLoading] = useState(true);
-    const [productDescription, setProductDescription] = useState('');
+    const [loading, setLoading] = useState(false);
     const [reviews, setReviews] = useState([]);
 
-    // Fetch product description and reviews from the API
-    const fetchData = async () => {
+    // Fetch product reviews
+    const fetchReviews = async () => {
         setLoading(true);
         try {
-            // Fetch product description
-            const descriptionResponse = await fetch(`http://localhost:5000/products/ab8d4df7-2423-49db-9774-d6619abad8a6/description`);
-            const descriptionData = await descriptionResponse.json();
-            setProductDescription(descriptionData.description);
-
-            // Fetch product reviews
             const reviewsResponse = await fetch(`http://localhost:5000/reviews/product/${productId}`);
             const reviewsData = await reviewsResponse.json();
-            setReviews(reviewsData);
+            setReviews(reviewsData || []);
         } catch (error) {
-            console.error('Error fetching data:', error);
+            console.error('Error fetching reviews:', error);
         } finally {
             setLoading(false);
         }
     };
-    // Call fetchData when the component is mounted and when productId changes
+
+    // Call fetchReviews when the component is mounted or when productId changes
     useEffect(() => {
-        fetchData();
+        if (productId) {
+            fetchReviews();
+        }
     }, [productId]);
 
     const handleTabClick = (tab) => {
@@ -45,6 +40,9 @@ const DescriptionBox = ({ productId }) => {
                 >
                     Description
                 </div>
+
+
+                
                 <div
                     className={`descriptionbox-nav-box ${showReviews ? 'active' : ''}`}
                     onClick={() => handleTabClick('reviews')}
@@ -61,8 +59,8 @@ const DescriptionBox = ({ productId }) => {
                     {/* Conditionally render description or reviews */}
                     {!showReviews ? (
                         <div className="descriptionbox-description">
-                            <p>{productDescription || "No description available."}</p>
-                        </div>
+                        <p>{productDescription || "No description available."}</p>
+                    </div>
                     ) : (
                         <div className="descriptionbox-reviews">
                             {reviews.length > 0 ? (
