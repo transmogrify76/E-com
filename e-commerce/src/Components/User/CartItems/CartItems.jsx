@@ -45,9 +45,7 @@ const CartItems = () => {
       setCartItems(data);
 
       // Fetch images for each product in the cart
-      data.forEach(item => {
-        fetchProductImage(item.product.id);  // Fetch image for each product
-      });
+      data.forEach(item => fetchProductImage(item.product.id));
 
     } catch (error) {
       setError('Failed to fetch cart items. Please try again later.');
@@ -64,10 +62,10 @@ const CartItems = () => {
       if (!response.ok) {
         throw new Error('Failed to fetch product image');
       }
-      const base64Image = await response.text();  // Assuming the API returns a base64-encoded image
+      const base64Image = await response.text(); // Assuming the API returns a base64-encoded image
       setProductImages(prevState => ({
         ...prevState,
-        [productId]: base64Image,  // Save the image in the state by productId
+        [productId]: base64Image, // Save the image in the state by productId
       }));
     } catch (error) {
       console.error('Error fetching product image:', error);
@@ -81,14 +79,14 @@ const CartItems = () => {
       const response = await fetch(`${process.env.REACT_APP_BASE_URL}/cart/removefromcart`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId, productId })
+        body: JSON.stringify({ userId, productId }),
       });
 
       if (!response.ok) {
         throw new Error('Failed to remove item');
       }
 
-      fetchCartItems(userId);
+      fetchCartItems(userId); // Refetch cart items after removal
     } catch (error) {
       setError('Failed to remove item from cart. Please try again later.');
       console.error('Error removing item from cart:', error);
@@ -99,6 +97,8 @@ const CartItems = () => {
 
   // Handle updating the cart quantity
   const handleUpdateCartQuantity = async (productId, quantity) => {
+    if (quantity < 1) return; // Prevent setting quantity to less than 1
+
     setLoading(true);
     try {
       const response = await fetch(`${process.env.REACT_APP_BASE_URL}/cart/updatecart`, {
@@ -111,7 +111,7 @@ const CartItems = () => {
         throw new Error('Failed to update item quantity');
       }
 
-      fetchCartItems(userId);
+      fetchCartItems(userId); // Refetch cart items after update
     } catch (error) {
       setError('Failed to update item quantity. Please try again later.');
       console.error('Error updating item quantity:', error);
@@ -128,7 +128,7 @@ const CartItems = () => {
     }
 
     try {
-      const response = await fetch(`${process.env.REACT_APP.BASE_URL}/promo/apply`, {
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/promo/apply`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ promoCode, userId }),
@@ -168,15 +168,14 @@ const CartItems = () => {
       const response = await fetch(`${process.env.REACT_APP_BASE_URL}/cart/clearcart`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId })  // Send userId to clear all products
+        body: JSON.stringify({ userId }),
       });
 
       if (!response.ok) {
         throw new Error('Failed to clear cart');
       }
 
-      // After clearing, reset the cart items state
-      setCartItems([]);
+      setCartItems([]); // Reset cart after clearing
     } catch (error) {
       setError('Failed to clear the cart. Please try again later.');
       console.error('Error clearing the cart:', error);
@@ -186,13 +185,8 @@ const CartItems = () => {
   };
 
   // Loading and error states
-  if (loading) {
-    return <p>Loading...</p>;
-  }
-
-  if (error) {
-    return <p style={{ color: 'red' }}>{error}</p>;
-  }
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p style={{ color: 'red' }}>{error}</p>;
 
   // Navigate to checkout with all cart items
   const handleProceedToCheckout = () => {
@@ -208,15 +202,15 @@ const CartItems = () => {
   return (
     <div className="cartitems-format-main">
       <table>
-        <thead >
-          <tr >
-            <th style={{ backgroundColor: 'green' }}>Products</th>
-            <th style={{ backgroundColor: 'green' }}>Title</th>
-            <th style={{ backgroundColor: 'green' }}>Size</th>
-            <th style={{ backgroundColor: 'green' }}>Price</th>
-            <th style={{ backgroundColor: 'green' }}>Quantity</th>
-            <th style={{ backgroundColor: 'green' }} >Total</th>
-            <th style={{ backgroundColor: 'green' }}>Remove</th>
+        <thead>
+          <tr>
+            <th>Products</th>
+            <th>Title</th>
+            <th>Size</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total</th>
+            <th>Remove</th>
           </tr>
         </thead>
         <tbody>
@@ -229,7 +223,7 @@ const CartItems = () => {
               <tr key={item.product.id} onClick={() => handleProductClick(item.product.id)}>
                 <td>
                   <img
-                    src={productImages[item.product.id] ? `data:image/jpeg;base64,${productImages[item.product.id]}` : 'path/to/fallback-image.jpg'}
+                    src={productImages[item.product.id] ? `data:image/jpeg;base64,${productImages[item.product.id]}` : '/fallback-image.jpg'}
                     alt={item.product.name}
                     className="carticon-product-icon"
                   />
@@ -264,9 +258,6 @@ const CartItems = () => {
         </tbody>
       </table>
 
-      
-     
-      {/* Promo code section moved to the bottom */}
       <div className="promo-code-section">
         <input
           type="text"
@@ -278,40 +269,35 @@ const CartItems = () => {
       </div>
 
       <div className="cartitems-total-container">
-        <div className="cartitems-total">
-          <h3><strong>CART TOTALS</strong></h3>
-          <div>
-            <div className="cartitems-total-item">
-              <p>SubTotal</p>
-              <p>₹{calculateTotal()}</p>
-            </div>
-            <hr />
-            <div className="cartitems-total-item">
-              <p>Shipping Fee</p>
-              <p>Free</p>
-            </div>
-            <hr />
-            <div className="cartitems-total-item">
-              <h3>Total</h3>
-              <h3>₹{calculateTotal()}</h3>
-            </div>
-            <div className="cartitems-total-item">
-              <p>Total Items</p>
-              <p>{cartItems.length}</p>
-            </div>
-          </div>
+        <h3><strong>CART TOTALS</strong></h3>
+        <div className="cartitems-total-item">
+          <p>SubTotal</p>
+          <p>₹{calculateTotal()}</p>
+        </div>
+        <hr />
+        <div className="cartitems-total-item">
+          <p>Shipping Fee</p>
+          <p>Free</p>
+        </div>
+        <hr />
+        <div className="cartitems-total-item">
+          <h3>Total</h3>
+          <h3>₹{calculateTotal()}</h3>
+        </div>
+        <div className="cartitems-total-item">
+          <p>Total Items</p>
+          <p>{cartItems.length}</p>
+        </div>
 
-          {/* Proceed to checkout button */}
-          <button className="proceed-to-checkout-button" onClick={handleProceedToCheckout}>
-            PROCEED TO CHECKOUT
+        <button className="proceed-to-checkout-button" onClick={handleProceedToCheckout}>
+          PROCEED TO CHECKOUT
+        </button>
+
+        <div className="clear-cart-container">
+          <button className="clear-cart-button" onClick={handleClearCart}>
+            Clear Cart
           </button>
         </div>
-         <div className="clear-cart-container">
-        <button className="clear-cart-button" onClick={handleClearCart}>
-          Clear Cart
-        </button>
-      </div>
-
       </div>
     </div>
   );
