@@ -41,8 +41,6 @@ const DescriptionBox = ({ productId, productDescription }) => {
                     Description
                 </div>
 
-
-                
                 <div
                     className={`descriptionbox-nav-box ${showReviews ? 'active' : ''}`}
                     onClick={() => handleTabClick('reviews')}
