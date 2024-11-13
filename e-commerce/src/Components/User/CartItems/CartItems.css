@@ -139,3 +139,52 @@ hr {
     border: 0;
     border-top: 1px solid #e0e0e0;
 }
+
+.buttons-container {
+    display: flex;
+    /* Distribute buttons with equal space between */
+    gap: 20px; /* Adds space between the buttons */
+    margin-top: 20px;
+    margin-left: 700px;
+  }
+  
+  /* Style for Proceed to Checkout button */
+  .proceed-to-checkout-button,
+  .clear-cart-button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 20%; /* Makes both buttons take equal width */
+    height: 50px; /* Ensures both buttons are the same height */
+    font-size: 16px; /* Adjust text size for consistency */
+  }
+  
+  /* Specific styles for Proceed to Checkout */
+  .proceed-to-checkout-button {
+    background-color: green;
+    color: white;
+  }
+  
+  .proceed-to-checkout-button:hover {
+    background-color: darkgreen;
+  }
+  
+  /* Specific styles for Clear Cart */
+  .clear-cart-button {
+    background-color: red;
+    color: white;
+  }
+  
+  .clear-cart-button:hover {
+    background-color: darkred;
+  }
+  
+  
+  .proceed-to-checkout-button:hover {
+    background-color: darkgreen;
+  }
+  
+  .clear-cart-button:hover {
+    background-color: darkred;
+  }
