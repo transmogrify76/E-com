@@ -390,7 +390,6 @@
 
 // export default ProductDisplay;
 
-
 import React, { useState, useEffect } from 'react';
 import './ProductDisplay.css';
 import star_icon from '../../Assests/Ecommerce_Frontend_Assets/Assets/star_icon.png';
@@ -399,6 +398,7 @@ import CustomerReview from '../CustomerReview/CustomerReview';
 import { useNavigate } from 'react-router-dom';
 import body_measure_image from '../../Assests/Ecommerce_Frontend_Assets/Assets/body_measure_image.png';
 import DescriptionBox from '../DescriptionBox/DescriptionBox';  // This is where the DescriptionBox is imported
+
 
 const ProductDisplay = ({ product, image }) => {
     const [quantity, setQuantity] = useState(1);
@@ -416,7 +416,6 @@ const ProductDisplay = ({ product, image }) => {
     const [description, setDescription] = useState(''); // Product description state
     const [isInWishlist, setIsInWishlist] = useState(false); // Local wishlist state
     
- 
     const navigate = useNavigate();
     const userId = localStorage.getItem('userId');
     if (!userId) {
@@ -425,23 +424,20 @@ const ProductDisplay = ({ product, image }) => {
 
     useEffect(() => {
         const checkIfInWishlist = () => {
-            // Check if the product is in the wishlist (local storage or API check)
             const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
             const foundInWishlist = wishlist.some(item => item.id === product.id);
             setIsInWishlist(foundInWishlist);
         };
 
         const setProductDescription = () => {
-            // Update description from the product object
             if (product.description) {
                 setDescription(product.description); // Set description from product
             }
         };
 
-        checkIfInWishlist(); // Check on component mount if the product is in the wishlist
+        checkIfInWishlist();
         setProductDescription(); // Set product description on component mount
     }, [product.id, product.description]); // Re-run when product id or description changes
-
 
     const handleAddToCart = async () => {
         setCartError('');
@@ -543,7 +539,6 @@ const ProductDisplay = ({ product, image }) => {
     // Handle Add to Wishlist / Remove from Wishlist
     const handleWishlistToggle = async () => {
         if (isInWishlist) {
-            // Remove from Wishlist (DELETE)
             try {
                 const response = await fetch(`${process.env.REACT_APP_BASE_URL}/wishlist/${userId}/${product.id}`, {
                     method: 'DELETE',
@@ -552,7 +547,6 @@ const ProductDisplay = ({ product, image }) => {
                 const data = await response.json();
 
                 if (response.ok) {
-                    // Remove from local storage wishlist
                     let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
                     wishlist = wishlist.filter(item => item.id !== product.id);
                     localStorage.setItem('wishlist', JSON.stringify(wishlist));
@@ -566,7 +560,6 @@ const ProductDisplay = ({ product, image }) => {
                 alert('An error occurred with the wishlist API');
             }
         } else {
-            // Add to Wishlist (POST)
             try {
                 const response = await fetch(`${process.env.REACT_APP_BASE_URL}/wishlist`, {
                     method: 'POST',
@@ -574,19 +567,18 @@ const ProductDisplay = ({ product, image }) => {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        userId,       // Ensure that userId is available
-                        productId: product.id,  // Product ID
+                        userId,
+                        productId: product.id,
                     }),
                 });
 
                 const data = await response.json();
 
                 if (response.ok) {
-                    // Add to local storage wishlist
                     let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
                     wishlist.push({ id: product.id });
                     localStorage.setItem('wishlist', JSON.stringify(wishlist));
-                    setIsInWishlist(true); // Update button state to "Remove from Wishlist"
+                    setIsInWishlist(true);
                 } else {
                     console.error('Failed to add to wishlist:', data.message);
                     alert('Failed to add to wishlist');
@@ -598,7 +590,6 @@ const ProductDisplay = ({ product, image }) => {
         }
     };
 
-    // Ensure safe access to sizes and colors
     const colors = Array.isArray(product.productDetails)
         ? product.productDetails.filter(detail => detail.key === 'color').map(detail => detail.value)
         : [];
@@ -654,7 +645,7 @@ const ProductDisplay = ({ product, image }) => {
                                     className={`color-option ${selectedColor === color ? 'selected' : ''}`}
                                     onClick={() => handleColorSelect(color)}
                                     style={{
-                                        backgroundColor: color.toLowerCase(), // Dynamically set the background color of the circle
+                                        backgroundColor: color.toLowerCase(),
                                     }}
                                 />
                             ))
@@ -675,7 +666,7 @@ const ProductDisplay = ({ product, image }) => {
                 </div>
                 
                 {/* Render DescriptionBox with the updated product description */}
-                <DescriptionBox productId={product.id} productDescription={description} />
+                {description && <DescriptionBox productId={product.id} productDescription={description} />}
 
                 <button className="productdisplay-right-btn" onClick={handleAddToCart} disabled={loading}>
                     {loading ? 'Adding to Cart...' : 'Add to Cart'}
@@ -788,3 +779,4 @@ const ProductDisplay = ({ product, image }) => {
 };
 
 export default ProductDisplay;
+

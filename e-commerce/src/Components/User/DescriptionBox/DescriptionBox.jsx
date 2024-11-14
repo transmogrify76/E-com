@@ -20,7 +20,7 @@ const DescriptionBox = ({ productId, productDescription }) => {
         }
     };
 
-    // Call fetchReviews when the component is mounted or when productId changes
+    // Call fetchReviews when the component is mounted or when productId changes 
     useEffect(() => {
         if (productId) {
             fetchReviews();
