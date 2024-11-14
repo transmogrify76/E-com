@@ -1,3 +1,4 @@
+
 // import React, { useState, useEffect } from 'react';
 // import './ProductDisplay.css';
 // import star_icon from '../../Assests/Ecommerce_Frontend_Assets/Assets/star_icon.png';
@@ -6,6 +7,7 @@
 // import { useNavigate } from 'react-router-dom';
 // import body_measure_image from '../../Assests/Ecommerce_Frontend_Assets/Assets/body_measure_image.png';
 // import DescriptionBox from '../DescriptionBox/DescriptionBox';  // This is where the DescriptionBox is imported
+
 
 // const ProductDisplay = ({ product, image }) => {
 //     const [quantity, setQuantity] = useState(1);
@@ -20,9 +22,9 @@
 //     const [cartError, setCartError] = useState('');
 //     const [cartSuccessMessage, setCartSuccessMessage] = useState('');
 //     const [stockMessage, setStockMessage] = useState('');
-//     const [description, setDescription] = useState('');
+//     const [description, setDescription] = useState(''); // Product description state
 //     const [isInWishlist, setIsInWishlist] = useState(false); // Local wishlist state
-
+    
 //     const navigate = useNavigate();
 //     const userId = localStorage.getItem('userId');
 //     if (!userId) {
@@ -31,14 +33,20 @@
 
 //     useEffect(() => {
 //         const checkIfInWishlist = () => {
-//             // Check if the product is in the wishlist (local storage or API check)
 //             const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
 //             const foundInWishlist = wishlist.some(item => item.id === product.id);
 //             setIsInWishlist(foundInWishlist);
 //         };
 
-//         checkIfInWishlist(); // Check on component mount if the product is in the wishlist
-//     }, [product.id]); // Re-run when product id changes
+//         const setProductDescription = () => {
+//             if (product.description) {
+//                 setDescription(product.description); // Set description from product
+//             }
+//         };
+
+//         checkIfInWishlist();
+//         setProductDescription(); // Set product description on component mount
+//     }, [product.id, product.description]); // Re-run when product id or description changes
 
 //     const handleAddToCart = async () => {
 //         setCartError('');
@@ -140,7 +148,6 @@
 //     // Handle Add to Wishlist / Remove from Wishlist
 //     const handleWishlistToggle = async () => {
 //         if (isInWishlist) {
-//             // Remove from Wishlist (DELETE)
 //             try {
 //                 const response = await fetch(`${process.env.REACT_APP_BASE_URL}/wishlist/${userId}/${product.id}`, {
 //                     method: 'DELETE',
@@ -149,7 +156,6 @@
 //                 const data = await response.json();
 
 //                 if (response.ok) {
-//                     // Remove from local storage wishlist
 //                     let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
 //                     wishlist = wishlist.filter(item => item.id !== product.id);
 //                     localStorage.setItem('wishlist', JSON.stringify(wishlist));
@@ -163,7 +169,6 @@
 //                 alert('An error occurred with the wishlist API');
 //             }
 //         } else {
-//             // Add to Wishlist (POST)
 //             try {
 //                 const response = await fetch(`${process.env.REACT_APP_BASE_URL}/wishlist`, {
 //                     method: 'POST',
@@ -171,19 +176,18 @@
 //                         'Content-Type': 'application/json',
 //                     },
 //                     body: JSON.stringify({
-//                         userId,       // Ensure that userId is available
-//                         productId: product.id,  // Product ID
+//                         userId,
+//                         productId: product.id,
 //                     }),
 //                 });
 
 //                 const data = await response.json();
 
 //                 if (response.ok) {
-//                     // Add to local storage wishlist
 //                     let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
 //                     wishlist.push({ id: product.id });
 //                     localStorage.setItem('wishlist', JSON.stringify(wishlist));
-//                     setIsInWishlist(true); // Update button state to "Remove from Wishlist"
+//                     setIsInWishlist(true);
 //                 } else {
 //                     console.error('Failed to add to wishlist:', data.message);
 //                     alert('Failed to add to wishlist');
@@ -195,7 +199,6 @@
 //         }
 //     };
 
-//     // Ensure safe access to sizes and colors
 //     const colors = Array.isArray(product.productDetails)
 //         ? product.productDetails.filter(detail => detail.key === 'color').map(detail => detail.value)
 //         : [];
@@ -242,28 +245,23 @@
 //                 </div>
 
 //                 <div className="productdisplay-right-color">
-//   <h1>Select color</h1>
-//   <div className="productdisplay-right-colors">
-//     {colors.length > 0 ? (
-//       colors.map((color) => (
-//         <div
-//           key={color}
-//           className={`color-option ${selectedColor === color ? 'selected' : ''}`}
-//           onClick={() => handleColorSelect(color)}
-//           style={{
-//             backgroundColor: color.toLowerCase(), // Dynamically set the background color of the circle
-//           }}
-//         >
-//           {/* Optionally, you can display the color name in the circle */}
-//           {/* {color} */}
-//         </div>
-//       ))
-//     ) : (
-//       <p className="error-message">No colors available for this product.</p>
-//     )}
-//   </div>
-
-
+//                     <h1>Select color</h1>
+//                     <div className="productdisplay-right-colors">
+//                         {colors.length > 0 ? (
+//                             colors.map((color) => (
+//                                 <div
+//                                     key={color}
+//                                     className={`color-option ${selectedColor === color ? 'selected' : ''}`}
+//                                     onClick={() => handleColorSelect(color)}
+//                                     style={{
+//                                         backgroundColor: color.toLowerCase(),
+//                                     }}
+//                                 />
+//                             ))
+//                         ) : (
+//                             <p className="error-message">No colors available for this product.</p>
+//                         )}
+//                     </div>
 //                 </div>
 
 //                 <div className="productdisplay-right-quantity">
@@ -275,8 +273,9 @@
 //                         min="1"
 //                     />
 //                 </div>
-//                     {/* Render DescriptionBox at the bottom */}
-//                     <DescriptionBox productId={product.id} productDescription={description} />
+                
+//                 {/* Render DescriptionBox with the updated product description */}
+//                 {description && <DescriptionBox productId={product.id} productDescription={description} />}
 
 //                 <button className="productdisplay-right-btn" onClick={handleAddToCart} disabled={loading}>
 //                     {loading ? 'Adding to Cart...' : 'Add to Cart'}
@@ -390,14 +389,14 @@
 
 // export default ProductDisplay;
 
+
 import React, { useState, useEffect } from 'react';
 import './ProductDisplay.css';
 import star_icon from '../../Assests/Ecommerce_Frontend_Assets/Assets/star_icon.png';
 import star_dull_icon from '../../Assests/Ecommerce_Frontend_Assets/Assets/star_dull_icon.png';
-import CustomerReview from '../CustomerReview/CustomerReview';
 import { useNavigate } from 'react-router-dom';
 import body_measure_image from '../../Assests/Ecommerce_Frontend_Assets/Assets/body_measure_image.png';
-import DescriptionBox from '../DescriptionBox/DescriptionBox';  // This is where the DescriptionBox is imported
+ import DescriptionBox from '../DescriptionBox/DescriptionBox';  // This is where the DescriptionBox is imported
 
 
 const ProductDisplay = ({ product, image }) => {
@@ -406,38 +405,83 @@ const ProductDisplay = ({ product, image }) => {
     const [selectedColor, setSelectedColor] = useState('');
     const [pincode, setPincode] = useState('');
     const [estimatedDelivery, setEstimatedDelivery] = useState('');
-    const [reviewSubmitted, setReviewSubmitted] = useState(false);
-    const [canReview, setCanReview] = useState(false);
-    const [showSizeChart, setShowSizeChart] = useState(false);
     const [loading, setLoading] = useState(false);
     const [cartError, setCartError] = useState('');
     const [cartSuccessMessage, setCartSuccessMessage] = useState('');
     const [stockMessage, setStockMessage] = useState('');
-    const [description, setDescription] = useState(''); // Product description state
-    const [isInWishlist, setIsInWishlist] = useState(false); // Local wishlist state
-    
+    const [description, setDescription] = useState('');
+    const [reviews, setReviews] = useState([]);
+    const [showReviews, setShowReviews] = useState(false);
+    const [error, setError] = useState(null);
+    const [isInWishlist, setIsInWishlist] = useState(false);
+    const [showSizeChart, setShowSizeChart] = useState(false);
+
     const navigate = useNavigate();
     const userId = localStorage.getItem('userId');
     if (!userId) {
         navigate('/login');
     }
 
+    // Fetch the product description and set it
+    useEffect(() => {
+        if (product.description) {
+            setDescription(product.description);
+        }
+    }, [product.description]);
+
+    // Check if the product is in the wishlist
     useEffect(() => {
         const checkIfInWishlist = () => {
             const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
             const foundInWishlist = wishlist.some(item => item.id === product.id);
             setIsInWishlist(foundInWishlist);
         };
-
-        const setProductDescription = () => {
-            if (product.description) {
-                setDescription(product.description); // Set description from product
-            }
-        };
-
         checkIfInWishlist();
-        setProductDescription(); // Set product description on component mount
-    }, [product.id, product.description]); // Re-run when product id or description changes
+    }, [product.id]);
+
+    // Fetch product reviews from the backend
+    const fetchReviews = async () => {
+        setLoading(true);
+        setError(null); // Reset error state on each fetch
+        try {
+            const reviewsResponse = await fetch(`http://localhost:5000/reviews/product/${product.id}`);
+            if (!reviewsResponse.ok) {
+                throw new Error('Failed to fetch reviews');
+            }
+            const reviewsData = await reviewsResponse.json();
+            setReviews(reviewsData || []);
+        } catch (error) {
+            console.error('Error fetching reviews:', error);
+            setError('Failed to load reviews. Please try again later.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        if (product.id) {
+            fetchReviews();
+        }
+    }, [product.id]);
+
+    const handleTabClick = (tab) => {
+        setShowReviews(tab === 'reviews');
+    };
+
+    const handleSizeSelect = (size) => {
+        setSelectedSize(size);
+    };
+
+    const handleColorSelect = (color) => {
+        setSelectedColor(color);
+    };
+
+    const handleQuantityChange = (event) => {
+        const value = parseInt(event.target.value, 10);
+        if (!isNaN(value) && value >= 1) {
+            setQuantity(value);
+        }
+    };
 
     const handleAddToCart = async () => {
         setCartError('');
@@ -488,52 +532,8 @@ const ProductDisplay = ({ product, image }) => {
         }
     };
 
-    const handleSizeSelect = (size) => {
-        setSelectedSize(size);
-    };
-
-    const handleColorSelect = (color) => {
-        setSelectedColor(color);
-    };
-
-    const handleQuantityChange = (event) => {
-        const value = parseInt(event.target.value, 10);
-        if (!isNaN(value) && value >= 1) {
-            setQuantity(value);
-        }
-    };
-
-    const handlePincodeChange = (event) => {
-        setPincode(event.target.value);
-    };
-
-    const validatePincode = async () => {
-        const response = await fetch(`${process.env.REACT_APP_BASE_URL}/pincode/validate`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ pincode }),
-        });
-
-        const data = await response.json();
-        if (data.success) {
-            setEstimatedDelivery(data.estimatedDelivery);
-        } else {
-            setEstimatedDelivery('Invalid pincode');
-        }
-    };
-
-    const handleReviewSubmit = () => {
-        setReviewSubmitted(true);
-    };
-
     const toggleSizeChart = () => {
         setShowSizeChart(!showSizeChart);
-    };
-
-    const handlePlaceOrder = () => {
-        navigate('/checkout');
     };
 
     // Handle Add to Wishlist / Remove from Wishlist
@@ -611,11 +611,12 @@ const ProductDisplay = ({ product, image }) => {
                     {[...Array(5)].map((_, i) => (
                         <img key={i} src={i < product.rating ? star_icon : star_dull_icon} alt="Star Icon" />
                     ))}
-                    <p>(122)</p>
+                    <p>({reviews.length})</p>
                 </div>
                 <div className="productdisplay-right-prices">
                     <div className="productdisplay-right-price-new">₹ {product.price}</div>
                 </div>
+
                 <div className="productdisplay-right-size">
                     <h1>Select size</h1>
                     <div className="productdisplay-right-sizes">
@@ -664,9 +665,57 @@ const ProductDisplay = ({ product, image }) => {
                         min="1"
                     />
                 </div>
-                
-                {/* Render DescriptionBox with the updated product description */}
-                {description && <DescriptionBox productId={product.id} productDescription={description} />}
+                {/* for first description box  start*/}
+
+
+                {/* Description and Reviews Tabs */}
+                 <div className="descriptionbox-navigator">
+                    <div
+                        className={`descriptionbox-nav-box ${!showReviews ? 'active' : ''}`}
+                        onClick={() => handleTabClick('description')}
+                    >
+                        Description
+                    </div>
+                    <div
+                        className={`descriptionbox-nav-box ${showReviews ? 'active' : ''}`}
+                        onClick={() => handleTabClick('reviews')}
+                    >
+                        Reviews ({reviews.length})
+                    </div>
+                </div>
+
+                {/*  Description or Reviews Content */}
+                 {loading ? (
+                    <div>Loading...</div>
+                ) : ( 
+                     <>
+                        {error && <div className="error-message">{error}</div>}
+
+                        {!showReviews ? (
+                            <div className="descriptionbox-description">
+                                <p>{description || 'No description available.'}</p>
+                            </div>
+                        ) : (
+                            <div className="descriptionbox-reviews">
+                                {reviews.length > 0 ? (
+                                    reviews.map((review, index) => (
+                                        <div key={index} className="review"> 
+                                             <h4>{review.userId ? `User ${review.userId}` : "Anonymous"}</h4>
+                                            <p>{review.review}</p>
+                                            <div className="review-rating">
+                                                <p>Rated {review.ratings} / 5</p>
+                                            </div>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <p>No reviews yet. Be the first to review this product!</p>
+                                )}
+                            </div>
+                        )}
+                    </>
+                )} 
+
+                {/* for first description box  end */}
 
                 <button className="productdisplay-right-btn" onClick={handleAddToCart} disabled={loading}>
                     {loading ? 'Adding to Cart...' : 'Add to Cart'}
@@ -684,10 +733,10 @@ const ProductDisplay = ({ product, image }) => {
                     <input
                         type="text"
                         value={pincode}
-                        onChange={handlePincodeChange}
+                        onChange={(e) => setPincode(e.target.value)}
                         placeholder="Enter Pincode"
                     />
-                    <button onClick={validatePincode}>Check</button>
+                    <button>Check</button>
                     {estimatedDelivery && <p>Estimated Delivery: {estimatedDelivery}</p>}
                 </div>
 
@@ -779,4 +828,3 @@ const ProductDisplay = ({ product, image }) => {
 };
 
 export default ProductDisplay;
-
