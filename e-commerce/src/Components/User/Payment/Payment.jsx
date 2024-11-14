@@ -1,180 +1,187 @@
-import React, { useContext, useState } from 'react';
-import { ShopContext } from '../Context/ShopContext';
-import './Payment.css'; // Ensure this path is correct
+import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import './Payment.css'; // Ensure this is the correct path for your styles
+import axios from 'axios';
 
 const Payment = () => {
-    const { shippingCost, getTotalCartAmount } = useContext(ShopContext);
-    const [paymentProcessing, setPaymentProcessing] = useState(false);
-    const [paymentError, setPaymentError] = useState(null);
-    const [paymentSuccess, setPaymentSuccess] = useState(false);
-    const [paymentMethod, setPaymentMethod] = useState('credit-card'); // Default payment method
-    const [cardDetails, setCardDetails] = useState({
-        cardNumber: '',
-        expirationDate: '',
-        cvv: '',
-        billingAddress: ''
-    });
-    const [upiDetails, setUpiDetails] = useState({
-        upiId: ''
-    });
+  const location = useLocation(); // Access location state passed from the Checkout page
+  const navigate = useNavigate(); // For redirecting to the Wallet page
 
-    const subtotal = getTotalCartAmount();
-    const total = subtotal + shippingCost; // Calculate total based on context
+  // Extract subtotal, shippingCost, and total from location.state
+  const { subtotal, localShippingCost, totalWithShipping, cartItems } = location.state || {};
 
-    const handlePayment = async () => {
-        setPaymentProcessing(true);
-        try {
-            // Simulate API call to payment gateway
-            await new Promise((resolve, reject) => {
-                setTimeout(() => {
-                    const success = Math.random() < 0.8; // Simulate 80% success rate
-                    if (success) {
-                        resolve();
-                    } else {
-                        reject(new Error('Payment failed. Please try again.'));
-                    }
-                }, 2000);
-            });
-            setPaymentSuccess(true); // Simulate successful payment
-        } catch (error) {
-            setPaymentError(error.message);
-        } finally {
-            setPaymentProcessing(false);
-        }
-    };
+  // Declare states for payment, loading, and error
+  const [paymentMethod, setPaymentMethod] = useState(''); // Initially no payment method selected
+  const [loading, setLoading] = useState(false); // Track payment loading state
+  const [error, setError] = useState(''); // Track error messages
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        if (paymentMethod === 'credit-card') {
-            setCardDetails((prevDetails) => ({
-                ...prevDetails,
-                [name]: value
-            }));
-        } else if (paymentMethod === 'upi') {
-            setUpiDetails((prevDetails) => ({
-                ...prevDetails,
-                [name]: value
-            }));
-        }
-    };
+  // Dynamically get userId from localStorage (replace with your actual authentication method)
+  const userId = localStorage.getItem('userId'); // Assumes userId is stored in localStorage during login
 
-    return (
-        <div className="payment-container">
-            <section className="payment-info">
-            <h2 style={{ marginLeft: '280px',color: '#39083f'}}>Payment Information</h2>
-                <div className="payment-methods">
-                    <label>
-                        <input 
-                            type="radio" 
-                            name="payment" 
-                            value="credit-card" 
-                            checked={paymentMethod === 'credit-card'} 
-                            onChange={() => setPaymentMethod('credit-card')}
-                        />
-                        Credit Card/Debit Card
-                    </label>
-                    <label>
-                        <input 
-                            type="radio" 
-                            name="payment" 
-                            value="upi" 
-                            checked={paymentMethod === 'upi'} 
-                            onChange={() => setPaymentMethod('upi')}
-                        />
-                        UPI
-                    </label>
-                    <label>
-                        <input 
-                            type="radio" 
-                            name="payment" 
-                            value="cod" 
-                            checked={paymentMethod === 'cod'} 
-                            onChange={() => setPaymentMethod('cod')}
-                        />
-                        Cash on Delivery
-                    </label>
-                </div>
-                {paymentMethod === 'credit-card' && (
-                    <form>
-                        <label>Card Number:</label>
-                        <input 
-                            type="text" 
-                            name="cardNumber" 
-                            value={cardDetails.cardNumber} 
-                            placeholder="1234 5678 9012 3456" 
-                            onChange={handleInputChange}
-                        />
-                        <label>Expiration Date:</label>
-                        <input 
-                            type="text" 
-                            name="expirationDate" 
-                            value={cardDetails.expirationDate} 
-                            placeholder="MM/YYYY" 
-                            onChange={handleInputChange}
-                        />
-                        <label>CVV:</label>
-                        <input 
-                            type="text" 
-                            name="cvv" 
-                            value={cardDetails.cvv} 
-                            placeholder="123" 
-                            onChange={handleInputChange}
-                        />
-                        <label>Billing Address:</label>
-                        <textarea 
-                            name="billingAddress" 
-                            value={cardDetails.billingAddress} 
-                            placeholder="123 Street, City, Country" 
-                            onChange={handleInputChange}
-                        />
-                    </form>
-                )}
-                {paymentMethod === 'upi' && (
-                    <form>
-                        <label>UPI ID:</label>
-                        <input 
-                            type="text" 
-                            name="upiId" 
-                            value={upiDetails.upiId} 
-                            placeholder="example@upi" 
-                            onChange={handleInputChange}
-                        />
-                    </form>
-                )}
-            </section>
+  useEffect(() => {
+    // If no userId is found, redirect to login page
+    if (!userId) {
+      navigate('/login');
+    }
+  }, [userId, navigate]); // The effect depends on userId, so it will run on changes
 
-            <section className="order-review">
-                <h2 style={{ marginLeft: '280px'}}>Order Review</h2>
-                <div className="order-summary-review">
-                    <div className="summary-item">
-                        <div className="label">Subtotal:</div>
-                        <div className="value">₹{subtotal}</div>
-                    </div>
-                    <div className="summary-item">
-                        <div className="label">Shipping:</div>
-                        <div className="value">₹{shippingCost}</div>
-                    </div>
-                    <div className="summary-item">
-                        <div className="label">Total:</div>
-                        <div className="value">₹{total}</div>
-                    </div>
-                </div>
-                <label>
-                    <input type="checkbox" required />
-                    I agree to the <a href="/term">terms and conditions</a>.
-                </label>
-                <button
-                    className="place-order-button"
-                    onClick={handlePayment}
-                    disabled={paymentProcessing}
-                >
-                    {paymentProcessing ? 'Processing...' : 'Place Order'}
-                </button>
-                {paymentError && <p className="payment-message payment-error">{paymentError}</p>}
-                {paymentSuccess && <p className="payment-message payment-success">Payment successful!</p>}
-            </section>
+  // Handle Wallet Payment (redirect to wallet page)
+  const handleWalletPayment = async () => {
+    setLoading(true); // Start loading
+    try {
+      const orderPayload = {
+        userId: parseInt(userId, 10), // Ensure userId is passed as an integer
+        orderedItems: cartItems.map((item) => ({
+          productId: item.product.id, // Use the productId from cartItems
+          quantity: item.quantity,
+          assignedUnits: item.product.assignedUnits, // Assuming assignedUnits is an array
+          priceAfterDiscount: item.product.priceAfterDiscount,
+        })),
+        shipmentCompany: 'FedEx', // Shipping company
+        shipmentRequestStatus: 'Pending',
+        shipmentStatus: 'Pending',
+        invoice: 'INV123456', // Example invoice number
+        refundStatus: 'No Refund',
+        refundDetails: 'Refund processed on 2024-10-01.',
+        shippingCost: localShippingCost,
+        orderingStatus: 'Pending', // Order status
+        orderFulfillmentStatus: 'Unfulfilled', // Fulfillment status
+        prePayment: false, // No pre-payment for Wallet
+        paymentStatus: true, // Payment status for Wallet
+        totalItemCost: subtotal, // Total cost of items
+        totalOrderCost: totalWithShipping, // Total order cost (including shipping)
+      };
+
+      // Send POST request to backend API to place the order
+      const response = await axios.post('http://localhost:5000/orders', orderPayload);
+
+      if (response.status === 200) {
+        // If successful, redirect to Wallet page with total amount passed
+        navigate('/Wallet', { state: { totalWithShipping } });
+      }
+    } catch (err) {
+      console.error('Error placing order:', err);
+      setError('There was an issue placing the order. Please try again.');
+    } finally {
+      setLoading(false); // Stop loading
+    }
+  };
+
+  // Handle Cash on Delivery (COD) - Simulate payment, no redirect
+  const handleCODPayment = async () => {
+    setLoading(true); // Start loading
+    try {
+      const orderPayload = {
+        userId: parseInt(userId, 10), // Ensure userId is passed as an integer
+        orderedItems: cartItems.map((item) => ({
+          productId: item.product.id,
+          quantity: item.quantity,
+          assignedUnits: item.product.assignedUnits,
+          priceAfterDiscount: item.product.priceAfterDiscount,
+        })),
+        shipmentCompany: 'FedEx',
+        shipmentRequestStatus: 'Pending',
+        shipmentStatus: 'Pending',
+        invoice: 'INV123456',
+        refundStatus: 'No Refund',
+        refundDetails: 'Refund processed on 2024-10-01.',
+        shippingCost: localShippingCost,
+        orderingStatus: 'Pending',
+        orderFulfillmentStatus: 'Unfulfilled',
+        prePayment: false,
+        paymentStatus: false,
+        totalItemCost: subtotal,
+        totalOrderCost: totalWithShipping,
+      };
+
+      // Send POST request to backend API to place the order
+      const response = await axios.post('http://localhost:5000/orders', orderPayload);
+
+      if (response.status === 200) {
+        // If successful, show alert for COD
+        alert('Order placed successfully with COD!');
+      }
+    } catch (err) {
+      console.error('Error placing order:', err);
+      setError('There was an issue placing the order. Please try again.');
+    } finally {
+      setLoading(false); // Stop loading
+    }
+  };
+
+  const handlePaymentClick = () => {
+    if (paymentMethod === 'wallet') {
+      handleWalletPayment(); // Call Wallet payment handler
+    } else if (paymentMethod === 'cod') {
+      handleCODPayment(); // Call COD payment handler
+    } else {
+      setError('Please select a payment method.');
+    }
+  };
+
+  return (
+    <div className="payment-container">
+      <section className="payment-info">
+        <h2>Payment Information</h2>
+        <div className="payment-methods">
+          <label>
+            <input
+              type="radio"
+              name="payment"
+              value="wallet"
+              checked={paymentMethod === 'wallet'}
+              onChange={() => setPaymentMethod('wallet')} // Select wallet option
+            />
+            Wallet
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="payment"
+              value="cod"
+              checked={paymentMethod === 'cod'}
+              onChange={() => setPaymentMethod('cod')} // Select COD option
+            />
+            Cash on Delivery (COD)
+          </label>
         </div>
-    );
+      </section>
+
+      <section className="order-review">
+        <h2>Order Review</h2>
+        <div className="order-summary-review">
+          <div className="summary-item">
+            <div className="label">Subtotal:</div>
+            <div className="value">₹{subtotal}</div>
+          </div>
+          <div className="summary-item">
+            <div className="label">Shipping:</div>
+            <div className="value">₹{localShippingCost}</div>
+          </div>
+          <div className="summary-item">
+            <div className="label">Total:</div>
+            <div className="value">₹{totalWithShipping}</div>
+          </div>
+        </div>
+        <label>
+          <input type="checkbox" required />
+          I agree to the <a href="/terms">terms and conditions</a>.
+        </label>
+
+        {/* Show error message if any */}
+        {error && <p className="error-message">{error}</p>}
+
+        {/* Disable the button if no payment method is selected */}
+        <button
+          className="place-order-button"
+          onClick={handlePaymentClick}
+          disabled={loading || !paymentMethod} // Button is disabled if loading or no payment method is selected
+        >
+          {loading ? 'Processing...' : 'Place Order'}
+        </button>
+      </section>
+    </div>
+  );
 };
 
 export default Payment;

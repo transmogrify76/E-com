@@ -1,53 +1,110 @@
-import React from 'react';
-import './Orders.css'
 
-const Orders = () => {
-  // Sample data for demonstration
-  const userData = {
-    orders: [ 
-      { id: 1,productName:'Full sleeve T-shirt', date: '2024-06-14', total: 500.25 , status:'pending'},
-      { id: 2,productName:'Full sleeve T-shirt', date: '2024-06-13', total: 370.80, status:'pending'},
-      { id: 3,productName:'Full sleeve T-shirt', date: '2024-06-12', total: 100.00, status:'pending'},
-    ]
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Link } from 'react-router-dom'; // To navigate to individual order details
+import './Orders.css'; // Assume this is the correct path for your styles
+
+const OrderHistory = () => {
+  const [orders, setOrders] = useState([]); // State to store orders
+  const [loading, setLoading] = useState(true); // Loading state
+  const [error, setError] = useState(''); // Error handling state
+
+  // Get userId from localStorage or redirect to login if not available
+  const userId = localStorage.getItem('userId');
+  
+  useEffect(() => {
+    if (!userId) {
+      // Redirect to login if user is not logged in
+      window.location.href = '/login';
+      return;
+    }
+
+    const fetchOrders = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/orders', {
+          params: { userId: userId },
+        });
+
+        if (response.status === 200) {
+          setOrders(response.data); // Set orders state with fetched orders
+        }
+      } catch (err) {
+        console.error('Error fetching orders:', err);
+        setError('Failed to fetch order history. Please try again later.');
+      } finally {
+        setLoading(false); // Stop loading
+      }
+    };
+
+    fetchOrders();
+  }, [userId]); // Dependency array: fetch orders when userId is set
+
+  // Function to format order status
+  const formatStatus = (status) => {
+    switch (status) {
+      case 'PLACED':
+        return 'Order Placed';
+      case 'SHIPPED':
+        return 'Shipped';
+      case 'DISPATCHED':
+        return 'Dispatched';
+      case 'DELIVERED':
+        return 'Delivered';
+      default:
+        return 'Unknown Status';
+    }
   };
 
-  // Check if userData.orders exists and has at least one order
-  if (!userData.orders || userData.orders.length === 0) {
-    return (
-      <div className="order-history-section">
-        <h3>Order History</h3>
-        <p>No orders found.</p>
-      </div>
-    );
-  }
-
   return (
-    <div className="order-history-section">
-      <h3>Order History</h3>
-      <table className="order-history-table">
-        <thead>
-          <tr>
-            <th>Order ID</th>
-            <th>Product name</th>
-            <th>Date</th>
-            <th>Total</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {userData.orders.map(order => (
-            <tr key={order.id}>
-              <td>{order.id}</td>
-              <td>{order.productName}</td>
-              <td>{order.date}</td>
-              <td>₹{order.total.toFixed(2)}</td>
-              <td>{order.status}</td>
+    <div className="order-history-container">
+      <h2>Order History</h2>
+
+      {loading ? (
+        <p>Loading your orders...</p>
+      ) : error ? (
+        <p className="error-message">{error}</p>
+      ) : (
+        <table className="order-history-table">
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Product Name</th>
+              <th>Price</th>
+              <th>Size</th>
+              <th>Color</th>
+              <th>Status</th>
+              <th>Action</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {orders.length > 0 ? (
+              orders.map((order) => (
+                <tr key={order.id}>
+                  <td>{order.id}</td>
+                  <td>{order.orderedItems[0]?.product?.name}</td>
+                  <td>₹{order.totalOrderCost}</td>
+                  <td>{order.orderedItems[0]?.selectedSize}</td>
+                  <td>{order.orderedItems[0]?.selectedColor}</td>
+                  <td>{formatStatus(order.status)}</td>
+                  <td>
+                    <Link to={`/order/${order.id}`} className="view-order-button">
+                      View Details
+                    </Link>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="7" style={{ textAlign: 'center' }}>No orders found</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 };
 
-export default Orders;
+export default OrderHistory;
+
+

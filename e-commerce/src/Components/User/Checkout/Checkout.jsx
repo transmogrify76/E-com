@@ -1,18 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './Checkout.css';
-import { useLocation, useNavigate } from 'react-router-dom'; // Import for routing
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const Checkout = () => {
-  const { state } = useLocation(); // Get the state passed from Cart page
-  const { cartItems } = state || {}; // Destructure cartItems from state
-  const [updatedCartItems, setUpdatedCartItems] = useState(cartItems || []); // State for updated cart items
-  const [shippingOption, setShippingOption] = useState('none'); // Default shipping option to 'none'
-  const [localShippingCost, setLocalShippingCost] = useState(0); // Local shipping cost state
-  const [loading, setLoading] = useState(false); // Loading state
-  const [error, setError] = useState(null); // Error state
-  const navigate = useNavigate(); // For navigation
+  const { state } = useLocation();  // Get the state passed from the previous page
+  const { cartItems, productDetails } = state || {};  // Destructure cartItems and productDetails
+  const [updatedCartItems, setUpdatedCartItems] = useState(cartItems || []);  // State for updated cart items
+  const [shippingOption, setShippingOption] = useState('none');  // Default shipping option to 'none'
+  const [localShippingCost, setLocalShippingCost] = useState(0);  // Local shipping cost state
+  const [loading, setLoading] = useState(false);  // Loading state
+  const [error, setError] = useState(null);  // Error state
+  const navigate = useNavigate();  // For navigation
 
-  // Get the userId (assumed to be stored in localStorage)
   const userId = localStorage.getItem('userId');
 
   // Recalculate the total cart amount
@@ -24,8 +23,8 @@ const Checkout = () => {
     return total;
   };
 
-  const subtotal = getTotalCartAmount(); // Get subtotal
-  const totalWithShipping = subtotal + localShippingCost; // Calculate total with shipping
+  const subtotal = getTotalCartAmount();  // Get subtotal
+  const totalWithShipping = subtotal + localShippingCost;  // Calculate total with shipping
 
   // Handle shipping option change
   const handleShippingChange = (e) => {
@@ -39,7 +38,14 @@ const Checkout = () => {
 
   // Proceed to payment page
   const handleProceedToPayment = () => {
-    navigate('/payment'); // Navigate to payment page
+    navigate('/payment', {
+      state: {
+        subtotal,
+        localShippingCost,
+        totalWithShipping,
+        cartItems: updatedCartItems,  // Pass cartItems for reference on the payment page
+      }
+    });  // Navigate to payment page with state
   };
 
   return (
@@ -55,19 +61,33 @@ const Checkout = () => {
               <tr>
                 <th>Product</th>
                 <th>Size</th>
+                <th>Color</th>
                 <th>Price</th>
                 <th>Quantity</th>
                 <th>Total</th>
               </tr>
             </thead>
             <tbody>
-              {updatedCartItems.length === 0 ? (
+              {/* Show product details passed from "Buy Now" button */}
+              {productDetails ? (
+                <tr key={productDetails.product.id}>
+                  <td>
+                    <img src={productDetails.image} alt={productDetails.product.name} className="checkout-product-icon" />
+                    {productDetails.product.name}
+                  </td>
+                  <td>{productDetails.product.selectedSize}</td>
+                  <td>{productDetails.product.selectedColor}</td>
+                  <td>₹{productDetails.product.price}</td>
+                  <td>{productDetails.product.quantity}</td>
+                  <td>₹{productDetails.product.price * productDetails.product.quantity}</td>
+                </tr>
+              ) : updatedCartItems.length === 0 ? (
                 <tr>
-                  <td colSpan="5" style={{ textAlign: 'center' }}>Your cart is empty.</td>
+                  <td colSpan="6" style={{ textAlign: 'center' }}>Your cart is empty.</td>
                 </tr>
               ) : (
                 updatedCartItems.map((item) => {
-                  const { quantity, size } = item;
+                  const { quantity, size, color } = item;
                   const product = item.product;
                   if (product && quantity > 0) {
                     return (
@@ -77,6 +97,7 @@ const Checkout = () => {
                           {product.name}
                         </td>
                         <td>{product.productDetails.find(detail => detail.key === 'size')?.value}</td>
+                        <td>{product.productDetails.find(detail => detail.key === 'color')?.value}</td>
                         <td>₹{product.price}</td>
                         <td>{quantity}</td>
                         <td>₹{product.price * quantity}</td>
@@ -144,4 +165,3 @@ const Checkout = () => {
 };
 
 export default Checkout;
-

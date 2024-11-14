@@ -472,3 +472,9 @@
     margin: 0;
 }
 
+.cartSuccessMessage {
+    margin-top: 10px;
+    color: green;
+    font-size: 16px;
+    font-weight: bold;
+}
