@@ -1,11 +1,26 @@
+/* Product Description Box */
 .descriptionbox {
-    margin: 120px 170px;
+    position: absolute; /* Position box on the left side of the page */
+    left: 0; /* Align to the left of the page */
+    top: 150px; /* Space from the top of the page */
+    margin: 0; /* Remove any other margin */
+    padding: 20px;
+    width: 50%; /* Set the width to 50% of the page or adjust as needed */
+    min-width: 600px; /* Minimum width to avoid the box getting too small */
+    height: auto; /* Let the height adjust based on content */
+    border-radius: 5px;
+    background-color: #f9f9f9;
 }
 
+/* Navigator for the description box (Description and Reviews Tabs) */
 .descriptionbox-navigator {
     display: flex;
+    justify-content: flex-start; /* Align navigation items to the left */
+    gap: 5px; /* Space between navigation buttons */
+    margin-bottom: 0px; /* Space below navigation */
 }
 
+/* Individual navigation box styling */
 .descriptionbox-nav-box, .descriptionbox-nav-box-fade {
     display: flex;
     align-items: center;
@@ -16,12 +31,15 @@
     height: 70px;
     border: 1px solid #d0d0d0;
     cursor: pointer;
+    padding: 10px;
 }
 
+/* Active state for navigation box */
 .descriptionbox-nav-box.active, .descriptionbox-nav-box-fade.active {
     border-bottom: 3px solid #000;
 }
 
+/* Styling for the description content */
 .descriptionbox-description {
     display: flex;
     flex-direction: column;
@@ -29,8 +47,10 @@
     border: 1px solid #b93434;
     padding: 48px;
     padding-bottom: 70px;
+    background-color: #fff;
 }
 
+/* Styling for the reviews section */
 .descriptionbox-reviews {
     display: flex;
     flex-direction: column;
@@ -38,24 +58,29 @@
     border: 1px solid #b93434;
     padding: 48px;
     padding-bottom: 70px;
+    background-color: #fff;
 }
 
+/* Review item styling */
 .review {
     border-bottom: 1px solid #d0d0d0;
     padding-bottom: 10px;
 }
 
+/* Review title */
 .review h3 {
     margin: 0;
     font-size: 18px;
     font-weight: bold;
 }
 
+/* Review text */
 .review p {
     margin: 5px 0 10px;
     font-size: 16px;
 }
 
+/* Star ratings */
 .review-stars {
     display: flex;
 }

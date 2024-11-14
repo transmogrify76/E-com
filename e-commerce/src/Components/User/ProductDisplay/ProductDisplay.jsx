@@ -396,7 +396,6 @@ import star_icon from '../../Assests/Ecommerce_Frontend_Assets/Assets/star_icon.
 import star_dull_icon from '../../Assests/Ecommerce_Frontend_Assets/Assets/star_dull_icon.png';
 import { useNavigate } from 'react-router-dom';
 import body_measure_image from '../../Assests/Ecommerce_Frontend_Assets/Assets/body_measure_image.png';
- import DescriptionBox from '../DescriptionBox/DescriptionBox';  // This is where the DescriptionBox is imported
 
 
 const ProductDisplay = ({ product, image }) => {
@@ -665,57 +664,7 @@ const ProductDisplay = ({ product, image }) => {
                         min="1"
                     />
                 </div>
-                {/* for first description box  start*/}
 
-
-                {/* Description and Reviews Tabs */}
-                 <div className="descriptionbox-navigator">
-                    <div
-                        className={`descriptionbox-nav-box ${!showReviews ? 'active' : ''}`}
-                        onClick={() => handleTabClick('description')}
-                    >
-                        Description
-                    </div>
-                    <div
-                        className={`descriptionbox-nav-box ${showReviews ? 'active' : ''}`}
-                        onClick={() => handleTabClick('reviews')}
-                    >
-                        Reviews ({reviews.length})
-                    </div>
-                </div>
-
-                {/*  Description or Reviews Content */}
-                 {loading ? (
-                    <div>Loading...</div>
-                ) : ( 
-                     <>
-                        {error && <div className="error-message">{error}</div>}
-
-                        {!showReviews ? (
-                            <div className="descriptionbox-description">
-                                <p>{description || 'No description available.'}</p>
-                            </div>
-                        ) : (
-                            <div className="descriptionbox-reviews">
-                                {reviews.length > 0 ? (
-                                    reviews.map((review, index) => (
-                                        <div key={index} className="review"> 
-                                             <h4>{review.userId ? `User ${review.userId}` : "Anonymous"}</h4>
-                                            <p>{review.review}</p>
-                                            <div className="review-rating">
-                                                <p>Rated {review.ratings} / 5</p>
-                                            </div>
-                                        </div>
-                                    ))
-                                ) : (
-                                    <p>No reviews yet. Be the first to review this product!</p>
-                                )}
-                            </div>
-                        )}
-                    </>
-                )} 
-
-                {/* for first description box  end */}
 
                 <button className="productdisplay-right-btn" onClick={handleAddToCart} disabled={loading}>
                     {loading ? 'Adding to Cart...' : 'Add to Cart'}
@@ -822,6 +771,57 @@ const ProductDisplay = ({ product, image }) => {
                         </div>
                     </div>
                 )}
+                                {/* for first description box  start*/}
+
+
+                {/* Description and Reviews Tabs */}
+                <div className="descriptionbox-navigator">
+                    <div
+                        className={`descriptionbox-nav-box ${!showReviews ? 'active' : ''}`}
+                        onClick={() => handleTabClick('description')}
+                    >
+                        Description
+                    </div>
+                    <div
+                        className={`descriptionbox-nav-box ${showReviews ? 'active' : ''}`}
+                        onClick={() => handleTabClick('reviews')}
+                    >
+                        Reviews ({reviews.length})
+                    </div>
+                </div>
+
+                {/*  Description or Reviews Content */}
+                 {loading ? (
+                    <div>Loading...</div>
+                ) : ( 
+                     <>
+                        {error && <div className="error-message">{error}</div>}
+
+                        {!showReviews ? (
+                            <div className="descriptionbox-description">
+                                <p>{description || 'No description available.'}</p>
+                            </div>
+                        ) : (
+                            <div className="descriptionbox-reviews">
+                                {reviews.length > 0 ? (
+                                    reviews.map((review, index) => (
+                                        <div key={index} className="review"> 
+                                             <h4>{review.userId ? `User ${review.userId}` : "Anonymous"}</h4>
+                                            <p>{review.review}</p>
+                                            <div className="review-rating">
+                                                <p>Rated {review.ratings} / 5</p>
+                                            </div>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <p>No reviews yet. Be the first to review this product!</p>
+                                )}
+                            </div>
+                        )}
+                    </>
+                )} 
+
+                {/* for first description box  end */}
             </div>
         </div>
     );

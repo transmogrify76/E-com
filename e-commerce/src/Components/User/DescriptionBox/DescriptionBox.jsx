@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import './DescriptionBox.css';
 
 const DescriptionBox = ({ productId }) => {
-    const [showReviews, setShowReviews] = useState(false); // Toggle between description and reviews
     const [loading, setLoading] = useState(false); // Track loading state
     const [productDescription, setProductDescription] = useState(''); // Store product description
     const [reviews, setReviews] = useState([]); // Store reviews
@@ -52,58 +51,34 @@ const DescriptionBox = ({ productId }) => {
         }
     }, [productId]);
 
-    // Tab click handler to toggle between description and reviews
-    const handleTabClick = (tab) => {
-        setShowReviews(tab === 'reviews');
-    };
-
     return (
         <div className="descriptionbox">
-            {/* Tab navigation */}
-            <div className="descriptionbox-navigator">
-                <div
-                    className={`descriptionbox-nav-box ${!showReviews ? 'active' : ''}`}
-                    onClick={() => handleTabClick('description')}
-                >
-                    Description
-                </div>
-                <div
-                    className={`descriptionbox-nav-box ${showReviews ? 'active' : ''}`}
-                    onClick={() => handleTabClick('reviews')}
-                >
-                    Reviews ({reviews.length})
-                </div>
-            </div>
-
-            {/* Content (Description or Reviews) */}
+            {/* Loading and error handling */}
             {loading ? (
                 <div>Loading...</div>
             ) : (
                 <>
                     {error && <div className="error-message">{error}</div>}
 
-                    {/* Show description if 'showReviews' is false */}
-                    {!showReviews ? (
-                        <div className="descriptionbox-description">
-                            <p>{productDescription}</p>
-                        </div>
-                    ) : (
-                        <div className="descriptionbox-reviews">
-                            {reviews.length > 0 ? (
-                                reviews.map((review, index) => (
-                                    <div key={index} className="review">
-                                        <h4>{review.userId ? `User ${review.userId}` : "Anonymous"}</h4>
-                                        <p>{review.review}</p>
-                                        <div className="review-rating">
-                                            <p>Rated {review.ratings} / 5</p>
-                                        </div>
+                    {/* Display the description */}
+                    <div className="descriptionbox-content">
+                        <p>{productDescription}</p>
+                    </div>
+
+                    {/* Display the reviews */}
+                    <div className="reviewsbox-content">
+                        {reviews.length > 0 && (
+                            reviews.map((review, index) => (
+                                <div key={index} className="review">
+                                    <h4>{review.userId ? `User ${review.userId}` : "Anonymous"}</h4>
+                                    <p>{review.review}</p>
+                                    <div className="review-rating">
+                                        <p>Rated {review.ratings} / 5</p>
                                     </div>
-                                ))
-                            ) : (
-                                <p>No reviews yet. Be the first to review this product!</p>
-                            )}
-                        </div>
-                    )}
+                                </div>
+                            ))
+                        )}
+                    </div>
                 </>
             )}
         </div>
