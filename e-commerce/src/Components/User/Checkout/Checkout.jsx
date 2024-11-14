@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Checkout.css';
 import { useLocation, useNavigate } from 'react-router-dom'; // Import for routing
 
@@ -8,7 +8,12 @@ const Checkout = () => {
   const [updatedCartItems, setUpdatedCartItems] = useState(cartItems || []); // State for updated cart items
   const [shippingOption, setShippingOption] = useState('none'); // Default shipping option to 'none'
   const [localShippingCost, setLocalShippingCost] = useState(0); // Local shipping cost state
+  const [loading, setLoading] = useState(false); // Loading state
+  const [error, setError] = useState(null); // Error state
   const navigate = useNavigate(); // For navigation
+
+  // Get the userId (assumed to be stored in localStorage)
+  const userId = localStorage.getItem('userId');
 
   // Recalculate the total cart amount
   const getTotalCartAmount = () => {
@@ -48,8 +53,7 @@ const Checkout = () => {
           <table>
             <thead>
               <tr>
-                <th>Product Image</th>
-                <th>Product Name</th>
+                <th>Product</th>
                 <th>Size</th>
                 <th>Price</th>
                 <th>Quantity</th>
@@ -59,19 +63,19 @@ const Checkout = () => {
             <tbody>
               {updatedCartItems.length === 0 ? (
                 <tr>
-                  <td colSpan="6" style={{ textAlign: 'center' }}>Your cart is empty.</td>
+                  <td colSpan="5" style={{ textAlign: 'center' }}>Your cart is empty.</td>
                 </tr>
               ) : (
                 updatedCartItems.map((item) => {
-                  const { quantity } = item;
+                  const { quantity, size } = item;
                   const product = item.product;
                   if (product && quantity > 0) {
                     return (
                       <tr key={product.id}>
                         <td>
                           <img src={product.image} alt={product.name} className="checkout-product-icon" />
+                          {product.name}
                         </td>
-                        <td>{product.name}</td> {/* Show product name here */}
                         <td>{product.productDetails.find(detail => detail.key === 'size')?.value}</td>
                         <td>₹{product.price}</td>
                         <td>{quantity}</td>
@@ -140,3 +144,4 @@ const Checkout = () => {
 };
 
 export default Checkout;
+

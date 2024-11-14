@@ -1,121 +1,134 @@
-import React, { useContext, useEffect, useState } from 'react';
-import axios from 'axios';
-import './WislistItems.css';
-import { ShopContext } from '../Context/ShopContext';
+import React, { useState, useEffect } from 'react';
+import './WislistItems.css'; // Your CSS file for styling
+import { Link } from 'react-router-dom'; // Using Link component for navigation
 
 const WishlistItems = () => {
-    const { all_product, addToCart, removeFromWishlist } = useContext(ShopContext);
-    const [wishlistItems, setWishlistItems] = useState([]);
-    const [selectedSize, setSelectedSize] = useState({});
-    const [error, setError] = useState(null);
+  const [wishlistItems, setWishlistItems] = useState([]); // Wishlist items state
+  const [loading, setLoading] = useState(true); // Loading state
+  const [error, setError] = useState(null); // Error state
+  const [userId, setUserId] = useState(null); // User ID state
+  const [productImages, setProductImages] = useState({}); // Images of products in the wishlist
 
-    useEffect(() => {
-        const fetchWishlistItems = async () => {
-            const userId = 1;
-            const accessToken = localStorage.getItem('accessToken');
+  // Fetch user id and wishlist items when component mounts
+  useEffect(() => {
+    const storedUserId = localStorage.getItem('userId');
+    if (storedUserId) {
+      setUserId(storedUserId);
+      fetchWishlistItems(storedUserId);
+    } else {
+      setError('User is not logged in.');
+      setLoading(false);
+    }
+  }, []);
 
-            try {
-                const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/wishlist`, {
-                    headers: { Authorization: `Bearer ${accessToken}` },
-                    params: { userId } // Assuming your API can take userId as a query parameter
-                });
-                setWishlistItems(response.data); // Assuming the response returns an array of product IDs
-            } catch (err) {
-                console.error('Error fetching wishlist items:', err);
-                setError(err.response?.data?.message || 'Error fetching wishlist items');
-            }
-        };
+  // Fetch wishlist items from the backend
+  const fetchWishlistItems = async (userId) => {
+    setLoading(true);
+    setError(null);
 
-        fetchWishlistItems();
-    }, []);
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/wishlist/${userId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
 
-    const handleSizeChange = (itemId, size) => {
-        setSelectedSize(prev => ({ ...prev, [itemId]: size }));
-    };
+      if (!response.ok) {
+        throw new Error(`Failed to fetch wishlist items: ${response.statusText}`);
+      }
 
-    const handleAddToCart = (itemId) => {
-        const size = selectedSize[itemId];
-        if (!size) {
-            alert('Please select a size before adding to cart.');
-            return;
-        }
-        addToCart(itemId, 1, size);
-        alert('Item added to cart successfully!');
-    };
+      const data = await response.json();
+      setWishlistItems(data); // Set the fetched wishlist items
 
-    const handleRemoveFromWishlist = async (itemId) => {
-        const userId = 1; // Same as above, replace with the actual user ID
-        const accessToken = localStorage.getItem('accessToken');
+      // Optionally, fetch product images if necessary
+      data.forEach(item => fetchProductImage(item.product.id));
 
-        try {
-            await axios.delete(`${process.env.REACT_APP_BASE_URL}/wishlist`, {
-                headers: { Authorization: `Bearer ${accessToken}` },
-                data: { userId, productId: itemId }
-            });
-            setWishlistItems(prev => prev.filter(id => id !== itemId)); // Update local state
-            alert('Item removed from wishlist successfully!');
-        } catch (err) {
-            console.error('Error removing item from wishlist:', err);
-            alert(err.response?.data?.message || 'Error removing item from wishlist');
-        }
-    };
+    } catch (error) {
+      setError('Failed to fetch wishlist items. Please try again later.');
+      console.error('Error fetching wishlist items:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    return (
-        <div className='wishlist-items'>
-            <h2>Wishlist</h2>
-            {error && <p className="error">{error}</p>}
-            <hr />
-            {wishlistItems.length === 0 ? (
-                <p>Your wishlist is empty</p>
-            ) : (
-                wishlistItems.map(id => {
-                    const product = all_product.find(item => item.id === id);
+  // Fetch product image by product ID
+  const fetchProductImage = async (productId) => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/products/${productId}/image`);
+      if (response.ok) {
+        const imageData = await response.json();
+        setProductImages(prevState => ({
+          ...prevState,
+          [productId]: imageData.imageBase64, // Assuming imageBase64 is returned by the API
+        }));
+      }
+    } catch (error) {
+      console.error('Error fetching product image:', error);
+    }
+  };
 
-                    if (!product) {
-                        console.error(`Product with id ${id} is not found.`);
-                        return <p key={id}>Product not found</p>;
-                    }
+  // Handle removing item from wishlist
+  const handleRemoveFromWishlist = async (productId) => {
+    const userId = localStorage.getItem('userId'); // Get the logged-in userId from localStorage
 
-                    return (
-                        <div key={id} className="wishlist-item">
-                            <div className="wishlist-item-info">
-                                <img src={product.image} alt={product.name} className="wishlist-item-image" />
-                                <div className="wishlist-item-details">
-                                    <p className="wishlist-item-name">{product.name}</p>
-                                    <p className="wishlist-item-price">₹{product.new_price}</p>
-                                    <div className="wishlist-item-size">
-                                        <label htmlFor={`size-select-${id}`}>Size:</label>
-                                        <select
-                                            id={`size-select-${id}`}
-                                            value={selectedSize[id] || ''}
-                                            onChange={(e) => handleSizeChange(id, e.target.value)}
-                                        >
-                                            <option value="" disabled>Select Size</option>
-                                            {["Small", "Medium", "Large", "XL"].map(size => (
-                                                <option key={size} value={size}>{size}</option>
-                                            ))}
-                                        </select>
-                                    </div>
-                                    <button
-                                        className="wishlist-item-add-to-cart"
-                                        onClick={() => handleAddToCart(id)}
-                                    >
-                                        Add to Cart
-                                    </button>
-                                    <button
-                                        className="wishlist-item-remove"
-                                        onClick={() => handleRemoveFromWishlist(id)}
-                                    >
-                                        Remove
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    );
-                })
-            )}
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/wishlist/${userId}/${productId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        alert('Item removed from wishlist!');
+        fetchWishlistItems(userId); // Refetch wishlist after removal
+      } else {
+        throw new Error('Failed to remove item');
+      }
+    } catch (error) {
+      console.error('Error removing item from wishlist:', error);
+      alert('Failed to remove item from wishlist.');
+    }
+  };
+
+  // Loading and error states
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p style={{ color: 'red' }}>{error}</p>;
+
+  return (
+    <div className="wishlist-items">
+      <h2>Your Wishlist</h2>
+      {wishlistItems.length === 0 ? (
+        <p>Your wishlist is empty.</p>
+      ) : (
+        <div className="wishlist-items-grid">
+          {wishlistItems.map((item) => (
+            <div key={item.product.id} className="wishlist-item-card">
+              <Link to={`/product/${item.product.id}`}>
+                <img
+                  src={productImages[item.product.id] ? `data:image/jpeg;base64,${productImages[item.product.id]}` : '/fallback-image.jpg'}
+                  alt={item.product.name}
+                  className="wishlist-product-image"
+                />
+              </Link>
+              <div className="wishlist-item-details">
+                <h3>{item.product.name}</h3>
+              
+                <button
+                  className="remove-from-wishlist-btn"
+                  onClick={() => handleRemoveFromWishlist(item.product.id)}
+                >
+                  Remove from Wishlist
+                </button>
+              </div>
+            </div>
+          ))}
         </div>
-    );
+      )}
+    </div>
+  );
 };
 
 export default WishlistItems;
+
