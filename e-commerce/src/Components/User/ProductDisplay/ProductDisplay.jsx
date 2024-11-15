@@ -859,14 +859,14 @@ const ProductDisplay = ({ product, image }) => {
         navigate('/login');
     }
 
-    // Fetch the product description and set it
+    // Fetch the product description and set it 
     useEffect(() => {
         if (product.description) {
             setDescription(product.description);
         }
     }, [product.description]);
 
-    // Check if the product is in the wishlist
+    // Check if the product is in the wishlist 
     useEffect(() => {
         const checkIfInWishlist = () => {
             const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
@@ -879,7 +879,7 @@ const ProductDisplay = ({ product, image }) => {
     // Fetch product reviews from the backend
     const fetchReviews = async () => {
         setLoading(true);
-        setError(null); // Reset error state on each fetch
+        setError(null); // Reset error state on each fetch 
         try {
             const reviewsResponse = await fetch(`http://localhost:5000/reviews/product/${product.id}`);
             if (!reviewsResponse.ok) {

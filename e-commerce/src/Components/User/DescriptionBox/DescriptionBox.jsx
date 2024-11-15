@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './DescriptionBox.css';
 
+
 const DescriptionBox = ({ productId }) => {
     const [loading, setLoading] = useState(false); // Track loading state
     const [productDescription, setProductDescription] = useState(''); // Store product description
