@@ -1,10 +1,9 @@
 /* General styles */
 body {
-  margin:0;
+  margin: 0;
   font-family: 'Arial', sans-serif;
   background-color: #f8f9fa;
-  
-} 
+}
 
 /* Hero section */
 .hero {
@@ -17,11 +16,8 @@ body {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   margin: 40px auto;
   max-width: 1100px;
-  height:-1000px;
-  transition: transform 0.3s ease;
 }
 
-/* Left side of the hero section */
 .hero-left {
   flex: 1;
 }
@@ -29,15 +25,13 @@ body {
 .hero-left h2 {
   font-size: 35px;
   color: #7c113e;
-margin-left: 100px;
   font-weight: 700;
 }
 
-
-.hero-left div {
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
+.hero-left p {
+  font-size: 35px;
+  color: #535152;
+  font-weight: 700;
 }
 
 .hand-hand-icon {
@@ -47,25 +41,6 @@ margin-left: 100px;
   margin-left: 20%;
 }
 
-
-.hand-hand-icon img {
-  width: 60px;
-  height: 60px;
-}
-
-.hero-left p {
-  font-size: 35px;
-  color: #535152;
-
-  font-weight: 700;
-}
-.latestcollection{
-  border-radius: 20px;
-  width:100%;
-  background: linear-gradient(135deg, #393ceb, #851132);
-  font-size: 20px;
-  color:#f8f9fa;
-}
 .hero-latest-version {
   display: flex;
   align-items: center;
@@ -74,7 +49,6 @@ margin-left: 100px;
   font-weight: bold;
   color: #333;
   cursor: pointer;
-  margin-left: 20%;
 }
 
 .hero-latest-version img {
@@ -90,6 +64,86 @@ margin-left: 100px;
   border-radius: 8px;
 }
 
+/* New Collections Section */
+.new-collections {
+  margin: 40px auto;
+  max-width: 1100px;
+  padding: 20px;
+}
+
+.new-collections h2 {
+  font-size: 32px;
+  color: #7c113e;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.collections-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.collection-item {
+  flex: 1 1 250px;  /* Flexible layout with a minimum size of 250px */
+  max-width: 300px;  /* Limit the max width */
+  text-align: center;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.collection-item:hover {
+  transform: scale(1.05);  /* Slight zoom effect on hover */
+}
+
+.collection-image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.collection-details {
+  margin-top: 10px;
+}
+
+.collection-details h3 {
+  font-size: 20px;
+  color: #333;
+  font-weight: bold;
+}
+
+.collection-details p {
+  font-size: 14px;
+  color: #777;
+}
+
+.collection-details .price {
+  font-size: 18px;
+  color: #7c113e;
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+/* Loading & Error States */
+.loading-state,
+.error-state {
+  text-align: center;
+  padding: 20px;
+}
+
+.loading-state p,
+.error-state p {
+  font-size: 18px;
+  color: #7c113e;
+  font-weight: 700;
+}
+
+/* Responsive Styles */
 @media (max-width: 768px) {
   .hero {
     flex-direction: column;
@@ -106,6 +160,19 @@ margin-left: 100px;
   .hand-hand-icon {
     margin-left: 0;
   }
+
+  .new-collections h2 {
+    font-size: 28px;
+  }
+
+  .collection-item {
+    flex: 1 1 200px;  /* Adjust for smaller screens */
+    max-width: 250px;
+  }
+
+  .collection-image {
+    max-width: 100%;
+  }
 }
 
 @media (max-width: 480px) {
@@ -120,8 +187,30 @@ margin-left: 100px;
   .latestcollection {
     font-size: 18px;
   }
+
+  .new-collections h2 {
+    font-size: 24px;
+  }
+
+  .collection-item {
+    flex: 1 1 180px;
+    max-width: 220px;
+  }
+
+  .collection-details h3 {
+    font-size: 18px;
+  }
+
+  .collection-details p {
+    font-size: 12px;
+  }
+
+  .collection-details .price {
+    font-size: 16px;
+  }
 }
 
+/* Now properly close the previous media query, then start a new one */
 @media (max-width: 320px) {
   .hero-left h2 {
     font-size: 24px;
@@ -133,5 +222,65 @@ margin-left: 100px;
 
   .latestcollection {
     font-size: 16px;
+  }
+
+  .new-collections h2 {
+    font-size: 20px;
+  }
+
+  /* Moved these styles inside this media query */
+  .collection-item {
+    display: flex;
+    flex-direction: column;  /* Align image and details vertically */
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+  }
+
+  .collection-item:hover {
+    transform: scale(1.05); /* Slight zoom effect on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+  }
+
+  .collection-link {
+    text-decoration: none;  /* Remove the underline from the link */
+    color: inherit;  /* Ensure the text color is inherited from its parent */
+  }
+
+  .collection-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;  /* Add border radius to images for rounded corners */
+    object-fit: cover;
+  }
+
+  .collection-details {
+    margin-top: 10px;
+  }
+
+  .collection-details h3,
+  .collection-details p {
+    margin: 0;  /* Remove any default margin */
+    padding: 0;  /* Remove padding to avoid unwanted spacing */
+    line-height: 1.5;  /* Improve line spacing for readability */
+  }
+
+  .collection-details h3 {
+    font-size: 1.2em;
+    font-weight: bold;
+  }
+
+  .collection-details p {
+    font-size: 1em;
+    color: #555;
+  }
+
+  .price {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #333;
+    margin-top: 5px;
   }
 }
