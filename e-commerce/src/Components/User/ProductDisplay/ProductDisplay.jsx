@@ -5,57 +5,52 @@ import star_dull_icon from '../../Assests/Ecommerce_Frontend_Assets/Assets/star_
 import { useNavigate } from 'react-router-dom';
 import body_measure_image from '../../Assests/Ecommerce_Frontend_Assets/Assets/body_measure_image.png';
 
-const ProductDisplay = ({ product, image }) => {
+const ProductDisplay = ({ product, image }) => { 
     const [quantity, setQuantity] = useState(1);
     const [selectedSize, setSelectedSize] = useState('');
     const [selectedColor, setSelectedColor] = useState('');
-    const [pincode, setPincode] = useState('');
-    const [estimatedDelivery, setEstimatedDelivery] = useState('');
-    const [cartError, setCartError] = useState('');
-    const [cartSuccessMessage, setCartSuccessMessage] = useState(''); // Success message state
-    const [loading, setLoading] = useState(false);
     const [productVariants, setProductVariants] = useState([]);
+    const [cartError, setCartError] = useState('');
+    const [cartSuccessMessage, setCartSuccessMessage] = useState('');
+    const [loading, setLoading] = useState(false);
     const [isInWishlist, setIsInWishlist] = useState(false);
     const [showSizeChart, setShowSizeChart] = useState(false);
+    const [pincode, setPincode] = useState('');
+    const [estimatedDelivery, setEstimatedDelivery] = useState('');
 
     const navigate = useNavigate();
     const userId = localStorage.getItem('userId');
-    if (!userId) {
-        navigate('/login');
-    }
+
+    useEffect(() => {
+        if (!userId) {
+            navigate('/login');
+        }
+    }, [userId, navigate]);
 
     useEffect(() => {
         const fetchProductVariants = async () => {
             try {
-                const response = await fetch(`${process.env.REACT_APP_BASE_URL}/products/varieties`, {
+                const response = await fetch('http://localhost:5000/products/varieties', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ productName: product.name }),
+                    body: JSON.stringify({ productId: product.id }), // Adjusted to send product ID instead of name
                 });
 
                 const data = await response.json();
                 if (data.products) {
-                    const groupedVariants = data.products.reduce((acc, variant) => {
-                        const color = variant.productDetails.find(detail => detail.key === 'color')?.value;
-                        const size = variant.productDetails.find(detail => detail.key === 'size')?.value;
+                    const variants = data.products.map((prod) => {
+                        const colors = prod.productDetails.filter((detail) => detail.key === 'color');
+                        const sizes = prod.productDetails.filter((detail) => detail.key === 'size');
+                        return {
+                            id: prod.id, // Product ID
+                            colors: colors.map((color) => color.value),
+                            sizes: sizes.map((size) => size.value),
+                        };
+                    });
 
-                        if (color) {
-                            if (!acc[color]) {
-                                acc[color] = [];
-                            }
-                            acc[color].push(size);
-                        }
-                        return acc;
-                    }, {});
-
-                    const variantList = Object.keys(groupedVariants).map(color => ({
-                        color,
-                        sizes: groupedVariants[color],
-                    }));
-
-                    setProductVariants(variantList);
+                    setProductVariants(variants);
                 }
             } catch (error) {
                 console.error('Error fetching product variants:', error);
@@ -63,21 +58,14 @@ const ProductDisplay = ({ product, image }) => {
         };
 
         fetchProductVariants();
-    }, [product.name]);
+    }, [product.id]);
 
-    const handleSizeSelect = (size) => {
-        setSelectedSize(size);
-    };
-
-    const handleColorSelect = (color) => {
-        setSelectedColor(color);
-    };
+    const handleSizeSelect = (size) => setSelectedSize(size);
+    const handleColorSelect = (color) => setSelectedColor(color);
 
     const handleQuantityChange = (event) => {
         const value = parseInt(event.target.value, 10);
-        if (!isNaN(value) && value >= 1) {
-            setQuantity(value);
-        }
+        if (!isNaN(value) && value >= 1) setQuantity(value);
     };
 
     const handleAddToCart = async () => {
@@ -85,12 +73,26 @@ const ProductDisplay = ({ product, image }) => {
             alert('Please select both size and color before adding to cart.');
             return;
         }
-        setCartSuccessMessage(''); // Clear any previous success message
+        setCartSuccessMessage('');
         setLoading(true);
+
+        // Find the product ID for the selected color and size
+        const selectedVariant = productVariants.find((variant) => {
+            return (
+                variant.colors.includes(selectedColor) &&
+                variant.sizes.includes(selectedSize)
+            );
+        });
+
+        if (!selectedVariant) {
+            alert('Product variant not available.');
+            setLoading(false);
+            return;
+        }
 
         const payload = {
             userId,
-            productId: product.id,
+            productId: selectedVariant.id,  // Send the variant's product ID
             quantity: quantity.toString(),
             size: selectedSize,
             color: selectedColor,
@@ -106,13 +108,11 @@ const ProductDisplay = ({ product, image }) => {
             });
 
             const data = await response.json();
-            if (!response.ok) {
-                throw new Error(data.message || 'Failed to add to cart');
-            }
+            if (!response.ok) throw new Error(data.message || 'Failed to add to cart');
 
             if (data.success) {
                 setCartSuccessMessage(`"${product.name}" added to cart successfully!`);
-                setTimeout(() => setCartSuccessMessage(''), 3000); // Hide the message after 3 seconds
+                setTimeout(() => setCartSuccessMessage(''), 3000);
                 navigate('/cart');
             } else {
                 throw new Error(data.message || 'Failed to add to cart');
@@ -130,6 +130,18 @@ const ProductDisplay = ({ product, image }) => {
             return;
         }
 
+        const selectedVariant = productVariants.find((variant) => {
+            return (
+                variant.colors.includes(selectedColor) &&
+                variant.sizes.includes(selectedSize)
+            );
+        });
+
+        if (!selectedVariant) {
+            alert('Product variant not available.');
+            return;
+        }
+
         const selectedProduct = {
             product,
             selectedSize,
@@ -143,22 +155,51 @@ const ProductDisplay = ({ product, image }) => {
         });
     };
 
-    const toggleSizeChart = () => {
-        setShowSizeChart(!showSizeChart);
+    const toggleSizeChart = () => setShowSizeChart(!showSizeChart);
+
+    const validatePincode = async () => {
+        const pinCodeRegex = /^[0-9]{6}$/;
+        if (!pincode.match(pinCodeRegex)) {
+            alert('Please enter a valid 6-digit pincode.');
+            return;
+        }
+
+        try {
+            const response = await fetch(`${process.env.REACT_APP.BASE_URL}/check-pincode`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ pincode }),
+            });
+
+            const data = await response.json();
+            if (response.ok && data.available) {
+                setEstimatedDelivery(`Delivery available: ${data.estimatedDeliveryDays} days`);
+            } else {
+                setEstimatedDelivery('Delivery is not available in this area.');
+            }
+        } catch (error) {
+            console.error('Error checking pincode availability:', error);
+            setEstimatedDelivery('Unable to check delivery availability at the moment.');
+        }
     };
 
     const handleWishlistToggle = async () => {
         if (isInWishlist) {
+            // Remove from wishlist
             try {
-                const response = await fetch(`${process.env.REACT_APP.BASE_URL}/wishlist/${userId}/${product.id}`, {
+                const response = await fetch(`http://localhost:5000/wishlist/${userId}/${product.id}`, {
                     method: 'DELETE',
                 });
 
                 if (response.ok) {
+                    // Remove from localStorage wishlist
                     let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
                     wishlist = wishlist.filter(item => item.id !== product.id);
                     localStorage.setItem('wishlist', JSON.stringify(wishlist));
-                    setIsInWishlist(false);
+                    setIsInWishlist(false); // Update state
+                    alert('Removed from wishlist');
                 } else {
                     alert('Failed to remove from wishlist');
                 }
@@ -166,8 +207,9 @@ const ProductDisplay = ({ product, image }) => {
                 alert('An error occurred while removing from wishlist');
             }
         } else {
+            // Add to wishlist
             try {
-                const response = await fetch(`${process.env.REACT_APP.BASE_URL}/wishlist`, {
+                const response = await fetch('http://localhost:5000/wishlist', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -179,10 +221,12 @@ const ProductDisplay = ({ product, image }) => {
                 });
 
                 if (response.ok) {
+                    // Add to localStorage wishlist
                     let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
                     wishlist.push({ id: product.id });
                     localStorage.setItem('wishlist', JSON.stringify(wishlist));
-                    setIsInWishlist(true);
+                    setIsInWishlist(true); // Update state
+                    alert('Added to wishlist');
                 } else {
                     alert('Failed to add to wishlist');
                 }
@@ -192,21 +236,20 @@ const ProductDisplay = ({ product, image }) => {
         }
     };
 
-    const validatePincode = () => {
-        const pinCodeRegex = /^[0-9]{6}$/;
-        if (!pincode.match(pinCodeRegex)) {
-            alert('Please enter a valid 6-digit pincode.');
-            return;
-        }
-
-        setEstimatedDelivery('Estimated delivery: 3-5 business days');
-    };
+    useEffect(() => {
+        const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+        setIsInWishlist(wishlist.some(item => item.id === product.id));
+    }, [product.id]);
 
     return (
         <div className="productdisplay">
             <div className="productdisplay-left">
                 <div className="productdisplay-img">
-                    <img className="productdisplay-main-img" src={image || product.images[0]?.url} alt={product.name} />
+                    <img
+                        className="productdisplay-main-img"
+                        src={image || product.images[0]?.url}
+                        alt={product.name}
+                    />
                 </div>
             </div>
 
@@ -214,7 +257,11 @@ const ProductDisplay = ({ product, image }) => {
                 <h1>{product.name}</h1>
                 <div className="productdisplay-right-stars">
                     {[...Array(5)].map((_, i) => (
-                        <img key={i} src={i < product.rating ? star_icon : star_dull_icon} alt="Star Icon" />
+                        <img
+                            key={i}
+                            src={i < product.rating ? star_icon : star_dull_icon}
+                            alt="Star Icon"
+                        />
                     ))}
                     <p>(122)</p>
                 </div>
@@ -228,14 +275,16 @@ const ProductDisplay = ({ product, image }) => {
                     <div className="productdisplay-right-colors">
                         {productVariants.length > 0 ? (
                             productVariants.map((variant) => (
-                                <div
-                                    key={variant.color}
-                                    className={`color-option ${selectedColor === variant.color ? 'selected' : ''}`}
-                                    onClick={() => handleColorSelect(variant.color)}
-                                    style={{ backgroundColor: variant.color.toLowerCase() }}
-                                >
-                                    {variant.color}
-                                </div>
+                                variant.colors.map((color) => (
+                                    <div
+                                        key={color}
+                                        className={`color-option ${selectedColor === color ? 'selected' : ''}`}
+                                        onClick={() => handleColorSelect(color)}
+                                        style={{ backgroundColor: color.toLowerCase() }}
+                                    >
+                                        {color}
+                                    </div>
+                                ))
                             ))
                         ) : (
                             <p className="error-message">No colors available for this product.</p>
@@ -248,66 +297,55 @@ const ProductDisplay = ({ product, image }) => {
                     <div className="productdisplay-right-size">
                         <h1>Select size</h1>
                         <div className="productdisplay-right-sizes">
-                            {selectedColor && productVariants
-                                .find(variant => variant.color === selectedColor)
+                            {productVariants
+                                .find((variant) => variant.colors.includes(selectedColor))
                                 ?.sizes.map((size) => (
-                                    <div
+                                    <button
                                         key={size}
                                         className={`size-option ${selectedSize === size ? 'selected' : ''}`}
                                         onClick={() => handleSizeSelect(size)}
                                     >
                                         {size}
-                                    </div>
+                                    </button>
                                 ))}
                         </div>
                     </div>
                 )}
 
-                {/* Quantity */}
+                {/* Quantity Selection */}
                 <div className="productdisplay-right-quantity">
                     <h1>Quantity</h1>
                     <input
                         type="number"
+                        min="1"
                         value={quantity}
                         onChange={handleQuantityChange}
-                        min="1"
                     />
                 </div>
 
-                {/* Success Message */}
-                {cartSuccessMessage && (
-                    <div className="cart-success-message">
-                        {cartSuccessMessage}
-                    </div>
-                )}
-
-                {/* Add to Cart */}
-                <button className="productdisplay-right-btn" onClick={handleAddToCart} disabled={loading}>
-                    {loading ? 'Adding to Cart...' : 'Add to Cart'}
-                </button>
-
+                {/* Wishlist Button */}
                 <button className="wishlist-button" onClick={handleWishlistToggle}>
                     {isInWishlist ? 'Remove from Wishlist' : 'Add to Wishlist'}
                 </button>
 
-                <div className="productdisplay-pincode">
-                    <h1>Check Delivery Availability</h1>
-                    <input
-                        type="text"
-                        value={pincode}
-                        onChange={(e) => setPincode(e.target.value)}
-                        placeholder="Enter Pincode"
-                    />
-                    <button onClick={validatePincode}>Check</button>
-                    <button onClick={handleBuyNow}>Buy Now</button>
-
-                    {estimatedDelivery && <p>{estimatedDelivery}</p>}
+                {/* Add to Cart and Buy Now Buttons */}
+                <div className="productdisplay-right-buttons">
+                    <button
+                        className="productdisplay-add-to-cart"
+                        onClick={handleAddToCart}
+                        disabled={loading}
+                    >
+                        {loading ? 'Adding to Cart...' : 'Add to Cart'}
+                    </button>
+                    <button className="productdisplay-buy-now" onClick={handleBuyNow}>
+                        Buy Now
+                    </button>
                 </div>
 
-                {/* Size Chart */}
-                <div className="size-chart-btn">
-                    <button onClick={toggleSizeChart}>View Size Chart</button>
-                </div>
+                {/* Size Chart Toggle */}
+                <button className="view-size-chart" onClick={toggleSizeChart}>
+                    {showSizeChart ? 'Hide Size Chart' : 'View Size Chart'}
+                </button>
 
                 {showSizeChart && (
                     <div className="size-chart-modal">
@@ -386,6 +424,18 @@ const ProductDisplay = ({ product, image }) => {
                         </div>
                     </div>
                 )}
+
+                {/* Pincode Input */}
+                <div className="pincode-section">
+                    <input
+                        type="text"
+                        placeholder="Enter Pincode"
+                        value={pincode}
+                        onChange={(e) => setPincode(e.target.value)}
+                    />
+                    <button onClick={validatePincode}>Check Delivery</button>
+                    <p>{estimatedDelivery}</p>
+                </div>
             </div>
         </div>
     );

@@ -1,119 +1,95 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import './Payment.css'; // Ensure this is the correct path for your styles
+import './Payment.css';
 import axios from 'axios';
 
 const Payment = () => {
-  const location = useLocation(); // Access location state passed from the Checkout page
-  const navigate = useNavigate(); // For redirecting to the Wallet page
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { subtotal, localShippingCost, totalWithShipping, cartItems, shippingInfo, userAddress } = location.state || {};
+  const [paymentMethod, setPaymentMethod] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
-  // Extract subtotal, shippingCost, and total from location.state
-  const { subtotal, localShippingCost, totalWithShipping, cartItems } = location.state || {};
-
-  // Declare states for payment, loading, and error
-  const [paymentMethod, setPaymentMethod] = useState(''); // Initially no payment method selected
-  const [loading, setLoading] = useState(false); // Track payment loading state
-  const [error, setError] = useState(''); // Track error messages
-
-  // Dynamically get userId from localStorage (replace with your actual authentication method)
-  const userId = localStorage.getItem('userId'); // Assumes userId is stored in localStorage during login
+  const userId = localStorage.getItem('userId');
 
   useEffect(() => {
-    // If no userId is found, redirect to login page
     if (!userId) {
       navigate('/login');
     }
-  }, [userId, navigate]); // The effect depends on userId, so it will run on changes
+  }, [userId, navigate]);
 
-  // Handle Wallet Payment (redirect to wallet page)
   const handleWalletPayment = async () => {
-    setLoading(true); // Start loading
+    setLoading(true);
     try {
       const orderPayload = {
-        userId: parseInt(userId, 10), // Ensure userId is passed as an integer
+        userId: parseInt(userId, 10),
         orderedItems: cartItems.map((item) => ({
-          productId: item.product.id, // Use the productId from cartItems
+          productId: item.productId,
+          selectedSize: item.selectedSize,
+          selectedColor: item.selectedColor,
           quantity: item.quantity,
-          assignedUnits: item.product.assignedUnits, // Assuming assignedUnits is an array
-          priceAfterDiscount: item.product.priceAfterDiscount,
         })),
-        shipmentCompany: 'FedEx', // Shipping company
-        shipmentRequestStatus: 'Pending',
-        shipmentStatus: 'Pending',
-        invoice: 'INV123456', // Example invoice number
-        refundStatus: 'No Refund',
-        refundDetails: 'Refund processed on 2024-10-01.',
+        shippingInfo: shippingInfo,
+        totalItemCost: subtotal,
+        totalOrderCost: totalWithShipping,
         shippingCost: localShippingCost,
-        orderingStatus: 'Pending', // Order status
-        orderFulfillmentStatus: 'Unfulfilled', // Fulfillment status
-        prePayment: false, // No pre-payment for Wallet
-        paymentStatus: true, // Payment status for Wallet
-        totalItemCost: subtotal, // Total cost of items
-        totalOrderCost: totalWithShipping, // Total order cost (including shipping)
+        paymentStatus: true,
+        address: userAddress,
+         // Wallet payment, so it's already paid
       };
 
-      // Send POST request to backend API to place the order
       const response = await axios.post('http://localhost:5000/orders', orderPayload);
 
       if (response.status === 200) {
-        // If successful, redirect to Wallet page with total amount passed
+        console.log('Order placed successfully:', response.data);
         navigate('/Wallet', { state: { totalWithShipping } });
       }
     } catch (err) {
-      console.error('Error placing order:', err);
       setError('There was an issue placing the order. Please try again.');
+      console.error('Error placing order:', err);
     } finally {
-      setLoading(false); // Stop loading
+      setLoading(false);
     }
   };
 
-  // Handle Cash on Delivery (COD) - Simulate payment, no redirect
   const handleCODPayment = async () => {
-    setLoading(true); // Start loading
+    setLoading(true);
     try {
       const orderPayload = {
-        userId: parseInt(userId, 10), // Ensure userId is passed as an integer
+        userId: parseInt(userId, 10),
         orderedItems: cartItems.map((item) => ({
-          productId: item.product.id,
+          productId: item.productId,
+          selectedSize: item.selectedSize,
+          selectedColor: item.selectedColor,
           quantity: item.quantity,
-          assignedUnits: item.product.assignedUnits,
-          priceAfterDiscount: item.product.priceAfterDiscount,
         })),
-        shipmentCompany: 'FedEx',
-        shipmentRequestStatus: 'Pending',
-        shipmentStatus: 'Pending',
-        invoice: 'INV123456',
-        refundStatus: 'No Refund',
-        refundDetails: 'Refund processed on 2024-10-01.',
-        shippingCost: localShippingCost,
-        orderingStatus: 'Pending',
-        orderFulfillmentStatus: 'Unfulfilled',
-        prePayment: false,
-        paymentStatus: false,
+        shippingInfo: shippingInfo,
         totalItemCost: subtotal,
         totalOrderCost: totalWithShipping,
+        shippingCost: localShippingCost,
+        paymentStatus: false,
+        address: userAddress, // COD, payment not done
       };
 
-      // Send POST request to backend API to place the order
       const response = await axios.post('http://localhost:5000/orders', orderPayload);
 
       if (response.status === 200) {
-        // If successful, show alert for COD
         alert('Order placed successfully with COD!');
       }
     } catch (err) {
-      console.error('Error placing order:', err);
       setError('There was an issue placing the order. Please try again.');
+      console.error('Error placing order:', err);
     } finally {
-      setLoading(false); // Stop loading
+      setLoading(false);
     }
   };
 
   const handlePaymentClick = () => {
     if (paymentMethod === 'wallet') {
-      handleWalletPayment(); // Call Wallet payment handler
+      handleWalletPayment();
     } else if (paymentMethod === 'cod') {
-      handleCODPayment(); // Call COD payment handler
+      handleCODPayment();
     } else {
       setError('Please select a payment method.');
     }
@@ -130,7 +106,7 @@ const Payment = () => {
               name="payment"
               value="wallet"
               checked={paymentMethod === 'wallet'}
-              onChange={() => setPaymentMethod('wallet')} // Select wallet option
+              onChange={() => setPaymentMethod('wallet')}
             />
             Wallet
           </label>
@@ -140,7 +116,7 @@ const Payment = () => {
               name="payment"
               value="cod"
               checked={paymentMethod === 'cod'}
-              onChange={() => setPaymentMethod('cod')} // Select COD option
+              onChange={() => setPaymentMethod('cod')}
             />
             Cash on Delivery (COD)
           </label>
@@ -168,14 +144,12 @@ const Payment = () => {
           I agree to the <a href="/terms">terms and conditions</a>.
         </label>
 
-        {/* Show error message if any */}
         {error && <p className="error-message">{error}</p>}
 
-        {/* Disable the button if no payment method is selected */}
         <button
           className="place-order-button"
           onClick={handlePaymentClick}
-          disabled={loading || !paymentMethod} // Button is disabled if loading or no payment method is selected
+          disabled={loading || !paymentMethod}
         >
           {loading ? 'Processing...' : 'Place Order'}
         </button>
