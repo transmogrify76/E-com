@@ -64,10 +64,38 @@ body {
   border-radius: 8px;
 }
 
+/* Category Filter Dropdown */
+.category-filter {
+  margin: 150px;
+  display: flex;
+  align-items: center;
+  flex: 1 1 250px;  /* Ensures flexible layout */
+}
+
+.category-filter select {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+}
+
+/* Main Dashboard Layout */
+.dashboard-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 20px;
+  max-width: 1100px;
+  box-sizing: border-box;
+}
+
 /* New Collections Section */
 .new-collections {
-  margin: 40px auto;
-  max-width: 1100px;
+  flex: 1 1 600px;  /* Flexible layout with bigger width */
+  margin-top: 40px;
   padding: 20px;
 }
 
@@ -128,159 +156,147 @@ body {
   font-weight: bold;
   margin-top: 5px;
 }
-
-/* Loading & Error States */
-.loading-state,
-.error-state {
-  text-align: center;
-  padding: 20px;
+/* General Container for Popular Products and Featured Sellers */
+.products-and-sellers-container {
+  display: flex;
+  gap: 20px;  /* Add space between the two sections */
+  justify-content: center;  /* Center the sections horizontally */
+  flex-wrap: wrap;  /* Allow sections to wrap on smaller screens */
+  margin: 40px auto;
+  max-width: 1100px;  /* Set a max-width to avoid sections getting too wide */
 }
 
-.loading-state p,
-.error-state p {
-  font-size: 18px;
+/* Popular Products Section */
+.popular-products {
+  flex: 1 1 48%;  /* Make the Popular Products section take up 48% of available space */
+  margin-top: 20px;
+}
+
+.popular-products h2 {
+  font-size: 30px;
   color: #7c113e;
   font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.product-list {
+  display: flex;
+  justify-content: center;  /* Center the products horizontally */
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.product-item {
+  width: 220px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  text-align: center;
+  padding: 15px;
+  transition: transform 0.3s ease;
+}
+
+.product-item:hover {
+  transform: scale(1.05);  /* Slight zoom effect on hover */
+}
+
+.product-item img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.product-details h3 {
+  font-size: 18px;
+  color: #333;
+}
+
+.product-details .price {
+  font-weight: bold;
+  color: #007bff;
+}
+
+/* Featured Sellers Section */
+.featured-sellers {
+  flex: 1 1 48%;  /* Make the Featured Sellers section take up 48% of available space */
+  margin-top: 20px;
+}
+
+.featured-sellers h2 {
+  font-size: 30px;
+  color: #7c113e;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.seller-list {
+  display: flex;
+  justify-content: center;  /* Center the sellers horizontally */
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.seller-item {
+  width: 220px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  text-align: center;
+  padding: 15px;
+}
+
+.seller-item img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.seller-details h3 {
+  font-size: 18px;
+  color: #333;
+}
+
+.seller-details p {
+  color: #777;
 }
 
 /* Responsive Styles */
 @media (max-width: 768px) {
-  .hero {
-    flex-direction: column;
-    text-align: center;
+  .products-and-sellers-container {
+    flex-direction: column;  /* Stack the two sections vertically on smaller screens */
+    gap: 30px;
+    padding: 0 10px;
   }
 
-  .hero-left,
-  .hero-right {
-    width: 100%;
-    padding: 20px;
-    margin: 0;
+  .popular-products,
+  .featured-sellers {
+    flex: 1 1 100%;  /* Make each section take full width on smaller screens */
   }
 
-  .hand-hand-icon {
-    margin-left: 0;
+  .product-item,
+  .seller-item {
+    width: 100%;  /* Make each item take full width */
+    margin-bottom: 20px;
   }
 
-  .new-collections h2 {
-    font-size: 28px;
-  }
-
-  .collection-item {
-    flex: 1 1 200px;  /* Adjust for smaller screens */
-    max-width: 250px;
-  }
-
-  .collection-image {
-    max-width: 100%;
+  .product-list,
+  .seller-list {
+    justify-content: center;  /* Center products and sellers */
   }
 }
 
 @media (max-width: 480px) {
-  .hero-left h2 {
-    font-size: 28px;
+  .popular-products h2,
+  .featured-sellers h2 {
+    font-size: 24px;  /* Adjust font size for smaller screens */
   }
 
-  .hero-left p {
-    font-size: 28px;
-  }
-
-  .latestcollection {
-    font-size: 18px;
-  }
-
-  .new-collections h2 {
-    font-size: 24px;
-  }
-
-  .collection-item {
-    flex: 1 1 180px;
-    max-width: 220px;
-  }
-
-  .collection-details h3 {
-    font-size: 18px;
-  }
-
-  .collection-details p {
-    font-size: 12px;
-  }
-
-  .collection-details .price {
-    font-size: 16px;
-  }
-}
-
-/* Now properly close the previous media query, then start a new one */
-@media (max-width: 320px) {
-  .hero-left h2 {
-    font-size: 24px;
-  }
-
-  .hero-left p {
-    font-size: 24px;
-  }
-
-  .latestcollection {
-    font-size: 16px;
-  }
-
-  .new-collections h2 {
-    font-size: 20px;
-  }
-
-  /* Moved these styles inside this media query */
-  .collection-item {
-    display: flex;
-    flex-direction: column;  /* Align image and details vertically */
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #fff;
-    transition: transform 0.2s ease, box-shadow 0.3s ease;
-  }
-
-  .collection-item:hover {
-    transform: scale(1.05); /* Slight zoom effect on hover */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
-  }
-
-  .collection-link {
-    text-decoration: none;  /* Remove the underline from the link */
-    color: inherit;  /* Ensure the text color is inherited from its parent */
-  }
-
-  .collection-image {
+  .product-item,
+  .seller-item {
     width: 100%;
-    height: auto;
-    border-radius: 8px;  /* Add border radius to images for rounded corners */
-    object-fit: cover;
-  }
-
-  .collection-details {
-    margin-top: 10px;
-  }
-
-  .collection-details h3,
-  .collection-details p {
-    margin: 0;  /* Remove any default margin */
-    padding: 0;  /* Remove padding to avoid unwanted spacing */
-    line-height: 1.5;  /* Improve line spacing for readability */
-  }
-
-  .collection-details h3 {
-    font-size: 1.2em;
-    font-weight: bold;
-  }
-
-  .collection-details p {
-    font-size: 1em;
-    color: #555;
-  }
-
-  .price {
-    font-size: 1.1em;
-    font-weight: bold;
-    color: #333;
-    margin-top: 5px;
+    max-width: 350px;  /* Limit max-width for very small screens */
   }
 }
+
