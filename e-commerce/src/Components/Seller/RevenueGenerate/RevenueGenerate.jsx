@@ -1,5 +1,164 @@
-import React, { useState } from 'react';
+
+// import React, { useState } from 'react';
+// import './RevenueGenerate.css'; // Make sure this path is correct
+// import { Bar } from 'react-chartjs-2';
+// import {
+//     Chart as ChartJS,
+//     CategoryScale,
+//     LinearScale,
+//     BarElement,
+//     Title,
+//     Tooltip,
+//     Legend,
+// } from 'chart.js';
+
+// // Register the necessary components
+// ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+
+// const RevenueGenerate = () => {
+//     const [revenueData, setRevenueData] = useState([
+//         { id: 1, month: 'January', revenue: 1000 },
+//         { id: 2, month: 'February', revenue: 1500 },
+//         { id: 3, month: 'March', revenue: 1800 },
+//         { id: 4, month: 'April', revenue: 1200 },
+//         { id: 5, month: 'May', revenue: 2000 },
+//         { id: 6, month: 'June', revenue: 2500 }
+//     ]);
+//     const [newRevenue, setNewRevenue] = useState('');
+
+//     // Function to generate revenue for July
+//     const generateRevenue = () => {
+//         if (newRevenue) {
+//             const newData = { id: revenueData.length + 1, month: 'July', revenue: parseFloat(newRevenue) };
+//             setRevenueData([...revenueData, newData]);
+//             setNewRevenue(''); // Clear input after submission
+//         }
+//     };
+
+//     // Chart data
+//     const chartData = {
+//         labels: revenueData.map(data => data.month),
+//         datasets: [
+//             {
+//                 label: 'Monthly Revenue (₹)',
+//                 backgroundColor: 'rgba(75, 192, 192, 0.6)',
+//                 borderColor: 'rgba(75, 192, 192, 1)',
+//                 borderWidth: 1,
+//                 data: revenueData.map(data => data.revenue),
+//             },
+//         ],
+//     };
+
+//     // Chart options
+//     const chartOptions = {
+//         responsive: true,
+//         plugins: {
+//             legend: {
+//                 display: true,
+//                 position: 'top',
+//             },
+//             title: {
+//                 display: true,
+//                 text: 'Monthly Revenue Chart',
+//             },
+//         },
+//     };
+   
+//     return (
+//         <div className="revenue-generate-container">
+//             {/* Header */}
+//             <header className="revenue-header">
+//                 <h2>Revenue Generation</h2>
+//                 <div className="revenue-user-info">
+//                     <span className="username">Seller Name</span> {/* Replace with actual username */}
+//                 </div>
+//             </header>
+
+//             {/* Revenue Generation Section */}
+//             <div className="revenue-generate-section">
+//                 <h3>Generate Revenue</h3>
+//                 <input
+//                     type="number"
+//                     value={newRevenue}
+//                     onChange={(e) => setNewRevenue(e.target.value)}
+//                     placeholder="Enter revenue amount (₹)"
+//                     className="revenue-input"
+//                 />
+//                 <button onClick={generateRevenue} className="generate-revenue-button">Generate Revenue</button>
+//             </div>
+
+//             {/* Bar Chart Section */}
+//             <div className="revenue-chart">
+//                 <Bar data={chartData} options={chartOptions} />
+//             </div>
+
+//             {/* Revenue Table Section */}
+//             <div className="revenue-table-container">
+//                 <h3 className="table-title">Revenue Summary</h3>
+//                 <table className="revenue-table">
+//                     <thead>
+//                         <tr>
+//                             <th>Month</th>
+//                             <th>Revenue (₹)</th>
+//                         </tr>
+//                     </thead>
+//                     <tbody>
+//                         {revenueData.map((data) => (
+//                             <tr key={data.id}>
+//                                 <td>{data.month}</td>
+//                                 <td>{data.revenue}</td>
+//                             </tr>
+//                         ))}
+//                     </tbody>
+//                 </table>
+//             </div>
+
+//             {/* Analytics Overview */}
+//             <div className="analytics-overview">
+//                 <h3>Analytics Overview</h3>
+//                 <div className="analytics-card">
+//                     <h4>Total Revenue</h4>
+//                     <p>₹{revenueData.reduce((acc, item) => acc + item.revenue, 0)}</p>
+//                 </div>
+//                 <div className="analytics-card">
+//                     <h4>Average Monthly Revenue</h4>
+//                     <p>₹{(revenueData.reduce((acc, item) => acc + item.revenue, 0) / revenueData.length).toFixed(2)}</p>
+//                 </div>
+//             </div>
+
+//             {/* Recent Activities Section */}
+//             <div className="recent-activities">
+//                 <h3>Recent Activities</h3>
+//                 <ul>
+//                     <li>Sale of Product X on June 30 - ₹500</li>
+//                     <li>Sale of Product Y on June 28 - ₹700</li>
+//                     <li>Promotion for Product Z on June 25 - ₹300</li>
+//                 </ul>
+//             </div>
+
+//             {/* Export Options Section */}
+//             <div className="export-options">
+//                 <button className="export-button">Export as CSV</button>
+//                 <button className="export-button">Export as PDF</button>
+//             </div>
+
+//             {/* Help/Support Section */}
+//             <div className="help-support">
+//                 <h3>Need Help?</h3>
+//                 <p>If you have any questions, please contact our support team.</p>
+//                 <button className="support-button">Contact Support</button>
+//             </div>
+//         </div>
+//     );
+// };
+
+// export default RevenueGenerate;
+
+
+
+import React, { useState, useEffect } from 'react';
 import './RevenueGenerate.css'; // Make sure this path is correct
+import axios from 'axios';
 import { Bar } from 'react-chartjs-2';
 import {
     Chart as ChartJS,
@@ -15,43 +174,60 @@ import {
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const RevenueGenerate = () => {
-    const [revenueData, setRevenueData] = useState([
-        { id: 1, month: 'January', revenue: 1000 },
-        { id: 2, month: 'February', revenue: 1500 },
-        { id: 3, month: 'March', revenue: 1800 },
-        { id: 4, month: 'April', revenue: 1200 },
-        { id: 5, month: 'May', revenue: 2000 },
-        { id: 6, month: 'June', revenue: 2500 },
-        { id: 7, month: 'July', revenue: 2500 },
-        { id: 8, month: 'August', revenue: 2500 },
-        { id: 9, month: 'Sept', revenue: 2500 },
-    ]);
-    const [newRevenue, setNewRevenue] = useState('');
+    // Initialize states
+    const [monthlyRevenueData, setMonthlyRevenueData] = useState([]);
+    const [topRevenueProducts, setTopRevenueProducts] = useState([]);
+    const [totalRevenue, setTotalRevenue] = useState(0);
+    const [averageMonthlyRevenue, setAverageMonthlyRevenue] = useState(0);
+    const [chartData, setChartData] = useState({ labels: [], datasets: [] }); // Initialize with empty structure
+    const [sellerId, setSellerId] = useState(2);  // For now, we are using a static sellerId of 2 for testing
 
-    // Function to generate revenue for July
-    const generateRevenue = () => {
-        if (newRevenue) {
-            const newData = { id: revenueData.length + 1, month: 'July', revenue: parseFloat(newRevenue) };
-            setRevenueData([...revenueData, newData]);
-            setNewRevenue(''); // Clear input after submission
+    // Fetch data for total revenue, average monthly revenue, and monthly revenue
+    const fetchRevenueData = async () => {
+        if (!sellerId) return; // Ensure sellerId is available
+
+        try {
+            // Fetch Total Revenue
+            const totalRevenueResponse = await axios.get(`http://localhost:5000/analytics?sellerId=${sellerId}&type=totalRevenue`);
+            setTotalRevenue(totalRevenueResponse.data.data.totalRevenue);  // Extracting total revenue value
+
+            // Fetch Average Monthly Revenue
+            const averageMonthlyRevenueResponse = await axios.get(`http://localhost:5000/analytics?sellerId=${sellerId}&type=averageMonthlyRevenue`);
+            setAverageMonthlyRevenue(averageMonthlyRevenueResponse.data.data.averageMonthlyRevenue); // Assuming API returns `data.averageMonthlyRevenue`
+
+            // Fetch Monthly Revenue Data
+            const monthlyRevenueResponse = await axios.get(`http://localhost:5000/analytics?sellerId=${sellerId}&type=monthlyRevenue`);
+            const monthlyRevenueData = monthlyRevenueResponse.data.data; // Assuming the response is in the `data` object
+            setMonthlyRevenueData(monthlyRevenueData);  // Save this for chart generation
+
+            // Format Monthly Revenue Data for Chart
+            const labels = monthlyRevenueData.map(item => item.month); // Extract months for the labels
+            const revenueValues = monthlyRevenueData.map(item => item.revenue); // Extract revenue values for the chart
+            setChartData({
+                labels: labels,
+                datasets: [{
+                    label: 'Revenue (₹)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1,
+                    data: revenueValues,
+                }]
+            });
+
+            // Fetch Top Revenue Generating Products
+            const topRevenueResponse = await axios.get(`http://localhost:5000/analytics?sellerId=${sellerId}&type=topRevenueGeneratingProduct`);
+            setTopRevenueProducts(topRevenueResponse.data.data);  // Assuming this is the correct response structure
+
+        } catch (error) {
+            console.error('Error fetching revenue data', error);
         }
     };
 
-    // Chart data
-    const chartData = {
-        labels: revenueData.map(data => data.month),
-        datasets: [
-            {
-                label: 'Monthly Revenue (₹)',
-                backgroundColor: 'rgba(75, 192, 192, 0.6)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1,
-                data: revenueData.map(data => data.revenue),
-            },
-        ],
-    };
+    // Fetch data when the component mounts
+    useEffect(() => {
+        fetchRevenueData();
+    }, [sellerId]);
 
-    // Chart options
     const chartOptions = {
         responsive: true,
         plugins: {
@@ -65,7 +241,7 @@ const RevenueGenerate = () => {
             },
         },
     };
-   
+
     return (
         <div className="revenue-generate-container">
             {/* Header */}
@@ -76,27 +252,30 @@ const RevenueGenerate = () => {
                 </div>
             </header>
 
-            {/* Revenue Generation Section */}
-            <div className="revenue-generate-section">
-                <h3>Generate Revenue</h3>
-                <input
-                    type="number"
-                    value={newRevenue}
-                    onChange={(e) => setNewRevenue(e.target.value)}
-                    placeholder="Enter revenue amount (₹)"
-                    className="revenue-input"
-                />
-                <button onClick={generateRevenue} className="generate-revenue-button">Generate Revenue</button>
+            {/* Total Revenue */}
+            <div className="analytics-card">
+                <h4>Total Revenue</h4>
+                <p>₹{totalRevenue}</p>
+            </div>
+
+            {/* Average Monthly Revenue */}
+            <div className="analytics-card">
+                <h4>Average Monthly Revenue</h4>
+                <p>₹{averageMonthlyRevenue.toFixed(2)}</p>
             </div>
 
             {/* Bar Chart Section */}
-            <div className="revenue-chart">
-                <Bar data={chartData} options={chartOptions} />
-            </div>
+            {chartData.labels.length > 0 && chartData.datasets.length > 0 ? (
+                <div className="revenue-chart">
+                    <Bar data={chartData} options={chartOptions} />
+                </div>
+            ) : (
+                <p>No data available for the chart.</p> // Show message when there's no data
+            )}
 
-            {/* Revenue Table Section */}
+            {/* Monthly Revenue Table Section */}
             <div className="revenue-table-container">
-                <h3 className="table-title">Revenue Summary</h3>
+                <h3 className="table-title">Monthly Revenue Summary</h3>
                 <table className="revenue-table">
                     <thead>
                         <tr>
@@ -105,43 +284,34 @@ const RevenueGenerate = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {revenueData.map((data) => (
-                            <tr key={data.id}>
-                                <td>{data.month}</td>
-                                <td>{data.revenue}</td>
-                            </tr>
-                        ))}
+                        {monthlyRevenueData.length > 0 ? (
+                            monthlyRevenueData.map((data) => (
+                                <tr key={data.id}>
+                                    <td>{data.month}</td>
+                                    <td>{data.revenue}</td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr><td colSpan="2">No revenue data available</td></tr>
+                        )}
                     </tbody>
                 </table>
             </div>
 
-            {/* Analytics Overview */}
-            <div className="analytics-overview">
-                <h3>Analytics Overview</h3>
-                <div className="analytics-card">
-                    <h4>Total Revenue</h4>
-                    <p>₹{revenueData.reduce((acc, item) => acc + item.revenue, 0)}</p>
-                </div>
-                <div className="analytics-card">
-                    <h4>Average Monthly Revenue</h4>
-                    <p>₹{(revenueData.reduce((acc, item) => acc + item.revenue, 0) / revenueData.length).toFixed(2)}</p>
-                </div>
-            </div>
-
-            {/* Recent Activities Section */}
-            <div className="recent-activities">
-                <h3>Recent Activities</h3>
+            {/* Top Revenue Generating Products */}
+            <div className="top-revenue-products">
+                <h3>Top Revenue Generating Products</h3>
                 <ul>
-                    <li>Sale of Product X on June 30 - ₹500</li>
-                    <li>Sale of Product Y on June 28 - ₹700</li>
-                    <li>Promotion for Product Z on June 25 - ₹300</li>
+                    {topRevenueProducts.length > 0 ? (
+                        topRevenueProducts.map((product, index) => (
+                            <li key={index}>
+                                {product.productName} - ₹{product.revenue}
+                            </li>
+                        ))
+                    ) : (
+                        <li>No top revenue products found</li>
+                    )}
                 </ul>
-            </div>
-
-            {/* Export Options Section */}
-            <div className="export-options">
-                <button className="export-button">Export as CSV</button>
-                <button className="export-button">Export as PDF</button>
             </div>
 
             {/* Help/Support Section */}

@@ -1,10 +1,9 @@
 
-
 // import React, { useState, useEffect } from 'react';
 // import { useParams } from 'react-router-dom';
 // import ProductDisplay from '../ProductDisplay/ProductDisplay';
 // import DescriptionBox from '../DescriptionBox/DescriptionBox';
-// import RelatedProducts from '../RelatedProducts/RelatedProducts';
+// import RelatedProducts from '../RelatedProducts/RelatedProaducts';
 // import Breadcrum from '../Breadcrum/Breadcrum';
 
 // const Product = () => {
@@ -18,14 +17,20 @@
 //   // Fetch product by ID and image
 //   const fetchProduct = async () => {
 //     try {
-//       // Fetch product data
 //       const productResponse = await fetch(`${process.env.REACT_APP_BASE_URL}/products/${productId}`);
 //       const productData = await productResponse.json();
-      
+
 //       if (productData) {
 //         setProduct(productData);
+
+//         // Ensure category is defined before calling fetchRelatedProducts
+//         if (productData.category) {
+//           fetchRelatedProducts(productData.category);
+//         } else {
+//           console.error("Product category is missing!");
+//         }
+
 //         fetchProductImage(productData.id); // Fetch the product image after getting the product details
-//         fetchRelatedProducts(productData.category); // Fetch related products based on category
 //       } else {
 //         console.error('Product not found.');
 //       }
@@ -41,7 +46,7 @@
 //     try {
 //       const imageResponse = await fetch(`${process.env.REACT_APP_BASE_URL}/products/images/product/${productId}`);
 //       const imageData = await imageResponse.json();
-      
+
 //       if (imageData && imageData[0]) {
 //         setImage(imageData[0].base64); // Assuming the API returns base64 encoded image data
 //       }
@@ -55,12 +60,16 @@
 //     try {
 //       const relatedResponse = await fetch(`${process.env.REACT_APP_BASE_URL}/products/category/${category}`);
 //       const relatedData = await relatedResponse.json();
-      
-//       const sellerUploadedRelatedProducts = relatedData.filter(
-//         (product) => product.sellerUploaded // Only filter seller-uploaded products
-//       );
 
-//       setRelatedProducts(sellerUploadedRelatedProducts);
+//       // Ensure relatedData is an array before calling filter
+//       if (Array.isArray(relatedData)) {
+//         const sellerUploadedRelatedProducts = relatedData.filter(
+//           (product) => product.sellerUploaded // Only filter seller-uploaded products
+//         );
+//         setRelatedProducts(sellerUploadedRelatedProducts);
+//       } else {
+//         console.error("Related products data is not an array:", relatedData);
+//       }
 //     } catch (error) {
 //       console.error('Error fetching related products:', error);
 //     }
@@ -86,7 +95,7 @@
 //       <Breadcrum product={product} />
 //       <ProductDisplay product={product} image={image} />
 //       <DescriptionBox product={product} />
-      
+
 //       {/* Display Related Products */}
 //       {relatedProducts.length > 0 ? (
 //         <RelatedProducts products={relatedProducts} />
@@ -119,7 +128,7 @@ const Product = () => {
     try {
       const productResponse = await fetch(`${process.env.REACT_APP_BASE_URL}/products/${productId}`);
       const productData = await productResponse.json();
-      
+
       if (productData) {
         setProduct(productData);
 
@@ -127,7 +136,7 @@ const Product = () => {
         if (productData.category) {
           fetchRelatedProducts(productData.category);
         } else {
-          console.error("Product category is missing!");
+          console.error('Product category is missing!');
         }
 
         fetchProductImage(productData.id); // Fetch the product image after getting the product details
@@ -146,7 +155,7 @@ const Product = () => {
     try {
       const imageResponse = await fetch(`${process.env.REACT_APP_BASE_URL}/products/images/product/${productId}`);
       const imageData = await imageResponse.json();
-      
+
       if (imageData && imageData[0]) {
         setImage(imageData[0].base64); // Assuming the API returns base64 encoded image data
       }
@@ -160,7 +169,7 @@ const Product = () => {
     try {
       const relatedResponse = await fetch(`${process.env.REACT_APP_BASE_URL}/products/category/${category}`);
       const relatedData = await relatedResponse.json();
-      
+
       // Ensure relatedData is an array before calling filter
       if (Array.isArray(relatedData)) {
         const sellerUploadedRelatedProducts = relatedData.filter(
@@ -168,7 +177,7 @@ const Product = () => {
         );
         setRelatedProducts(sellerUploadedRelatedProducts);
       } else {
-        console.error("Related products data is not an array:", relatedData);
+        console.error('Related products data is not an array:', relatedData);
       }
     } catch (error) {
       console.error('Error fetching related products:', error);
@@ -195,7 +204,7 @@ const Product = () => {
       <Breadcrum product={product} />
       <ProductDisplay product={product} image={image} />
       <DescriptionBox product={product} />
-      
+
       {/* Display Related Products */}
       {relatedProducts.length > 0 ? (
         <RelatedProducts products={relatedProducts} />
@@ -207,6 +216,4 @@ const Product = () => {
 };
 
 export default Product;
-
-
 
