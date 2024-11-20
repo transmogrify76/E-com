@@ -173,126 +173,128 @@
 // export default Orderr;
 
 
-// import React, { useState, useEffect } from 'react';
-// import { Button } from 'react-bootstrap';
-// import { FaSearch, FaEye, FaTruck } from 'react-icons/fa';
+import React, { useState, useEffect } from 'react';
+import { Button } from 'react-bootstrap';
+import { FaSearch, FaEye, FaTruck } from 'react-icons/fa';
 
-// const Orderr = () => {
-//     const [recentOrders, setRecentOrders] = useState([]);
-//     const [searchOrderId, setSearchOrderId] = useState(''); // State for the search input
-//     const [searchedOrder, setSearchedOrder] = useState(null); // State for the searched order
+const Orderr = () => {
+    const [recentOrders, setRecentOrders] = useState([]);
+    const [searchOrderId, setSearchOrderId] = useState(''); // State for the search input
+    const [searchedOrder, setSearchedOrder] = useState(null); // State for the searched order
 
-//     // Fetch recent orders on mount
-//     useEffect(() => {
-//         const fetchRecentOrders = async () => {
-//             try {
-//                 const response = await fetch('http://localhost:5000/analytics?sellerId=2&type=recentOrders');
-//                 if (!response.ok) throw new Error('Failed to fetch recent orders');
-//                 const data = await response.json();
-//                 setRecentOrders(data.data.recentOrders || []); // Set the fetched orders in state
-//             } catch (error) {
-//                 console.error('Error fetching recent orders:', error);
-//             }
-//         };
+    // Fetch recent orders on mount
+    useEffect(() => {
+        const fetchRecentOrders = async () => {
+            try {
+                const response = await fetch('http://localhost:5000/analytics?sellerId=2&type=recentOrders');
+                if (!response.ok) throw new Error('Failed to fetch recent orders');
+                const data = await response.json();
+                setRecentOrders(data.data.recentOrders || []); // Set the fetched orders in state
+            } catch (error) {
+                console.error('Error fetching recent orders:', error);
+            }
+        };
 
-//         fetchRecentOrders();
-//     }, []);
+        fetchRecentOrders();
+    }, []);
 
-//     // Fetch specific order by ID
-//     const handleSearch = async () => {
-//         if (!searchOrderId) return; // If no order ID is entered, do nothing
+    // Fetch specific order by ID
+    const handleSearch = async () => {
+        if (!searchOrderId) return; // If no order ID is entered, do nothing
 
-//         try {
-//             const response = await fetch(`http://localhost:5000/orders/${searchOrderId}`);
-//             if (response.ok) {
-//                 const data = await response.json();
-//                 setSearchedOrder(data); // Set the searched order in state
-//             } else {
-//                 setSearchedOrder(null); // If not found, clear the searched order state
-//                 alert('Order not found');
-//             }
-//         } catch (error) {
-//             console.error('Error fetching order:', error);
-//             alert('Error fetching order');
-//         }
-//     };
+        try {
+            const response = await fetch(`http://localhost:5000/orders/${searchOrderId}`);
+            if (response.ok) {
+                const data = await response.json();
+                setSearchedOrder(data); // Set the searched order in state
+            } else {
+                setSearchedOrder(null); // If not found, clear the searched order state
+                alert('Order not found');
+            }
+        } catch (error) {
+            console.error('Error fetching order:', error);
+            alert('Error fetching order');
+        }
+    };
 
-//     // Function to render the order details in the table
-//     const renderOrders = () => {
-//         const ordersToDisplay = searchedOrder ? [searchedOrder] : recentOrders;
+    // Function to render the order details in the table
+    const renderOrders = () => {
+        const ordersToDisplay = searchedOrder ? [searchedOrder] : recentOrders;
 
-//         return ordersToDisplay.length === 0 ? (
-//             <tr><td colSpan="6">No orders to display.</td></tr>
-//         ) : (
-//             ordersToDisplay.map((order, index) => (
-//                 <tr key={index}>
-//                     <td>{new Date(order.orderedAt).toLocaleString()}</td>
-//                     <td>
-//                         {order.orderedItems.map((item, idx) => (
-//                             <div key={idx}>
-//                                 <p>Product ID: {item.productId}</p>
-//                                 <p>Quantity: {item.quantity}</p>
-//                                 <p>Price After Discount: ${item.priceAfterDiscount}</p>
-//                             </div>
-//                         ))}
-//                     </td>
-//                     <td>
-//                         {order.orderedItems.reduce((total, item) => total + item.priceAfterDiscount * item.quantity, 0).toFixed(2)}
-//                     </td>
-//                     <td>
-//                         <Button variant="info">
-//                             <FaEye /> View
-//                         </Button>
-//                         <Button variant="warning" style={{ marginLeft: '10px' }}>
-//                             <FaTruck /> Dispatch
-//                         </Button>
-//                     </td>
-//                 </tr>
-//             ))
-//         );
-//     };
+        return ordersToDisplay.length === 0 ? (
+            <tr><td colSpan="6">No orders to display.</td></tr>
+        ) : (
+            ordersToDisplay.map((order, index) => (
+                <tr key={index}>
+                    <td>{new Date(order.orderedAt).toLocaleString()}</td>
+                    <td>
+                        {order.orderedItems.map((item, idx) => (
+                            <div key={idx}>
+                                <p>Product ID: {item.productId}</p>
+                                <p>Quantity: {item.quantity}</p>
+                                <p>Price After Discount: ${item.priceAfterDiscount}</p>
+                            </div>
+                        ))}
+                    </td>
+                    <td>
+                        {order.orderedItems.reduce((total, item) => total + item.priceAfterDiscount * item.quantity, 0).toFixed(2)}
+                    </td>
+                    <td>
+                        <Button variant="info">
+                            <FaEye /> View
+                        </Button>
+                        <Button variant="warning" style={{ marginLeft: '10px' }}>
+                            <FaTruck /> Dispatch
+                        </Button>
+                    </td>
+                </tr>
+            ))
+        );
+    };
 
-//     return (
-//         <div className="order-container">
-//             <h1>Orders</h1>
-//             <div className="order-controls">
-//                 {/* Search by Order ID */}
-//                 <input
-//                     type="text"
-//                     placeholder="Search by Order ID"
-//                     value={searchOrderId}
-//                     onChange={(e) => setSearchOrderId(e.target.value)}
-//                     style={{
-//                         padding: '6px',
-//                         border: '1px solid #ccc',
-//                         borderRadius: '4px',
-//                         fontSize: '20px',
-//                         width: '300px'
-//                     }}
-//                 />
-//                 <Button
-//                     variant="primary"
-//                     onClick={handleSearch}
-//                     style={{ marginRight: '350px', marginBottom: '10px' }}
-//                 >
-//                     <FaSearch /> Search
-//                 </Button>
-//             </div>
-//             <table className="order-table">
-//                 <thead>
-//                     <tr>
-//                         <th>Order Date</th>
-//                         <th>Ordered Items</th>
-//                         <th>Total Price</th>
-//                         <th>Actions</th>
-//                     </tr>
-//                 </thead>
-//                 <tbody>
-//                     {renderOrders()}
-//                 </tbody>
-//             </table>
-//         </div>
-//     );
-// };
+    return (
+        <div className="order-container">
+            <h1>Orders</h1>
+            <div className="order-controls">
+                {/* Search by Order ID */}
+                <input
+                    type="text"
+                    placeholder="Search by Order ID"
+                    value={searchOrderId}
+                    onChange={(e) => setSearchOrderId(e.target.value)}
+                    style={{
+                        padding: '6px',
+                        border: '1px solid #ccc',
+                        borderRadius: '4px',
+                        fontSize: '20px',
+                        width: '300px'
+                    }}
+                />
+                <Button
+                    variant="primary"
+                    onClick={handleSearch}
+                    style={{ marginRight: '350px', marginBottom: '10px' }}
+                >
+                    <FaSearch /> Search
+                </Button>
+            </div>
+            <table className="order-table">
+                <thead>
+                    <tr>
+                        <th>Order Date</th>
+                        <th>Ordered Items</th>
+                        <th>Total Price</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {renderOrders()}
+                </tbody>
+            </table>
+        </div>
+    );
+};
 
-// export default Orderr;
+export default Orderr;
+
+

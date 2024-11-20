@@ -1,4 +1,4 @@
-.order-container {
+/* .order-container {
     padding: 20px;
     background-color: #f8f9fa; 
 }
@@ -74,4 +74,15 @@ input[type="text"] {
 
 .btn-secondary:hover {
     background-color: #5a6268; 
+} */
+/* Styles for modal */
+.modal-content {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.order-table th, .order-table td {
+    padding: 8px;
+    text-align: left;
+    border: 1px solid #ddd;
 }
