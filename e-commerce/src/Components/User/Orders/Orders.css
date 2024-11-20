@@ -1,11 +1,14 @@
-.order-history-container {
+ .order-history-container {
   padding: 20px;
 }
-
+.order-history-container h2{
+  margin-left: 90px;
+}
 .order-history-table {
-  width: 100%;
+  width: 90%;
   border-collapse: collapse;
   margin-top: 20px;
+  margin-left: 80px;
 }
 
 .order-history-table th, .order-history-table td {
@@ -29,4 +32,24 @@
 
 .view-order-button:hover {
   text-decoration: underline;
+} 
+
+
+
+.cancel-order-button {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.cancel-order-button:hover {
+  background-color: darkred;
+}
+
+.error-message {
+  color: red;
+  font-size: 16px;
 }
