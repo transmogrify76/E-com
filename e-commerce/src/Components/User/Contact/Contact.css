@@ -1,26 +1,66 @@
+/* Container for the entire ContactUs section */
 .contact-us {
-    padding: 20px;
-  }
-  
+  padding: 20px;
+  background-color: #f2f6f9; /* Soft light background */
+  border-radius: 12px; /* Rounded corners for a modern look */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Slightly stronger shadow */
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center; /* Center text for the page */
+}
+
+/* Main heading styling */
+.contact-us h2 {
+  font-size: 26px;
+  font-weight: 600;
+  color: #4a4a4a; /* Dark gray for the heading */
+  margin-bottom: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Modern font family */
+}
+
+/* Container for the different contact methods */
+.contact-methods {
+  display: flex; /* Flexbox layout for side-by-side contact methods */
+  justify-content: center; /* Center items horizontally */
+  gap: 40px; /* Space between the contact methods */
+  margin-top: 20px; /* Add space from the heading */
+}
+
+/* Individual contact method styling */
+.contact-method {
+  background-color: #ffffff; /* Soft white background */
+  padding: 20px;
+  border-radius: 12px; /* More rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08); /* Subtle shadow */
+  width: 220px; /* Slightly wider for each contact method */
+  transition: transform 0.3s ease-in-out; /* Smooth transition for hover effect */
+}
+
+.contact-method:hover {
+  transform: translateY(-5px); /* Slight hover lift effect */
+}
+
+.contact-method h3 {
+  font-size: 20px;
+  font-weight: 500;
+  color: #5f6368; /* Medium dark gray */
+  margin-bottom: 10px;
+}
+
+.contact-method p {
+  font-size: 16px;
+  color: #7c8a97; /* Soft gray for text */
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
   .contact-methods {
-    display: flex;
-    flex-direction: column;
+    flex-direction: column; /* Stack contact methods vertically */
+    align-items: center; /* Center align the contact methods */
   }
-  
+
   .contact-method {
-    margin-bottom: 20px;
+    margin-bottom: 20px; /* Space between stacked items */
+    width: 90%; /* Make contact methods nearly full width on mobile */
   }
-  
-  .contact-method h3 {
-    margin: 0;
-  }
-  
-  .contact-method p {
-    margin: 5px 0;
-  }
-  
-  .contact-method a {
-    color: #007BFF;
-    text-decoration: none;
-  }
-  
+}

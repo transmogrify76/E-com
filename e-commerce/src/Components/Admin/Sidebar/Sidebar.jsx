@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { FaHome, FaFolder, FaShoppingCart, FaUser, FaAngleDoubleLeft, FaAngleDoubleRight, FaBoxOpen, FaClipboardList, FaUserFriends, FaMoneyBillAlt, FaTruck } from 'react-icons/fa';
+import { FaHome, FaFolder, FaShoppingCart, FaUser, FaAngleDoubleLeft, FaAngleDoubleRight, FaBoxOpen, FaClipboardList, FaUserFriends, FaMoneyBillAlt, FaTruck, FaChartLine,FaHeadset } from 'react-icons/fa';
 import { AiOutlineSetting } from 'react-icons/ai';
 import { MdList } from 'react-icons/md';
 import './Sidebar.css'; // Import your CSS file for styling
@@ -70,6 +70,12 @@ const Sidebar = () => {
             </Link>
           </li>
           <li className="nav-item">
+            <Link to="/revenue" className={`nav-link ${location.pathname === '/revenue' ? 'active' : ''}`}>
+              <FaChartLine className="nav-icon" />
+              {isExpanded && <span>Revenue</span>}
+            </Link>
+          </li>
+          <li className="nav-item">
             <Link to="/transactions" className={`nav-link ${location.pathname === '/transactions' ? 'active' : ''}`}>
               <FaMoneyBillAlt className="nav-icon" />
               {isExpanded && <span>Transactions</span>}
@@ -85,6 +91,12 @@ const Sidebar = () => {
             <Link to="/adaccount" className={`nav-link ${location.pathname === '/adaccount' ? 'active' : ''}`}>
               <FaUser className="nav-icon" />
               {isExpanded && <span>My Account</span>}
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link to="/help" className={`nav-link ${location.pathname === '/help' ? 'active' : ''}`}>
+              <FaHeadset className="nav-icon" />
+              {isExpanded && <span>HelpDesk</span>}
             </Link>
           </li>
           <li className="nav-item">

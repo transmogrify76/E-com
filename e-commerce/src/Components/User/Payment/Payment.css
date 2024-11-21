@@ -89,3 +89,14 @@ a {
   color: #39083f;
   text-decoration: none;
 }
+.success-message {
+  color: green;
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #e6f7e6;
+  border: 1px solid #28a745;
+  border-radius: 5px;
+  text-align: center;
+}

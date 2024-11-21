@@ -19,6 +19,7 @@ const Payment = () => {
     }
   }, [userId, navigate]);
 
+  // This function is used to handle the wallet payment and initiate the flow.
   const handleWalletPayment = async () => {
     setLoading(true);
     try {
@@ -34,25 +35,27 @@ const Payment = () => {
         totalItemCost: subtotal,
         totalOrderCost: totalWithShipping,
         shippingCost: localShippingCost,
-        paymentStatus: true,
+        paymentStatus: false, // Indicating that the payment hasn't been done yet
         address: userAddress,
-         // Wallet payment, so it's already paid
       };
 
-      const response = await axios.post('http://localhost:5000/orders', orderPayload);
+      // First, we navigate to the wallet page to initiate payment
+      navigate('/Wallet', {
+        state: {
+          totalWithShipping,
+          orderPayload,
+        },
+      });
 
-      if (response.status === 200) {
-        console.log('Order placed successfully:', response.data);
-        navigate('/Wallet', { state: { totalWithShipping } });
-      }
     } catch (err) {
-      setError('There was an issue placing the order. Please try again.');
-      console.error('Error placing order:', err);
+      setError('There was an issue processing the wallet payment. Please try again.');
+      console.error('Error with wallet payment:', err);
     } finally {
       setLoading(false);
     }
   };
 
+  // This function handles COD (Cash on Delivery) payment.
   const handleCODPayment = async () => {
     setLoading(true);
     try {
@@ -68,10 +71,11 @@ const Payment = () => {
         totalItemCost: subtotal,
         totalOrderCost: totalWithShipping,
         shippingCost: localShippingCost,
-        paymentStatus: false,
-        address: userAddress, // COD, payment not done
+        paymentStatus: false, // COD, payment is done later
+        address: userAddress,
       };
 
+      // Directly create the order with COD payment
       const response = await axios.post('http://localhost:5000/orders', orderPayload);
 
       if (response.status === 200) {
@@ -87,9 +91,9 @@ const Payment = () => {
 
   const handlePaymentClick = () => {
     if (paymentMethod === 'wallet') {
-      handleWalletPayment();
+      handleWalletPayment(); // Handle wallet payment, which redirects to the wallet page
     } else if (paymentMethod === 'cod') {
-      handleCODPayment();
+      handleCODPayment(); // Handle COD payment, create order directly
     } else {
       setError('Please select a payment method.');
     }
@@ -159,3 +163,5 @@ const Payment = () => {
 };
 
 export default Payment;
+
+
