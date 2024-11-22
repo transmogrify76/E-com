@@ -1,7 +1,12 @@
-
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+
+const Status = {
+  UNOPENED: 'UNOPENED',
+  IN_PROGRESS: 'IN_PROGRESS',
+  RESOLVED: 'RESOLVED',
+  ESCALATED: 'ESCALATED',
+};
 
 const SupportTickets = () => {
   const [tickets, setTickets] = useState([]);
@@ -80,7 +85,7 @@ const SupportTickets = () => {
       });
 
       setStatusMessage('Ticket status updated successfully.');
-      setTicketDetails(prevDetails => ({
+      setTicketDetails((prevDetails) => ({
         ...prevDetails,
         status: statusUpdate,
       }));
@@ -146,9 +151,10 @@ const SupportTickets = () => {
               onChange={(e) => setStatusUpdate(e.target.value)}
             >
               <option value="">Select Status</option>
-              <option value="OPEN">Open</option>
-              <option value="IN_PROGRESS">In Progress</option>
-              <option value="CLOSED">Closed</option>
+              <option value={Status.UNOPENED}>Unopened</option>
+              <option value={Status.IN_PROGRESS}>In Progress</option>
+              <option value={Status.RESOLVED}>Resolved</option>
+              <option value={Status.ESCALATED}>Escalated</option>
             </select>
             <button onClick={handleStatusUpdate} disabled={loading}>Update Status</button>
             {statusMessage && <p className="success">{statusMessage}</p>}

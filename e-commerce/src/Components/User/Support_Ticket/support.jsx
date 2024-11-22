@@ -1,6 +1,3 @@
-
-
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -12,6 +9,7 @@ const SupportTicket = () => {
   const [supportTickets, setSupportTickets] = useState([]);
   const [message, setMessage] = useState('');
   const [formVisible, setFormVisible] = useState(false); // Toggle the visibility of the form
+  const [updatedTickets, setUpdatedTickets] = useState({}); // Store the updated time for each ticket
 
   // Fetch Support Tickets on page load or when the user ID changes
   useEffect(() => {
@@ -19,6 +17,15 @@ const SupportTicket = () => {
       try {
         const response = await axios.get(`http://localhost:5000/support/by-user?user_id=${userId}`);
         setSupportTickets(response.data); // Assuming the response contains the list of support tickets
+
+        // Fetch the last updated time for each ticket
+        const updatedTicketsData = {};
+        for (const ticket of response.data) {
+          const updatedResponse = await axios.get(`http://localhost:5000/support/${ticket.id}`);
+          updatedTicketsData[ticket.id] = updatedResponse.data.updatedAt; // Assuming the response contains the updatedAt field
+        }
+        setUpdatedTickets(updatedTicketsData);
+
       } catch (error) {
         console.error('Error fetching support tickets:', error);
       }
@@ -48,6 +55,15 @@ const SupportTicket = () => {
       // Optionally refetch tickets
       const newTickets = await axios.get(`http://localhost:5000/support/by-user?user_id=${userId}`);
       setSupportTickets(newTickets.data);
+
+      // Fetch updated times for the new tickets
+      const updatedTicketsData = {};
+      for (const ticket of newTickets.data) {
+        const updatedResponse = await axios.get(`http://localhost:5000/support/${ticket.id}`);
+        updatedTicketsData[ticket.id] = updatedResponse.data.updatedAt;
+      }
+      setUpdatedTickets(updatedTicketsData);
+
     } catch (error) {
       console.error('Error creating support ticket:', error);
       setMessage('Failed to create the support ticket. Please try again.');
@@ -115,6 +131,11 @@ const SupportTicket = () => {
                 <p>{ticket.details}</p>
                 <p>Status: {ticket.status}</p>
                 <p>Created at: {new Date(ticket.createdAt).toLocaleString()}</p>
+
+                {/* Display the updated time if available */}
+                {updatedTickets[ticket.id] && (
+                  <p>Last Updated: {new Date(updatedTickets[ticket.id]).toLocaleString()}</p>
+                )}
               </li>
             ))}
           </ul>

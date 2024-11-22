@@ -1,238 +1,227 @@
-body {
-  font-family: Arial, sans-serif;
-  margin: 0; /* Remove default margin */
+/* Container for the entire order page */
+.order-container {
+  font-family: 'Arial', sans-serif;
+  padding: 10px;
+  margin-left:80px;
+
 }
 
-.main-container {
-  margin-top: 110px; /* Space from top */
-  width: 80%; /* Width of the container */
-  margin-left: 260px; /* Space from the left */
-  padding: 20px; /* Inner padding */
-}
-
-.grid-container {
-  display: flex; /* Use flexbox for card alignment */
-  justify-content: space-between; /* Space between the cards */
-  flex-wrap: wrap; /* Allow wrapping on smaller screens */
-  gap: 20px; /* Space between cards */
-}
-.card {
-  
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 60px;
+/* Header Styling */
+h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
   text-align: center;
+  color: #333;
 }
 
-.total-orders { background-color: #e0f7fa; }
-.active-orders { background-color: #c8e6c9; }
-.completed-orders { background-color: #fff9c4; }
-.cancelled-orders { background-color: #ffcdd2; }
+/* Order Controls Section (Search and Filter) */
+.order-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: #f7f7f7;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
 
-.card-content {
+.order-controls input[type="text"] {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 250px;
+  font-size: 16px;
+}
+
+.order-controls button {
+  margin-left: 10px;
+}
+
+.order-controls select {
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+/* Button Styling */
+button, .btn {
+  padding: 6px 12px;
+  font-size: 16px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover, .btn:hover {
+  opacity: 0.8;
+}
+
+button:focus, .btn:focus {
+  outline: none;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: #fff;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+}
+
+.btn-success {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.btn-success:hover {
+  background-color: #218838;
+}
+
+.btn-warning {
+  background-color: #ffc107;
+  color: #fff;
+}
+
+.btn-warning:hover {
+  background-color: #e0a800;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+}
+
+/* Table Styling */
+.order-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.order-table th,
+.order-table td {
+  padding: 12px;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+
+.order-table th {
+  background-color: #f2f2f2;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.order-table td {
+  font-size: 14px;
+}
+
+.order-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.order-table tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+.order-table td ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.order-table td ul li {
+  font-size: 13px;
+  margin-bottom: 5px;
+}
+
+/* Flex styling for better alignment in order actions */
+.order-table td .btn-group {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+/* No orders found message */
+.order-table td[colspan="8"] {
+  text-align: center;
+  color: #888;
+  font-size: 16px;
+  padding: 20px 0;
+}
+
+/* Spinner (loading state) */
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  flex-direction: column;
+  font-size: 20px;
+}
+
+.spinner {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Order widgets section styling */
+.recent-orders-container {
+  background-color: #f7f7f7;
+  padding: 20px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.recent-orders-container h2 {
+  font-size: 20px;
   margin-bottom: 10px;
 }
 
-.progress-circle {
-  background-color: #ddd;
-  border-radius: 50%;
-  display: inline-block;
-  height: 80px;
-  line-height: 80px;
-  text-align: center;
-  width: 80px;
-  margin: 0 auto;
+.recent-orders-container .order-card {
+  background-color: #fff;
+  padding: 15px;
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+  border-radius: 4px;
 }
 
-.card-details {
-  margin-top: 10px;
+.recent-orders-container .order-card p {
+  font-size: 14px;
 }
 
-.card-icon {
-  font-size: 24px;
-  margin-left: 5px;
+.recent-orders-container .order-card ul {
+  list-style-type: none;
+  padding-left: 0;
 }
 
-
-.search-filters-section {
-  margin-top: 20px; /* Space above the filters */
-  margin-bottom: 20px; /* Space below the filters */
-  padding: 15px; /* Inner padding */
-  background-color: #f9f9f9; /* Light background for the filter section */
-  border-radius: 8px; /* Rounded corners */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-}
-
-.search-filters-section input {
-  padding: 10px; /* Inner padding for input */
-  margin-right: 10px; /* Space between input and button */
-  border: 1px solid #ccc; /* Border color */
-  border-radius: 5px; /* Rounded corners */
-  width: 200px; /* Set a fixed width for input */
-}
-
-.search-filters-section button {
-  padding: 10px; /* Inner padding for button */
-  border: none; /* Remove border */
-  border-radius: 5px; /* Rounded corners */
-  background-color: #3f51b5; /* Button background color */
-  color: white; /* Button text color */
-  cursor: pointer; /* Pointer cursor */
-  transition: background-color 0.3s; /* Smooth background transition */
-}
-
-.search-filters-section button:hover {
-  background-color: #5c6bc0; /* Button hover color */
-}
-
-.manage-orders {
-  position: relative; /* Position for dropdown */
-}
-
-.table {
-  margin-top: 20px; /* Space above table */
-}
-
-.table-cell {
-  font-size: 0.95rem; /* Font size for table cells */
-}
-
-.table h6 {
-  margin-bottom: 10px; /* Space below table heading */
-}
-
-.table table {
-  width: 100%; /* Full width */
-  border-collapse: collapse; /* Merge borders */
-}
-
-.table th, .table td {
-  padding: 10px; /* Inner padding */
-  border: 1px solid #ddd; /* Border color */
-  text-align: center; /* Center text */
-}
-
-.table th {
-  background-color: green; /* Header background color */
-  color: white; /* Text color for header */
-}
-
-.table tr:hover {
-  background-color: #f9f9f9; /* Row hover background color */
-}
-
-.edit-modal {
-  position: fixed; /* Fixed position for modal */
-  top: 50%; /* Center vertically */
-  left: 50%; /* Center horizontally */
-  transform: translate(-50%, -50%); /* Adjust for center */
-  background-color: white; /* Modal background color */
-  border: 1px solid #ccc; /* Border color */
-  padding: 20px; /* Inner padding */
-  z-index: 1000; /* Bring modal to front */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Modal shadow */
-}
-
-.edit-modal h6 {
-  margin-bottom: 15px; /* Space below modal heading */
-}
-
-.edit-modal form {
-  display: flex; /* Flexbox layout for form */
-  flex-direction: column; /* Stack inputs */
-}
-
-.edit-modal input,
-.edit-modal select {
-  margin: 10px 0; /* Space above and below inputs */
-  padding: 10px; /* Inner padding */
-  border: 1px solid #ccc; /* Border color */
-  border-radius: 5px; /* Rounded corners */
-}
-
-.edit-modal button {
-  margin-top: 10px; /* Space above button */
-  padding: 10px; /* Inner padding */
-  border: none; /* Remove border */
-  border-radius: 5px; /* Rounded corners */
-  background-color: #10997b; /* Button background color */
-  color: white; /* Button text color */
-  cursor: pointer; /* Pointer cursor */
-  transition: background-color 0.3s; /* Smooth background transition */
-}
-
-.edit-modal button:hover {
-  background-color: #5c6bc0; /* Button hover color */
-}
-
-/* Card Colors */
-.card:nth-child(1) {
-  background-color: #f0f8ff; /* Light Blue */
-}
-
-.card:nth-child(2) {
-  background-color: #e6ffe6; /* Light Green */
-}
-
-.card:nth-child(3) {
-  background-color: #ffe6e6; /* Light Red */
-}
-
-.card:nth-child(4) {
-  background-color: #ffffcc; /* Light Yellow */
-}
-
-.menu {
-  position: absolute;
-  background-color: white;
-  border: 1px solid #ccc;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  z-index: 10; /* Ensure the menu appears above other elements */
-}
-
-.menu a {
-  display: block;
-  padding: 10px;
-  color: black;
-  text-decoration: none;
-}
-
-.menu a:hover {
-  background-color: #f1f1f1; /* Highlight on hover */
-}
-.total-orders {
-    font-size: 18px; /* Set the font size */
-    color: #333;     /* Set the text color */
-    margin: 10px 0; /* Set top and bottom margin */
-    font-weight: bold; /* Make the text bold */
-}
-
-
-/* Media Queries */
-@media (max-width: 960px) {
-  .main-container {
-      width: 90%; /* Wider on medium screens */
-      margin-left: auto; /* Center align */
-      margin-right: auto; /* Center align */
-  }
-}
-
-@media (max-width: 600px) {
-  .main-container {
-      width: 100%; /* Full width on small screens */
-      margin-left: auto; /* Center align */
-      margin-right: auto; /* Center align */
-      padding: 10px; /* Padding adjustment */
-  }
-
-  .card {
-      margin-bottom: 20px; /* Space below cards */
-      width: 100%; /* Full width cards */
-  }
-
-  .search-filters-section input {
-      width: 100%; /* Full width input on small screens */
-      margin-right: 0; /* Remove right margin */
-      margin-bottom: 10px; /* Space below input */
-  }
+.recent-orders-container .order-card ul li {
+  font-size: 13px;
 }
