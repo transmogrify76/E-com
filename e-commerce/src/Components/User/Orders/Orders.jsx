@@ -21,7 +21,7 @@ const OrderHistory = () => {
     // Fetch orders for the logged-in user
     const fetchOrders = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/orders', {
+        const response = await axios.get(`http://localhost:5000/orders/user/${userId}`, {
           params: { userId: userId },
         });
 
@@ -36,7 +36,7 @@ const OrderHistory = () => {
         }
       } catch (err) {
         console.error('Error fetching orders:', err);
-        setError('Failed to fetch order history. Please try again later.');
+        setError('Your Order history is empty');
       } finally {
         setLoading(false); // Stop loading
       }
