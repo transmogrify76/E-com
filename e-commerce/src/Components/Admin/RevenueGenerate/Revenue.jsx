@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './RevenueGenerate.css'; // Make sure this path is correct
+import './Revenue.css'; // Make sure this path is correct
 import axios from 'axios';
 import { Bar } from 'react-chartjs-2';
 import {
@@ -15,19 +15,28 @@ import {
 // Register the necessary components
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const RevenueGenerate = () => {
+const Revenue = () => {
     // Initialize states
     const [monthlyRevenueData, setMonthlyRevenueData] = useState([]);
     const [topRevenueProducts, setTopRevenueProducts] = useState([]);
     const [totalRevenue, setTotalRevenue] = useState(0);
     const [averageMonthlyRevenue, setAverageMonthlyRevenue] = useState(0);
     const [chartData, setChartData] = useState({ labels: [], datasets: [] }); // Initialize with empty structure
-    const [sellerId, setSellerId] = useState(2);  // For now, we are using a static sellerId of 2 for testing
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    // Fetch sellerId from localStorage (or any other auth method)
+    const sellerId = localStorage.getItem('sellerId'); // Retrieve sellerId dynamically
 
     // Fetch data for total revenue, average monthly revenue, and monthly revenue
     const fetchRevenueData = async () => {
-        if (!sellerId) return; // Ensure sellerId is available
+        if (!sellerId) {
+            setError('Seller ID not found. Please log in.');
+            setLoading(false);
+            return;
+        }
 
+        setLoading(true); // Show loading spinner while data is being fetched
         try {
             // Fetch Total Revenue
             const totalRevenueResponse = await axios.get(`http://localhost:5000/analytics?sellerId=${sellerId}&type=totalRevenue`);
@@ -70,10 +79,13 @@ const RevenueGenerate = () => {
 
         } catch (error) {
             console.error('Error fetching revenue data', error);
+            setError('Error fetching revenue data. Please try again later.');
+        } finally {
+            setLoading(false); // Hide the loading spinner when the data fetch is complete
         }
     };
 
-    // Fetch data when the component mounts
+    // Fetch data when the component mounts or sellerId changes
     useEffect(() => {
         fetchRevenueData();
     }, [sellerId]);
@@ -92,13 +104,17 @@ const RevenueGenerate = () => {
         },
     };
 
+    if (loading) return <p>Loading...</p>; // Show loading spinner or message
+
+    if (error) return <p>{error}</p>; // Show error message if there's an issue with fetching data
+
     return (
         <div className="revenue-generate-container">
             {/* Header */}
             <header className="revenue-header">
                 <h2>Revenue Generation</h2>
                 <div className="revenue-user-info">
-                    <span className="username">Seller Name</span> {/* Replace with actual username */}
+                    <span className="username"></span> {/* Replace with actual username */}
                 </div>
             </header>
 
@@ -174,4 +190,4 @@ const RevenueGenerate = () => {
     );
 };
 
-export default RevenueGenerate;
+export default Revenue;

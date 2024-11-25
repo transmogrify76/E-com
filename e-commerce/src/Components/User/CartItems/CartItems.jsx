@@ -207,6 +207,7 @@ const CartItems = () => {
             <th>Products</th>
             <th>Title</th>
             <th>Size</th>
+            <th>Color</th>
             <th>Price</th>
             <th>Quantity</th>
             <th>Total</th>
@@ -216,7 +217,17 @@ const CartItems = () => {
         <tbody>
           {cartItems.length === 0 ? (
             <tr>
-              <td colSpan="7" style={{ textAlign: 'center' }}>Your cart is empty.</td>
+              <td colSpan="7" style={{
+                textAlign: 'center',
+                fontSize: '18px',
+                fontWeight: 'bold',
+                color: 'white', // White text color
+                backgroundColor: '#f44336', // Red background color for "empty" message
+                padding: '20px',
+                borderRadius: '5px'
+              }}>
+                Your cart is empty.
+              </td>
             </tr>
           ) : (
             cartItems.map((item) => (
@@ -230,6 +241,7 @@ const CartItems = () => {
                 </td>
                 <td>{item.product.name}</td>
                 <td>{item.product.productDetails.find(detail => detail.key === 'size')?.value}</td>
+                <td>{item.product.productDetails.find(detail => detail.key === 'color')?.value}</td>
                 <td>₹{item.product.price}</td>
                 <td>
                   <input
@@ -304,4 +316,5 @@ const CartItems = () => {
 };
 
 export default CartItems;
+
 

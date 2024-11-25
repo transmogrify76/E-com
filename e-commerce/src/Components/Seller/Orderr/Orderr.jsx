@@ -1,65 +1,104 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import './Orderr.css';
+import React, { useState, useEffect } from 'react';
 import { Button } from 'react-bootstrap';
-import CreateShippingModal from '../CreateShippingModal/CreateShippingModal';
-import { FaSearch, FaFilePdf, FaEye, FaTruck } from 'react-icons/fa';
+import { FaSearch, FaFilePdf, FaEye, FaTrashAlt } from 'react-icons/fa'; // Importing trash icon for delete
+import { Link } from 'react-router-dom'; // Import Link from react-router-dom
+import axios from 'axios';
+import './Orderr.css'; // Assuming your styling file is here
 
 const Orderr = () => {
     const [filter, setFilter] = useState('all');
     const [searchOrderId, setSearchOrderId] = useState('');
-    const [orders, setOrders] = useState([
-        { id: 1, purchaseDate: '2023-01-01 12:30 PM', customerName: 'abc', total: 850, status: 'Pending' },
-        { id: 2, purchaseDate: '2023-01-02 10:45 AM', customerName: 'xyz', total: 700, status: 'Shipped' },
-        { id: 3, purchaseDate: '2023-01-03 04:15 PM', customerName: 'pqr', total: 400, status: 'Cancelled' },
-        { id: 4, purchaseDate: '2023-01-04 11:00 AM', customerName: 'def', total: 1200, status: 'Delivered' },
-    ]);
+    const [orders, setOrders] = useState([]);
+    const [userId, setUserId] = useState(localStorage.getItem('userId')); // Get userId from localStorage
 
-    const [showCreateShippingModal, setShowCreateShippingModal] = useState(false);
+    // Fetch orders from the API based on userId
+    useEffect(() => {
+        if (userId) {
+            const fetchOrders = async () => {
+                try {
+                    const response = await axios.get(`http://localhost:5000/orders/user/${userId}`, {
+                        headers: {
+                            'If-Modified-Since': '2024-11-21T12:00:00Z' // Add the last modified date from the server or cache
+                        }
+                    });
+                    console.log('API Response:', response.data); // Log the response to see the structure
 
-    const handleSearch = () => {
-        const filteredOrders = orders.filter(order => order.id.toString().includes(searchOrderId));
-        setOrders(filteredOrders);
-    };
+                    if (response.status === 304) {
+                        console.log('Data has not been modified since last fetch.');
+                        // Optionally, show a message or skip updating the orders
+                    } else if (response.data && Array.isArray(response.data)) {
+                        setOrders(response.data); // Set orders if the response contains them
+                    } else {
+                        setOrders([]); // Set an empty array if no orders are found
+                    }
+                } catch (error) {
+                    console.error('Error fetching orders:', error);
+                    setOrders([]); // Set an empty array in case of error
+                }
+            };
 
-    const exportToPDF = () => {
-        const pdfTable = document.getElementById('order-table').outerHTML;
-        const blob = new Blob([pdfTable], { type: 'application/pdf' });
-        const url = URL.createObjectURL(blob);
+            fetchOrders();
+        }
+    }, [userId]); // Fetch orders when the component mounts
 
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = 'orders.pdf';
-        link.click();
+    // Search by Order ID
+    const handleSearch = async () => {
+        if (searchOrderId) {
+            try {
+                const response = await axios.get(`http://localhost:5000/orders/${searchOrderId}`);
+                console.log('Searched Order Response:', response.data);
 
-        URL.revokeObjectURL(url);
-    };
+                if (response.data) {
+                    setOrders([response.data]); // Update orders with the searched order (assuming the response is an object)
+                } else {
+                    setOrders([]); // Set an empty array if no order is found for that ID
+                }
+            } catch (error) {
+                console.error('Error fetching order by ID:', error);
+                setOrders([]); // Set an empty array in case of error
+            }
+        } else {
+            // If searchOrderId is empty, fetch all orders again
+            const fetchOrders = async () => {
+                try {
+                    const response = await axios.get(`http://localhost:5000/orders/user/${userId}`);
+                    console.log('API Response:', response.data); // Log the response to see the structure
 
-    const handleShowCreateShippingModal = () => {
-        setShowCreateShippingModal(true);
-    };
+                    if (response.data && Array.isArray(response.data)) {
+                        setOrders(response.data); // Set orders if the response contains them
+                    } else {
+                        setOrders([]); // Set an empty array if no orders are found
+                    }
+                } catch (error) {
+                    console.error('Error fetching orders:', error);
+                    setOrders([]); // Set an empty array in case of error
+                }
+            };
 
-    const handleCloseCreateShippingModal = () => {
-        setShowCreateShippingModal(false);
-    };
-
-    const handleCreateOrder = (newOrderData) => {
-        const newOrder = {
-            id: orders.length + 1,
-            purchaseDate: new Date().toLocaleString(),
-            customerName: newOrderData.productName,
-            total: newOrderData.stockPrice,
-            status: newOrderData.status,
-        };
-        setOrders([...orders, newOrder]);
-        handleCloseCreateShippingModal();
+            fetchOrders();
+        }
     };
 
     const handleFilterChange = (event) => {
         setFilter(event.target.value);
     };
 
-    const filteredOrders = filter === 'all' ? orders : orders.filter(order => order.status === filter);
+    const filteredOrders = filter === 'all' ? orders : orders.filter(order => order.orderingStatus === filter);
+
+    // Handle delete order
+    const handleDeleteOrder = async (orderId) => {
+        try {
+            const response = await axios.delete(`http://localhost:5000/orders/${orderId}`);
+            if (response.status === 200) {
+                // Remove the deleted order from the orders state
+                setOrders(orders.filter(order => order.id !== orderId));
+                alert("Order deleted successfully");
+            }
+        } catch (error) {
+            console.error('Error deleting order:', error);
+            alert('Failed to delete the order. Please try again.');
+        }
+    };
 
     return (
         <div className="order-container">
@@ -70,36 +109,36 @@ const Orderr = () => {
                     placeholder="Search by Order ID"
                     value={searchOrderId}
                     onChange={(e) => setSearchOrderId(e.target.value)}
-                    style={{ 
-                        padding: '6px', 
-                        border: '1px solid #ccc', 
-                        borderRadius: '4px', 
-                        fontSize: '20px', 
+                    style={{
+                        padding: '6px',
+                        border: '1px solid #ccc',
+                        borderRadius: '4px',
+                        fontSize: '20px',
                         width: '300px'
                     }}
                 />
                 <Button
                     variant="primary"
                     onClick={handleSearch}
-                    style={{ marginRight: '350px', marginBottom: '10px' }}
+                    style={{ marginRight: '1300px', marginBottom: '8px' }}
                 >
-                    <FaSearch /> Search
+                    <FaSearch /> 
                 </Button>
                 <Button
                     variant="secondary"
-                    onClick={exportToPDF}
+                    onClick={() => {/* Export to PDF logic here */}}
                 >
                     <FaFilePdf /> Export to PDF
                 </Button>
-                <div>            
+                <div>
                     <select
                         value={filter}
                         onChange={handleFilterChange}
                         style={{
-                            marginRight: '100px', 
-                            width: '300px',       
-                            height: '40px',       
-                            padding: '5px',       
+                            marginRight: '100px',
+                            width: '300px',
+                            height: '40px',
+                            padding: '5px',
                             borderRadius: '4px',
                             border: '1px solid #ccc'
                         }}
@@ -110,62 +149,68 @@ const Orderr = () => {
                         <option value="Delivered">Delivered</option>
                         <option value="Cancelled">Cancelled</option>
                     </select>
-                    <Button
-                        variant="success"
-                        onClick={handleShowCreateShippingModal}
-                    >
-                        Create Shipping Request
-                    </Button>
                 </div>
             </div>
-            <table id="order-table" className="order-table">
+
+            <table className="order-table">
                 <thead>
                     <tr>
                         <th>Order ID</th>
-                        <th>Purchase Date</th>
+                        <th>Created Date</th>
                         <th>Customer Name</th>
-                        <th>Total</th>
+                        <th>Address</th>
+                        <th>Total Price</th>
+                        <th>Ordered Items</th>
                         <th>Status</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {filteredOrders.map(order => (
-                        <tr key={order.id}>
-                            <td>{order.id}</td>
-                            <td>{order.purchaseDate}</td>
-                            <td>{order.customerName}</td>
-                            <td>{order.total}</td>
-                            <td>{order.status}</td>
-                            <td>
-                                <Link to={`/OrderIndividual/${order.id}`}>
-                                    <Button variant="info" style={{ marginRight: '10px' }}>
-                                        <FaEye /> View
-                                    </Button>
-                                </Link>
-                                {order.status !== 'Cancelled' && (
-                                    <>
-                                        <Link to={`/ShippingDetails/${order.id}`}>
-                                            <Button
-                                                variant="warning"
-                                                style={{ marginRight: '10px' }}
-                                            >
-                                                <FaTruck /> Dispatch
-                                            </Button>
-                                        </Link>
-                                    </>
-                                )}
-                            </td>
+                    {filteredOrders.length > 0 ? (
+                        filteredOrders.map(order => (
+                            <tr key={order.id}>
+                                <td>{order.id}</td>
+                                <td>{new Date(order.orderedAt).toLocaleString()}</td>
+                                <td>{order.user?.name || "N/A"}</td>
+                                <td>{order.address}</td>
+                                <td>{order.totalOrderCost || "N/A"}</td>
+                                <td>
+                                    <ul>
+                                        {order.orderedItems.map((item, index) => (
+                                            <li key={index}>
+                                                Product ID: {item.productId}, 
+                                                Quantity: {item.quantity}, 
+                                                Price: {item.priceAfterDiscount}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </td>
+                                <td>{order.orderingStatus}</td>
+                                <td>
+                                    <Link to={`/OrderIndividual/${order.id}`}>
+                                        <Button variant="info" style={{ marginRight: '10px' }}>
+                                            <FaEye /> View
+                                        </Button>
+                                    </Link>
+                                    {order.orderingStatus !== 'Cancelled' && (
+                                        <Button
+                                            variant="danger"
+                                            style={{ marginRight: '10px' }}
+                                            onClick={() => handleDeleteOrder(order.id)}
+                                        >
+                                            <FaTrashAlt /> Delete
+                                        </Button>
+                                    )}
+                                </td>
+                            </tr>
+                        ))
+                    ) : (
+                        <tr>
+                            <td colSpan="8" style={{ textAlign: 'center' }}>No orders found.</td>
                         </tr>
-                    ))}
+                    )}
                 </tbody>
             </table>
-
-            <CreateShippingModal
-                show={showCreateShippingModal}
-                handleClose={handleCloseCreateShippingModal}
-                handleCreateOrder={handleCreateOrder}
-            />
         </div>
     );
 };

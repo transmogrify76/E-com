@@ -1,3 +1,7 @@
+// import React, { useState, useEffect } from 'react';
+// import { useLocation, useNavigate } from 'react-router-dom';
+// import axios from 'axios';
+
 // import React, { useState, useEffect } from 'react'; // Import useEffect and useState
 // import './Wallet.css';
 // import backgroundImage from '../../Assets/Ecommerce_Frontend_Assets/Assets/background.jpg'; // adjust the path
@@ -73,7 +77,8 @@
 //   );
 // };
 
-// export default WalletPage;
+
+
 import React, { useState, useEffect } from 'react';
 import './Wallet.css';
 
@@ -167,6 +172,3 @@ const WalletPage = () => {
 };
 
 export default WalletPage;
-
-
-//the above jsx code is perfectly fine, but i want the exact sam edesign like amazon wallet or something like that so give me a good design and structure not image

@@ -1,9 +1,106 @@
+// import React, { useState, useEffect } from 'react';
+// import { useParams } from 'react-router-dom';
+// import ProductDisplay from '../ProductDisplay/ProductDisplay';
+// import DescriptionBox from '../DescriptionBox/DescriptionBox';
+// import RelatedProducts from '../RelatedProducts/RelatedProducts';
+// import Breadcrum from '../Breadcrum/Breadcrum';
+
+// const Product = () => {
+//   const { productId } = useParams();
+
+//   const [product, setProduct] = useState(null); // For storing the current product
+//   const [relatedProducts, setRelatedProducts] = useState([]); // For related products
+//   const [image, setImage] = useState(null); // For storing the base64 image
+//   const [loading, setLoading] = useState(true);
+
+//   // Fetch product by ID and image
+//   const fetchProduct = async () => {
+//     try {
+//       const productResponse = await fetch(`${process.env.REACT_APP_BASE_URL}/products/${productId}`);
+//       const productData = await productResponse.json();
+
+//       if (productData) {
+//         setProduct(productData);
+//         fetchProductImage(productData.id);
+//         fetchRelatedProducts(productData.category, productData.subcategory); // Pass subcategory here
+//       } else {
+//         console.error('Product not found.');
+//       }
+//     } catch (error) {
+//       console.error('Error fetching product:', error);
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   // Fetch the product image by ID (Base64)
+//   const fetchProductImage = async (productId) => {
+//     try {
+//       const imageResponse = await fetch(`${process.env.REACT_APP_BASE_URL}/products/images/product/${productId}`);
+//       const imageData = await imageResponse.json();
+
+//       if (imageData && imageData[0]) {
+//         setImage(imageData[0].base64);
+//       }
+//     } catch (error) {
+//       console.error('Error fetching product image:', error);
+//     }
+//   };
+
+//   // Fetch related products based on subcategory 
+//   const fetchRelatedProducts = async (category, subcategory) => {
+//     try {
+//       const relatedResponse = await fetch(`${process.env.REACT_APP_BASE_URL}/categories/subcategories/name/${subcategory}`);
+//       const relatedData = await relatedResponse.json();
+
+//       const sellerUploadedRelatedProducts = relatedData.filter(
+//         (product) => product.sellerUploaded
+//       );
+
+//       setRelatedProducts(sellerUploadedRelatedProducts);
+//     } catch (error) {
+//       console.error('Error fetching related products:', error);
+//     }
+//   };
+
+//   // Fetch product details when the component mounts or productId changes 
+//   useEffect(() => {
+//     setLoading(true);
+//     fetchProduct();
+//   }, [productId]);
+
+//   if (loading) {
+//     return <div>Loading product details...</div>;
+//   }
+
+//   if (!product) {
+//     return <div>Product not found</div>;
+//   }
+
+//   return (
+//     <div>
+//       <Breadcrum product={product} />
+//       <ProductDisplay product={product} image={image} />
+//       <DescriptionBox product={product} />
+
+//       {/* Display Related Products */}
+//       {relatedProducts.length > 0 ? (
+//         <RelatedProducts products={relatedProducts} title="Related Products" />
+//       ) : (
+//         <div style={{ textAlign: 'center', fontSize: '1.5rem', fontWeight: 'bold', marginTop: '20px' }}>
+//           No related products found.
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default Product;
 
 
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import ProductDisplay from '../ProductDisplay/ProductDisplay';
-import DescriptionBox from '../DescriptionBox/DescriptionBox';
 import RelatedProducts from '../RelatedProducts/RelatedProducts';
 import Breadcrum from '../Breadcrum/Breadcrum';
 
@@ -85,7 +182,6 @@ const Product = () => {
     <div>
       <Breadcrum product={product} />
       <ProductDisplay product={product} image={image} />
-      <DescriptionBox product={product} />
       
       {/* Display Related Products */}
       {relatedProducts.length > 0 ? (
@@ -98,5 +194,3 @@ const Product = () => {
 };
 
 export default Product;
-
-

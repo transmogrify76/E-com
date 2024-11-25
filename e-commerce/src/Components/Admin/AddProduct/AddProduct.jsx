@@ -23,6 +23,8 @@ const AddProduct = () => {
     const [selectedCategoryNames, setSelectedCategoryNames] = useState([]); // Fixed: Track selected categories
 
     const accessToken = localStorage.getItem('accessToken');
+    const adminId = localStorage.getItem('adminId'); // or from any other appropriate source
+
 
     useEffect(() => {
         fetchCategories();

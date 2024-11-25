@@ -14,13 +14,12 @@ const ContactUs = () => {
           <h3>Phone</h3>
           <p>(123) 456-7890</p>
         </div>
-        <div className="contact-method">
-          <h3>Live Chat</h3>
-          <p><a href="/chat">Start a chat</a></p>
-        </div>
+       
       </div>
     </div>
   );
 }
 
 export default ContactUs;
+
+
