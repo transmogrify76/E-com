@@ -73,6 +73,7 @@ import Returns from './Components/Seller/Returns/Returns';
 import AddProductDetails from './Components/Seller/AddProductDetails/AddProductDetails';
 import Revenue from './Components/Admin/RevenueGenerate/Revenue';
 import HelpDesk from './Components/Admin/HelpDesk/HelpDesk';
+import clothing from './Components/User/Clothing/clothing';
 
 
 
@@ -121,11 +122,11 @@ function AppContent() {
   const shouldShowSideNavbar = () => {
     const pathsWithoutSideNavbar = [
       '/', '/login', '/signup', '/forgetpassword', '/dashboard', '/cart', '/wishlist',
-      '/mens', '/women', '/orders', '/account', '/kids', '/popular', '/shop',
+      '/category/men', '/category/women', '/orders', '/account', '/category/kid', '/popular', '/shop',
       '/newcollections', '/checkout', '/payment', '/NewSeller', '/admin-dashboard',
       '/list-product', '/add-product', '/categories', '/order', '/users', '/sellers',
       '/transactions', '/delivery', '/adaccount', '/adsettings', '/inventory',
-      '/shipments', '/invoice', '/refunds', '/resetpassword', '/Wallet', '/NewBank', '/notificationadmin','/term','/customerservice','/category','/revenue','/help'
+      '/shipments', '/invoice', '/refunds', '/resetpassword', '/Wallet', '/NewBank', '/notificationadmin','/term','/customerservice','/category','/revenue','/help','/category/clothing'
     ];
     return !pathsWithoutSideNavbar.includes(location.pathname) && !location.pathname.startsWith('/product/') && !location.pathname.startsWith('/invoice/') && !location.pathname.startsWith('/refunds/');
   };
@@ -133,11 +134,11 @@ function AppContent() {
   const shouldShowSellerNavbar = () => {
     const pathsWithoutSellerNavbar = [
       '/', '/login', '/signup', '/forgetpassword', '/dashboard', '/cart', '/wishlist',
-      '/mens', '/women', '/orders', '/account', '/kids', '/popular', '/shop',
+      '/category/men', '/category/women', '/orders', '/account', '/category/kid', '/popular', '/shop',
       '/newcollections', '/checkout', '/payment', '/NewSeller', '/admin-dashboard',
       '/list-product', '/add-product', '/categories', '/order', '/users', '/sellers',
       '/transactions', '/delivery', '/adaccount', '/adsettings', '/inventory',
-      '/shipments', '/resetpassword', '/Wallet', '/NewBank', '/notificationadmin','/term','/customerservice','/category','/revenue','/help'
+      '/shipments', '/resetpassword', '/Wallet', '/NewBank', '/notificationadmin','/term','/customerservice','/category','/revenue','/help','/category/clothing'
     ];
     return !pathsWithoutSellerNavbar.includes(location.pathname) && !location.pathname.startsWith('/product/');
   };
@@ -145,10 +146,10 @@ function AppContent() {
   const shouldShowAdminNavbar = () => {
     const pathsWithoutAdminNavbar = [
       '/', '/login', '/signup', '/forgetpassword', '/dashboard', '/cart', '/wishlist',
-      '/mens', '/women', '/orders', '/account', '/kids', '/popular', '/shop',
+      '/category/men', '/category/women', '/orders', '/account', '/category/kid', '/popular', '/shop',
       '/newcollections', '/checkout', '/payment', '/NewSeller', '/seller-dashboard',
       '/ProductUpload', '/ExistingProduct', '/Dispatch', '/RevenueGenerate',
-      '/Orderr', '/Settings', '/Wallet', '/NewBank', '/resetpassword', '/Pricing', '/notifications','/term','/customerservice','/SellerAccount','/productmanagement','/category','/return'
+      '/Orderr', '/Settings', '/Wallet', '/NewBank', '/resetpassword', '/Pricing', '/notifications','/term','/customerservice','/SellerAccount','/productmanagement','/category','/return','/category/clothing'
     ];
     return !pathsWithoutAdminNavbar.includes(location.pathname) && !location.pathname.startsWith('/product/');
   };
@@ -156,19 +157,19 @@ function AppContent() {
   const shouldShowAdminSidebar = () => {
     const pathsWithoutAdminSidebar = [
       '/', '/login', '/signup', '/forgetpassword', '/dashboard', '/cart', '/wishlist',
-      '/mens', '/women', '/orders', '/account', '/kids', '/popular', '/shop',
+      '/category/men', '/category/women', '/orders', '/account', '/category/kid', '/popular', '/shop',
       '/newcollections', '/checkout', '/payment', '/NewSeller', '/seller-dashboard',
       '/ProductUpload', '/ExistingProduct', '/Dispatch', '/RevenueGenerate',
       '/Orderr', '/Settings', '/Wallet', '/SellerAccount',
-      '/NewBank', '/resetpassword', '/Pricing', '/productmanagement', '/notifications','/term','/customerservice','/category','/return','./add-product-details'
+      '/NewBank', '/resetpassword', '/Pricing', '/productmanagement', '/notifications','/term','/customerservice','/category','/return','./add-product-details','/category/clothing'
     ];
     return !pathsWithoutAdminSidebar.includes(location.pathname) && !location.pathname.startsWith('/product/') && !location.pathname.startsWith('/OrderIndividual/') && !location.pathname.startsWith('/ShippingDetails/') && !location.pathname.startsWith('/Dispatch/')  && !location.pathname.startsWith('/add-product-details');
   };
 
   const shouldShowNavbar = () => {
     const pathsWithNavbar = [
-      '/', '/dashboard', '/cart', '/wishlist', '/mens', '/women', '/orders',
-      '/account', '/kids', '/popular', '/shop', '/newcollections', '/productdisplay',
+      '/', '/dashboard', '/cart', '/wishlist', '/category/men', '/category/women', '/orders',
+      '/account', '/category/kid', '/popular', '/shop', '/newcollections', '/productdisplay',
       '/product/:productId', '/checkout', '/payment', '/NewSeller', '/Wallet', '/NewBank','/term','/customerservice','/category'
     ];
 
@@ -201,11 +202,12 @@ function AppContent() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/wishlist" element={<Wishlist />} />
-        <Route path="/mens" element={<ShopCat banner={men_banner} category="men" />} />
-        <Route path="/women" element={<ShopCat banner={women_banner} category="women" />} />
+        <Route path="/category/men" element={<ShopCat banner={men_banner} category="men" />} />
+        <Route path="/category/women" element={<ShopCat banner={women_banner} category="women" />} />
+        <Route path="/category/clothing" element={<ShopCat banner={women_banner} category="clothing" />} />
         <Route path="/orders" element={<Orders />} />
         <Route path="/account" element={<Account />} />
-        <Route path="/kids" element={<ShopCat banner={kid_banner} category="kid" />} />
+        <Route path="/category/kid" element={<ShopCat banner={kid_banner} category="kid" />} />
         <Route path="/forgetpassword" element={<ForgetPassword />} />
         <Route path="/popular" element={<Popular />} />
         <Route path="/shop" element={<Shop />} />
@@ -260,7 +262,7 @@ function AppContent() {
         <Route path="/ShippingDetails/:orderId" element={<ShippingDetails />} />
         <Route path="/add-product-details" element={<AddProductDetails />} />
         <Route path="/help" element={<HelpDesk />} />
-       
+        <Route path="/category/:categoryName" element={<Category />} />
         <Route path="/notifications/seller/:sellerId" element={<NotificationsPage />} />
       </Routes>
       {shouldShowFooter() && <Footer />}

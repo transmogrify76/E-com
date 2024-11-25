@@ -48,7 +48,7 @@ const CartItems = () => {
       data.forEach(item => fetchProductImage(item.product.id));
 
     } catch (error) {
-      setError('Failed to fetch cart items. Please try again later.');
+      setError('Your Cart is Empty.');
       console.error('Error fetching cart items:', error);
     } finally {
       setLoading(false);
