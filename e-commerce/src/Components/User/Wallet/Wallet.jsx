@@ -1,3 +1,7 @@
+import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
 // import React, { useState, useEffect } from 'react'; // Import useEffect and useState
 // import './Wallet.css';
 // import backgroundImage from '../../Assets/Ecommerce_Frontend_Assets/Assets/background.jpg'; // adjust the path
@@ -75,11 +79,16 @@
 
 // export default WalletPage;
 import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom'; // Import useLocation and useNavigate
+import axios from 'axios'; // Import axios for API calls
 import './Wallet.css';
 
 const WalletPage = () => {
-  const [balance, setBalance] = useState(0);
-  const [selectedAmount, setSelectedAmount] = useState(0);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { totalWithShipping, orderPayload } = location.state || {}; // Receive order payload and amount from Payment Page
+  const [balance, setBalance] = useState(0); // Wallet balance
+  const [selectedAmount, setSelectedAmount] = useState(0); // Amount user wants to add to wallet
 
   // Dynamically load Razorpay script
   useEffect(() => {
@@ -94,23 +103,51 @@ const WalletPage = () => {
     loadRazorpayScript();
   }, []);
 
+  useEffect(() => {
+    // Fetch current balance (Simulating with a static value or you can make an API call)
+    const fetchBalance = async () => {
+      // Simulating fetching the wallet balance
+      setBalance(1000); // Replace with an API call to fetch the actual balance
+    };
+
+    fetchBalance();
+  }, []);
+
   const payNow = () => {
     if (typeof window.Razorpay === "undefined") {
       alert("Razorpay SDK is not loaded. Please try again later.");
       return;
     }
 
-    const paymentAmount = selectedAmount * 100;
+    const paymentAmount = selectedAmount * 100; // Convert to paise
 
     const options = {
-      key: 'rzp_test_nzmqxQYhvCH9rD', // Your test key
+      key: 'rzp_test_nzmqxQYhvCH9rD', // Your Razorpay test key
       amount: paymentAmount,
       currency: 'INR',
       name: 'E-commerce by Transmogrify',
       description: 'Wallet Recharge',
-      handler: (response) => {
+      handler: async (response) => {
         alert('Payment successful. Payment ID: ' + response.razorpay_payment_id);
+
+        // After payment, update wallet balance and navigate back to payment page
         setBalance(prevBalance => prevBalance + selectedAmount);
+
+        // Assuming you have an API to update the wallet balance on the server
+        try {
+          // Update wallet balance and order details
+          await axios.post('http://localhost:5000/wallet/update', {
+            userId: orderPayload.userId, // Pass userId from orderPayload
+            amount: selectedAmount,
+          });
+
+          // Proceed to place the order on the Payment page after successful wallet recharge
+          navigate('/payment-success', { state: { orderPayload } });
+
+        } catch (error) {
+          alert('Error updating wallet balance.');
+          console.error('Error updating wallet:', error);
+        }
       },
       prefill: {
         name: 'User Name',
@@ -152,21 +189,13 @@ const WalletPage = () => {
             Pay Now
           </button>
         </div>
-
-        {/* You can later add a section for Transaction History */}
-        {/* <div className="transaction-history">
-          <h4>Transaction History</h4>
-          <ul>
-            <li>Transaction #1 - ₹500 - 01/12/2024</li>
-            <li>Transaction #2 - ₹1000 - 01/12/2024</li>
-          </ul>
-        </div> */}
       </div>
     </div>
   );
 };
 
 export default WalletPage;
+
 
 
 //the above jsx code is perfectly fine, but i want the exact sam edesign like amazon wallet or something like that so give me a good design and structure not image

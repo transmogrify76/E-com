@@ -71,6 +71,11 @@ import Category from './Components/User/Category/Category';
 import Returns from './Components/Seller/Returns/Returns';
 // import AddProductDetails from './Components/Admin/AddProductDetails/AddProductDetails';
 import AddProductDetails from './Components/Seller/AddProductDetails/AddProductDetails';
+import Revenue from './Components/Admin/RevenueGenerate/Revenue';
+import HelpDesk from './Components/Admin/HelpDesk/HelpDesk';
+
+
+
 import './App.css';
 
 // ScrollHandler Component
@@ -120,7 +125,7 @@ function AppContent() {
       '/newcollections', '/checkout', '/payment', '/NewSeller', '/admin-dashboard',
       '/list-product', '/add-product', '/categories', '/order', '/users', '/sellers',
       '/transactions', '/delivery', '/adaccount', '/adsettings', '/inventory',
-      '/shipments', '/invoice', '/refunds', '/resetpassword', '/Wallet', '/NewBank', '/notificationadmin','/term','/customerservice','/category'
+      '/shipments', '/invoice', '/refunds', '/resetpassword', '/Wallet', '/NewBank', '/notificationadmin','/term','/customerservice','/category','/revenue','/help'
     ];
     return !pathsWithoutSideNavbar.includes(location.pathname) && !location.pathname.startsWith('/product/') && !location.pathname.startsWith('/invoice/') && !location.pathname.startsWith('/refunds/');
   };
@@ -132,7 +137,7 @@ function AppContent() {
       '/newcollections', '/checkout', '/payment', '/NewSeller', '/admin-dashboard',
       '/list-product', '/add-product', '/categories', '/order', '/users', '/sellers',
       '/transactions', '/delivery', '/adaccount', '/adsettings', '/inventory',
-      '/shipments', '/resetpassword', '/Wallet', '/NewBank', '/notificationadmin','/term','/customerservice','/category'
+      '/shipments', '/resetpassword', '/Wallet', '/NewBank', '/notificationadmin','/term','/customerservice','/category','/revenue','/help'
     ];
     return !pathsWithoutSellerNavbar.includes(location.pathname) && !location.pathname.startsWith('/product/');
   };
@@ -251,8 +256,11 @@ function AppContent() {
         <Route path="/category" element={<Category/>} />
         <Route path="/return" element={<Returns/>} />
         <Route path="/return" element={<Returns/>} />
+        <Route path="/revenue" element={<Revenue/>} />
         <Route path="/ShippingDetails/:orderId" element={<ShippingDetails />} />
         <Route path="/add-product-details" element={<AddProductDetails />} />
+        <Route path="/help" element={<HelpDesk />} />
+       
         <Route path="/notifications/seller/:sellerId" element={<NotificationsPage />} />
       </Routes>
       {shouldShowFooter() && <Footer />}

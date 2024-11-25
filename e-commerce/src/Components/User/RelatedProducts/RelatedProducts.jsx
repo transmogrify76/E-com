@@ -1,55 +1,66 @@
-import React from 'react';
-import './RelatedProducts.css';
+// import React from 'react';
+// import './RelatedProducts.css';
+// import data_product from '../../Assests/Ecommerce_Frontend_Assets/Assets/data';
+// import Item from '../Item/Item';
 
-const RelatedProducts = ({ products = [], title, onClick }) => {
-  // If there are no products, render a message
-  if (products.length === 0) {
-    return <div>No related products available.</div>;
-  }
+// const RelatedProducts = ({ category }) => {
+//   // Filter products based on the selected category
+//   const filteredProducts = data_product.filter(product => product.category === category);
+
+//   return (
+//     <div className='relatedproducts'>
+//       <h1>Related Products</h1>
+//       <hr/>
+//       <div className="relatedproducts-item">
+//         {filteredProducts.map((item, i) => (
+//           <Item
+//             key={i}
+//             id={item.id}
+//             name={item.name}
+//             image={item.image}
+//             new_price={item.new_price}
+//             old_price={item.old_price}
+//           />
+//         ))}
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default RelatedProducts;
+
+
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+
+const RelatedProducts = ({ products }) => {
+  const navigate = useNavigate();
 
   return (
     <div className="related-products">
-      {/* Conditionally render the title based on its value */}
-      {title !== 'New Collection' && <h2>{title}</h2>} {/* Don't render h2 if the title is "New Collection" */}
-
-      <div className="related-products-grid">
-        {products.map((product) => (
-          <div key={product.id} className="product-card" onClick={() => onClick(product)}>
-            {/* Render Product Image */}
-            {product.imageUrl ? (
+      <h2>Related Products</h2>
+      <div className="related-products-list">
+        {products.length > 0 ? (
+          products.map((relatedProduct) => (
+            <div
+              key={relatedProduct.id}
+              className="related-product"
+              onClick={() => navigate(`/product/${relatedProduct.id}`)}
+            >
               <img
-                src={product.imageUrl} // Use the imageUrl from API response
-                alt={product.name}
-                className="product-image"
-                onError={(e) => {
-                  // Fallback to a default image if the image fails to load
-                  e.target.src = "/assets/images/e-com.png"; // Path to your local fallback image
-                  e.target.alt = "Fallback Image"; // Set alt text for fallback image
-                }}
+                src={relatedProduct.images[0]?.url}
+                alt={relatedProduct.name}
+                className="related-product-img"
               />
-            ) : (
-              <div className="placeholder-image">No Image Available</div>
-            )}
-
-            {/* Render Product Details */}
-            <h3>{product.name}</h3>
-            <p>Price: ${product.price}</p>
-            <p>{product.description}</p>
-
-            {/* Render Product Details List */}
-            {Array.isArray(product.productDetails) && product.productDetails.length > 0 ? (
-              <ul>
-                {product.productDetails.map((detail, index) => (
-                  <li key={index}>
-                    {detail.key}: {detail.value}
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p>No additional details available.</p>
-            )}
-          </div>
-        ))}
+              <div className="related-product-info">
+                <h3>{relatedProduct.name}</h3>
+                <p>₹ {relatedProduct.price}</p>
+              </div>
+            </div>
+          ))
+        ) : (
+          <p>No related products available.</p>
+        )}
       </div>
     </div>
   );
