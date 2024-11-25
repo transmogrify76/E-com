@@ -169,6 +169,7 @@ export const ShopCat = (props) => {
 
     const category = props.category;
 
+    
     // Function to fetch products by category
     const fetchProductsByCategory = async () => {
         try {
