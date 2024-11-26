@@ -5,6 +5,8 @@ import star_dull_icon from '../../Assests/Ecommerce_Frontend_Assets/Assets/star_
 import { useNavigate } from 'react-router-dom';
 import body_measure_image from '../../Assests/Ecommerce_Frontend_Assets/Assets/body_measure_image.png';
 import { FaCartPlus, FaHeart, FaShippingFast, FaChartLine,FaHeartBroken } from 'react-icons/fa';
+import CustomerReview from '../CustomerReview/CustomerReview';  // Import the CustomerReview component
+
 
 const ProductDisplay = ({ product, image }) => {
     const [quantity, setQuantity] = useState(1);
@@ -19,6 +21,7 @@ const ProductDisplay = ({ product, image }) => {
     const [pincode, setPincode] = useState('');
     const [estimatedDelivery, setEstimatedDelivery] = useState('');
     const [availableSizesForColor, setAvailableSizesForColor] = useState([]);
+    const [showReviewForm, setShowReviewForm] = useState(false); 
 
     const navigate = useNavigate();
     const userId = localStorage.getItem('userId');
@@ -192,6 +195,11 @@ const ProductDisplay = ({ product, image }) => {
             console.error('Error checking pincode availability:', error);
             setEstimatedDelivery('Unable to check delivery availability at the moment.');
         }
+    };
+
+// Toggle the review form visibility
+    const toggleReviewForm = () => {
+        setShowReviewForm(!showReviewForm);
     };
 
     const handleWishlistToggle = async () => {
@@ -440,8 +448,21 @@ const ProductDisplay = ({ product, image }) => {
                                               </div>
                                          </div>
                                      )}
+            
+                 <button onClick={toggleReviewForm}>
+                     Leave a Review
+                </button>
+            
+                {showReviewForm && (
+                    <CustomerReview
+                        productId={product.id}
+                        userId={userId}
+                        onClose={toggleReviewForm}
+                     />
+                )}
             </div>
-        </div>
+            </div>
+   
     );
 };
 

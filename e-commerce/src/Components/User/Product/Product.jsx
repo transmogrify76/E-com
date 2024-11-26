@@ -21,7 +21,7 @@ const Product = () => {
       const productData = await productResponse.json();
       
       if (productData) {
-        setProduct(productData);
+        setProduct(productData); // Set the full product data
         fetchProductImage(productData.id); // Fetch the product image after getting the product details
         fetchRelatedProducts(productData.category); // Fetch related products based on category
       } else {
@@ -83,7 +83,7 @@ const Product = () => {
     <div>
       <Breadcrum product={product} />
       <ProductDisplay product={product} image={image} />
-      <DescriptionBox product={product} />
+      <DescriptionBox description={product.description} /> {/* Pass description here */}
       
       {/* Display Related Products */}
       {relatedProducts.length > 0 ? (
@@ -96,5 +96,3 @@ const Product = () => {
 };
 
 export default Product;
-
-

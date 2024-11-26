@@ -77,6 +77,7 @@ import clothing from './Components/User/Clothing/clothing';
 
 
 
+
 import './App.css';
 
 // ScrollHandler Component
@@ -126,7 +127,7 @@ function AppContent() {
       '/newcollections', '/checkout', '/payment', '/NewSeller', '/admin-dashboard',
       '/list-product', '/add-product', '/categories', '/order', '/users', '/sellers',
       '/transactions', '/delivery', '/adaccount', '/adsettings', '/inventory',
-      '/shipments', '/invoice', '/refunds', '/resetpassword', '/Wallet', '/NewBank', '/notificationadmin','/term','/customerservice','/category','/revenue','/help','/category/clothing'
+      '/shipments', '/invoice', '/refunds', '/resetpassword', '/Wallet', '/NewBank', '/notificationadmin','/term','/customerservice','/category','/revenue','/help','/category/Clothing','/category/Men','/category/Women','/category/Kid'
     ];
     return !pathsWithoutSideNavbar.includes(location.pathname) && !location.pathname.startsWith('/product/') && !location.pathname.startsWith('/invoice/') && !location.pathname.startsWith('/refunds/');
   };
@@ -138,7 +139,7 @@ function AppContent() {
       '/newcollections', '/checkout', '/payment', '/NewSeller', '/admin-dashboard',
       '/list-product', '/add-product', '/categories', '/order', '/users', '/sellers',
       '/transactions', '/delivery', '/adaccount', '/adsettings', '/inventory',
-      '/shipments', '/resetpassword', '/Wallet', '/NewBank', '/notificationadmin','/term','/customerservice','/category','/revenue','/help','/category/clothing'
+      '/shipments', '/resetpassword', '/Wallet', '/NewBank', '/notificationadmin','/term','/customerservice','/category','/revenue','/help','/category/Clothing','/category/Men','/category/Women','/category/Kid'
     ];
     return !pathsWithoutSellerNavbar.includes(location.pathname) && !location.pathname.startsWith('/product/');
   };
@@ -149,7 +150,7 @@ function AppContent() {
       '/category/men', '/category/women', '/orders', '/account', '/category/kid', '/popular', '/shop',
       '/newcollections', '/checkout', '/payment', '/NewSeller', '/seller-dashboard',
       '/ProductUpload', '/ExistingProduct', '/Dispatch', '/RevenueGenerate',
-      '/Orderr', '/Settings', '/Wallet', '/NewBank', '/resetpassword', '/Pricing', '/notifications','/term','/customerservice','/SellerAccount','/productmanagement','/category','/return','/category/clothing'
+      '/Orderr', '/Settings', '/Wallet', '/NewBank', '/resetpassword', '/Pricing', '/notifications','/term','/customerservice','/SellerAccount','/productmanagement','/category','/return','/category/Clothing','/category/Men','/category/Women','/category/Kid'
     ];
     return !pathsWithoutAdminNavbar.includes(location.pathname) && !location.pathname.startsWith('/product/');
   };
@@ -161,7 +162,7 @@ function AppContent() {
       '/newcollections', '/checkout', '/payment', '/NewSeller', '/seller-dashboard',
       '/ProductUpload', '/ExistingProduct', '/Dispatch', '/RevenueGenerate',
       '/Orderr', '/Settings', '/Wallet', '/SellerAccount',
-      '/NewBank', '/resetpassword', '/Pricing', '/productmanagement', '/notifications','/term','/customerservice','/category','/return','./add-product-details','/category/clothing'
+      '/NewBank', '/resetpassword', '/Pricing', '/productmanagement', '/notifications','/term','/customerservice','/category','/return','./add-product-details','/category/Clothing','/category/Men','/category/Women','/category/Kid'
     ];
     return !pathsWithoutAdminSidebar.includes(location.pathname) && !location.pathname.startsWith('/product/') && !location.pathname.startsWith('/OrderIndividual/') && !location.pathname.startsWith('/ShippingDetails/') && !location.pathname.startsWith('/Dispatch/')  && !location.pathname.startsWith('/add-product-details');
   };
@@ -170,7 +171,7 @@ function AppContent() {
     const pathsWithNavbar = [
       '/', '/dashboard', '/cart', '/wishlist', '/category/men', '/category/women', '/orders',
       '/account', '/category/kid', '/popular', '/shop', '/newcollections', '/productdisplay',
-      '/product/:productId', '/checkout', '/payment', '/NewSeller', '/Wallet', '/NewBank','/term','/customerservice','/category'
+      '/product/:productId', '/checkout', '/payment', '/NewSeller', '/Wallet', '/NewBank','/term','/customerservice','/category','/category/Clothing','/category/Men','/category/Men','/category/Women','/category/Kid'
     ];
 
     return pathsWithNavbar.includes(location.pathname) || location.pathname.startsWith('/product/');
@@ -262,8 +263,9 @@ function AppContent() {
         <Route path="/ShippingDetails/:orderId" element={<ShippingDetails />} />
         <Route path="/add-product-details" element={<AddProductDetails />} />
         <Route path="/help" element={<HelpDesk />} />
-        <Route path="/category/:categoryName" element={<Category />} />
+        <Route path="/category/categoryName" element={<Category />} />
         <Route path="/notifications/seller/:sellerId" element={<NotificationsPage />} />
+      
       </Routes>
       {shouldShowFooter() && <Footer />}
     </div>
