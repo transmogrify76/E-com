@@ -1,5 +1,6 @@
+
 import React, { useState, useEffect } from 'react';
-import './RevenueGenerate.css'; // Make sure this path is correct
+import './RevenueGenerate.css'; // Ensure the path is correct
 import axios from 'axios';
 import { Bar } from 'react-chartjs-2';
 import {
@@ -12,7 +13,7 @@ import {
     Legend,
 } from 'chart.js';
 
-// Register the necessary components
+// Register the necessary components for chart.js
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const RevenueGenerate = () => {
@@ -21,30 +22,38 @@ const RevenueGenerate = () => {
     const [topRevenueProducts, setTopRevenueProducts] = useState([]);
     const [totalRevenue, setTotalRevenue] = useState(0);
     const [averageMonthlyRevenue, setAverageMonthlyRevenue] = useState(0);
-    const [chartData, setChartData] = useState({ labels: [], datasets: [] }); // Initialize with empty structure
-    const [sellerId, setSellerId] = useState(2);  // For now, we are using a static sellerId of 2 for testing
+    const [chartData, setChartData] = useState({ labels: [], datasets: [] });
+    const [sellerId, setSellerId] = useState(null);  // Start with null sellerId
 
-    // Fetch data for total revenue, average monthly revenue, and monthly revenue
+    // Fetch sellerId from localStorage when the component mounts
+    useEffect(() => {
+        const storedSellerId = localStorage.getItem('sellerId');
+        if (storedSellerId) {
+            setSellerId(parseInt(storedSellerId));  // Set sellerId from localStorage
+        }
+    }, []);
+
+    // Fetch revenue data from the server
     const fetchRevenueData = async () => {
         if (!sellerId) return; // Ensure sellerId is available
 
         try {
             // Fetch Total Revenue
             const totalRevenueResponse = await axios.get(`http://localhost:5000/analytics?sellerId=${sellerId}&type=totalRevenue`);
-            setTotalRevenue(totalRevenueResponse.data.data.totalRevenue);  // Extracting total revenue value
+            setTotalRevenue(totalRevenueResponse.data.data.totalRevenue);
 
             // Fetch Average Monthly Revenue
             const averageMonthlyRevenueResponse = await axios.get(`http://localhost:5000/analytics?sellerId=${sellerId}&type=averageMonthlyRevenue`);
-            setAverageMonthlyRevenue(averageMonthlyRevenueResponse.data.data.averageMonthlyRevenue); // Assuming API returns `data.averageMonthlyRevenue`
+            setAverageMonthlyRevenue(averageMonthlyRevenueResponse.data.data.averageMonthlyRevenue);
 
             // Fetch Monthly Revenue Data
             const monthlyRevenueResponse = await axios.get(`http://localhost:5000/analytics?sellerId=${sellerId}&type=monthlyRevenue`);
-            const monthlyRevenueData = monthlyRevenueResponse.data.data; // Assuming the response is in the `data` object
-            setMonthlyRevenueData(monthlyRevenueData);  // Save this for chart generation
+            const monthlyRevenueData = monthlyRevenueResponse.data.data;
+            setMonthlyRevenueData(monthlyRevenueData);
 
             // Format Monthly Revenue Data for Chart
-            const labels = monthlyRevenueData.map(item => item.month); // Extract months for the labels
-            const revenueValues = monthlyRevenueData.map(item => item.revenue); // Extract revenue values for the chart
+            const labels = monthlyRevenueData.map(item => item.month);
+            const revenueValues = monthlyRevenueData.map(item => item.revenue);
             setChartData({
                 labels: labels,
                 datasets: [{
@@ -59,25 +68,26 @@ const RevenueGenerate = () => {
             // Fetch Top Revenue Generating Products
             const topRevenueResponse = await axios.get(`http://localhost:5000/analytics?sellerId=${sellerId}&type=topRevenueGeneratingProduct`);
             const topRevenueData = topRevenueResponse.data.data.topRevenueGeneratingProducts;
-            
-            // Prepare data to display (product ID and revenue)
+
             const topRevenueProductsList = topRevenueData.map(([productId, revenue]) => ({
                 productId, 
                 revenue
             }));
-
-            setTopRevenueProducts(topRevenueProductsList);  // Update state with the product revenue data
+            setTopRevenueProducts(topRevenueProductsList);
 
         } catch (error) {
             console.error('Error fetching revenue data', error);
         }
     };
 
-    // Fetch data when the component mounts
+    // Fetch data when the component mounts or sellerId changes
     useEffect(() => {
-        fetchRevenueData();
+        if (sellerId) {
+            fetchRevenueData();
+        }
     }, [sellerId]);
 
+    // Chart options
     const chartOptions = {
         responsive: true,
         plugins: {
@@ -94,7 +104,6 @@ const RevenueGenerate = () => {
 
     return (
         <div className="revenue-generate-container">
-            {/* Header */}
             <header className="revenue-header">
                 <h2>Revenue Generation</h2>
                 <div className="revenue-user-info">
@@ -114,16 +123,16 @@ const RevenueGenerate = () => {
                 <p>₹{averageMonthlyRevenue.toFixed(2)}</p>
             </div>
 
-            {/* Bar Chart Section */}
+            {/* Bar Chart */}
             {chartData.labels.length > 0 && chartData.datasets.length > 0 ? (
                 <div className="revenue-chart">
                     <Bar data={chartData} options={chartOptions} />
                 </div>
             ) : (
-                <p>No data available for the chart.</p> // Show message when there's no data
+                <p>No data available for the chart.</p>
             )}
 
-            {/* Monthly Revenue Table Section */}
+            {/* Monthly Revenue Table */}
             <div className="revenue-table-container">
                 <h3 className="table-title">Monthly Revenue Summary</h3>
                 <table className="revenue-table">

@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import ProductDisplay from '../ProductDisplay/ProductDisplay';
@@ -7,25 +8,27 @@ import Breadcrum from '../Breadcrum/Breadcrum';
 
 const Product = () => {
   const { productId } = useParams();
-
-  const [product, setProduct] = useState(null); // For storing the current product
-  const [relatedProducts, setRelatedProducts] = useState([]); // For storing related products
-  const [image, setImage] = useState(null); // For storing the base64 image
+  
+  const [product, setProduct] = useState(null);
+  const [relatedProducts, setRelatedProducts] = useState([]);
+  const [image, setImage] = useState(null);
+  const [reviews, setReviews] = useState([]); // Default state is an empty array
   const [loading, setLoading] = useState(true);
+  const [activeSection, setActiveSection] = useState('description'); // State for toggling between description and reviews
 
-  // Fetch product by ID and image
+  // Fetch product details
   const fetchProduct = async () => {
     try {
-      // Fetch product data
       const productResponse = await fetch(`${process.env.REACT_APP_BASE_URL}/products/${productId}`);
       const productData = await productResponse.json();
-      
+
       if (productData) {
-        setProduct(productData); // Set the full product data
-        fetchProductImage(productData.id); // Fetch the product image after getting the product details
-        fetchRelatedProducts(productData.category); // Fetch related products based on category
+        setProduct(productData);
+        fetchProductImage(productData.id);
+        fetchRelatedProducts(productData.category);
+        fetchReviews(productData.id); // Fetch reviews based on productId
       } else {
-        console.error('Product not found.');
+        console.error('Product not found');
       }
     } catch (error) {
       console.error('Error fetching product:', error);
@@ -34,28 +37,28 @@ const Product = () => {
     }
   };
 
-  // Fetch the product image by ID (Base64)
+  // Fetch the product image (Base64)
   const fetchProductImage = async (productId) => {
     try {
       const imageResponse = await fetch(`${process.env.REACT_APP_BASE_URL}/products/images/product/${productId}`);
       const imageData = await imageResponse.json();
       
       if (imageData && imageData[0]) {
-        setImage(imageData[0].base64); // Assuming the API returns base64 encoded image data
+        setImage(imageData[0].base64);
       }
     } catch (error) {
       console.error('Error fetching product image:', error);
     }
   };
 
-  // Fetch related products based on category
+  // Fetch related products based on the category
   const fetchRelatedProducts = async (category) => {
     try {
       const relatedResponse = await fetch(`${process.env.REACT_APP_BASE_URL}/products/category/${category}`);
       const relatedData = await relatedResponse.json();
-      
+
       const sellerUploadedRelatedProducts = relatedData.filter(
-        (product) => product.sellerUploaded // Only filter seller-uploaded products
+        (product) => product.sellerUploaded
       );
 
       setRelatedProducts(sellerUploadedRelatedProducts);
@@ -64,13 +67,33 @@ const Product = () => {
     }
   };
 
-  // Fetch product details when the component mounts or productId changes
+  // Fetch reviews based on productId
+  const fetchReviews = async (productId) => {
+    try {
+      const reviewsResponse = await fetch(`http://localhost:5000/reviews/product/${productId}`);
+      const reviewsData = await reviewsResponse.json();
+      
+      if (reviewsResponse.ok) {
+        setReviews(reviewsData || []); // Ensure reviews is always an array
+      } else {
+        setReviews([]); // Ensure reviews is always an array even if no reviews found
+      }
+    } catch (error) {
+      console.error('Error fetching reviews:', error);
+      setReviews([]); // Ensure reviews is always an array on error
+    }
+  };
+
+  // Handle section change (description/reviews)
+  const handleSectionChange = (section) => {
+    setActiveSection(section); // Update the active section when tab is clicked
+  };
+
   useEffect(() => {
     setLoading(true);
-    fetchProduct();
+    fetchProduct(); // Fetch product details when the component mounts
   }, [productId]);
 
-  // Handle case where product is not found
   if (loading) {
     return <div>Loading product details...</div>;
   }
@@ -83,8 +106,15 @@ const Product = () => {
     <div>
       <Breadcrum product={product} />
       <ProductDisplay product={product} image={image} />
-      <DescriptionBox description={product.description} /> {/* Pass description here */}
-      
+
+      {/* Pass handleSectionChange to DescriptionBox to toggle between Description and Reviews */}
+      <DescriptionBox 
+        description={product.description}
+        reviews={reviews}
+        activeSection={activeSection}
+        onSectionChange={handleSectionChange} // Pass the section change handler
+      />
+
       {/* Display Related Products */}
       {relatedProducts.length > 0 ? (
         <RelatedProducts products={relatedProducts} />

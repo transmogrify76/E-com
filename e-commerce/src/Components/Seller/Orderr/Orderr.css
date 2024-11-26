@@ -1,182 +1,178 @@
-/* General Styles */
+
 .order-container {
-    width: 90%;
-    margin: 50px auto;
-    background-color: white;
-    padding: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-  }
-  
-  h1 {
-    font-size: 2.5rem;
-    color: #333;
-    margin-bottom: 20px;
-    text-align: center;
-  }
-  
+  padding: 20px;
+  background-color: #f9f9f9;
+  font-family: Arial, sans-serif;
+}
+
+/* Header styles */
+.order-container h1 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Styling for the total cancelled orders section */
+.cancelled-orders-info {
+  background-color: #f8d7da;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.cancelled-orders-info h3 {
+  font-size: 1.2rem;
+  color: #721c24;
+}
+
+.cancelled-orders-info span {
+  font-weight: bold;
+  color: #c82333;
+}
+
+/* Controls (search input, buttons, filter dropdown) */
+.order-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.order-controls input {
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 18px;
+  width: 250px;
+}
+
+.order-controls select {
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  width: 180px;
+}
+
+.order-controls button {
+  font-size: 16px;
+  padding: 8px 12px;
+  border-radius: 4px;
+  margin-left: 10px;
+}
+
+/* Styling for buttons */
+.order-controls button:hover {
+  background-color: #0056b3;
+  color: white;
+}
+
+.order-controls button:focus {
+  outline: none;
+}
+
+.order-controls .btn-secondary {
+  background-color: #6c757d;
+}
+
+.order-controls .btn-secondary:hover {
+  background-color: #5a6268;
+}
+
+/* Table styling */
+.order-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.order-table th, .order-table td {
+  padding: 12px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.order-table th {
+  background-color: #f2f2f2;
+  color: #333;
+  font-size: 18px;
+}
+
+.order-table td {
+  font-size: 16px;
+  color: #555;
+}
+
+.order-table tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+.order-table td ul {
+  padding-left: 20px;
+  margin: 0;
+}
+
+.order-table td ul li {
+  font-size: 14px;
+  color: #555;
+}
+
+/* Styling for the actions buttons (View, Delete) */
+.order-table .btn {
+  padding: 6px 12px;
+  font-size: 16px;
+  border-radius: 4px;
+}
+
+.order-table .btn-info {
+  background-color: #17a2b8;
+  color: white;
+}
+
+.order-table .btn-info:hover {
+  background-color: #138496;
+}
+
+.order-table .btn-danger {
+  background-color: #dc3545;
+  color: white;
+}
+
+.order-table .btn-danger:hover {
+  background-color: #c82333;
+}
+
+/* Message when no orders are found */
+.order-table td[colspan='8'] {
+  font-size: 18px;
+  text-align: center;
+  color: #777;
+}
+
+/* Responsiveness for smaller screens */
+@media (max-width: 768px) {
   .order-controls {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
+    flex-direction: column;
+    align-items: flex-start;
   }
-  
+
   .order-controls input,
   .order-controls select {
-    padding: 8px 15px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-    width: 250px;
-  }
-  
-  .order-controls button {
-    padding: 8px 15px;
-    font-size: 16px;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .order-controls button:hover {
-    opacity: 0.8;
-  }
-  
-  .order-controls select {
-    margin-right: 20px;
-  }
-  
-  .order-controls button:focus {
-    outline: none;
-  }
-  
-  .order-controls input {
-    width: 300px;
-  }
-  
-  .table-container {
-    margin-top: 20px;
-  }
-  
-  .order-table {
     width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
+    margin-bottom: 10px;
   }
-  
+
+  .order-controls button {
+    width: 100%;
+    margin-top: 5px;
+  }
+
   .order-table th,
   .order-table td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  .order-table th {
-    background-color: #f1f1f1;
-    color: #333;
-  }
-  
-  .order-table td {
-    color: #555;
-  }
-  
-  .order-table tr:hover {
-    background-color: #f9f9f9;
-  }
-  
-  .order-table td ul {
-    list-style-type: none;
-    padding-left: 0;
-  }
-  
-  .order-table td ul li {
     font-size: 14px;
-    color: #555;
+    padding: 10px;
   }
-  
-  /* Button Styles */
-  button {
-    border: none;
-    cursor: pointer;
-    padding: 8px 15px;
-    border-radius: 4px;
-    font-size: 16px;
-  }
-  
-  button:hover {
-    opacity: 0.8;
-  }
-  
-  button:focus {
-    outline: none;
-  }
-  
-  button.variant-primary {
-    background-color: #007bff;
-    color: white;
-  }
-  
-  button.variant-primary:hover {
-    background-color: #0056b3;
-  }
-  
-  button.variant-secondary {
-    background-color: #6c757d;
-    color: white;
-  }
-  
-  button.variant-secondary:hover {
-    background-color: #5a6268;
-  }
-  
-  button.variant-info {
-    background-color: #17a2b8;
-    color: white;
-  }
-  
-  button.variant-info:hover {
-    background-color: #138496;
-  }
-  
-  button.variant-warning {
-    background-color: #ffc107;
-    color: white;
-  }
-  
-  button.variant-warning:hover {
-    background-color: #e0a800;
-  }
-  
-  button.variant-danger {
-    background-color: #dc3545;
-    color: white;
-  }
-  
-  button.variant-danger:hover {
-    background-color: #c82333;
-  }
-  
-  /* Table and Button Actions */
-  .order-table td button {
-    margin-right: 10px;
-  }
-  
-  .order-table td button:last-child {
-    margin-right: 0;
-  }
-  
-  /* Empty State */
-  .order-table td[colspan='8'] {
-    text-align: center;
-    font-size: 1.2rem;
-    color: #777;
-    padding: 20px 0;
-  }
-  
-  .alert {
-    color: red;
-    font-weight: bold;
-    text-align: center;
-    margin-top: 20px;
-  }
-  
-
+}

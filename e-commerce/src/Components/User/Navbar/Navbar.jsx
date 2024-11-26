@@ -83,7 +83,7 @@ function ENavbar() {
           </Link>
         </li>
         <li onClick={() => { setMenu("women") }}>
-          <Link to='/category/men' style={{ textDecoration: 'none', color: 'white' }}>
+          <Link to='/category/women' style={{ textDecoration: 'none', color: 'white' }}>
             Women {menu === "women" ? <hr /> : <></>}
           </Link>
         </li>

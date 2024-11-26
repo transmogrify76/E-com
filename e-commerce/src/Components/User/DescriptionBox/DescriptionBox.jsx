@@ -1,60 +1,69 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './DescriptionBox.css';
 
-const DescriptionBox = ({ description }) => {
-    const [showReviews, setShowReviews] = useState(false);
+const DescriptionBox = ({ description, reviews, activeSection, onSectionChange }) => {
 
-    const handleTabClick = (tab) => {
-        setShowReviews(tab === 'reviews');
-    };
+  const renderStars = (rating) => {
+    return [...Array(5)].map((_, i) => (
+      <span key={i} className={i < rating ? 'star' : 'star-dull'}>
+        &#9733;
+      </span>
+    ));
+  };
 
-    const dummyReviews = [
-        { name: 'Diksha Das', review: 'Great product! Highly recommend it.', rating: 5 },
-        { name: 'Aniket Bagania', review: 'Good quality but a bit expensive.', rating: 4 },
-        { name: 'Neha Hossain', review: 'Not satisfied with the product.', rating: 2 },
-        // Add more dummy reviews as needed
-    ];
-
-    return (
-        <div className='descriptionbox'>
-            <div className="descriptionbox-navigator">
-                <div 
-                    className={`descriptionbox-nav-box ${!showReviews ? 'active' : ''}`} 
-                    onClick={() => handleTabClick('description')}
-                >
-                    Description
-                </div>
-                <div 
-                    className={`descriptionbox-nav-box ${showReviews ? 'active' : ''}`} 
-                    onClick={() => handleTabClick('reviews')}
-                >
-                    Reviews (3)
-                </div>
-            </div>
-            {!showReviews ? (
-                <div className="descriptionbox-description">
-                    <p>{description}</p> {/* Dynamically display the description here */}
-                </div>
-            ) : (
-                <div className="descriptionbox-reviews">
-                    {dummyReviews.map((review, index) => (
-                        <div key={index} className="review">
-                            <h3>{review.name}</h3>
-                            <p>{review.review}</p>
-                            <div className="review-stars">
-                                {[...Array(review.rating)].map((_, i) => (
-                                    <span key={i} className="star">&#9733;</span>
-                                ))}
-                                {[...Array(5 - review.rating)].map((_, i) => (
-                                    <span key={i} className="star-dull">&#9734;</span>
-                                ))}
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            )}
+  return (
+    <div className='descriptionbox'>
+      <div className="descriptionbox-navigator">
+        {/* Description Tab */}
+        <div 
+          className={`descriptionbox-nav-box ${activeSection === 'description' ? 'active' : ''}`}
+          onClick={() => onSectionChange('description')} // Toggle to Description
+        >
+          Description
         </div>
-    );
+
+        {/* Reviews Tab */}
+        <div 
+          className={`descriptionbox-nav-box ${activeSection === 'reviews' ? 'active' : ''}`}
+          onClick={() => onSectionChange('reviews')} // Toggle to Reviews
+        >
+          Reviews ({reviews?.length || 0}) {/* Fallback to 0 if reviews is undefined */}
+        </div>
+      </div>
+
+      {/* Conditionally Render Description Section */}
+      {activeSection === 'description' && (
+        <div className="descriptionbox-description">
+          <p>{description}</p>
+        </div>
+      )}
+
+      {/* Conditionally Render Reviews Section */}
+      {activeSection === 'reviews' && (
+        <div className="descriptionbox-reviews">
+          {reviews.length === 0 ? (
+            <p>No reviews yet for this product.</p>
+          ) : (
+            reviews.map((review, index) => (
+              <div key={index} className="review">
+                <h3>User ID: {review.userId}</h3>
+                <p>{review.review}</p>
+                <div className="review-stars">
+                  {renderStars(review.ratings)} {/* Display rating stars */}
+                </div>
+                <div>
+                  <strong>Delivery Rating:</strong> {review.deliveryRatings} stars
+                </div>
+                <div>
+                  <strong>Dispatch Rating:</strong> {review.dispatchRatings} stars
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default DescriptionBox;

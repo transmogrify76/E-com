@@ -467,3 +467,5 @@ const ProductDisplay = ({ product, image }) => {
 };
 
 export default ProductDisplay;
+
+

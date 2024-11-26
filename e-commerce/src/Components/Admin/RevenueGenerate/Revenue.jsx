@@ -19,6 +19,7 @@ const Revenue = () => {
     // Initialize states
     const [monthlyRevenueData, setMonthlyRevenueData] = useState([]);
     const [topRevenueProducts, setTopRevenueProducts] = useState([]);
+    const [topSellingProducts, setTopSellingProducts] = useState([]);
     const [totalRevenue, setTotalRevenue] = useState(0);
     const [averageMonthlyRevenue, setAverageMonthlyRevenue] = useState(0);
     const [chartData, setChartData] = useState({ labels: [], datasets: [] }); // Initialize with empty structure
@@ -27,6 +28,13 @@ const Revenue = () => {
 
     // Fetch sellerId from localStorage (or any other auth method)
     const sellerId = localStorage.getItem('sellerId'); // Retrieve sellerId dynamically
+
+    // Function to format month from ISO 8601 string
+    const formatMonth = (isoDate) => {
+        const date = new Date(isoDate);
+        const options = { year: 'numeric', month: 'long' };
+        return date.toLocaleDateString('en-US', options);
+    };
 
     // Fetch data for total revenue, average monthly revenue, and monthly revenue
     const fetchRevenueData = async () => {
@@ -39,21 +47,27 @@ const Revenue = () => {
         setLoading(true); // Show loading spinner while data is being fetched
         try {
             // Fetch Total Revenue
-            const totalRevenueResponse = await axios.get(`http://localhost:5000/analytics?sellerId=${sellerId}&type=totalRevenue`);
+            const totalRevenueResponse = await axios.get(`http://localhost:5000/admin_analytics?type=totalRevenue`);
             setTotalRevenue(totalRevenueResponse.data.data.totalRevenue);  // Extracting total revenue value
 
             // Fetch Average Monthly Revenue
-            const averageMonthlyRevenueResponse = await axios.get(`http://localhost:5000/analytics?sellerId=${sellerId}&type=averageMonthlyRevenue`);
+            const averageMonthlyRevenueResponse = await axios.get(`http://localhost:5000/admin_analytics?type=averageMonthlyRevenue`);
             setAverageMonthlyRevenue(averageMonthlyRevenueResponse.data.data.averageMonthlyRevenue); // Assuming API returns `data.averageMonthlyRevenue`
 
             // Fetch Monthly Revenue Data
-            const monthlyRevenueResponse = await axios.get(`http://localhost:5000/analytics?sellerId=${sellerId}&type=monthlyRevenue`);
+            const monthlyRevenueResponse = await axios.get(`http://localhost:5000/admin_analytics?type=monthlyRevenue`);
             const monthlyRevenueData = monthlyRevenueResponse.data.data; // Assuming the response is in the `data` object
-            setMonthlyRevenueData(monthlyRevenueData);  // Save this for chart generation
 
-            // Format Monthly Revenue Data for Chart
-            const labels = monthlyRevenueData.map(item => item.month); // Extract months for the labels
+            if (monthlyRevenueData.length === 0) {
+                setError('No monthly revenue data available');
+                setLoading(false);
+                return;
+            }
+
+            // Format Monthly Revenue Data for Chart and Table
+            const labels = monthlyRevenueData.map(item => formatMonth(item.month)); // Format month for the labels
             const revenueValues = monthlyRevenueData.map(item => item.revenue); // Extract revenue values for the chart
+
             setChartData({
                 labels: labels,
                 datasets: [{
@@ -65,8 +79,11 @@ const Revenue = () => {
                 }]
             });
 
+            // Update the state with the monthly revenue data for table display
+            setMonthlyRevenueData(monthlyRevenueData);
+
             // Fetch Top Revenue Generating Products
-            const topRevenueResponse = await axios.get(`http://localhost:5000/analytics?sellerId=${sellerId}&type=topRevenueGeneratingProduct`);
+            const topRevenueResponse = await axios.get(`http://localhost:5000/admin_analytics?type=topRevenueGeneratingProduct`);
             const topRevenueData = topRevenueResponse.data.data.topRevenueGeneratingProducts;
             
             // Prepare data to display (product ID and revenue)
@@ -74,8 +91,18 @@ const Revenue = () => {
                 productId, 
                 revenue
             }));
-
             setTopRevenueProducts(topRevenueProductsList);  // Update state with the product revenue data
+
+            // Fetch Top Selling Products
+            const topSellingResponse = await axios.get(`http://localhost:5000/admin_analytics?type=topSellingProduct`);
+            const topSellingData = topSellingResponse.data.data.topSellingProducts;
+            
+            // Prepare data to display (product ID and sold units)
+            const topSellingProductsList = topSellingData.map(([productId, soldUnits]) => ({
+                productId, 
+                soldUnits
+            }));
+            setTopSellingProducts(topSellingProductsList);  // Update state with the product sales data
 
         } catch (error) {
             console.error('Error fetching revenue data', error);
@@ -152,8 +179,8 @@ const Revenue = () => {
                     <tbody>
                         {monthlyRevenueData.length > 0 ? (
                             monthlyRevenueData.map((data) => (
-                                <tr key={data.id}>
-                                    <td>{data.month}</td>
+                                <tr key={data.month}>
+                                    <td>{formatMonth(data.month)}</td>
                                     <td>{data.revenue}</td>
                                 </tr>
                             ))
@@ -180,6 +207,22 @@ const Revenue = () => {
                 </ul>
             </div>
 
+            {/* Top Selling Products */}
+            <div className="top-selling-products">
+                <h3>Top Selling Products</h3>
+                <ul>
+                    {topSellingProducts.length > 0 ? (
+                        topSellingProducts.map((product, index) => (
+                            <li key={index}>
+                                Product ID: {product.productId} - {product.soldUnits} units sold
+                            </li>
+                        ))
+                    ) : (
+                        <li>No top selling products found</li>
+                    )}
+                </ul>
+            </div>
+
             {/* Help/Support Section */}
             <div className="help-support">
                 <h3>Need Help?</h3>
@@ -191,3 +234,5 @@ const Revenue = () => {
 };
 
 export default Revenue;
+
+

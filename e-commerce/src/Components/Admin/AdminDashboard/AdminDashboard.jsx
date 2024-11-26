@@ -28,9 +28,11 @@ const AdminDashboard = () => {
   const [topSellingProduct, setTopSellingProduct] = useState([]);
   const [topRevenueGeneratingProduct, setTopRevenueGeneratingProduct] = useState([]);
   const [totalRevenue, setTotalRevenue] = useState(0);
+  const [monthlyRevenue, setMonthlyRevenue] = useState([]); // Default to empty array
+  const [isSellerDashboard, setIsSellerDashboard] = useState(false); // State to toggle between dashboards
 
   // Retrieve sellerId dynamically from localStorage (or any other auth method)
-  const sellerId = localStorage.getItem('sellerId'); // Example of getting sellerId from localStorage
+  const sellerId = localStorage.getItem('sellerId');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -47,28 +49,30 @@ const AdminDashboard = () => {
 
         // Fetch data for total users, total products, weekly orders, etc.
         const responses = await Promise.all([
-          fetch(`http://localhost:5000/analytics?sellerId=${sellerId}&type=totalUsers`, { headers }),
-          fetch(`http://localhost:5000/analytics?sellerId=${sellerId}&type=totalProducts`, { headers }),
-          fetch(`http://localhost:5000/analytics?sellerId=${sellerId}&type=weeklyOrders&startMonthYear=2024-11&endMonthYear=2024-12`, { headers }), // Adjusted weeklyOrders endpoint
-          fetch(`http://localhost:5000/analytics?sellerId=${sellerId}&type=recentOrders`, { headers }),
-          fetch(`http://localhost:5000/analytics?sellerId=${sellerId}&type=percentageOrdersLost`, { headers }),
-          fetch(`http://localhost:5000/analytics?sellerId=${sellerId}&type=percentageOrdersGained`, { headers }),
-          fetch(`http://localhost:5000/analytics?sellerId=${sellerId}&type=topSellingProduct`, { headers }),
-          fetch(`http://localhost:5000/analytics?sellerId=${sellerId}&type=topRevenueGeneratingProduct`, { headers }),
-          fetch(`http://localhost:5000/analytics?sellerId=${sellerId}&type=totalRevenue`, { headers })
+          fetch(`http://localhost:5000/admin_analytics?type=totalUsers`, { headers }),
+          fetch(`http://localhost:5000/admin_analytics?type=totalProducts`, { headers }),
+          fetch(`http://localhost:5000/admin_analytics?type=weeklyOrders`, { headers }),
+          fetch(`http://localhost:5000/admin_analytics?type=recentOrders`, { headers }),
+          fetch(`http://localhost:5000/admin_analytics?type=percentageOrdersLost`, { headers }),
+          fetch(`http://localhost:5000/admin_analytics?type=percentageOrdersGained`, { headers }),
+          fetch(`http://localhost:5000/admin_analytics?type=topSellingProduct`, { headers }),
+          fetch(`http://localhost:5000/admin_analytics?type=topRevenueGeneratingProduct`, { headers }),
+          fetch(`http://localhost:5000/admin_analytics?type=totalRevenue`, { headers }),
+          fetch(`http://localhost:5000/admin_analytics?type=monthlyRevenue&startMonthYear=2024-11&endMonthYear=2024-11`, { headers }) // Monthly Revenue API
         ]);
 
         const data = await Promise.all(responses.map(res => res.json()));
 
         setTotalUsers(data[0].data.totalUsers);
         setTotalProducts(data[1].data.totalProducts);
-        setWeeklyOrders(data[2].data.weeklyOrders); // Using API response for weekly orders
+        setWeeklyOrders(data[2].data.weeklyOrders);
         setRecentOrders(data[3].data.recentOrders);
-        setOrdersLostPercentage(data[4].data.percentageOrdersLost); // Set orders lost percentage
-        setOrdersGainedPercentage(data[5].data.percentageOrdersGained); // Set orders gained percentage
-        setTopSellingProduct(data[6].data.topSellingProducts); // Set top selling products
-        setTopRevenueGeneratingProduct(data[7].data.topRevenueGeneratingProducts); // Set top revenue generating products
+        setOrdersLostPercentage(data[4].data.percentageOrdersLost);
+        setOrdersGainedPercentage(data[5].data.percentageOrdersGained);
+        setTopSellingProduct(data[6].data.topSellingProducts);
+        setTopRevenueGeneratingProduct(data[7].data.topRevenueGeneratingProducts);
         setTotalRevenue(data[8].data.totalRevenue);
+        setMonthlyRevenue(data[9].data.monthlyRevenue || []); // Ensure it's an array or empty array if not set
 
         setLoading(false);
       } catch (err) {
@@ -78,7 +82,7 @@ const AdminDashboard = () => {
     };
 
     fetchData();
-  }, [sellerId]); // Effect runs when sellerId changes
+  }, [sellerId]);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
@@ -97,127 +101,148 @@ const AdminDashboard = () => {
     ],
   };
 
-  // Top Selling Products Mapping
-  const formatTopSellingProducts = () => {
-    return topSellingProduct.map(([productId, quantity]) => (
-      <li key={productId}>
-        <strong>Product ID:</strong> {productId} - Sold: {quantity} units
-      </li>
-    ));
+  // Monthly Revenue Chart
+  const monthlyRevenueData = {
+    labels: monthlyRevenue && Array.isArray(monthlyRevenue) ? monthlyRevenue.map(item => item.month) : [], // Ensure monthlyRevenue is an array before mapping
+    datasets: [
+      {
+        label: 'Monthly Revenue (₹)',
+        backgroundColor: 'rgba(153, 102, 255, 0.6)',
+        borderColor: 'rgba(153, 102, 255, 1)',
+        borderWidth: 1,
+        data: monthlyRevenue && Array.isArray(monthlyRevenue) ? monthlyRevenue.map(item => item.revenue) : [], // Ensure monthlyRevenue is an array before mapping
+      },
+    ],
   };
 
-  // Top Revenue Generating Products Mapping
-  const formatTopRevenueGeneratingProducts = () => {
-    return topRevenueGeneratingProduct.map(([productId, revenue]) => (
-      <li key={productId}>
-        <strong>Product ID:</strong> {productId} - Revenue: ₹{revenue}
-      </li>
-    ));
+  // Top Revenue Generating Products Chart
+  const topRevenueGeneratingProductData = {
+    labels: topRevenueGeneratingProduct && Array.isArray(topRevenueGeneratingProduct) 
+      ? topRevenueGeneratingProduct.map(item => item.productId) : [], // Use product IDs as labels
+    datasets: [
+      {
+        label: 'Revenue (₹)',
+        backgroundColor: 'rgba(255, 159, 64, 0.6)',
+        borderColor: 'rgba(255, 159, 64, 1)',
+        borderWidth: 1,
+        data: topRevenueGeneratingProduct && Array.isArray(topRevenueGeneratingProduct) 
+          ? topRevenueGeneratingProduct.map(item => item.revenue) : [], // Use revenue as data points
+      },
+    ],
+  };
+
+  // Toggle Dashboard View
+  const toggleDashboard = () => {
+    setIsSellerDashboard(prev => !prev);
   };
 
   return (
     <div className="admin-dashboard">
+     
+
       <main className="dashboard-main">
         <div className="admin-main-content">
-          <div className="dashboard-overview">
-            <h2>Admin Dashboard</h2>
-            <div className="dashboard-widgets">
-              <div className="dashboard-widget users-widget">
-                <h3>Total Users</h3>
-                <div className="widget-content">
-                  <span className="widget-icon"><FaUsers /></span>
-                  <span className="widget-data">{totalUsers}</span>
+          {/* Admin Dashboard Content */}
+          {!isSellerDashboard ? (
+            <div className="dashboard-overview">
+              <h2>Admin Dashboard</h2>
+              <div className="dashboard-widgets">
+                {/* Total Users Widget */}
+                <div className="dashboard-widget users-widget">
+                  <h3>Total Users</h3>
+                  <div className="widget-content">
+                    <span className="widget-icon"><FaUsers /></span>
+                    <span className="widget-data">{totalUsers}</span>
+                  </div>
+                </div>
+
+                {/* Total Products Widget */}
+                <div className="dashboard-widget products-widget">
+                  <h3>Total Products</h3>
+                  <div className="widget-content">
+                    <span className="widget-icon"><FaBoxOpen /></span>
+                    <span className="widget-data">{totalProducts}</span>
+                  </div>
+                </div>
+
+                {/* Total Sales Widget */}
+                <div className="dashboard-widget sales-widget">
+                  <h3>Total Sales</h3>
+                  <div className="widget-content">
+                    <span className="widget-icon"><FaMoneyBillAlt /></span>
+                    <span className="widget-data">₹{totalRevenue}</span>
+                  </div>
+                </div>
+
+                {/* Orders Lost Widget */}
+                <div className="dashboard-widget lost-orders-widget" style={{ backgroundColor: '#f8d7da' }}>
+                  <h3>Orders Lost (%)</h3>
+                  <div className="widget-content">
+                    <span className="widget-icon"><FaChartLine /></span>
+                    <span className="widget-data">{ordersLostPercentage}%</span>
+                  </div>
+                </div>
+
+                {/* Orders Gained Widget */}
+                <div className="dashboard-widget gained-orders-widget" style={{ backgroundColor: '#d4edda' }}>
+                  <h3>Orders Gained (%)</h3>
+                  <div className="widget-content">
+                    <span className="widget-icon"><FaChartLine /></span>
+                    <span className="widget-data">{ordersGainedPercentage}%</span>
+                  </div>
                 </div>
               </div>
 
-              <div className="dashboard-widget products-widget">
-                <h3>Total Products</h3>
-                <div className="widget-content">
-                  <span className="widget-icon"><FaBoxOpen /></span>
-                  <span className="widget-data">{totalProducts}</span>
+              {/* Charts */}
+              <div className="dashboard-charts">
+                <div className="chart-widget">
+                  <h3>Weekly Orders Overview</h3>
+                  <Bar data={weeklySalesData} />
+                </div>
+
+                {/* Monthly Revenue Chart */}
+                <div className="chart-widget">
+                  <h3>Monthly Revenue Overview</h3>
+                  <Bar data={monthlyRevenueData} />
+                </div>
+
+                {/* Top Revenue Generating Products Chart */}
+                <div className="chart-widget">
+                  <h3>Top Revenue Generating Products</h3>
+                  <Bar data={topRevenueGeneratingProductData} />
                 </div>
               </div>
 
-              <div className="dashboard-widget sales-widget">
-                <h3>Total Sales</h3>
-                <div className="widget-content">
-                  <span className="widget-icon"><FaMoneyBillAlt /></span>
-                  <span className="widget-data">₹{totalRevenue}</span>
-                </div>
+              {/* Top Selling Products List */}
+              <div className="top-products">
+                <h3>Top Selling Products</h3>
+                <ul>
+                  {topSellingProduct.length > 0 ? topSellingProduct.map(([productId, quantity]) => (
+                    <li key={productId}>
+                      <strong>Product ID:</strong> {productId} - Sold: {quantity} units
+                    </li>
+                  )) : <p>No top-selling products found.</p>}
+                </ul>
               </div>
 
-              <div className="dashboard-widget lost-orders-widget" style={{ backgroundColor: '#f8d7da' }}>
-                <h3>Orders Lost (%)</h3>
-                <div className="widget-content">
-                  <span className="widget-icon"><FaChartLine /></span>
-                  <span className="widget-data">{ordersLostPercentage}%</span>
-                </div>
-              </div>
-
-              <div className="dashboard-widget gained-orders-widget" style={{ backgroundColor: '#d4edda' }}>
-                <h3>Orders Gained (%)</h3>
-                <div className="widget-content">
-                  <span className="widget-icon"><FaChartLine /></span>
-                  <span className="widget-data">{ordersGainedPercentage}%</span>
-                </div>
+              {/* Top Revenue Products List */}
+              <div className="top-revenue-products">
+                <h3>Top Revenue Generating Products</h3>
+                <ul>
+                  {topRevenueGeneratingProduct.length > 0 ? topRevenueGeneratingProduct.map(([productId, revenue]) => (
+                    <li key={productId}>
+                      <strong>Product ID:</strong> {productId} - Revenue: ₹{revenue}
+                    </li>
+                  )) : <p>No top revenue generating products found.</p>}
+                </ul>
               </div>
             </div>
-
-            <div className="dashboard-charts">
-              <div className="chart-widget">
-                <h3>Weekly Orders Overview</h3>
-                <Bar data={weeklySalesData} />
-              </div>
+          ) : (
+            <div className="seller-dashboard">
+              <h2>Seller Dashboard</h2>
+              {/* Seller Dashboard content goes here */}
             </div>
-          </div>
-
-          {/* Recent Orders Section */}
-          <div className="recent-orders">
-            <h3>Recent Orders</h3>
-            <table className="orders-table">
-              <thead>
-                <tr>
-                  <th>Order ID</th>
-                  <th>Product ID</th>
-                  <th>Quantity</th>
-                  <th>Amount (₹)</th>
-                  <th>Date</th>
-                </tr>
-              </thead>
-              <tbody>
-                {recentOrders.slice(0, 5).map((order, index) => (
-                  <React.Fragment key={index}>
-                    {order.orderedItems.map((item, itemIndex) => (
-                      <tr key={itemIndex}>
-                        <td>{order.orderId}</td>
-                        <td>{item.productId}</td>
-                        <td>{item.quantity}</td>
-                        <td>₹{(item.priceAfterDiscount * item.quantity).toFixed(2)}</td>
-                        <td>{new Date(order.orderedAt).toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' })}</td>
-                      </tr>
-                    ))}
-                  </React.Fragment>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          {/* Top Products Section */}
-          <div className="top-products">
-            <h3>Top Selling Products</h3>
-            <ul>
-              {topSellingProduct.length > 0 ? formatTopSellingProducts() : <p>No top-selling products found.</p>}
-            </ul>
-          </div>
-
-          {/* Top Revenue Generating Products Section */}
-          <div className="top-revenue-products">
-            <h3>Top Revenue Generating Products</h3>
-            <ul>
-              {topRevenueGeneratingProduct.length > 0 ? formatTopRevenueGeneratingProducts() : <p>No top revenue generating products found.</p>}
-            </ul>
-          </div>
-
+          )}
         </div>
       </main>
     </div>
@@ -225,3 +250,5 @@ const AdminDashboard = () => {
 };
 
 export default AdminDashboard;
+
+
