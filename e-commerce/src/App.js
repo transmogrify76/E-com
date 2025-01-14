@@ -73,8 +73,12 @@ import Returns from './Components/Seller/Returns/Returns';
 import AddProductDetails from './Components/Seller/AddProductDetails/AddProductDetails';
 import Revenue from './Components/Admin/RevenueGenerate/Revenue';
 import HelpDesk from './Components/Admin/HelpDesk/HelpDesk';
-import clothing from './Components/User/Clothing/clothing';
 
+import WholesaleUserSignup from './Components/WholesaleUser/WholesaleUserSignup/WholesaleUserSignup';
+import WholesaleUserLogin from './Components/WholesaleUser/WholesaleUserLogin/WholesaleUserLogin';
+import WholesaleUserForgetPassword from './Components/WholesaleUser/WholesaleuserForgetPassword/WholesaleuserForgetPassword';
+import WholesaleNavbar from './Components/WholesaleUser/wholesalenavbar/navbar';
+import WholesaleSidebar from './Components/WholesaleUser/WholesaleuserSidebar/sidebar';
 
 
 
@@ -84,7 +88,7 @@ import './App.css';
 const ScrollHandler = () => {
   const location = useLocation();
   const noScrollAndNoNavbarRoutes = useMemo(() => [
-    '/login', '/signup', '/forgetpassword', '/resetpassword'
+    '/login', '/signup', '/forgetpassword', '/resetpassword','/wholesaleuser-signup','/wholesaleuser-login','/wholesaleuser-forgetpassword'
   ], []);
 
   useEffect(() => {
@@ -115,7 +119,7 @@ function AppContent() {
       '/login', '/signup', '/forgetpassword', '/seller-dashboard',
       '/ProductUpload', '/ExistingProduct', '/Dispatch', '/RevenueGenerate',
       '/Orderr', '/Settings', '/admin-dashboard', '/Users', '/Products',
-      '/Order', '/Reports', '/Setting', '/Logout', '/resetpassword'
+      '/Order', '/Reports', '/Setting', '/Logout', '/resetpassword','/wholesaleuser-signup','/wholesaleuser-login','/wholesaleuser-forgetpassword'
     ];
     return !pathsWithoutSidebar.includes(location.pathname);
   };
@@ -127,7 +131,7 @@ function AppContent() {
       '/newcollections', '/checkout', '/payment', '/NewSeller', '/admin-dashboard',
       '/list-product', '/add-product', '/categories', '/order', '/users', '/sellers',
       '/transactions', '/delivery', '/adaccount', '/adsettings', '/inventory',
-      '/shipments', '/invoice', '/refunds', '/resetpassword', '/Wallet', '/NewBank', '/notificationadmin','/term','/customerservice','/category','/revenue','/help','/category/Clothing','/category/Men','/category/Women','/category/Kid'
+      '/shipments', '/invoice', '/refunds', '/resetpassword', '/Wallet', '/NewBank', '/notificationadmin','/term','/customerservice','/category','/revenue','/help','/category/Clothing','/category/Men','/category/Women','/category/Kid','/wholesaleuser-signup','/wholesaleuser-login','/wholesaleuser-forgetpassword'
     ];
     return !pathsWithoutSideNavbar.includes(location.pathname) && !location.pathname.startsWith('/product/') && !location.pathname.startsWith('/invoice/') && !location.pathname.startsWith('/refunds/');
   };
@@ -139,7 +143,7 @@ function AppContent() {
       '/newcollections', '/checkout', '/payment', '/NewSeller', '/admin-dashboard',
       '/list-product', '/add-product', '/categories', '/order', '/users', '/sellers',
       '/transactions', '/delivery', '/adaccount', '/adsettings', '/inventory',
-      '/shipments', '/resetpassword', '/Wallet', '/NewBank', '/notificationadmin','/term','/customerservice','/category','/revenue','/help','/category/Clothing','/category/Men','/category/Women','/category/Kid'
+      '/shipments', '/resetpassword', '/Wallet', '/NewBank', '/notificationadmin','/term','/customerservice','/category','/revenue','/help','/category/Clothing','/category/Men','/category/Women','/category/Kid','/wholesaleuser-signup','/wholesaleuser-login','/wholesaleuser-forgetpassword'
     ];
     return !pathsWithoutSellerNavbar.includes(location.pathname) && !location.pathname.startsWith('/product/');
   };
@@ -150,7 +154,7 @@ function AppContent() {
       '/category/men', '/category/women', '/orders', '/account', '/category/kid', '/popular', '/shop',
       '/newcollections', '/checkout', '/payment', '/NewSeller', '/seller-dashboard',
       '/ProductUpload', '/ExistingProduct', '/Dispatch', '/RevenueGenerate',
-      '/Orderr', '/Settings', '/Wallet', '/NewBank', '/resetpassword', '/Pricing', '/notifications','/term','/customerservice','/SellerAccount','/productmanagement','/category','/return','/category/Clothing','/category/Men','/category/Women','/category/Kid'
+      '/Orderr', '/Settings', '/Wallet', '/NewBank', '/resetpassword', '/Pricing', '/notifications','/term','/customerservice','/SellerAccount','/productmanagement','/category','/return','/category/Clothing','/category/Men','/category/Women','/category/Kid','/wholesaleuser-signup','/wholesaleuser-login','/wholesaleuser-forgetpassword'
     ];
     return !pathsWithoutAdminNavbar.includes(location.pathname) && !location.pathname.startsWith('/product/');
   };
@@ -162,7 +166,7 @@ function AppContent() {
       '/newcollections', '/checkout', '/payment', '/NewSeller', '/seller-dashboard',
       '/ProductUpload', '/ExistingProduct', '/Dispatch', '/RevenueGenerate',
       '/Orderr', '/Settings', '/Wallet', '/SellerAccount',
-      '/NewBank', '/resetpassword', '/Pricing', '/productmanagement', '/notifications','/term','/customerservice','/category','/return','./add-product-details','/category/Clothing','/category/Men','/category/Women','/category/Kid'
+      '/NewBank', '/resetpassword', '/Pricing', '/productmanagement', '/notifications','/term','/customerservice','/category','/return','./add-product-details','/category/Clothing','/category/Men','/category/Women','/category/Kid','/wholesaleuser-signup','/wholesaleuser-login','/wholesaleuser-forgetpassword'
     ];
     return !pathsWithoutAdminSidebar.includes(location.pathname) && !location.pathname.startsWith('/product/') && !location.pathname.startsWith('/OrderIndividual/') && !location.pathname.startsWith('/ShippingDetails/') && !location.pathname.startsWith('/Dispatch/')  && !location.pathname.startsWith('/add-product-details');
   };
@@ -194,7 +198,9 @@ function AppContent() {
       {shouldShowSideNavbar() && <SideNavbar />}
       {shouldShowSellerNavbar() && <SellerNavbar />}
       {shouldShowAdminNavbar() && <Navbar />}
-      {shouldShowAdminSidebar() && <Sidebar />}
+      {shouldShowAdminSidebar() && <Sidebar />} 
+  
+      
       <Routes>
         {/* Define Routes */}
         <Route path="/" element={<Dashboard />} />
@@ -265,6 +271,10 @@ function AppContent() {
         <Route path="/help" element={<HelpDesk />} />
         <Route path="/category/categoryName" element={<Category />} />
         <Route path="/notifications/seller/:sellerId" element={<NotificationsPage />} />
+        <Route path="/wholesaleuser-signup" element={<WholesaleUserSignup />} />
+        <Route path="/wholesaleuser-login" element={<WholesaleUserLogin />} />
+        <Route path="/wholesaleuser-forgetpassword" element={<WholesaleUserForgetPassword />} />
+       
       
       </Routes>
       {shouldShowFooter() && <Footer />}
