@@ -1,69 +1,96 @@
-/* WholesaleSidebar.css */
+/* Sidebar Container */
+.wholesale-sidebar-container {
+  width: 250px; /* Sidebar width when expanded */
+  position: fixed;
+  background-color: #281042;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  transition: width 0.3s ease;
+  overflow-x: hidden;
+  z-index: 1000; /* Ensure sidebar is above other content */
+}
 
-/* Sidebar container */
-.sidebar {
-    background-color: #2c3e50;
-    color: white;
-    width: 250px;
-    height: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    padding-top: 30px;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+.wholesale-sidebar-container.wholesale-collapsed {
+  width: 80px; /* Sidebar width when collapsed */
+}
+
+.wholesale-sidebar {
+  width: 100%;
+  height: 100%;
+  padding-top: 20px;
+  padding-left: 10px;
+  box-shadow: 2px 0 5px rgba(214, 212, 212, 0.1);
+}
+
+.wholesale-sidebar-container.wholesale-expanded .wholesale-sidebar {
+  width: 250px;
+}
+
+.wholesale-toggle-btn {
+  background-color: #7643b1;
+  border: none;
+  color: #ecf0f1;
+  padding: 10px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.wholesale-toggle-btn:hover {
+  background-color: #8d43a3;
+}
+
+/* Navigation Styling */
+.wholesale-navbar-nav {
+  list-style: none;
+  padding: 0;
+}
+
+.wholesale-nav-item {
+  width: 200%;
+}
+
+.wholesale-nav-link {
+  display: flex;
+  align-items: center;
+  padding: 15px 20px;
+  color: #ecf0f1;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.wholesale-nav-link:hover,
+.wholesale-nav-link.wholesale-active {
+  background-color: #b065ce; /* Hover or active state */
+  color: #fff;
+}
+
+.wholesale-nav-icon {
+  font-size: 20px;
+  margin-right: 20px;
+}
+
+.wholesale-nav-link span {
+  font-size: 16px;
+  display: inline-block;
+  transition: opacity 0.3s ease;
+}
+
+/* Media Query for smaller screens */
+@media screen and (max-width: 768px) {
+  .wholesale-sidebar-container {
+    width: 70px; /* Adjust for smaller screens */
   }
-  
-  /* Sidebar header */
-  .sidebar-header {
-    text-align: center;
-    margin-bottom: 30px;
+
+  .wholesale-sidebar-container.wholesale-expanded {
+    width: 200px;
   }
-  
-  .sidebar-header h2 {
-    font-size: 24px;
-    font-weight: bold;
-    margin: 0;
+
+  /* Adjust layout when sidebar is expanded */
+  .wholesale-sidebar-container.wholesale-expanded ~ .upper-navbar,
+  .wholesale-sidebar-container.wholesale-expanded ~ .component-body {
+    margin-left: 200px; /* Same width as the expanded sidebar */
   }
-  
-  /* Sidebar menu */
-  .sidebar-menu {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  /* Sidebar menu links */
-  .sidebar-link {
-    display: block;
-    padding: 12px 20px;
-    color: white;
-    text-decoration: none;
-    font-size: 16px;
-    margin-bottom: 10px;
-    transition: background-color 0.3s, padding-left 0.3s;
-  }
-  
-  /* Sidebar link hover effect */
-  .sidebar-link:hover {
-    background-color: #f39c12;
-    padding-left: 30px;
-  }
-  
-  /* Responsive Design */
-  @media (max-width: 768px) {
-    .sidebar {
-      width: 100%;
-      height: auto;
-      position: relative;
-      padding-top: 20px;
-    }
-  
-    .sidebar-menu ul {
-      padding-left: 10px;
-    }
-  
-    .sidebar-link {
-      font-size: 14px;
-    }
-  }
-  
+}
+

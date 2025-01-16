@@ -54,17 +54,7 @@
     text-align: center;
 }
 
-.wholesale-login-button {
-    width: 100%;
-    padding: 14px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
+
 
 .wholesale-login-button:disabled {
     background-color: #ddd;

@@ -1,43 +1,119 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import './navbar.css'; // Import the corresponding CSS file
 
-const WholesaleNavbar = () => {
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { FaBars, FaSearch, FaSignOutAlt } from 'react-icons/fa';
+import './navbar.css';
+
+const WholesaleNavbar = ({ onSidebarToggle }) => {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const navigate = useNavigate(); // To redirect user after logout
+
+  // Toggle profile dropdown
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  // Handle Logout function
+  const handleLogout = async () => {
+    const token = localStorage.getItem('token');  // Get the token from localStorage
+
+    if (token) {
+      try {
+        // Ensure the token does not have the 'Bearer ' prefix (if already present)
+        const tokenToSend = token.startsWith('Bearer ') ? token.substring(7) : token;
+
+        // Send a POST request to logout API
+        const response = await fetch('http://localhost:3696/auth/logout', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${tokenToSend}`,
+          },
+        });
+
+        if (response.ok) {
+          // If logout is successful, remove the token and navigate to login page
+          localStorage.removeItem('token');
+          navigate('/wholesaleuser-login');
+        } else {
+          const error = await response.json();
+          alert(error.message || 'Logout failed. Please try again.');
+        }
+      } catch (error) {
+        console.error('Logout error:', error);
+        alert('Logout failed. Please try again.');
+      }
+    } else {
+      alert('You are not logged in.');
+    }
+  };
+
   return (
-    <nav className="navbar">
-      <div className="navbar-container">
-        {/* Logo */}
-        <div className="navbar-logo">
-          <Link to="/" className="navbar-logo-link">
-            <h1>WholesaleStore</h1>
-          </Link>
-        </div>
+    <div className="wholesale-navbar">
+      {/* Left Section: Brand and Sidebar Toggle */}
+      <div className="wholesale-navbar-left">
+        <button className="sidebar-toggle-btn" onClick={onSidebarToggle}>
+          <FaBars />
+        </button>
+        <Link to="/wholesale-dashboard" className="wholesale-brand">
+          <h2>Wholesale</h2>
+        </Link>
+      </div>
 
-        {/* Links */}
-        <div className="navbar-links">
-          <ul>
-            <li>
-              <Link to="/" className="navbar-link">Home</Link>
-            </li>
-            <li>
-              <Link to="/shop" className="navbar-link">Shop</Link>
-            </li>
-            <li>
-              <Link to="/categories" className="navbar-link">Categories</Link>
-            </li>
-            <li>
-              <Link to="/my-account" className="navbar-link">My Account</Link>
-            </li>
-            <li>
-              <Link to="/cart" className="navbar-link">Cart</Link>
-            </li>
-            <li>
-              <Link to="/login" className="navbar-link">Logout</Link>
-            </li>
-          </ul>
+      {/* Center Section: Search Bar */}
+      <div className="wholesale-navbar-center">
+        <div className="wholesale-search">
+          <input type="text" placeholder="Search products..." />
+          <button className="search-btn">
+            <FaSearch />
+          </button>
         </div>
       </div>
-    </nav>
+
+      {/* Right Section: Profile and Login */}
+      <div className="wholesale-navbar-right">
+        {/* Login Button */}
+        <div className="nav-login-cart">
+          <button>
+            <Link style={{ textDecoration: 'none', color: 'white' }} to='/wholesaleuser-login'>
+              Login
+            </Link>
+          </button>
+        </div>
+
+        {/* Profile Dropdown */}
+        <div className="profile-containers">
+          <img
+            src="https://via.placeholder.com/40" // Replace with actual profile image URL
+            alt="Profile"
+            className="profile-image"
+            onClick={toggleDropdown}
+          />
+          {isDropdownOpen && (
+            <div className="profile-dropdown">
+              <ul>
+                <li>
+                  <Link to="/my-profile" className="dropdown-link">
+                    My Profile
+                  </Link>
+                </li>
+                <li
+                  onClick={handleLogout}
+                  className="dropdown-link"
+                  style={{ cursor: 'pointer' }}  // Add cursor pointer for interactivity
+                >
+                  <FaSignOutAlt className="inline-block mr-2" /> Logout
+                </li>
+                <li>
+                  <Link to="/become-seller" className="dropdown-link">
+                    Become Seller
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
   );
 };
 
