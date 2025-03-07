@@ -30,7 +30,8 @@ table th, table td {
 table th {
     font-weight: bold;
     text-transform: uppercase;
-    color: #555555;
+    color: white;
+    background-color: brown;
 }
 
 tbody tr:nth-child(even) {

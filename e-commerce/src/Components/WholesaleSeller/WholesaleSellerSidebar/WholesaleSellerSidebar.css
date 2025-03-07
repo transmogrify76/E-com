@@ -1,0 +1,134 @@
+/* WholesaleSellerSidebar.css */
+
+/* Main container for the sidebar */
+.wholesale-seller-sidebar-container {
+  display: flex;
+  justify-content: flex-start;
+  height: 100vh;
+  transition: all 0.3s ease;
+}
+
+.wholesale-seller-sidebar {
+  background-color: #380350;
+  color: white;
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.wholesale-seller-expanded {
+  width: 250px;
+}
+
+.wholesale-seller-collapsed {
+  width: 70px;
+}
+
+.wholesale-seller-toggle-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  position: absolute;
+  top: 10px;
+  right: -30px;
+  cursor: pointer;
+  padding: 10px;
+  margin-right: 20px;
+}
+
+.wholesale-seller-navbar-nav {
+  list-style: none;
+  padding: 0;
+  margin-top: 60px;
+}
+
+.wholesale-seller-nav-item {
+  margin-bottom: 20px;
+}
+
+.wholesale-seller-nav-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: white;
+  font-size: 16px;
+  padding: 10px 0;
+  transition: background-color 0.3s ease;
+}
+
+.wholesale-seller-nav-link:hover {
+  background-color: #bacfe4;
+  border-radius: 5px;
+}
+
+.wholesale-seller-nav-icon {
+  margin-right: 15px;
+  font-size: 1.2rem;
+}
+
+.wholesale-seller-active {
+ 
+  border-radius: 5px;
+}
+
+.wholesale-seller-sidebar-footer {
+  margin-top: auto;
+  text-align: center;
+}
+
+.wholesale-seller-logout {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: white;
+  font-size: 16px;
+  padding: 10px 0;
+}
+
+.wholesale-seller-logout:hover {
+  background-color: #e74c3c;
+  border-radius: 5px;
+}
+
+.wholesale-seller-logout .wholesale-seller-nav-icon {
+  margin-right: 10px;
+}
+
+/* To handle small devices and make the sidebar responsive */
+@media screen and (max-width: 768px) {
+  .wholesale-seller-sidebar-container {
+    position: fixed;
+    z-index: 1000;
+  }
+
+  .wholesale-seller-expanded {
+    width: 250px;
+  }
+
+  .wholesale-seller-collapsed {
+    width: 60px;
+  }
+
+  .wholesale-seller-nav-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .wholesale-seller-nav-link {
+    justify-content: center;
+    font-size: 14px;
+  }
+
+  .wholesale-seller-nav-icon {
+    margin-right: 0;
+  }
+
+  .wholesale-seller-logout {
+    justify-content: center;
+  }
+}

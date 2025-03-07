@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Accounts.css'; // Add CSS for styling
@@ -173,7 +171,7 @@ const UserAccountPage = () => {
 
   return (
     <div className="user-account-page">
-      <h2>User Account</h2>
+    <h2 className="my-account-heading">My Account</h2>
 
       <section className="profile-section">
         <div className="user-info">

@@ -4,7 +4,7 @@ import star_icon from '../../Assests/Ecommerce_Frontend_Assets/Assets/star_icon.
 import star_dull_icon from '../../Assests/Ecommerce_Frontend_Assets/Assets/star_dull_icon.png';
 import { useNavigate } from 'react-router-dom';
 import body_measure_image from '../../Assests/Ecommerce_Frontend_Assets/Assets/body_measure_image.png';
-import { FaCartPlus, FaHeart, FaShippingFast, FaChartLine,FaHeartBroken } from 'react-icons/fa';
+import { FaCartPlus, FaHeart,  FaChartLine,FaHeartBroken } from 'react-icons/fa';
 import CustomerReview from '../CustomerReview/CustomerReview';  // Import the CustomerReview component
 
 
@@ -467,5 +467,4 @@ const ProductDisplay = ({ product, image }) => {
 };
 
 export default ProductDisplay;
-
 

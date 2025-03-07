@@ -146,7 +146,6 @@ function ENavbar() {
           {isDropdownOpen && (
             <div className="dropdown-content">
               <a href="/account">My Profile</a>
-              <a href="/wholesaleuser-signup">Whole Sale</a>
               <a href="/NewSeller">Become Seller</a>
               <a href="/login">Log out</a>
             </div>
