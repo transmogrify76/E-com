@@ -15,7 +15,7 @@ const AdminPanelSeller = () => {
     useEffect(() => {
         const fetchSellers = async () => {
             try {
-                const response = await fetch('http://localhost:5000/user/sellers');
+                const response = await fetch(`${process.env.REACT_APP_BASE_URL}/user/sellers`);
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
@@ -47,7 +47,7 @@ const AdminPanelSeller = () => {
 
     const handleViewSellerDetails = async (sellerId) => {
         try {
-            const response = await fetch(`http://localhost:5000/user/sellers/${sellerId}`);
+            const response = await fetch(`${process.env.REACT_APP_BASE_URL}/user/sellers/${sellerId}`);
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
@@ -74,7 +74,7 @@ const AdminPanelSeller = () => {
 
     const handleSaveEditSeller = async () => {
         try {
-            const response = await fetch(`http://localhost:5000/user/sellers/${editSeller.id}`, {
+            const response = await fetch(`${process.env.REACT_APP_BASE_URL}/user/sellers/${editSeller.id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -103,7 +103,7 @@ const AdminPanelSeller = () => {
     const handleDeleteSeller = async (sellerId) => {
         if (window.confirm('Are you sure you want to delete this seller?')) {
             try {
-                const response = await fetch(`http://localhost:5000/user/${sellerId}`, {
+                const response = await fetch(`${process.env.REACT_APP_BASE_URL}/user/${sellerId}`, {
                     method: 'DELETE',
                 });
 

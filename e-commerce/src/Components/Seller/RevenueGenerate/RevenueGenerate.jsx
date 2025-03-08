@@ -1,6 +1,7 @@
 
-import React, { useState } from 'react';
-import './RevenueGenerate.css'; // Make sure this path is correct
+import React, { useState, useEffect } from 'react';
+import './RevenueGenerate.css'; // Ensure the path is correct
+import axios from 'axios';
 import { Bar } from 'react-chartjs-2';
 import {
     Chart as ChartJS,
@@ -12,42 +13,79 @@ import {
     Legend,
 } from 'chart.js';
 
-// Register the necessary components
+// Register the necessary components for chart.js
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const RevenueGenerate = () => {
-    const [revenueData, setRevenueData] = useState([
-        { id: 1, month: 'January', revenue: 1000 },
-        { id: 2, month: 'February', revenue: 1500 },
-        { id: 3, month: 'March', revenue: 1800 },
-        { id: 4, month: 'April', revenue: 1200 },
-        { id: 5, month: 'May', revenue: 2000 },
-        { id: 6, month: 'June', revenue: 2500 }
-    ]);
-    const [newRevenue, setNewRevenue] = useState('');
+    // Initialize states
+    const [monthlyRevenueData, setMonthlyRevenueData] = useState([]);
+    const [topRevenueProducts, setTopRevenueProducts] = useState([]);
+    const [totalRevenue, setTotalRevenue] = useState(0);
+    const [averageMonthlyRevenue, setAverageMonthlyRevenue] = useState(0);
+    const [chartData, setChartData] = useState({ labels: [], datasets: [] });
+    const [sellerId, setSellerId] = useState(null);  // Start with null sellerId
 
-    // Function to generate revenue for July
-    const generateRevenue = () => {
-        if (newRevenue) {
-            const newData = { id: revenueData.length + 1, month: 'July', revenue: parseFloat(newRevenue) };
-            setRevenueData([...revenueData, newData]);
-            setNewRevenue(''); // Clear input after submission
+    // Fetch sellerId from localStorage when the component mounts
+    useEffect(() => {
+        const storedSellerId = localStorage.getItem('sellerId');
+        if (storedSellerId) {
+            setSellerId(parseInt(storedSellerId));  // Set sellerId from localStorage
+        }
+    }, []);
+
+    // Fetch revenue data from the server
+    const fetchRevenueData = async () => {
+        if (!sellerId) return; // Ensure sellerId is available
+
+        try {
+            // Fetch Total Revenue
+            const totalRevenueResponse = await axios.get(`http://localhost:5000/analytics?sellerId=${sellerId}&type=totalRevenue`);
+            setTotalRevenue(totalRevenueResponse.data.data.totalRevenue);
+
+            // Fetch Average Monthly Revenue
+            const averageMonthlyRevenueResponse = await axios.get(`http://localhost:5000/analytics?sellerId=${sellerId}&type=averageMonthlyRevenue`);
+            setAverageMonthlyRevenue(averageMonthlyRevenueResponse.data.data.averageMonthlyRevenue);
+
+            // Fetch Monthly Revenue Data
+            const monthlyRevenueResponse = await axios.get(`http://localhost:5000/analytics?sellerId=${sellerId}&type=monthlyRevenue`);
+            const monthlyRevenueData = monthlyRevenueResponse.data.data;
+            setMonthlyRevenueData(monthlyRevenueData);
+
+            // Format Monthly Revenue Data for Chart
+            const labels = monthlyRevenueData.map(item => item.month);
+            const revenueValues = monthlyRevenueData.map(item => item.revenue);
+            setChartData({
+                labels: labels,
+                datasets: [{
+                    label: 'Revenue (₹)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1,
+                    data: revenueValues,
+                }]
+            });
+
+            // Fetch Top Revenue Generating Products
+            const topRevenueResponse = await axios.get(`http://localhost:5000/analytics?sellerId=${sellerId}&type=topRevenueGeneratingProduct`);
+            const topRevenueData = topRevenueResponse.data.data.topRevenueGeneratingProducts;
+
+            const topRevenueProductsList = topRevenueData.map(([productId, revenue]) => ({
+                productId, 
+                revenue
+            }));
+            setTopRevenueProducts(topRevenueProductsList);
+
+        } catch (error) {
+            console.error('Error fetching revenue data', error);
         }
     };
 
-    // Chart data
-    const chartData = {
-        labels: revenueData.map(data => data.month),
-        datasets: [
-            {
-                label: 'Monthly Revenue (₹)',
-                backgroundColor: 'rgba(75, 192, 192, 0.6)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1,
-                data: revenueData.map(data => data.revenue),
-            },
-        ],
-    };
+    // Fetch data when the component mounts or sellerId changes
+    useEffect(() => {
+        if (sellerId) {
+            fetchRevenueData();
+        }
+    }, [sellerId]);
 
     // Chart options
     const chartOptions = {
@@ -63,10 +101,9 @@ const RevenueGenerate = () => {
             },
         },
     };
-   
+
     return (
         <div className="revenue-generate-container">
-            {/* Header */}
             <header className="revenue-header">
                 <h2>Revenue Generation</h2>
                 <div className="revenue-user-info">
@@ -74,27 +111,30 @@ const RevenueGenerate = () => {
                 </div>
             </header>
 
-            {/* Revenue Generation Section */}
-            <div className="revenue-generate-section">
-                <h3>Generate Revenue</h3>
-                <input
-                    type="number"
-                    value={newRevenue}
-                    onChange={(e) => setNewRevenue(e.target.value)}
-                    placeholder="Enter revenue amount (₹)"
-                    className="revenue-input"
-                />
-                <button onClick={generateRevenue} className="generate-revenue-button">Generate Revenue</button>
+            {/* Total Revenue */}
+            <div className="analytics-card">
+                <h4>Total Revenue</h4>
+                <p>₹{totalRevenue}</p>
             </div>
 
-            {/* Bar Chart Section */}
-            <div className="revenue-chart">
-                <Bar data={chartData} options={chartOptions} />
+            {/* Average Monthly Revenue */}
+            <div className="analytics-card">
+                <h4>Average Monthly Revenue</h4>
+                <p>₹{averageMonthlyRevenue.toFixed(2)}</p>
             </div>
 
-            {/* Revenue Table Section */}
+            {/* Bar Chart */}
+            {chartData.labels.length > 0 && chartData.datasets.length > 0 ? (
+                <div className="revenue-chart">
+                    <Bar data={chartData} options={chartOptions} />
+                </div>
+            ) : (
+                <p>No data available for the chart.</p>
+            )}
+
+            {/* Monthly Revenue Table */}
             <div className="revenue-table-container">
-                <h3 className="table-title">Revenue Summary</h3>
+                <h3 className="table-title">Monthly Revenue Summary</h3>
                 <table className="revenue-table">
                     <thead>
                         <tr>
@@ -103,43 +143,34 @@ const RevenueGenerate = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {revenueData.map((data) => (
-                            <tr key={data.id}>
-                                <td>{data.month}</td>
-                                <td>{data.revenue}</td>
-                            </tr>
-                        ))}
+                        {monthlyRevenueData.length > 0 ? (
+                            monthlyRevenueData.map((data) => (
+                                <tr key={data.id}>
+                                    <td>{data.month}</td>
+                                    <td>{data.revenue}</td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr><td colSpan="2">No revenue data available</td></tr>
+                        )}
                     </tbody>
                 </table>
             </div>
 
-            {/* Analytics Overview */}
-            <div className="analytics-overview">
-                <h3>Analytics Overview</h3>
-                <div className="analytics-card">
-                    <h4>Total Revenue</h4>
-                    <p>₹{revenueData.reduce((acc, item) => acc + item.revenue, 0)}</p>
-                </div>
-                <div className="analytics-card">
-                    <h4>Average Monthly Revenue</h4>
-                    <p>₹{(revenueData.reduce((acc, item) => acc + item.revenue, 0) / revenueData.length).toFixed(2)}</p>
-                </div>
-            </div>
-
-            {/* Recent Activities Section */}
-            <div className="recent-activities">
-                <h3>Recent Activities</h3>
+            {/* Top Revenue Generating Products */}
+            <div className="top-revenue-products">
+                <h3>Top Revenue Generating Products</h3>
                 <ul>
-                    <li>Sale of Product X on June 30 - ₹500</li>
-                    <li>Sale of Product Y on June 28 - ₹700</li>
-                    <li>Promotion for Product Z on June 25 - ₹300</li>
+                    {topRevenueProducts.length > 0 ? (
+                        topRevenueProducts.map((product, index) => (
+                            <li key={index}>
+                                Product ID: {product.productId} - ₹{product.revenue}
+                            </li>
+                        ))
+                    ) : (
+                        <li>No top revenue products found</li>
+                    )}
                 </ul>
-            </div>
-
-            {/* Export Options Section */}
-            <div className="export-options">
-                <button className="export-button">Export as CSV</button>
-                <button className="export-button">Export as PDF</button>
             </div>
 
             {/* Help/Support Section */}

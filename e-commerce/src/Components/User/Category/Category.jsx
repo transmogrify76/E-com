@@ -1,340 +1,321 @@
+// import React, { useState, useEffect } from 'react';
+// import axios from 'axios';
+// import './Category.css'; // Your separate CSS file for styling
+
+// const CategorySelection = () => {
+//   const [categories, setCategories] = useState([]); // Store top-level categories
+//   const [expandedCategories, setExpandedCategories] = useState({}); // Store expanded child categories
+//   const [selectedCategoryNames, setSelectedCategoryNames] = useState([]); // Selected categories
+//   const [hoveredCategory, setHoveredCategory] = useState(null); // Track hovered category for hover effect
+//   const [searchTerm, setSearchTerm] = useState(''); // Search term for filtering categories
+//   const [error, setError] = useState(''); // Error state for failed API calls
+
+//   // Fetch top-level categories when the component mounts
+//   useEffect(() => {
+//     fetchTopLevelCategories();
+//   }, []);
+
+//   // Fetch top-level categories
+//   const fetchTopLevelCategories = async () => {
+//     try {
+//       const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/categories/top-level`);
+//       setCategories(response.data);
+//     } catch (error) {
+//       console.error('Error fetching categories:', error);
+//       setError('Failed to fetch categories. Please try again later.');
+//     }
+//   };
+
+//   // Fetch child categories based on category name
+//   const fetchChildCategoriesByName = async (categoryName) => {
+//     try {
+//       const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/categories/subcategories/name/${categoryName}`);
+//       return response.data;
+//     } catch (error) {
+//       console.error(`Error fetching subcategories for category "${categoryName}":`, error);
+//       return [];
+//     }
+//   };
+
+//   // Handle category selection
+//   const handleCategoryChange = (categoryName) => {
+//     setSelectedCategoryNames((prev) =>
+//       prev.includes(categoryName)
+//         ? prev.filter((name) => name !== categoryName) // Unselect category
+//         : [...prev, categoryName] // Select category
+//     );
+//   };
+
+//   // Toggle category visibility to show child categories
+//   const handleToggleCategory = async (categoryName) => {
+//     if (!expandedCategories[categoryName]) {
+//       const childCategories = await fetchChildCategoriesByName(categoryName);
+//       setExpandedCategories((prev) => ({
+//         ...prev,
+//         [categoryName]: childCategories, // Store child categories by parent name
+//       }));
+//     } else {
+//       setExpandedCategories((prev) => {
+//         const updated = { ...prev };
+//         delete updated[categoryName]; // Remove child categories if already expanded
+//         return updated;
+//       });
+//     }
+//   };
+
+//   // Clear all category selections
+//   const handleClearCategorySelection = () => {
+//     setSelectedCategoryNames([]); // Clear the selected categories list
+//   };
+
+//   // Filter categories based on search term - both top-level and child categories
+//   const filterCategories = (categories) => {
+//     const lowercasedSearchTerm = searchTerm.toLowerCase();
+
+//     return categories.filter((category) => {
+//       // Check if category name matches search term
+//       if (category.toLowerCase().includes(lowercasedSearchTerm)) {
+//         return true;
+//       }
+
+//       // If the category has subcategories, check if any of the subcategories match the search term
+//       if (expandedCategories[category]) {
+//         const childMatch = expandedCategories[category].some((childCategory) =>
+//           childCategory.toLowerCase().includes(lowercasedSearchTerm)
+//         );
+//         return childMatch;
+//       }
+
+//       return false;
+//     });
+//   };
+
+//   // Render categories and subcategories recursively
+//   const renderCategories = (categoryList) => {
+//     return categoryList.map((categoryName) => (
+//       <div key={categoryName} className="category-item">
+//         <div className="category-name">
+//           <label
+//             htmlFor={`category-${categoryName}`}
+//             className="category-label"
+//             onClick={() => handleToggleCategory(categoryName)} // Toggle subcategories on click
+//           >
+//             {categoryName}
+//           </label>
+//         </div>
+//         {expandedCategories[categoryName] && (
+//           <div className="subcategory-container">
+//             {renderCategories(expandedCategories[categoryName])}
+//           </div>
+//         )}
+//       </div>
+//     ));
+//   };
+
+//   return (
+//     <div className="category-selection-container">
+//       {error && <p className="error">{error}</p>}
+//       <h3>Search Categories</h3>
+//       <input
+//         type="text"
+//         placeholder="Search categories..."
+//         value={searchTerm}
+//         onChange={(e) => setSearchTerm(e.target.value)}
+//         className="search-input"
+//       />
+
+      
+
+//       <div className="categories-list">
+//         {renderCategories(filterCategories(categories))}
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default CategorySelection;
+
+
 import React, { useState, useEffect } from 'react';
-//import axios from 'axios';
-import './Category.css'; // Import the CSS file for styling
-import {
-  FaDesktop, FaHome, FaPaintBrush, FaCar, FaBaby, FaHeartbeat, FaToolbox, FaGamepad, FaVideo,
-  FaMale, FaFemale, FaChild, FaLaptop, FaTv, FaCat, FaHiking, FaCouch, FaIndustry, FaSuitcase, FaPlug, FaTshirt
-}  from 'react-icons/fa';
-// Import relevant icons from react-icons
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom'; // For category page redirection
+import './Category.css'; // Your separate CSS file for styling
 
-const DressCategorySection = () => {
-  const [departments, setDepartments] = useState([]);
-  const [selectedDepartment, setSelectedDepartment] = useState(null);
-  const [subcategories, setSubcategories] = useState([]);
-  const [products, setProducts] = useState([]);
+const CategorySelection = () => {
+  const [categories, setCategories] = useState([]); // Store top-level categories
+  const [expandedCategories, setExpandedCategories] = useState({}); // Store expanded child categories
+  const [selectedCategoryNames, setSelectedCategoryNames] = useState([]); // Selected categories
+  const [hoveredCategory, setHoveredCategory] = useState(null); // Track hovered category
+  const [searchTerm, setSearchTerm] = useState(''); // Search term for filtering categories
+  const [error, setError] = useState(''); // Error state for failed API calls
+  const navigate = useNavigate(); // For redirection
 
+  // Fetch top-level categories when the component mounts
   useEffect(() => {
-    // Mock departments data
-    setDepartments([
-     'Electronics', 'Computers', 'Smart Home', 'Arts & Crafts', 'Automotive', 'Baby',
-      'Beauty and Personal Care', 'Fashion', 'Health and Household', 'Home and Kitchen',
-      'Industrial and Scientific', 'Luggage', 'Movies & Television', 'Pet Supplies', 
-      'Software', 'Sports and Outdoors', 'Tools & Home Improvement', 'Toys and Games', 
-      'Video Games'
-    ]);
+    fetchTopLevelCategories();
   }, []);
 
-  // Mock subcategories data
-  const mockData = {
-    'Electronics': [
-      'Accessories & Supplies',
-      'Camera & Photo',
-      'Car & Vehicle Electronics',
-      'Cell Phones & Accessories',
-      'Computers & Accessories',
-      'GPS & Navigation',
-      'Headphones',
-      'Home Audio',
-      'Office Electronics',
-      'Portable Audio & Video'
-    ],
-
-    'Computers': [
-      'Computer Accessories & Peripherals',
-      'Computer Components',
-      'Computers & Tablets',
-      'Data Storage'
-    ],
-
-    'Smart Home': [
-      'Amazon Smart Home',
-      'Works with Alexa Devices',
-      'Smart Home Lighting',
-      'Smart Locks and Entry'
-    ],
-
-    'Arts & Crafts': [
-      'Painting, Drawing & Art Supplies',
-      'Beading & Jewelry Making',
-      'Crafting',
-      'Fabric'
-    ],
-
-    'Automotive': [
-      'Car Care',
-      'Car Electronics & Accessories',
-      'Exterior Accessories',
-      'Interior Accessories'
-    ],
-
-
-    'Baby': [
-      'Activity & Entertainment',
-      'Apparel & Accessories',
-      'Baby & Toddler Toys',
-      'Baby Care',
-      'Baby Stationery'
-    ],
-
-    'Beauty and Personal Care': [
-      'Makeup',
-      'Skin Care',
-      'Hair Care',
-      'Fragrance',
-      'Foot, Hand & Nail Care'
-    ],
-
-    'Fashion': [
-      'Men', 
-      'Women', 
-      'Kids', 
-      'Girls'
-    ],  // New Fashion subcategories
-
-
-    'Health and Household': [
-      'Baby & Child Care',
-      'Health Care',
-      'Household Supplies',
-      'Medical Supplies & Equipment',
-      'Oral Care'
-    ],
-
-
-    'Home and Kitchen': [
-      'Kids Home Store',
-      'Kitchen & Dining',
-      'Bedding',
-      'Bath',
-      'Furniture'
-    ],
-
-    'Industrial and Scientific': [
-      'Abrasive & Finishing Products',
-      'Additive Manufacturing Products',
-      'Commercial Door Products',
-      'Cutting Tools',
-      'Fasteners'
-    ],
-
-    'Luggage': [
-      'Carry-ons',
-      'Backpacks',
-      'Garment bags',
-      'Travel Totes'
-    ],
-
-    'Movies & Television': [
-      'Movies',
-      'TV Shows',
-      'Blu-ray',
-      '4K Ultra HD'
-    ],
-
-    'Pet supplies': [
-      'Dogs',
-      'Cats',
-      'Fish & Aquatic Pet',
-      'Birds',
-      'Horses'
-    ],
-
-    'Software': [
-      'Accounting & Finance',
-      'Antivirus & Security',
-      'Business & Office',
-      'Childrens',
-      'Design & Illustration'
-    ],
-
-    'Sports and Outdoors': [
-      'Sports and Outdoors',
-      'Outdoor Recreation',
-      'Sports & Fitness'
-    ],
-
-    'Tools & Home Improvement': [
-      'Tools & Home Improvement',
-      'Appliances',
-      'Building Supplies',
-      'Electrical',
-      'Hardware',
-      'Kitchen & Bath Fixtures'
-    ],
-
-    'Toys and Games': [
-      'Action Figures & Statues',
-      'Arts & Crafts',
-      'Baby & Toddler Toys',
-      'Building Toys'
-    ],
-
-    'Video Games': [
-      'Video Games',
-      'PlayStation 4',
-      'PlayStation 3',
-      'Xbox One',
-      'Xbox 360'
-    ],
-
-    'Women Fashion':[
-      'Clothing', 
-      'Shoes', 
-      'Jewelry', 
-      'Watches', 
-      'Handbags', 
-      'Accessories'
-    ],
-
-    'Men\'s Fashion': [
-      'Clothing', 
-      'Shoes', 
-      'Accessories'
-    ],
-    'Kids Fashion': [
-      'Clothing', 
-      'Shoes'
-    ]
-  };
-
-  const handleDepartmentClick = (department) => {
-    setSelectedDepartment(department);
-    setSubcategories(mockData[department] || []);
-  };
-
-  const handleCategoryClick = (category) => {
-    // Mock fetching products
-    const products = [
-      { id: 1, name: 'Product 1', price: 10 },
-      { id: 2, name: 'Product 2', price: 20 }
-    ];
-    setProducts(products);
-  };
-
-  return (
-    <div className="dress-category-section">
-      <h2 className="section-title">Shop by Department</h2>
-      <div className="department-list">
-        {departments.map((department) => (
-          <DepartmentCard
-            key={department}
-            department={department}
-            onDepartmentClick={handleDepartmentClick}
-            selectedDepartment={selectedDepartment}
-          />
-        ))}
-      </div>
-      {selectedDepartment && (
-        <SubcategorySection
-          department={selectedDepartment}
-          subcategories={subcategories}
-          onCategoryClick={handleCategoryClick}
-          products={products}
-        />
-      )}
-    </div>
-  );
-};
-
-// DepartmentCard Component
-const DepartmentCard = ({ department, onDepartmentClick, selectedDepartment }) => {
-  const getIcon = (department) => {
-    switch (department) {
-      case 'Electronics':
-        return <FaPlug className="department-icon" />;  // Electronics icon
-      case 'Computers':
-        return <FaDesktop className="department-icon" />;
-      case 'Smart Home':
-        return <FaHome className="department-icon" />;
-      case 'Arts & Crafts':
-        return <FaPaintBrush className="department-icon" />;
-      case 'Automotive':
-        return <FaCar className="department-icon" />;
-      case 'Baby':
-        return <FaBaby className="department-icon" />;
-      case 'Beauty and Personal Care':
-        return <FaHeartbeat className="department-icon" />; // Beauty icon (can also use a different one)
-        case 'Fashion':
-      return <FaTshirt className="department-icon" />;
-      case "Women's Fashion":
-        return <FaFemale className="department-icon" />;
-      case "Men's Fashion":
-        return <FaMale className="department-icon" />;
-      case "Girls Fashion":
-        return <FaChild className="department-icon" />; // Girls Fashion
-      case "Boys Fashion":
-        return <FaChild className="department-icon" />; // Boys Fashion
-      case 'Health and Household':
-        return <FaHeartbeat className="department-icon" />;
-      case 'Home and Kitchen':
-        return <FaCouch className="department-icon" />;  // Home & Kitchen
-      case 'Industrial and Scientific':
-        return <FaIndustry className="department-icon" />;  // Industrial & Scientific
-      case 'Luggage':
-        return <FaSuitcase className="department-icon" />;  // Luggage
-      case 'Movies & Television':
-        return <FaTv className="department-icon" />;  // Movies & TV
-        case 'Pet Supplies': // Use capital 'S'
-        return <FaCat className="department-icon" />;  // Pet Supplies
-      case 'Software':
-        return <FaLaptop className="department-icon" />;  // Software
-      case 'Sports and Outdoors':
-        return <FaHiking className="department-icon" />;  // Sports & Outdoors
-      case 'Tools & Home Improvement':
-        return <FaToolbox className="department-icon" />;
-      case 'Toys and Games':
-        return <FaGamepad className="department-icon" />;
-      case 'Video Games':
-        return <FaVideo className="department-icon" />;  // Video Games
-      default:
-        return null;
+  // Fetch top-level categories
+  const fetchTopLevelCategories = async () => {
+    try {
+      const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/categories/top-level`);
+      setCategories(response.data);
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+      setError('Failed to fetch categories. Please try again later.');
     }
   };
 
+  // Fetch child categories based on category name
+  const fetchChildCategoriesByName = async (categoryName) => {
+    try {
+      const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/categories/subcategories/name/${categoryName}`);
+      return response.data;
+    } catch (error) {
+      console.error(`Error fetching subcategories for category "${categoryName}":`, error);
+      return [];
+    }
+  };
+
+  // Handle category selection
+  const handleCategoryChange = (categoryName) => {
+    setSelectedCategoryNames((prev) =>
+      prev.includes(categoryName)
+        ? prev.filter((name) => name !== categoryName) // Unselect category
+        : [...prev, categoryName] // Select category
+    );
+  };
+
+  // Toggle category visibility to show child categories
+  const handleToggleCategory = async (categoryName) => {
+    if (!expandedCategories[categoryName]) {
+      const childCategories = await fetchChildCategoriesByName(categoryName);
+      setExpandedCategories((prev) => ({
+        ...prev,
+        [categoryName]: childCategories, // Store child categories by parent name
+      }));
+    } else {
+      setExpandedCategories((prev) => {
+        const updated = { ...prev };
+        delete updated[categoryName]; // Remove child categories if already expanded
+        return updated;
+      });
+    }
+  };
+
+  // Handle hover effect to show subcategories on the right side
+  const handleMouseEnterCategory = async (categoryName) => {
+    setHoveredCategory(categoryName);
+    if (!expandedCategories[categoryName]) {
+      const childCategories = await fetchChildCategoriesByName(categoryName);
+      setExpandedCategories((prev) => ({
+        ...prev,
+        [categoryName]: childCategories,
+      }));
+    }
+  };
+
+  // Handle mouse leave to reset hovered category
+  const handleMouseLeaveCategory = () => {
+    setHoveredCategory(null);
+  };
+
+  // Handle category redirection on click
+  const handleCategoryRedirect = (categoryName) => {
+    // Use the category name to form a dynamic URL like `/mens`, `/clothing`, etc.
+    navigate(`/category/${categoryName}`);
+  };
+
+  // Filter categories based on search term - both top-level and child categories
+  const filterCategories = (categories) => {
+    const lowercasedSearchTerm = searchTerm.toLowerCase();
+
+    return categories.filter((category) => {
+      // Check if category name matches search term
+      if (category.toLowerCase().includes(lowercasedSearchTerm)) {
+        return true;
+      }
+
+      // If the category has subcategories, check if any of the subcategories match the search term
+      if (expandedCategories[category]) {
+        const childMatch = expandedCategories[category].some((childCategory) =>
+          childCategory.toLowerCase().includes(lowercasedSearchTerm)
+        );
+        return childMatch;
+      }
+
+      return false;
+    });
+  };
+
+  // Render categories and subcategories recursively
+  const renderCategories = (categoryList) => {
+    return categoryList.map((categoryName) => (
+      <div
+        key={categoryName}
+        className="category-item"
+        onMouseEnter={() => handleMouseEnterCategory(categoryName)} // Show subcategories on hover
+        onMouseLeave={handleMouseLeaveCategory} // Hide subcategories when mouse leaves
+      >
+        <div className="category-name">
+          <label
+            htmlFor={`category-${categoryName}`}
+            className="category-label"
+            onClick={() => handleCategoryRedirect(categoryName)} // Redirect to category page on click
+          >
+            {categoryName}
+          </label>
+        </div>
+        {expandedCategories[categoryName] && hoveredCategory === categoryName && (
+          <div className="subcategory-container">
+            {expandedCategories[categoryName].map((subcategory) => (
+              <div
+                key={subcategory}
+                className="subcategory-item"
+                onClick={() => handleCategoryRedirect(subcategory)} // Redirect to subcategory page on click
+              >
+                {subcategory}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    ));
+  };
 
   return (
-    <div
-      className={`department-card ${selectedDepartment === department ? 'active' : ''}`}
-      onClick={() => onDepartmentClick(department)}
-    >
-      <div className="department-header">
-        {getIcon(department)}
-        <h3 className="department-title">{department}</h3>
+    <div className="category-selection-container">
+      {error && <p className="error">{error}</p>}
+      <h3>Search Categories</h3>
+      <input
+        type="text"
+        placeholder="Search categories..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        className="search-input"
+      />
+
+      <div className="categories-list">
+        {renderCategories(filterCategories(categories))}
+      </div>
+
+      <div className="subcategory-display">
+        {hoveredCategory && expandedCategories[hoveredCategory] && (
+          <div className="subcategory-container">
+            {expandedCategories[hoveredCategory].map((subcategory) => (
+              <div
+                key={subcategory}
+                className="subcategory-item"
+                onClick={() => handleCategoryRedirect(subcategory)} // Redirect to subcategory page on click
+              >
+                {subcategory}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
 };
 
-// SubcategorySection Component
-const SubcategorySection = ({ department, subcategories, onCategoryClick, selectedCategory, products }) => {
-  return (
-    <div className="subcategory-section">
-      <h3 className="subcategory-title">{department} Categories</h3>
-      <ul className="subcategory-list">
-        {subcategories.map((subcategory) => (
-          <li
-            key={subcategory}
-            className={`subcategory-item ${selectedCategory === subcategory ? 'active' : ''}`}
-            onClick={() => onCategoryClick(subcategory)}
-          >
-            {subcategory}
-          </li>
-        ))}
-      </ul>
-      {selectedCategory && (
-        <div className="product-list">
-          <h4 className="products-title">Products</h4>
-          <ul className="products">
-            {products.map((product) => (
-              <li key={product.id} className="product-item">
-                {product.name} - ${product.price}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-    </div>
-  );
-};
-
-export default DressCategorySection;
+export default CategorySelection;

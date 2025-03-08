@@ -1,23 +1,22 @@
-
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { AiOutlineDelete } from 'react-icons/ai'; // Importing the delete icon
+import { AiOutlineDelete } from 'react-icons/ai';
 import './Cattegories.css';
 
 const Categories = () => {
     const [categories, setCategories] = useState([]);
-    const [selectedParentCategory, setSelectedParentCategory] = useState('');
+    const [selectedCategory, setSelectedCategory] = useState('');
     const [categoryName, setCategoryName] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(true);
     const [hoveredCategoryId, setHoveredCategoryId] = useState(null);
 
-    // Fetch all categories
+    // Fetch all categories from the API
     const fetchCategories = async () => {
         setLoading(true);
         try {
-            const response = await axios.get('http://localhost:5000/categories');
+            const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/categories`);
             setCategories(response.data);
         } catch (error) {
             setError('Error fetching categories.');
@@ -37,14 +36,15 @@ const Categories = () => {
             setError('Category name is required.');
             return;
         }
+
         try {
             const payload = {
                 name: categoryName,
-                parentCategoryNames: selectedParentCategory ? [selectedParentCategory] : []
+                parentCategoryNames: selectedCategory ? [selectedCategory] : []
             };
-            await axios.post('http://localhost:5000/categories', payload);
+            await axios.post(`${process.env.REACT_APP_BASE_URL}/categories`, payload);
             setCategoryName('');
-            setSelectedParentCategory('');
+            setSelectedCategory('');
             fetchCategories();
             setError('');
         } catch (error) {
@@ -53,19 +53,19 @@ const Categories = () => {
         }
     };
 
-    // Handle deleting a category by name
     const handleDeleteCategoryByName = async (name) => {
-        try {
-            await axios.delete(`http://localhost:5000/categories/name/${name}`);
-            fetchCategories();
-            setError('');
-        } catch (error) {
-            setError('Error deleting category.');
-            console.error('Error deleting category:', error);
+        if (window.confirm(`Are you sure you want to delete "${name}"?`)) {
+            try {
+                await axios.delete(`${process.env.REACT_APP_BASE_URL}/categories/name/${name}`);
+                fetchCategories();
+                setError('');
+            } catch (error) {
+                setError('Error deleting category.');
+                console.error('Error deleting category:', error);
+            }
         }
     };
 
-    // Filter categories based on the search term
     const filteredCategories = searchTerm
         ? categories.filter(category =>
             category.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -74,18 +74,28 @@ const Categories = () => {
         : categories;
 
     return (
-        <div className="categories-container">
+        <div 
+            className="categories-container" 
+            style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: '20px',
+                maxWidth: '800px',
+                margin: '0 auto',
+            }}
+        >
             <h1>Categories Management</h1>
             {error && <p className="error">{error}</p>}
 
-            {/* Select Parent Category */}
             <div className="input-group">
                 <select
-                    value={selectedParentCategory}
-                    onChange={(e) => setSelectedParentCategory(e.target.value)}
+                    value={selectedCategory}
+                    onChange={(e) => setSelectedCategory(e.target.value)}
                 >
-                    <option value="">Select Parent Category (Optional)</option>
-                    {categories.filter(cat => cat.parentCategories.length === 0).map(category => (
+                    <option value="">Select Category</option>
+                    {categories.map(category => (
                         <option key={category.id} value={category.name}>
                             {category.name}
                         </option>
@@ -93,7 +103,6 @@ const Categories = () => {
                 </select>
             </div>
 
-            {/* Add Category Name Form */}
             <div className="input-group">
                 <input
                     type="text"
@@ -104,7 +113,6 @@ const Categories = () => {
                 <button onClick={handleAddCategory}>Add Category</button>
             </div>
 
-            {/* Search Functionality */}
             <div className="search-group">
                 <input
                     type="text"
@@ -129,7 +137,6 @@ const Categories = () => {
                             >
                                 <div>
                                     {category.name}
-                                    {/* Show delete icon only if searching for this category */}
                                     {searchTerm && (
                                         <button onClick={() => handleDeleteCategoryByName(category.name)} className="delete-button">
                                             <AiOutlineDelete />
@@ -142,7 +149,6 @@ const Categories = () => {
                                             <div key={subCategory.id} className="subcategory-item">
                                                 <div>
                                                     {subCategory.name}
-                                                    {/* Show delete icon only if searching for this subcategory */}
                                                     {searchTerm && (
                                                         <button onClick={() => handleDeleteCategoryByName(subCategory.name)} className="delete-button">
                                                             <AiOutlineDelete />

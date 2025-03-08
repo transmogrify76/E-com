@@ -1,9 +1,7 @@
-/* CartItems.css */
-
 .cartitems {
     display: flex;
     flex-direction: column;
-    margin: 20px;
+    margin: 30px;
     border: 1px solid #e0e0e0;
     border-radius: 8px;
     background-color: #ffffff;
@@ -14,7 +12,7 @@
 
 .cartitems-format-main {
     overflow-x: auto;
-    /* grid-template-columns: 0.5fr 2fr 1fr 1fr 1fr 1fr 1fr; */
+   
 }
 
 table {
@@ -32,7 +30,8 @@ table th, table td {
 table th {
     font-weight: bold;
     text-transform: uppercase;
-    color: #555555;
+    color: white;
+    background-color: brown;
 }
 
 tbody tr:nth-child(even) {
@@ -139,3 +138,55 @@ hr {
     border: 0;
     border-top: 1px solid #e0e0e0;
 }
+
+.buttons-container {
+    display: flex;
+  
+    gap: 20px; 
+    margin-top: 20px;
+    margin-left: 700px;
+  }
+  
+  
+  .proceed-to-checkout-button,
+  .clear-cart-button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 20%; 
+    height: 50px; 
+    font-size: 16px; 
+  }
+  
+  
+  .proceed-to-checkout-button {
+    background-color: green;
+    color: white;
+  }
+  
+  .proceed-to-checkout-button:hover {
+    background-color: darkgreen;
+  }
+  
+ 
+  .clear-cart-button {
+    background-color: red;
+    color: white;
+  }
+  
+  .clear-cart-button:hover {
+    background-color: darkred;
+  }
+  
+  
+  .proceed-to-checkout-button:hover {
+    background-color: darkgreen;
+  }
+  
+  .clear-cart-button:hover {
+    background-color: darkred;
+  } 
+
+
+ 

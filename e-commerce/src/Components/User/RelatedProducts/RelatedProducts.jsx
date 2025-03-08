@@ -1,30 +1,43 @@
+
 import React from 'react';
-import './RelatedProducts.css';
-import data_product from '../../Assests/Ecommerce_Frontend_Assets/Assets/data';
-import Item from '../Item/Item';
 
-const RelatedProducts = ({ category }) => {
-  // Filter products based on the selected category
-  const filteredProducts = data_product.filter(product => product.category === category);
-
+const RelatedProducts = ({ products }) => {
   return (
-    <div className='relatedproducts'>
-      <h1>Related Products</h1>
-      <hr/>
-      <div className="relatedproducts-item">
-        {filteredProducts.map((item, i) => (
-          <Item
-            key={i}
-            id={item.id}
-            name={item.name}
-            image={item.image}
-            new_price={item.new_price}
-            old_price={item.old_price}
-          />
-        ))}
+    <div>
+      <h3>Related Products</h3>
+      <div className="related-products">
+        {products.length > 0 ? (
+          products.map((product) => (
+            <div key={product.id} className="related-product">
+              {/* Assuming the product has an image field or base64-encoded image */}
+              <div className="product-card">
+                {product.image ? (
+                  <img
+                    src={`data:image/jpeg;base64,${product.image}`}
+                    alt={product.name}
+                    className="related-product-image"
+                  />
+                ) : (
+                  <img
+                    src={product.imageUrl} // Use the URL if it's not base64
+                    alt={product.name}
+                    className="related-product-image"
+                  />
+                )}
+                <h4>{product.name}</h4>
+                <p>{product.description}</p>
+                <p>Price: ${product.price}</p>
+              </div>
+            </div>
+          ))
+        ) : (
+          <p>No related products found in this category.</p>
+        )}
       </div>
     </div>
   );
 };
 
 export default RelatedProducts;
+
+

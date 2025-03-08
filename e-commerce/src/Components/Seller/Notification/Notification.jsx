@@ -12,7 +12,7 @@ const SellerNotifications = () => {
                 return;
             }
             try {
-                const response = await fetch(`http://localhost:5000/notifications/seller/${sellerId}`);
+                const response = await fetch(`${process.env.REACT_APP_BASE_URL}/notifications/seller/${sellerId}`);
                 if (!response.ok) throw new Error('Failed to fetch notifications');
                 const data = await response.json();
                 setNotifications(data);

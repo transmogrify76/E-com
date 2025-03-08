@@ -1,219 +1,187 @@
-.product-management {
-    font-family: Arial, sans-serif;
-    padding: 20px;
-    background-color: #f4f4f4; /* Light grey background for the whole component */
-    border-radius: 8px; 
-    margin-left: 100px;/* Rounded corners for the component */
-  }
-  
-  h2 {
-    color: #333; /* Dark grey color for the main heading */
-    margin-bottom: 20px;
-  }
-  /* ProductManagement.css */
-.product-image {
-  max-width: 100px; /* Adjust size as needed */
-  max-height: 100px;
-  object-fit: cover; /* Maintain aspect ratio and cover the container */
-  display: block; /* Ensure images are block-level for proper layout */
-  margin: 0 auto; /* Center images if desired */
+.product-upload-form {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 30px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
-  
-  .error-message {
-    color: red;
-    margin-bottom: 20px;
-  }
-  
-  .product-list {
-    background-color: #fff; /* White background for the product list section */
-    padding: 20px;
-    border-radius: 8px; /* Rounded corners for the list section */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow for the list section */
-  }
-  
-  .product-list h3 {
-    color: #333;
-    margin-bottom: 10px;
-  }
-  
-  .product-list table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  .product-list th, .product-list td {
-    border: 1px solid #ddd;
-    padding: 12px;
-    text-align: left;
-  }
-  
-  .product-list th {
-    background-color: #007bff; /* Blue background for table headers */
-    color: white;
-  }
-  
-  .product-list td {
-    background-color: #fff; /* White background for table cells */
-  }
-  
-  .product-list tr:nth-child(even) td {
-    background-color: #f9f9f9; /* Light grey for alternate rows */
-  }
-  
-  .product-list tr:hover td {
-    background-color: #f1f1f1; /* Slightly darker grey for row hover effect */
-  }
-  
-  .action-button {
-    padding: 8px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    margin-right: 5px;
-    transition: background-color 0.3s; /* Smooth transition for background color */
-  }
-  
-  .add-variant {
-    background-color: #28a745; /* Green background for Add Variant button */
-    color: white;
-  }
-  
-  .add-variant:hover {
-    background-color: #218838; /* Darker green on hover */
-  }
-  
-  .edit {
-    background-color: #ffc107; /* Yellow background for Edit button */
-    color: black;
-  }
-  
-  .edit:hover {
-    background-color: #e0a800; /* Darker yellow on hover */
-  }
-  
-  .delete {
-    background-color: #dc3545; /* Red background for Delete button */
-    color: white;
-  }
-  
-  .delete:hover {
-    background-color: #c82333; /* Darker red on hover */
-  }
-  
- .dialogg {
-  position: fixed;
-  top: 0;
-  left: 0;
+.product-upload-form h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
+}
+
+.input-field {
   width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  padding: 12px 15px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+.input-field:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.error {
+  color: red;
+  margin-bottom: 15px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.toggle-button,
+.submit-button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 15px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.toggle-button:hover,
+.submit-button:hover {
+  background-color: #0056b3;
+}
+
+/* Categories Container */
+.categories-container {
+  margin: 20px 0;
+  padding: 15px;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.category-item {
+  position: relative;
+  padding: 10px;
+  cursor: pointer;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 5px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  z-index: 1000; /* Ensure the dialog is above other content */
+  justify-content: space-between;
 }
 
-.dialogg-contentt {
-  background: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  width: 80%;
-  max-width: 600px; /* Set max-width to prevent it from being too wide */
-  max-height: 80vh; /* Limit height to viewport height */
-  overflow-y: auto; /* Enable vertical scrolling */
+.category-item:hover {
+  background-color: #dcdcdc;
 }
 
-.variant-formm {
+/* Child Category Menu for Cascading */
+.child-category-menu {
+  position: absolute;
+  top: 0;
+  left: 100%;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  min-width: 150px;
+  display: none;
+  z-index: 1;
+}
+
+.category-item:hover .child-category-menu {
+  display: block;
+}
+
+/* Select Button in Category Item */
+.select-button {
+  margin-left: 10px;
+  background-color: #87cefa;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  padding: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.select-button:hover {
+  background-color: #5fa3d0;
+}
+
+/* Checkbox Container for Additional Inputs */
+.checkbox-container {
+  margin: 5px 0;
+  display: flex;
+  align-items: center;
+}
+
+.checkbox-label {
+  margin-left: 8px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* Subcategory Indentation */
+.subcategory-container {
+  padding-left: 20px;
+}
+
+/* Product Detail Fields */
+.product-detail {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.product-detail input {
+  margin-right: 10px;
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.product-detail button {
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.product-detail button:hover {
+  background-color: darkred;
+}
+
+/* Headings */
+h3 {
   margin-top: 20px;
+  margin-bottom: 10px;
+  font-size: 20px;
+  color: #333;
 }
 
-.action-button {
-  margin: 5px;
+h3 + p {
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: #666;
 }
 
-  
-  .dialogg-contentt h3 {
-    color: #333;
-    margin-top: 0;
-  }
-  
-  .dialogg-contentt label {
-    display: block;
-    margin-bottom: 10px;
-  }
-  
-  .dialogg-contentt input, .dialogg-contentt textarea {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    margin-bottom: 10px;
-  }
-  
-  .dialogg-contentt button {
-    padding: 8px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    margin-right: 5px;
-    transition: background-color 0.3s;
-  }
-  
-  .save {
-    background-color: #007bff; /* Blue background for Save Changes button */
-    color: white;
-  }
-  
-  .save:hover {
-    background-color: #0056b3; /* Darker blue on hover */
-  }
-  
-  .cancel {
-    background-color: #6c757d; /* Grey background for Cancel button */
-    color: white;
-  }
-  
-  .cancel:hover {
-    background-color: #5a6268; /* Darker grey on hover */
-  }
-  
-  .variant-form {
-    margin-top: 20px;
-  }
-  
-  .variant-form label {
-    display: block;
-    margin-bottom: 10px;
-  }
-  
-  .variant-form input {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-  }
-  
-  .variant-form button {
-    padding: 8px 15px;
-    border: none;
-    border-radius: 4px;
-    background-color: #007bff; /* Blue background for Add Variant button */
-    color: white;
-    cursor: pointer;
-    font-size: 14px;
-    margin-top: 10px;
-    transition: background-color 0.3s;
-  }
-  
-  .variant-form button:hover {
-    background-color: #0056b3; /* Darker blue on hover */
-  }
-  
-  .no-data {
-    text-align: center;
-    font-style: italic;
-  }
-  
+/* Image Guidelines Text */
+.image-guidelines {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #666;
+  line-height: 1.5;
+}

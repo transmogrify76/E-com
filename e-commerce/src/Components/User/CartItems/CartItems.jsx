@@ -1,283 +1,642 @@
-import React, { useContext } from 'react';
+// import React, { useState, useEffect } from 'react';
+// import './CartItems.css';
+// import removeIcon from '../../Assests/Ecommerce_Frontend_Assets/Assets/cart_cross_icon.png';
+// import { useNavigate } from 'react-router-dom';
+
+// const CartItems = () => {
+//   const [cartItems, setCartItems] = useState([]);
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState(null);
+//   const [userId, setUserId] = useState(null);
+//   const [promoCode, setPromoCode] = useState('');
+//   const [discount, setDiscount] = useState(0); // Store discount amount
+//   const [productImages, setProductImages] = useState({}); // Store images for each product
+
+//   const navigate = useNavigate();
+
+//   // Fetch user id and cart items when component mounts
+//   useEffect(() => {
+//     const storedUserId = localStorage.getItem('userId');
+//     if (storedUserId) {
+//       setUserId(storedUserId);
+//       fetchCartItems(storedUserId);
+//     } else {
+//       setError('User is not logged in.');
+//       setLoading(false);
+//     }
+//   }, []);
+
+//   // Fetch cart items from the backend
+//   const fetchCartItems = async (userId) => {
+//     setLoading(true);
+//     setError(null);
+
+//     try {
+//       const response = await fetch(`${process.env.REACT_APP_BASE_URL}/cart/getcartitems?userId=${userId}`, {
+//         method: 'GET',
+//         headers: { 'Content-Type': 'application/json' },
+//       });
+
+//       if (!response.ok) {
+//         throw new Error(`Failed to fetch cart items: ${response.statusText}`);
+//       }
+
+//       const data = await response.json();
+//       setCartItems(data);
+
+//       // Fetch images for each product in the cart
+//       data.forEach(item => fetchProductImage(item.product.id));
+
+//     } catch (error) {
+//       setError('Your Cart is Empty.');
+//       console.error('Error fetching cart items:', error);
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   // Fetch the product image for a given productId
+//   const fetchProductImage = async (productId) => {
+//     try {
+//       const response = await fetch(`http://localhost:5000/products/images/product/${productId}`);
+//       if (!response.ok) {
+//         throw new Error('Failed to fetch product image');
+//       }
+//       const base64Image = await response.text(); // Assuming the API returns a base64-encoded image
+//       setProductImages(prevState => ({
+//         ...prevState,
+//         [productId]: base64Image, // Save the image in the state by productId
+//       }));
+//     } catch (error) {
+//       console.error('Error fetching product image:', error);
+//     }
+//   };
+
+//   // Handle removing a product from the cart
+//   const handleRemoveFromCart = async (productId) => {
+//     setLoading(true);
+//     try {
+//       const response = await fetch(`${process.env.REACT_APP_BASE_URL}/cart/removefromcart`, {
+//         method: 'DELETE',
+//         headers: { 'Content-Type': 'application/json' },
+//         body: JSON.stringify({ userId, productId }),
+//       });
+
+//       if (!response.ok) {
+//         throw new Error('Failed to remove item');
+//       }
+
+//       fetchCartItems(userId); // Refetch cart items after removal
+//     } catch (error) {
+//       setError('Failed to remove item from cart. Please try again later.');
+//       console.error('Error removing item from cart:', error);
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   // Handle updating the cart quantity
+//   const handleUpdateCartQuantity = async (productId, quantity) => {
+//     if (quantity < 1) return; // Prevent setting quantity to less than 1
+
+//     setLoading(true);
+//     try {
+//       const response = await fetch(`${process.env.REACT_APP_BASE_URL}/cart/updatecart`, {
+//         method: 'PATCH',
+//         headers: { 'Content-Type': 'application/json' },
+//         body: JSON.stringify({ userId, productId, quantity }),
+//       });
+
+//       if (!response.ok) {
+//         throw new Error('Failed to update item quantity');
+//       }
+
+//       fetchCartItems(userId); // Refetch cart items after update
+//     } catch (error) {
+//       setError('Failed to update item quantity. Please try again later.');
+//       console.error('Error updating item quantity:', error);
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   // Handle applying the promo code
+//   const handleApplyPromoCode = async () => {
+//     if (!promoCode) {
+//       setError('Please enter a promo code');
+//       return;
+//     }
+
+//     try {
+//       const response = await fetch(`${process.env.REACT_APP_BASE_URL}/promo/apply`, {
+//         method: 'POST',
+//         headers: { 'Content-Type': 'application/json' },
+//         body: JSON.stringify({ promoCode, userId }),
+//       });
+
+//       if (!response.ok) {
+//         throw new Error('Invalid promo code');
+//       }
+
+//       const data = await response.json();
+//       setDiscount(data.discount); // Assuming API returns a discount percentage or amount
+//       setError(null); // Clear any previous error
+//     } catch (error) {
+//       setError('Failed to apply promo code. Please try again.');
+//       console.error('Error applying promo code:', error);
+//     }
+//   };
+
+//   // Calculate the total amount for the cart with the promo code applied
+//   const calculateTotal = () => {
+//     let total = 0;
+//     cartItems.forEach((item) => {
+//       total += item.product.price * item.quantity;
+//     });
+
+//     // Apply discount
+//     if (discount > 0) {
+//       total -= total * (discount / 100); // Assuming discount is percentage
+//     }
+//     return total;
+//   };
+
+//   // Handle clearing the entire cart
+//   const handleClearCart = async () => {
+//     setLoading(true);
+//     try {
+//       const response = await fetch(`${process.env.REACT_APP_BASE_URL}/cart/clearcart`, {
+//         method: 'DELETE',
+//         headers: { 'Content-Type': 'application/json' },
+//         body: JSON.stringify({ userId }),
+//       });
+
+//       if (!response.ok) {
+//         throw new Error('Failed to clear cart');
+//       }
+
+//       setCartItems([]); // Reset cart after clearing
+//     } catch (error) {
+//       setError('Failed to clear the cart. Please try again later.');
+//       console.error('Error clearing the cart:', error);
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   // Loading and error states
+//   if (loading) return <p>Loading...</p>;
+//   if (error) return <p style={{ color: 'red' }}>{error}</p>;
+
+//   // Navigate to checkout with all cart items
+//   const handleProceedToCheckout = () => {
+//     navigate('/checkout', { state: { cartItems, discount } });
+//   };
+
+//   // Navigate to checkout with a single product
+//   const handleProductClick = (productId) => {
+//     const product = cartItems.find(item => item.product.id === productId);
+//     navigate('/checkout', { state: { cartItems: [product], discount } });
+//   };
+
+//   return (
+//     <div className="cartitems-format-main">
+//       <table>
+//         <thead>
+//           <tr>
+//             <th>Products</th>
+//             <th>Title</th>
+//             <th>Size</th>
+//             <th>Color</th>
+//             <th>Price</th>
+//             <th>Quantity</th>
+//             <th>Total</th>
+//             <th>Remove</th>
+//           </tr>
+//         </thead>
+//         <tbody>
+//           {cartItems.length === 0 ? (
+//             <tr>
+//               <td colSpan="7" style={{
+//                 textAlign: 'center',
+//                 fontSize: '18px',
+//                 fontWeight: 'bold',
+//                 color: 'white', // White text color
+//                 backgroundColor: '#f44336', // Red background color for "empty" message
+//                 padding: '20px',
+//                 borderRadius: '5px'
+//               }}>
+//                 Your cart is empty.
+//               </td>
+//             </tr>
+//           ) : (
+//             cartItems.map((item) => (
+//               <tr key={item.product.id} onClick={() => handleProductClick(item.product.id)}>
+//                 <td>
+//                   <img
+//                     src={productImages[item.product.id] ? `data:image/jpeg;base64,${productImages[item.product.id]}` : '/fallback-image.jpg'}
+//                     alt={item.product.name}
+//                     className="carticon-product-icon"
+//                   />
+//                 </td>
+//                 <td>{item.product.name}</td>
+//                 <td>{item.product.productDetails.find(detail => detail.key === 'size')?.value}</td>
+//                 <td>{item.product.productDetails.find(detail => detail.key === 'color')?.value}</td>
+//                 <td>₹{item.product.price}</td>
+//                 <td>
+//                   <input
+//                     type="number"
+//                     min="1"
+//                     value={item.quantity}
+//                     onChange={(e) => handleUpdateCartQuantity(item.product.id, parseInt(e.target.value))}
+//                     style={{ width: '50px' }}
+//                   />
+//                 </td>
+//                 <td>₹{item.product.price * item.quantity}</td>
+//                 <td>
+//                   <img
+//                     className="cartitems-remove-icon"
+//                     src={removeIcon}
+//                     alt="Remove"
+//                     onClick={(e) => {
+//                       e.stopPropagation();  // Prevent the row click from triggering while removing
+//                       handleRemoveFromCart(item.product.id);
+//                     }}
+//                   />
+//                 </td>
+//               </tr>
+//             ))
+//           )}
+//         </tbody>
+//       </table>
+
+//       <div className="promo-code-section">
+//         <input
+//           type="text"
+//           value={promoCode}
+//           onChange={(e) => setPromoCode(e.target.value)}
+//           placeholder="Enter Promo Code"
+//         />
+//         <button onClick={handleApplyPromoCode}>Apply Promo Code</button>
+//       </div>
+
+//       <div className="cartitems-total-container">
+//         <h3><strong>CART TOTALS</strong></h3>
+//         <div className="cartitems-total-item">
+//           <p>SubTotal</p>
+//           <p>₹{calculateTotal()}</p>
+//         </div>
+//         <hr />
+//         <div className="cartitems-total-item">
+//           <p>Shipping Fee</p>
+//           <p>Free</p>
+//         </div>
+//         <hr />
+//         <div className="cartitems-total-item">
+//           <h3>Total</h3>
+//           <h3>₹{calculateTotal()}</h3>
+//         </div>
+//         <div className="cartitems-total-item">
+//           <p>Total Items</p>
+//           <p>{cartItems.length}</p>
+//         </div>
+
+//         <button className="proceed-to-checkout-button" onClick={handleProceedToCheckout}>
+//           PROCEED TO CHECKOUT
+//         </button>
+
+//         <div className="clear-cart-container">
+//           <button className="clear-cart-button" onClick={handleClearCart}>
+//             Clear Cart
+//           </button>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default CartItems;
+
+
+import React, { useState, useEffect } from 'react';
 import './CartItems.css';
-import { ShopContext } from '../../User/Context/ShopContext';
-import removeIcon from '../../Assests/Ecommerce_Frontend_Assets/Assets/cart_cross_icon.png'
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import removeIcon from '../../Assests/Ecommerce_Frontend_Assets/Assets/cart_cross_icon.png';
 
 const CartItems = () => {
-    const { getTotalCartAmount, getTotalCartItems, all_product, cartItems, removeFromCart } = useContext(ShopContext);
+  const [cartItems, setCartItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [userId, setUserId] = useState(null);
+  const [promoCode, setPromoCode] = useState('');
+  const [discount, setDiscount] = useState(0);
+  const [productImages, setProductImages] = useState({});
+  const [totalCartPrice, setTotalCartPrice] = useState(0);
+  const navigate = useNavigate();
 
-    const handleRemoveFromCart = (itemId, size) => {
-        removeFromCart(itemId, size);
-    };
+  // Fetch user ID and cart items on component mount
+  useEffect(() => {
+    const storedUserId = localStorage.getItem('userId');
+    if (storedUserId) {
+      setUserId(storedUserId);
+      fetchCartItems(storedUserId);
+      fetchTotalPrice(storedUserId);
+    } else {
+      setError('User is not logged in.');
+      setLoading(false);
+    }
+  }, []);
 
-    // Calculate total amount in cart
-    const calculateTotal = () => {
-        let total = 0;
+  // Fetch cart items
+  const fetchCartItems = async (userId) => {
+    setLoading(true);
+    setError(null);
 
-        // Calculate total amount for cart items
-        Object.keys(cartItems).forEach((itemId) => {
-            const { quantity } = cartItems[itemId];
-            if (quantity > 0) {
-                const product = all_product.find((item) => item.id === parseInt(itemId.split('-')[0]));
-                if (product) {
-                    total += product.new_price * quantity;
-                }
-            }
-        });
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/cart/getcartitems?userId=${userId}`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      });
 
-        return total;
-    };
+      if (!response.ok) {
+        throw new Error(`Failed to fetch cart items: ${response.statusText}`);
+      }
 
-    return (
-        <div className="cartitems-format-main">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Products</th>
-                        <th>Title</th>
-                        <th>Size</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
-                        <th>Total</th>
-                        <th>Remove</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {Object.keys(cartItems).map((itemId) => {
-                        const { quantity, size } = cartItems[itemId];
-                        if (quantity > 0) {
-                            const product = all_product.find((p) => p.id === parseInt(itemId.split('-')[0]));
-                            return (
-                                <tr key={itemId}>
-                                    <td>
-                                        <img src={product.image} alt="" className='carticon-product-icon' />
-                                    </td>
-                                    <td>{product.name}</td>
-                                    <td>{size}</td>
-                                    <td>₹{product.new_price}</td>
-                                    <td>{quantity}</td>
-                                    <td>₹{product.new_price * quantity}</td>
-                                    <td>
-                                        <img
-                                            className='cartitems-remove-icon'
-                                            src={removeIcon}
-                                            alt="Remove"
-                                            onClick={() => handleRemoveFromCart(itemId.split('-')[0], size)}
-                                        />
-                                    </td>
-                                </tr>
-                            );
-                        }
-                        return null;
-                    })}
-                </tbody>
-            </table>
-            <div className="cartitems-total-container">
-                <div className="cartitems-total">
-                    <h3><strong>CART TOTALS</strong></h3>
-                    <div>
-                        <div className="cartitems-total-item">
-                            <p>SubTotal</p>
-                            <p>₹{getTotalCartAmount()}</p>
-                        </div>
-                        <hr />
-                        <div className="cartitems-total-item">
-                            <p>Shipping Fee</p>
-                            <p>Free</p>
-                        </div>
-                        <hr />
-                        <div className="cartitems-total-item">
-                            <h3>Total</h3>
-                            <h3>₹{calculateTotal()}</h3>
-                        </div>
-                        <div className="cartitems-total-item">
-                            <p>Total Items</p>
-                            <p>{getTotalCartItems()}</p>
-                        </div>
-                    </div>
-                    <Link to="/checkout">
-                        <button className="proceed-to-checkout-button">
-                            PROCEED TO CHECKOUT
-                        </button>
-                    </Link>
-                </div>
-                <div className="cartitems-promocode">
-                    <p>If you have a promo code, enter it here:</p>
-                    <div className="cartitems-promobox">
-                        <input type="text" placeholder='promo code' />
-                        <button className="submit-promocode-button">Submit</button>
-                    </div>
-                </div>
-            </div>
+      const data = await response.json();
+      setCartItems(data);
+
+      data.forEach(item => fetchProductImage(item.product.id));
+    } catch (error) {
+      setError('Your Cart is Empty or Failed to Fetch Cart Items');
+      console.error('Error fetching cart items:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Fetch product image by productId
+  const fetchProductImage = async (productId) => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/products/images/product/${productId}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch product image');
+      }
+      const base64Image = await response.text();
+      setProductImages(prevState => ({
+        ...prevState,
+        [productId]: base64Image,
+      }));
+    } catch (error) {
+      console.error('Error fetching product image:', error);
+    }
+  };
+
+  // Fetch total price from the backend
+  const fetchTotalPrice = async (userId) => {
+    try {
+      const response = await fetch(`http://localhost:5000/cart/totalprice?userId=${userId}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch total price');
+      }
+
+      const data = await response.json();
+      setTotalCartPrice(data.totalCartPrice);
+    } catch (error) {
+      setError('Failed to fetch total price');
+      console.error('Error fetching total price:', error);
+    }
+  };
+
+  // Handle remove item from cart
+  const handleRemoveFromCart = async (productId) => {
+    setLoading(true);
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/cart/removefromcart`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId, productId }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to remove item');
+      }
+
+      fetchCartItems(userId);
+      fetchTotalPrice(userId);
+    } catch (error) {
+      setError('Failed to remove item from cart. Please try again later.');
+      console.error('Error removing item from cart:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Handle updating cart item quantity
+  const handleUpdateCartQuantity = async (productId, quantity) => {
+    if (quantity < 1) return;
+
+    setLoading(true);
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/cart/updatecart`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId, productId, quantity }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update item quantity');
+      }
+
+      fetchCartItems(userId);
+      fetchTotalPrice(userId);
+    } catch (error) {
+      setError('Failed to update item quantity. Please try again later.');
+      console.error('Error updating item quantity:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Handle applying promo code
+  const handleApplyPromoCode = async () => {
+    if (!promoCode) {
+      setError('Please enter a promo code');
+      return;
+    }
+
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/promo/apply`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ promoCode, userId }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Invalid promo code');
+      }
+
+      const data = await response.json();
+      setDiscount(data.discount);
+      setError(null);
+    } catch (error) {
+      setError('Failed to apply promo code. Please try again.');
+      console.error('Error applying promo code:', error);
+    }
+  };
+
+  // Define handleClearCart to clear all cart items
+  const handleClearCart = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/cart/clearcart`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to clear cart');
+      }
+
+      setCartItems([]);
+      fetchTotalPrice(userId);
+    } catch (error) {
+      setError('Failed to clear the cart. Please try again later.');
+      console.error('Error clearing the cart:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p style={{ color: 'red' }}>{error}</p>;
+
+  const handleProceedToCheckout = () => {
+    navigate('/checkout', { state: { cartItems, discount } });
+  };
+
+  const handleProductClick = (productId) => {
+    const product = cartItems.find(item => item.product.id === productId);
+    navigate('/checkout', { state: { cartItems: [product], discount } });
+  };
+
+  return (
+    <div className="cartitems-format-main">
+      <table>
+        <thead>
+          <tr>
+            <th>Products</th>
+            <th>Title</th>
+            <th>Size</th>
+            <th>Color</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            {/* <th>Total</th> */}
+            <th>Remove</th>
+          </tr>
+        </thead>
+        <tbody>
+          {cartItems.length === 0 ? (
+            <tr>
+              <td colSpan="8" style={{
+                textAlign: 'center',
+                fontSize: '18px',
+                fontWeight: 'bold',
+                color: 'white',
+                backgroundColor: '#f44336',
+                padding: '20px',
+                borderRadius: '5px'
+              }}>
+                Your cart is empty.
+              </td>
+            </tr>
+          ) : (
+            cartItems.map((item) => (
+              <tr key={item.product.id} onClick={() => handleProductClick(item.product.id)}>
+                <td>
+                  <img
+                    src={productImages[item.product.id] ? `data:image/jpeg;base64,${productImages[item.product.id]}` : '/fallback-image.jpg'}
+                    alt={item.product.name}
+                    className="carticon-product-icon"
+                  />
+                </td>
+                <td>{item.product.name}</td>
+                <td>{item.product.productDetails.find(detail => detail.key === 'size')?.value}</td>
+                <td>{item.product.productDetails.find(detail => detail.key === 'color')?.value}</td>
+                <td>₹{item.product.price}</td>
+                <td>
+                  <input
+                    type="number"
+                    min="1"
+                    value={item.quantity}
+                    onChange={(e) => handleUpdateCartQuantity(item.product.id, parseInt(e.target.value))}
+                    style={{ width: '50px' }}
+                  />
+                </td>
+                {/* <td>₹{item.product.price * item.quantity}</td> */}
+                <td>
+                   <img
+                     className="cartitems-remove-icon"
+                     src={removeIcon}
+                     alt="Remove"
+                     onClick={(e) => {
+                       e.stopPropagation();  // Prevent the row click from triggering while removing
+                       handleRemoveFromCart(item.product.id);
+                    }}
+                   />
+               </td>
+              </tr>
+            ))
+          )}
+        </tbody>
+      </table>
+
+      <div className="promo-code-section">
+        <input
+          type="text"
+          value={promoCode}
+          onChange={(e) => setPromoCode(e.target.value)}
+          placeholder="Enter Promo Code"
+        />
+        <button onClick={handleApplyPromoCode}>Apply Promo Code</button>
+      </div>
+
+      <div className="cartitems-total-container">
+        <h3><strong>CART TOTALS</strong></h3>
+        <div className="cartitems-total-item">
+          <p>SubTotal</p>
+          <p>₹{totalCartPrice}</p>
         </div>
-    );
+        <hr />
+        <div className="cartitems-total-item">
+          <p>Shipping Fee</p>
+          <p>Free</p>
+        </div>
+        <hr />
+        <div className="cartitems-total-item">
+          <h3>Total</h3>
+          <h3>₹{totalCartPrice}</h3>
+        </div>
+        <div className="cartitems-total-item">
+          <p>Total Items</p>
+          <p>{cartItems.length}</p>
+        </div>
+
+        <button className="proceed-to-checkout-button" onClick={handleProceedToCheckout}>
+          PROCEED TO CHECKOUT
+        </button>
+
+        <div className="clear-cart-container">
+          <button className="clear-cart-button" onClick={handleClearCart}>
+            Clear Cart
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default CartItems;
 
-// import React, { useState, useEffect, useContext } from 'react';
-// import './CartItems.css';
-// import { ShopContext } from '../../User/Context/ShopContext';
-// import removeIcon from '../../Assests/Ecommerce_Frontend_Assets/Assets/cart_cross_icon.png';
-// import { Link } from 'react-router-dom';
 
-// const CartItems = () => {
-//     const { all_product } = useContext(ShopContext);  // Removed removeFromCart
-//     const [cartItems, setCartItems] = useState({});
-//     const [loading, setLoading] = useState(true);
-//     const [error, setError] = useState(null);
-
-//     const userId = 1; // Replace with actual userId from authentication/context
-
-//     useEffect(() => {
-//         const fetchCartData = async () => {
-//             setLoading(true);
-//             try {
-//                 const response = await fetch(`http://localhost:5000/cart/${userId}`);
-//                 if (!response.ok) {
-//                     throw new Error(`HTTP error! Status: ${response.status}`);
-//                 }
-//                 const data = await response.json();
-//                 const formattedCartItems = data.reduce((acc, item) => {
-//                     acc[`${item.productId}-${item.size}`] = item;
-//                     return acc;
-//                 }, {});
-//                 setCartItems(formattedCartItems);
-//             } catch (error) {
-//                 setError(error.message);
-//             } finally {
-//                 setLoading(false);
-//             }
-//         };
-
-//         fetchCartData();
-//     }, [userId]);
-
-//     const handleRemoveFromCart = async (productId, size) => {
-//         try {
-//             const response = await fetch(`http://localhost:5000/cart/${userId}/${productId}`, {
-//                 method: 'DELETE',
-//             });
-//             if (!response.ok) {
-//                 throw new Error(`HTTP error! Status: ${response.status}`);
-//             }
-//             // Update cart items after successful removal
-//             setCartItems(prevCartItems => {
-//                 const newCartItems = { ...prevCartItems };
-//                 delete newCartItems[`${productId}-${size}`];
-//                 return newCartItems;
-//             });
-//         } catch (error) {
-//             console.error('Error removing item from cart:', error);
-//         }
-//     };
-
-//     const calculateTotal = () => {
-//         return Object.keys(cartItems).reduce((total, itemKey) => {
-//             const { quantity, productId } = cartItems[itemKey];
-//             const product = all_product.find(p => p.id === productId);
-//             if (product) {
-//                 total += product.new_price * quantity;
-//             }
-//             return total;
-//         }, 0);
-//     };
-
-//     if (loading) return <p>Loading cart data...</p>;
-//     if (error) return <p>Error fetching cart data: {error}</p>;
-
-//     const cartKeys = Object.keys(cartItems);
-
-//     return (
-//         <div className="cartitems-format-main">
-//             {cartKeys.length === 0 ? (
-//                 <p>Your cart is empty.</p>
-//             ) : (
-//                 <>
-//                     <table>
-//                         <thead>
-//                             <tr>
-//                                 <th>Products</th>
-//                                 <th>Title</th>
-//                                 <th>Size</th>
-//                                 <th>Price</th>
-//                                 <th>Quantity</th>
-//                                 <th>Total</th>
-//                                 <th>Remove</th>
-//                             </tr>
-//                         </thead>
-//                         <tbody>
-//                             {cartKeys.map((itemKey) => {
-//                                 const { quantity, productId, size } = cartItems[itemKey];
-//                                 if (quantity > 0) {
-//                                     const product = all_product.find(p => p.id === productId);
-//                                     return (
-//                                         <tr key={itemKey}>
-//                                             <td>
-//                                                 <img src={product.image} alt={product.name} className='carticon-product-icon' />
-//                                             </td>
-//                                             <td>{product.name}</td>
-//                                             <td>{size}</td>
-//                                             <td>₹{product.new_price}</td>
-//                                             <td>{quantity}</td>
-//                                             <td>₹{product.new_price * quantity}</td>
-//                                             <td>
-//                                                 <img
-//                                                     className='cartitems-remove-icon'
-//                                                     src={removeIcon}
-//                                                     alt="Remove"
-//                                                     onClick={() => handleRemoveFromCart(productId, size)}
-//                                                 />
-//                                             </td>
-//                                         </tr>
-//                                     );
-//                                 }
-//                                 return null;
-//                             })}
-//                         </tbody>
-//                     </table>
-//                     <div className="cartitems-total-container">
-//                         <div className="cartitems-total">
-//                             <h3><strong>CART TOTALS</strong></h3>
-//                             <div>
-//                                 <div className="cartitems-total-item">
-//                                     <p>SubTotal</p>
-//                                     <p>₹{calculateTotal()}</p>
-//                                 </div>
-//                                 <hr />
-//                                 <div className="cartitems-total-item">
-//                                     <p>Shipping Fee</p>
-//                                     <p>Free</p>
-//                                 </div>
-//                                 <hr />
-//                                 <div className="cartitems-total-item">
-//                                     <h3>Total</h3>
-//                                     <h3>₹{calculateTotal()}</h3>
-//                                 </div>
-//                                 <div className="cartitems-total-item">
-//                                     <p>Total Items</p>
-//                                     <p>{cartKeys.length}</p>
-//                                 </div>
-//                             </div>
-//                             <Link to="/checkout">
-//                                 <button className="proceed-to-checkout-button">
-//                                     PROCEED TO CHECKOUT
-//                                 </button>
-//                             </Link>
-//                         </div>
-//                         <div className="cartitems-promocode">
-//                             <p>If you have a promo code, enter it here:</p>
-//                             <div className="cartitems-promobox">
-//                                 <input type="text" placeholder='promo code' />
-//                                 <button className="submit-promocode-button">Submit</button>
-//                             </div>
-//                         </div>
-//                     </div>
-//                 </>
-//             )}
-//         </div>
-//     );
-// };
-
-// export default CartItems;
+     

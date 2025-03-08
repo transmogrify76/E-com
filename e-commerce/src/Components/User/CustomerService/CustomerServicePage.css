@@ -1,4 +1,4 @@
-/* CustomerServicePage.css */
+/*  
 
 .customer-service-page {
     display: flex;
@@ -66,4 +66,136 @@
   .customer-service-page .section-content a:hover {
     text-decoration: underline;
   }
-  
+   
+
+
+    */
+
+
+/* Main container for the Customer Service page */
+.customer-service-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px; /* Increased padding for a more spacious layout */
+  background-color: #f4f6f9; /* Light grey background color for the whole page */
+  min-height: 100vh;
+}
+
+/* Main heading for the Customer Service page */
+.customer-service-page h1 {
+  font-size: 2.5rem;
+  color: #2c3e50; /* Dark grey color for the heading */
+  margin-bottom: 20px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+/* Styling for the section containers (FAQs, Support Ticket, etc.) */
+.customer-service-page > div {
+  width: 100%;
+  max-width: 1200px;
+  margin: 20px 0;
+  padding: 30px; /* Increased padding for better content spacing */
+  background-color: #ffffff; /* White background for each section */
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for section */
+}
+
+/* Space between sections */
+.customer-service-page > div + div {
+  margin-top: 30px;
+}
+
+/* Section title (for each section like FAQs, Contact Us, etc.) */
+.customer-service-page .section-title {
+  font-size: 2rem;
+  color: #2980b9; /* Blue color for the section titles */
+  border-bottom: 2px solid #2980b9; /* Blue underline */
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+/* Section content styling */
+.customer-service-page .section-content {
+  font-size: 1rem;
+  color: #34495e; /* Darker text color for readability */
+  line-height: 1.6;
+}
+
+/* Paragraphs inside each section */
+.customer-service-page .section-content p {
+  margin-bottom: 15px;
+}
+
+/* Lists in section content */
+.customer-service-page .section-content ul {
+  list-style: disc;
+  padding-left: 20px;
+  margin-bottom: 15px;
+}
+
+/* List items in section content */
+.customer-service-page .section-content ul li {
+  margin-bottom: 10px;
+  color: #34495e; /* Dark text for list items */
+}
+
+/* Links in section content */
+.customer-service-page .section-content a {
+  color: #2980b9; /* Blue color for links */
+  text-decoration: none;
+}
+
+.customer-service-page .section-content a:hover {
+  text-decoration: underline; /* Underline links on hover */
+}
+
+/* Responsive design for mobile devices */
+@media (max-width: 768px) {
+  .customer-service-page {
+    padding: 20px; /* Reduced padding for mobile screens */
+  }
+
+  .customer-service-page > div {
+    padding: 20px; /* Reduced padding for sections on mobile */
+  }
+
+  .customer-service-page .section-title {
+    font-size: 1.8rem; /* Slightly smaller title on mobile */
+  }
+
+  .customer-service-page .section-content {
+    font-size: 1rem; /* Ensure text remains legible */
+  }
+}
+.faqs h2 {
+  font-size: 28px;
+  font-weight: 600;
+  color: #2980b9;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.returns-exchanges h2 {
+  font-size: 28px;
+  font-weight: 600;
+  color: #2980b9;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.support-ticket h2 {
+  font-size: 28px;
+  font-weight: 600;
+  color: #2980b9;
+  margin-bottom: 20px;
+  text-align: center;
+}
+.contact-us h2 {
+  font-size: 28px;
+  font-weight: 600;
+  color: #2980b9;
+  margin-bottom: 20px;
+  text-align: center;
+}

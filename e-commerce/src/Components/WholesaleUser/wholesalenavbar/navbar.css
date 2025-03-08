@@ -1,0 +1,160 @@
+/* Navbar container */
+.wholesale-navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #281042;
+    padding: 10px 20px;
+    color: white;
+    position: fixed;
+    top: 0px;
+    width: 100%;
+    z-index: 1000;
+  }
+  
+  /* Left section of the navbar */
+  .wholesale-navbar-left {
+    display: flex;
+    align-items: center;
+  }
+  
+  .wholesale-navbar-left .sidebar-toggle-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    margin-right: 20px;
+  }
+  
+  .wholesale-navbar-left .wholesale-brand {
+    text-decoration: none;
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  /* Center section (search bar) */
+  .wholesale-navbar-center {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .wholesale-search {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 25px;
+    padding: 5px 15px;
+    width: 50%;
+  }
+  
+  .wholesale-search input {
+    border: none;
+    outline: none;
+    width: 100%;
+    padding: 5px;
+    border-radius: 25px;
+    font-size: 16px;
+  }
+  
+  .search-btn {
+    background-color: #7643b1;
+    border: none;
+    color: white;
+    font-size: 18px;
+    padding: 8px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  
+  /* Right section (profile dropdown & cart) */
+  .wholesale-navbar-right {
+    display: flex;
+    align-items: center;
+  }
+  
+  .profile-containers {
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+  
+  .profile-image {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    margin-right: 10px;
+  }
+  
+  .profile-name {
+    font-size: 16px;
+    color: white;
+  }
+  
+  .profile-dropdown {
+    position: absolute;
+    top: 45px;
+    right: 0;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    width: 150px;
+    z-index: 100;
+  }
+  
+  .profile-dropdown ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  
+  .profile-dropdown ul li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .profile-dropdown ul li:last-child {
+    border-bottom: none;
+  }
+  
+  .dropdown-link {
+    text-decoration: none;
+    color: #281042;
+    display: block;
+  }
+  
+  .profile-dropdown ul li:hover {
+    background-color: #f4f4f4;
+  }
+  
+  /* Cart Count */
+  .cart-link {
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+  
+  .cart-count {
+    background-color: #f44336;
+    color: white;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: -5px;
+    right: -5px;
+  }
+  
+  /* Hover Effects */
+  .wholesale-navbar-left .wholesale-brand:hover,
+  .profile-container:hover .profile-image {
+    color: #b065ce;
+  }
+  

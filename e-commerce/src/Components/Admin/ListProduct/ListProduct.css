@@ -1,207 +1,183 @@
+
 .list-product {
     padding: 20px;
     font-family: Arial, sans-serif;
     color: #333;
-    max-width: 1200px; /* Limit the overall width */
-    margin: 0 auto; /* Center the content */
+    max-width: 1200px; 
+    margin: 0 auto; 
 }
-
+   
 .upload-section {
-    margin-bottom: 20px;
-    background: #f9f9f9;
-    padding: 15px;
-    border-radius: 5px;
+    background-color: #ffffff;
+    border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.header {
-    margin-bottom: 15px;
+    padding: 20px;
+    margin-bottom: 20px;
 }
 
 .header h1 {
-    margin: 0;
     font-size: 24px;
+    margin-bottom: 10px;
 }
 
 .help-icons {
     display: flex;
-    gap: 10px;
-    margin-top: 5px;
+    gap: 15px;
 }
 
 .help-icons a {
     color: #007bff;
     text-decoration: none;
+    display: flex;
+    align-items: center;
 }
 
 .banner {
     background-color: #e9ecef;
-    padding: 10px;
+    padding: 15px;
     border-radius: 5px;
     margin: 15px 0;
-    text-align: center;
+}
+
+.banner h2 {
+    margin: 0;
 }
 
 .overview {
-    margin: 20px 0;
+    margin-bottom: 20px;
 }
 
 .overview h2 {
-    font-size: 20px;
+    margin-bottom: 10px;
 }
 
 .overview-box {
     display: flex;
-    justify-content: space-around;
-    padding: 10px;
-    background-color: #fff;
+    justify-content: space-between;
+    background-color: #f1f3f5;
+    padding: 15px;
     border-radius: 5px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .upload-buttons {
-    margin: 15px 0;
     display: flex;
-    gap: 10px;
-    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
 }
 
 .upload-buttons button {
-    padding: 10px 15px;
+    padding: 10px 20px;
     border: none;
     border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.upload-buttons .bulk-upload-button {
     background-color: #007bff;
     color: white;
-}
-
-.upload-buttons .single-upload-button {
-    background-color: #28a745;
-    color: white;
-}
-
-.upload-buttons button:hover {
-    opacity: 0.9;
-}
-
-.statuses {
-    margin: 10px 0;
-}
-
-.status-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-}
-
-.status-buttons button {
-    padding: 10px;
-    border: 1px solid #007bff;
-    border-radius: 5px;
-    background-color: #fff;
-    color: #007bff;
-    cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-.status-buttons button:hover {
-    background-color: #007bff;
-    color: white;
-}
-
-.search-bar {
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-.search-input {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 300px;
-}
-
-.product-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-
-.product-table th,
-.product-table td {
-    border: 1px solid #ddd;
-    padding: 12px;
-    text-align: left;
-}
-
-.product-table th {
-    background-color: maroon; /* Changed header color to maroon */
-    color: white; /* Text color for better contrast */
-    font-weight: bold;
-}
-
-.product-table tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-.product-table tr:hover {
-    background-color: #f1f1f1;
-}
-
-.product-table button {
-    padding: 5px 10px;
-    border: none;
-    border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
 }
 
-.product-table button:hover {
-    background-color: #f44336; /* Red for delete */
-    color: white;
-}
-
-.edit-form {
-    margin: 20px 0;
-}
-
-.edit-form h2 {
-    margin-bottom: 10px;
-}
-
-.edit-form label {
-    display: block;
-    margin: 5px 0;
-}
-
-.edit-form input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-bottom: 10px;
-}
-
-.edit-form button {
-    padding: 10px 15px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.edit-form button:hover {
+.upload-buttons button:hover {
     background-color: #0056b3;
 }
 
-.error-message {
-    color: red;
-    text-align: center;
-    margin-top: 10px;
+.search {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.search input,
+.search select {
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+}
+
+.product-list {
+    margin-top: 20px;
+}
+
+.product-list table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.product-list th,
+.product-list td {
+    padding: 10px;
+    border: 1px solid #dee2e6;
+    text-align: left;
+}
+
+.product-list th {
+    background-color: #007bff;
+    color: white;
+}
+
+.product-list tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+.product-list img {
+    max-width: 100%;
+    height: auto;
+}
+
+.product-list button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: #007bff;
+}
+
+.product-list button:hover {
+    text-decoration: underline;
+}
+
+.edit-form {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    background-color: #f8f9fa;
+}
+
+.edit-form h3 {
+    margin-bottom: 15px;
+}
+
+.edit-form input,
+.edit-form textarea,
+.edit-form select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+}
+
+.edit-form button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #28a745;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.edit-form button[type="button"] {
+    background-color: #dc3545;
+}
+
+.edit-form button:hover {
+    background-color: #218838;
+}
+
+.edit-form button[type="button"]:hover {
+    background-color: #c82333;
+}
+
+.error {
+    color: #dc3545;
+    margin: 10px 0;
 }

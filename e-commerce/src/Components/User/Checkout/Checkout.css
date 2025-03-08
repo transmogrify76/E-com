@@ -1,8 +1,11 @@
+
+
+/* .checkout-container */
 .checkout-container {
   display: flex;
   justify-content: space-between;
   max-width: 1500px;
-  margin: 20px auto;
+  margin: 30px auto;
   padding: 20px;
   background-color: #fff;
   border: 1px solid #e0e0e0;
@@ -10,7 +13,7 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-
+/* .order-summary */
 .order-summary {
   flex: 1;
   margin-right: 20px;
@@ -20,8 +23,6 @@
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 20px;
-  
- 
 }
 
 .order-summary th,
@@ -35,6 +36,7 @@
   font-weight: bold;
 }
 
+/* Promo code section */
 .promo-code {
   margin-top: 20px;
   display: flex;
@@ -62,6 +64,7 @@
   background-color: #0056b3;
 }
 
+/* .checkout-grandtotal */
 .checkout-grandtotal {
   margin-top: 20px;
   text-align: right;
@@ -71,7 +74,7 @@
   margin-bottom: 5px;
 }
 
-
+/* .shipping-info */
 .shipping-info {
   flex: 1;
   padding: 20px;
@@ -107,7 +110,7 @@
   border-radius: 4px;
 }
 
-
+/* .shipping-options */
 .shipping-options {
   display: flex;
   justify-content: space-between;
@@ -123,7 +126,7 @@
   margin-right: 10px;
 }
 
-
+/* Proceed to payment button */
 .proceed-to-payment-button {
   display: block;
   width: 100%;

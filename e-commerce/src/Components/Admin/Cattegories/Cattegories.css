@@ -1,15 +1,13 @@
-.categories-container {
+  .categories-container {
   max-width: 800px;
-  margin: 0 auto;
+  margin:  auto;
   padding: 20px;
   font-family: Arial, sans-serif;
 }
-
 h1 {
   text-align: center;
   color: #333;
 }
-
 .input-group {
   display: flex;
   justify-content: center;
@@ -38,6 +36,19 @@ h1 {
   background-color: #0056b3;
 }
 
+.search-group {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.search-group input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  flex: 1;
+}
+
 .parent-categories {
   display: flex;
   flex-direction: column;
@@ -59,100 +70,97 @@ h1 {
 }
 
 .subcategories-dropdown {
-  display: flex; /* Use flex to position items side by side */
-  flex-wrap: wrap; /* Allow wrapping of items */
-  position: absolute; /* Position relative to the parent */
-  left: 100%; /* Position to the right of the parent */
-  top: 0; /* Align to the top of the parent */
+  display: none; 
+  position: absolute;
+  left: 100%;
+  top: 0;
   background-color: white;
   border: 1px solid #ccc;
   border-radius: 4px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   z-index: 10;
-  min-width: 300px; /* Minimum width for dropdown */
-  padding: 10px; /* Add padding */
+  min-width: 300px;
+  padding: 10px;
 }
 
 .category-item:hover .subcategories-dropdown {
-  display: flex; /* Show on hover */
+  display: flex; 
+  flex-direction: column; 
 }
 
 .subcategory-item {
+  display: flex;
+  justify-content: space-between; 
   padding: 10px;
-  margin-right: 10px; /* Space between subcategories */
-  border: 1px solid #f0f0f0; /* Border for subcategories */
+  margin-bottom: 10px; 
+  border: 1px solid #f0f0f0;
   border-radius: 4px;
-  cursor: pointer;
   background-color: #f8f9fa;
   transition: background-color 0.3s;
 }
 
 .subcategory-item:hover {
-  background-color: #e2e6ea; /* Change background on hover */
+  background-color: #e2e6ea; 
 }
 
-/* Styles for nested subcategories */
-.nested-subcategories-dropdown {
-  display: none; /* Hide by default */
-  position: absolute; /* Positioning relative to the parent */
-  left: 100%; /* Position to the right of the subcategory */
-  top: 0; /* Align to the top of the subcategory */
-  background-color: white;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  z-index: 10;
-  min-width: 200px; /* Minimum width for nested dropdown */
-}
-
-.subcategory-item:hover .nested-subcategories-dropdown {
-  display: flex; /* Show when hovered */
-  flex-direction: column; /* Stack nested subcategories vertically */
-  padding: 10px; /* Padding inside nested dropdown */
-}
-
-/* Styles for each nested subcategory item */
-.nested-subcategory-item {
-  padding: 8px 12px; /* Padding for nested items */
-  background-color: #f0f0f0; /* Background color for nested items */
-  margin-bottom: 5px; /* Space between nested items */
-  border-radius: 4px; /* Rounded corners */
-}
-
-.subcategory-item.selected {
-  background-color: #cce5ff; /* Highlight color for selected subcategory */
-}
-
-.nested-subcategories-dropdown {
-  display: block; /* Ensure it displays when selected or hovered */
-  margin-top: 5px; /* Add some spacing */
-}
 .delete-button {
   background: none;
   border: none;
-  color: #dc3545; /* Bootstrap danger color */
+  color: #dc3545; 
   cursor: pointer;
-  margin-left: 10px; /* Add some space between category name and delete icon */
-  font-size: 1.2em; /* Adjust size as needed */
+  margin-left: 10px; 
+  font-size: 1.2em; 
 }
 
 .delete-button:hover {
-  color: #c82333; /* Darker shade on hover */
+  color: #c82333; 
 }
 
-/* Ensure the subcategory item has some space around it */
-.subcategory-item {
+.edit-button {
+  background: none;
+  border: none;
+  color: #007bff; 
+  cursor: pointer;
+  margin-left: 10px; 
+  font-size: 1.2em; 
+}
+
+.edit-button:hover {
+  color: #0056b3; 
+}
+
+.edit-category-form {
   display: flex;
-  justify-content: space-between; /* Align name and delete button */
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.edit-category-form input {
   padding: 10px;
   margin-right: 10px;
-  border: 1px solid #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  flex: 1;
+}
+
+.edit-category-form button {
+  padding: 10px 15px;
+  background-color: #28a745; 
+  color: white;
+  border: none;
   border-radius: 4px;
   cursor: pointer;
-  background-color: #f8f9fa;
   transition: background-color 0.3s;
 }
 
-.subcategory-item:hover {
-  background-color: #e2e6ea;
+.edit-category-form button:hover {
+  background-color: #218838; 
 }
+
+.error {
+  color: #dc3545; 
+  text-align: center;
+  margin-bottom: 20px;
+} 
+  
+ 

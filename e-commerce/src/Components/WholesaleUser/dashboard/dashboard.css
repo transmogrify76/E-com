@@ -1,0 +1,201 @@
+/* General styles for the dashboard */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f8f8;
+  }
+  
+  /* Hero Section Styles */
+  .hero {
+    display: flex;
+    justify-content: space-between;
+    padding: 40px;
+    background-color: #f4f4f4;
+  }
+  
+  .hero-left {
+    width: 50%;
+  }
+  
+  .hero-left h2 {
+    font-size: 36px;
+    color: #333;
+  }
+  
+  .hero-left .hand-hand-icon p {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ff5722;
+  }
+  
+  .hero-latest-version {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .hero-latest-version .latestcollection {
+    text-decoration: none;
+    font-size: 18px;
+    color: #333;
+    font-weight: bold;
+    margin-right: 10px;
+    transition: color 0.3s ease;
+  }
+  
+  .hero-latest-version .latestcollection:hover {
+    color: #ff5722;
+  }
+  
+  .hero-right img {
+    width: 100%;
+    max-width: 400px;
+    border-radius: 8px;
+  }
+  
+  /* Category Filter Styles */
+  .category-filter {
+    margin: 20px 0;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .category-filter label {
+    font-size: 16px;
+    margin-right: 10px;
+    color: #333;
+  }
+  
+  .category-filter select {
+    font-size: 16px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  
+  .category-filter select:focus {
+    border-color: #ff5722;
+  }
+  
+  /* Fresh Arrivals Section */
+  .new-collections {
+    margin-top: 40px;
+  }
+  
+  .new-collections h2 {
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .collections-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+  }
+  
+  .collection-item {
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .collection-link {
+    display: block;
+    text-decoration: none;
+    color: #333;
+  }
+  
+  .collection-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+  
+  .collection-image:hover {
+    transform: scale(1.05);
+  }
+  
+  .collection-details {
+    padding: 15px;
+  }
+  
+  .collection-details h3 {
+    font-size: 18px;
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .collection-details p {
+    font-size: 14px;
+    color: #777;
+  }
+  
+  .price {
+    font-size: 16px;
+    font-weight: bold;
+    color: #ff5722;
+    margin-top: 10px;
+  }
+  
+  /* Loading and Error States */
+  .loading-state,
+  .error-state {
+    text-align: center;
+    font-size: 18px;
+    color: #ff5722;
+    margin-top: 20px;
+  }
+  
+  /* Responsive Styles */
+  @media (max-width: 768px) {
+    .hero {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .hero-left,
+    .hero-right {
+      width: 100%;
+      text-align: center;
+    }
+  
+    .hero-left h2 {
+      font-size: 28px;
+    }
+  
+    .hero-right img {
+      max-width: 300px;
+    }
+  
+    .collections-list {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .collections-list {
+      grid-template-columns: 1fr;
+    }
+  
+    .collection-image {
+      height: 150px;
+    }
+  
+    .collection-details h3 {
+      font-size: 16px;
+    }
+  }
+  

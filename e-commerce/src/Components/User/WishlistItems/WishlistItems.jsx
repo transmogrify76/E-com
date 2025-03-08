@@ -1,82 +1,134 @@
-
-import React, { useContext, useState } from 'react';
-import './WislistItems.css';
-import { ShopContext } from '../Context/ShopContext';
+import React, { useState, useEffect } from 'react';
+import './WislistItems.css'; // Your CSS file for styling
+import { Link } from 'react-router-dom'; // Using Link component for navigation
 
 const WishlistItems = () => {
-    const { all_product, wishlistItems, addToCart, removeFromWishlist } = useContext(ShopContext);
-    const [selectedSize, setSelectedSize] = useState({}); // Manage selected sizes
+  const [wishlistItems, setWishlistItems] = useState([]); // Wishlist items state
+  const [loading, setLoading] = useState(true); // Loading state
+  const [error, setError] = useState(null); // Error state
+  const [userId, setUserId] = useState(null); // User ID state
+  const [productImages, setProductImages] = useState({}); // Images of products in the wishlist
 
-    const handleSizeChange = (itemId, size) => {
-        setSelectedSize(prev => ({ ...prev, [itemId]: size }));
-    };
+  // Fetch user id and wishlist items when component mounts
+  useEffect(() => {
+    const storedUserId = localStorage.getItem('userId');
+    if (storedUserId) {
+      setUserId(storedUserId);
+      fetchWishlistItems(storedUserId);
+    } else {
+      setError('User is not logged in.');
+      setLoading(false);
+    }
+  }, []);
 
-    const handleAddToCart = (itemId) => {
-        const size = selectedSize[itemId];
-        if (!size) {
-            alert('Please select a size before adding to cart.');
-            return;
-        }
-        addToCart(itemId, 1, size); // Add item to cart with selected size
-        alert('Item added to cart successfully!');
-    };
+  // Fetch wishlist items from the backend
+  const fetchWishlistItems = async (userId) => {
+    setLoading(true);
+    setError(null);
 
-    return (
-        <div className='wishlist-items'>
-            <h2>Wishlist</h2>
-            <hr />
-            {wishlistItems.length === 0 ? (
-                <p>Your wishlist is empty</p>
-            ) : (
-                wishlistItems.map(id => {
-                    const product = all_product.find(item => item.id === id);
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/wishlist/${userId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
 
-                    // Ensure product is found
-                    if (!product) {
-                        console.error(`Product with id ${id} is not found.`);
-                        return <p key={id}>Product not found</p>;
-                    }
+      if (!response.ok) {
+        throw new Error(`Failed to fetch wishlist items: ${response.statusText}`);
+      }
 
-                    return (
-                        <div key={id} className="wishlist-item">
-                            <div className="wishlist-item-info">
-                                <img src={product.image} alt={product.name} className="wishlist-item-image" />
-                                <div className="wishlist-item-details">
-                                    <p className="wishlist-item-name">{product.name}</p>
-                                    <p className="wishlist-item-price">₹{product.new_price}</p>
-                                    <div className="wishlist-item-size">
-                                        <label htmlFor={`size-select-${id}`}>Size:</label>
-                                        <select
-                                            id={`size-select-${id}`}
-                                            value={selectedSize[id] || ''}
-                                            onChange={(e) => handleSizeChange(id, e.target.value)}
-                                        >
-                                            <option value="" disabled>Select Size</option>
-                                            {["Small", "Medium", "Large", "XL"].map(size => (
-                                                <option key={size} value={size}>{size}</option>
-                                            ))}
-                                        </select>
-                                    </div>
-                                    <button
-                                        className="wishlist-item-add-to-cart"
-                                        onClick={() => handleAddToCart(id)}
-                                    >
-                                        Add to Cart
-                                    </button>
-                                    <button
-                                        className="wishlist-item-remove"
-                                        onClick={() => removeFromWishlist(id)}
-                                    >
-                                        Remove
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    );
-                })
-            )}
+      const data = await response.json();
+      setWishlistItems(data); // Set the fetched wishlist items
+
+      // Optionally, fetch product images if necessary
+      data.forEach(item => fetchProductImage(item.product.id));
+
+    } catch (error) {
+      setError('Failed to fetch wishlist items. Please try again later.');
+      console.error('Error fetching wishlist items:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Fetch product image by product ID
+  const fetchProductImage = async (productId) => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/products/${productId}/image`);
+      if (response.ok) {
+        const imageData = await response.json();
+        setProductImages(prevState => ({
+          ...prevState,
+          [productId]: imageData.imageBase64, // Assuming imageBase64 is returned by the API
+        }));
+      }
+    } catch (error) {
+      console.error('Error fetching product image:', error);
+    }
+  };
+
+  // Handle removing item from wishlist
+  const handleRemoveFromWishlist = async (productId) => {
+    const userId = localStorage.getItem('userId'); // Get the logged-in userId from localStorage
+
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/wishlist/${userId}/${productId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        alert('Item removed from wishlist!');
+        fetchWishlistItems(userId); // Refetch wishlist after removal
+      } else {
+        throw new Error('Failed to remove item');
+      }
+    } catch (error) {
+      console.error('Error removing item from wishlist:', error);
+      alert('Failed to remove item from wishlist.');
+    }
+  };
+
+  // Loading and error states
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p style={{ color: 'red' }}>{error}</p>;
+
+  return (
+    <div className="wishlist-items">
+      <h2>Your Wishlist</h2>
+      {wishlistItems.length === 0 ? (
+        <p>Your wishlist is empty.</p>
+      ) : (
+        <div className="wishlist-items-grid">
+          {wishlistItems.map((item) => (
+            <div key={item.product.id} className="wishlist-item-card">
+              <Link to={`/product/${item.product.id}`}>
+                <img
+                  src={productImages[item.product.id] ? `data:image/jpeg;base64,${productImages[item.product.id]}` : '/fallback-image.jpg'}
+                  alt={item.product.name}
+                  className="wishlist-product-image"
+                />
+              </Link>
+              <div className="wishlist-item-details">
+                <h3>{item.product.name}</h3>
+              
+                <button
+                  className="remove-from-wishlist-btn"
+                  onClick={() => handleRemoveFromWishlist(item.product.id)}
+                >
+                  Remove from Wishlist
+                </button>
+              </div>
+            </div>
+          ))}
         </div>
-    );
+      )}
+    </div>
+  );
 };
 
 export default WishlistItems;
+

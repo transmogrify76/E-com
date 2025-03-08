@@ -1,4 +1,7 @@
+
+
 import React, { useContext, useState, useEffect } from 'react';
+import { Link } from 'react-router-dom'; // Import Link for navigation
 import './ShopCat.css';
 import dropdown_icon from '../../Assests/Ecommerce_Frontend_Assets/Assets/dropdown_icon.png';
 import Item from '../../User/Item/Item.jsx';
@@ -8,20 +11,55 @@ export const ShopCat = (props) => {
     const { all_product } = useContext(ShopContext);
     const [sortCriteria, setSortCriteria] = useState('');
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [categoryProducts, setCategoryProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [productImages, setProductImages] = useState({});
 
-    console.log("Category Prop: ", props.category);
-    console.log("All Products: ", all_product);
+    const category = props.category;
 
-    const handleSortChange = (event) => {
-        setSortCriteria(event.target.value);
-        setIsDropdownOpen(false); 
+    // Function to fetch products by category
+    const fetchProductsByCategory = async () => {
+        try {
+            const response = await fetch(`${process.env.REACT_APP_BASE_URL}/products/category/${category}`);
+            const data = await response.json();
+            if (Array.isArray(data)) {
+                await fetchProductImages(data);
+                setCategoryProducts(data);
+            } else {
+                console.error("Expected an array of products, but got:", data);
+            }
+            setLoading(false);
+        } catch (error) {
+            console.error("Error fetching products by category:", error);
+            setLoading(false);
+        }
     };
 
-    const toggleDropdown = () => {
-        setIsDropdownOpen(!isDropdownOpen);
+    // Function to fetch product images (Base64)
+    const fetchProductImages = async (products) => {
+        let imagePromises = products.map(async (product) => {
+            try {
+                const imageUrl = `${process.env.REACT_APP_BASE_URL}/products/images/product/${product.id}?t=${new Date().getTime()}`;
+                const response = await fetch(imageUrl);
+                if (response.ok) {
+                    const imagesData = await response.json();
+                    const imageBase64 = imagesData[0]?.base64;
+                    if (imageBase64) {
+                        setProductImages(prevImages => ({
+                            ...prevImages,
+                            [product.id]: imageBase64
+                        }));
+                    }
+                }
+            } catch (error) {
+                console.error(`Error fetching image for product ${product.id}:`, error);
+            }
+        });
+        await Promise.all(imagePromises);
     };
 
     const sortProducts = (products, criteria) => {
+        if (!Array.isArray(products)) return [];
         switch (criteria) {
             case 'price-asc':
                 return products.sort((a, b) => a.new_price - b.new_price);
@@ -36,33 +74,31 @@ export const ShopCat = (props) => {
         }
     };
 
-    
-    const filteredProducts = all_product.filter(item => {
-        console.log("Item Category:", item.category);
-        console.log("Props Category:", props.category);
-        return item.category.toLowerCase() === props.category.toLowerCase();
-    });
-
-    console.log("Filtered Products:", filteredProducts);
-
-    const filteredAndSortedProducts = sortProducts(filteredProducts, sortCriteria);
+    const filteredAndSortedProducts = sortProducts(categoryProducts, sortCriteria);
 
     useEffect(() => {
-        console.log("Filtered and Sorted Products: ", filteredAndSortedProducts);
-    }, [filteredAndSortedProducts]);
+        fetchProductsByCategory();
+    }, [category]);
+
+    const handleSortChange = (event) => {
+        setSortCriteria(event.target.value);
+        setIsDropdownOpen(false);
+    };
+
+    const toggleDropdown = () => {
+        setIsDropdownOpen(!isDropdownOpen);
+    };
 
     return (
-        <div className='shop-category'>
-            <img className='shopcategory-banner' src={props.banner} alt="" />
+        <div className="shop-category">
+            <img className="shopcategory-banner" src={props.banner} alt="Category Banner" />
             <div className="shopcategory-indexSort">
                 <p>
-                    <span>
-                        Showing 1-12
-                    </span> Out of {filteredAndSortedProducts.length} products
+                    <span>Showing 1-12</span> Out of {filteredAndSortedProducts.length} products
                 </p>
                 <div className="shopcategory-sort">
                     <div onClick={toggleDropdown} className="shopcategory-sort-header">
-                        Sort by 
+                        Sort by
                         <img src={dropdown_icon} alt="Sort Icon" />
                     </div>
                     {isDropdownOpen && (
@@ -77,18 +113,27 @@ export const ShopCat = (props) => {
                     )}
                 </div>
             </div>
-            <div className="shopcategory-products">
-                {filteredAndSortedProducts.map((item, i) => (
-                    <Item
-                        key={i}
-                        id={item.id}
-                        name={item.name}
-                        image={item.image}
-                        new_price={item.new_price}
-                        old_price={item.old_price}
-                    />
-                ))}
-            </div>
+            {loading ? (
+                <div>Loading products...</div>
+            ) : (
+                <div className="shopcategory-products">
+                    {filteredAndSortedProducts.length > 0 ? (
+                        filteredAndSortedProducts.map((item) => (
+                            <Link to={`/product/${item.id}`} key={item.id}> {/* Linking to Product Display Page */}
+                                <Item
+                                    id={item.id}
+                                    name={item.name}
+                                    image={productImages[item.id] ? productImages[item.id] : null}
+                                    new_price={item.price}
+                                    old_price={item.old_price}
+                                />
+                            </Link>
+                        ))
+                    ) : (
+                        <div>No products found in this category.</div>
+                    )}
+                </div>
+            )}
             <div className="shopcategory-loadmore">
                 Explore More
             </div>
